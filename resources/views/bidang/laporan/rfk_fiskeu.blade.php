@@ -80,80 +80,80 @@
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
                   {{number_format($item->r_januari_keuangan)}}<br/>
-                  {{$item->p_januari_fisik}}% <br/>
-                  {{$item->r_januari_fisik}}%
+                  {{round($item->p_januari_fisik,2)}}% <br/>
+                  {{round($item->r_januari_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_februari_keuangan)}} <br/>
                   {{number_format($item->r_februari_keuangan)}}<br/>
-                  {{$item->p_februari_fisik}}% <br/>
-                  {{$item->r_februari_fisik}}%
+                  {{round($item->p_februari_fisik,2)}}% <br/>
+                  {{round($item->r_februari_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_maret_keuangan)}} <br/>
                   {{number_format($item->r_maret_keuangan)}}<br/>
-                  {{$item->p_maret_fisik}}% <br/>
-                  {{$item->r_maret_fisik}}%
+                  {{round($item->p_maret_fisik,2)}}% <br/>
+                  {{round($item->r_maret_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_april_keuangan)}} <br/>
                   {{number_format($item->r_april_keuangan)}}<br/>
-                  {{$item->p_april_fisik}}% <br/>
-                  {{$item->r_april_fisik}}%
+                  {{round($item->p_april_fisik,2)}}% <br/>
+                  {{round($item->r_april_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_mei_keuangan)}} <br/>
                   {{number_format($item->r_mei_keuangan)}} <br/>
-                  {{$item->p_mei_fisik}}% <br/>
-                  {{$item->r_mei_fisik}}%
+                  {{round($item->p_mei_fisik,2)}}% <br/>
+                  {{round($item->r_mei_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juni_keuangan)}} <br/>
                   {{number_format($item->r_juni_keuangan)}} <br/>
-                  {{$item->p_juni_fisik}}% <br/>
-                  {{$item->r_juni_fisik}}%
+                  {{round($item->p_juni_fisik,2)}}% <br/>
+                  {{round($item->r_juni_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juli_keuangan)}} <br/>
                   {{number_format($item->r_juli_keuangan)}} <br/>
-                  {{$item->p_juli_fisik}}% <br/>
-                  {{$item->r_juli_fisik}}%
+                  {{round($item->p_juli_fisik,2)}}% <br/>
+                  {{round($item->r_juli_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_agustus_keuangan)}} <br/>
                   {{number_format($item->r_agustus_keuangan)}}<br/>
-                  {{$item->p_agustus_fisik}}% <br/>
-                  {{$item->r_agustus_fisik}}%
+                  {{round($item->p_agustus_fisik,2)}}% <br/>
+                  {{round($item->r_agustus_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_september_keuangan)}} <br/>
                   {{number_format($item->r_september_keuangan)}} <br/>
-                  {{$item->p_september_fisik}}% <br/>
-                  {{$item->r_september_fisik}}%
+                  {{round($item->p_september_fisik,2)}}% <br/>
+                  {{round($item->r_september_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_oktober_keuangan)}} <br/>
                   {{number_format($item->r_oktober_keuangan)}} <br/>
-                  {{$item->p_oktober_fisik}}% <br/>
-                  {{$item->r_oktober_fisik}}%
+                  {{round($item->p_oktober_fisik,2)}}% <br/>
+                  {{round($item->r_oktober_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_november_keuangan)}} <br/>
                   {{number_format($item->r_november_keuangan)}} <br/>
-                  {{$item->p_november_fisik}}% <br/>
-                  {{$item->r_november_fisik}}%
+                  {{round($item->p_november_fisik,2)}}% <br/>
+                  {{round($item->r_november_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_desember_keuangan)}} <br/>
                   {{number_format($item->r_desember_keuangan)}} <br/>
-                  {{$item->p_desember_fisik}}% <br/>
-                  {{$item->r_desember_fisik}}%
+                  {{round($item->p_desember_fisik,2)}}% <br/>
+                  {{round($item->r_desember_fisik,2)}}%
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->jumlah_renc_keuangan)}} <br/>
                  {{number_format($item->jumlah_real_keuangan)}} <br/>
-                  {{$item->jumlah_renc_fisik}}% <br/>
-                  {{$item->jumlah_real_fisik}}%
+                  {{round($item->jumlah_renc_fisik,2)}}% <br/>
+                  {{round($item->jumlah_real_fisik,2)}}%
                 </td>
               </tr>
               <tr style="background-color: rgb(249, 243, 185); font-size:9px">
