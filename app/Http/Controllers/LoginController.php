@@ -18,13 +18,13 @@ class LoginController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->hasRole('superadmin')) {
-                return redirect('/beranda');
+                return redirect('/superadmin/beranda');
             } elseif (Auth::user()->hasRole('admin')) {
-                return redirect('/berandaskpd');
+                return redirect('/admin/beranda');
             } elseif (Auth::user()->hasRole('bidang')) {
-                return redirect('/berandabidang');
+                return redirect('/bidang/beranda');
             } elseif (Auth::user()->hasRole('pptk')) {
-                return redirect('/berandapptk');
+                return redirect('/pptk/beranda');
             } else {
                 return 'role lain';
             }
@@ -46,13 +46,13 @@ class LoginController extends Controller
 
             if (Auth::user()->hasRole('superadmin')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('/beranda');
+                return redirect('/superadmin/beranda');
             } elseif (Auth::user()->hasRole('admin')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('/berandaskpd');
+                return redirect('/admin/beranda');
             } elseif (Auth::user()->hasRole('bidang')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('/berandabidang');
+                return redirect('/bidang/beranda');
             } elseif (Auth::user()->hasRole('pptk')) {
                 Session::flash('success', 'Selamat Datang');
                 return redirect('/berandapptk');
@@ -60,7 +60,6 @@ class LoginController extends Controller
                 Session::flash('success', 'Selamat Datang');
                 return 'role lain';
             }
-
         } else {
             Session::flash('error', 'username/password salah');
             $req->flash();

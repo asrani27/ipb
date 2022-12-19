@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PUPR</title>
+  <title>RFK</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -35,9 +35,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Logo -->
     <a href="#" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">PUPR</span>
+      <span class="logo-mini">RFK</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>PUPR</b></span>
+      <span class="logo-lg"><b>RFK</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -72,10 +72,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      PUPR
+      DISDIK
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021 <a href="#">Kota Banjarmasin</a>.</strong>.
+    <strong>Copyright &copy; 2022 <a href="#">Kota Banjarmasin</a>.</strong>
   </footer>
 
   <!-- Control Sidebar -->

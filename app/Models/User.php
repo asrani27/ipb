@@ -49,8 +49,18 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->count() == 1;
     }
 
-    public function pemohon()
+    public function skpd()
     {
-        return $this->belongsTo(Pemohon::class, 'pemohon_id');
+        return $this->hasOne(Skpd::class, 'user_id');
+    }
+
+    public function bidang()
+    {
+        return $this->hasOne(Bidang::class, 'user_id');
+    }
+
+    public function pptk()
+    {
+        return $this->hasOne(PPTK::class, 'user_id');
     }
 }

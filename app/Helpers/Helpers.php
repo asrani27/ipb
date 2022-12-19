@@ -1,8 +1,20 @@
 <?php
 
-use App\Models\Tkrk;
+use Illuminate\Support\Facades\Auth;
 
-function newKrk()
+function statusRFK()
 {
-    return Tkrk::where('status', 0)->count();
+    if (Auth::user()->bidang->skpd->murni == 1) {
+        $result = 'murni';
+    }
+
+    if (Auth::user()->bidang->skpd->pergeseran == 1) {
+        $result = 'pergeseran';
+    }
+
+    if (Auth::user()->bidang->skpd->perubahan == 1) {
+        $result = 'perubahan';
+    }
+
+    return $result;
 }

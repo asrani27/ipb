@@ -40,22 +40,14 @@
       <div class="container">
         <div class="navbar-header">
           <a href="#" class="navbar-brand"><b>DINAS PENDIDIKAN</b></a>
-          
-          {{-- <a href="#" class="navba-brand" style="color: white"><img src="/logo/pemko.png" width="6%">Aplikasi Perizinan Dan Pengawasan Bangunan</a> --}}
-          {{-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-            <i class="fa fa-bars"></i>
-          </button> --}}
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
           <ul class="nav navbar-nav">
-            {{-- <li class="active"><a href="#">Dinas Pekerjaan Umum dan Penataan Ruang</a></li> --}}
           </ul>
           
         </div>
-        <!-- /.navbar-collapse -->
-        <!-- Navbar Right Menu -->
+        
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <!-- Notifications Menu -->
@@ -67,9 +59,8 @@
             </li>
           </ul>
         </div>
-        <!-- /.navbar-custom-menu -->
       </div>
-      <!-- /.container-fluid -->
+      
     </nav>
   </header>
   <!-- Full Width Column -->

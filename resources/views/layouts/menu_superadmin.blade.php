@@ -1,0 +1,2 @@
+<li class="{{ (request()->is('superadmin/beranda')) ? 'active' : '' }}"><a href="/superadmin/beranda"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+<li class="{{ (request()->is('superadmin/skpd*')) ? 'active' : '' }}"><a href="/superadmin/skpd"><i class="fa fa-institution"></i> <span>SKPD</span></a></li>
