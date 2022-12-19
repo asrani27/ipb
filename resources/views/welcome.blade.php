@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PUPR</title>
+  <title>DISDIK - RFK</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -39,7 +39,7 @@
     <nav class="navbar navbar-static-top"  style="box-shadow: 0 8px 8px 0 rgba(0,0,0,.2);">
       <div class="container">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand"><b>Kota Banjarmasin</b></a>
+          <a href="#" class="navbar-brand"><b>DINAS PENDIDIKAN</b></a>
           
           {{-- <a href="#" class="navba-brand" style="color: white"><img src="/logo/pemko.png" width="6%">Aplikasi Perizinan Dan Pengawasan Bangunan</a> --}}
           {{-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
@@ -62,7 +62,7 @@
             <li class="dropdown notifications-menu">
               <!-- Menu toggle button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <b>PUPR</b>
+                <b>RFK</b>
               </a>
             </li>
           </ul>
@@ -73,7 +73,7 @@
     </nav>
   </header>
   <!-- Full Width Column -->
-  <div class="content-wrapper"  style="background-image: url('/logo/bg3.jpeg')">
+  <div class="content-wrapper"  style="background-image: url('/logo/bg3.jpg'); background-size:cover;">
     <div class="container">
       <!-- Content Header (Page header) -->
       <section class="content-header">
@@ -97,15 +97,10 @@
             <div class="text-center">
             <img src="/logo/pemko.png" width="100px" ><br/><br/>
             </div>
-            <div class="btn-group btn-block">
-              <a href="/login" class="btn btn-success btn-flat col-md-4 col-xs-4">Masuk</a>
-              <a href="/daftar" class="btn btn-danger btn-flat col-md-4 col-xs-4">Daftar</a>
-              <a href="/lupa-password" class="btn btn-primary btn-flat col-md-4 col-xs-4">Lupa Password</a>
-            </div>
-          <br/><br/>
-            <div class="box box-warning"style="box-shadow: 0 8px 8px 0 rgba(0,0,0,.2);border-top-color: #605ca8">
+            
+            <div class="box box-warning" style="box-shadow: 0 8px 8px 0 rgba(0,0,0,.2);border-top-color: #605ca8">
               <div class="box-header with-border text-center">
-                <h3 class="box-title">Aplikasi Perizinan dan Pengawasan Bangunan</h3>
+                <h3 class="box-title">Aplikasi Realisasi Fisik Dan Keuangan</h3>
       
               </div>
               <form class="form-horizontal" method="post" action="/login">
@@ -152,7 +147,7 @@
     <!-- /.container -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
+  {{-- <footer class="main-footer">
     <div class="container">
       <div class="pull-right hidden-xs">
         <b>Version</b> 1.0.0
@@ -160,7 +155,7 @@
       <strong>Copyright &copy; 2022 Pemerintah Kota Banjarmasin</strong>
     </div>
     <!-- /.container -->
-  </footer>
+  </footer> --}}
 </div>
 <!-- ./wrapper -->
 

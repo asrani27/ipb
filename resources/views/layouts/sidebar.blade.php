@@ -16,7 +16,7 @@
     @if (Auth::user()->hasRole('superadmin'))
         
     <li class="{{ (request()->is('superadmin')) ? 'active' : '' }}"><a href="/superadmin"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-    <li class="{{ (request()->is('superadmin/permohonan')) ? 'active' : '' }}"><a href="/superadmin/permohonan"><i class="fa fa-list"></i> <span>Permohonan</span></a></li>
+    {{-- <li class="{{ (request()->is('superadmin/permohonan')) ? 'active' : '' }}"><a href="/superadmin/permohonan"><i class="fa fa-list"></i> <span>Permohonan</span></a></li> --}}
     <li class="{{ (request()->is('superadmin/krk*')) ? 'active' : '' }}"><a href="/superadmin/krk"><i class="fa fa-file-o"></i> <span>KRK/KKPR</span>
         <span class="pull-right-container">
             @if (newKrk() == 0)
@@ -31,7 +31,8 @@
     @else
         
     <li class="{{ (request()->is('pemohon')) ? 'active' : '' }}"><a href="/pemohon"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-    <li class="{{ (request()->is('pemohon/daftar-layanan*')) ? 'active' : '' }}"><a href="/pemohon/daftar-layanan"><i class="fa fa-list"></i> <span>Daftar Layanan</span></a></li>
+    <li class="{{ (request()->is('pemohon/profil*')) ? 'active' : '' }}"><a href="/pemohon/profil"><i class="fa fa-user"></i> <span>Profil</span></a></li>
+    {{-- <li class="{{ (request()->is('pemohon/daftar-layanan*')) ? 'active' : '' }}"><a href="/pemohon/daftar-layanan"><i class="fa fa-list"></i> <span>Daftar Layanan</span></a></li> --}}
     @endif
     </ul>
     <!-- /.sidebar-menu -->

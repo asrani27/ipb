@@ -18,9 +18,15 @@ class LoginController extends Controller
 
         if (Auth::check()) {
             if (Auth::user()->hasRole('superadmin')) {
-                return redirect('superadmin');
-            } elseif (Auth::user()->hasRole('pemohon')) {
-                return redirect('pemohon');
+                return redirect('/beranda');
+            } elseif (Auth::user()->hasRole('admin')) {
+                return redirect('/berandaskpd');
+            } elseif (Auth::user()->hasRole('bidang')) {
+                return redirect('/berandabidang');
+            } elseif (Auth::user()->hasRole('pptk')) {
+                return redirect('/berandapptk');
+            } else {
+                return 'role lain';
             }
         }
         return view('welcome');
@@ -40,12 +46,21 @@ class LoginController extends Controller
 
             if (Auth::user()->hasRole('superadmin')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('superadmin');
-            }
-            if (Auth::user()->hasRole('pemohon')) {
+                return redirect('/beranda');
+            } elseif (Auth::user()->hasRole('admin')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('pemohon');
+                return redirect('/berandaskpd');
+            } elseif (Auth::user()->hasRole('bidang')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/berandabidang');
+            } elseif (Auth::user()->hasRole('pptk')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/berandapptk');
+            } else {
+                Session::flash('success', 'Selamat Datang');
+                return 'role lain';
             }
+
         } else {
             Session::flash('error', 'username/password salah');
             $req->flash();

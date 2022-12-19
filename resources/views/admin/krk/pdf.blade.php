@@ -43,11 +43,22 @@
             text-align: center;
             line-height: 35px; */
         }
+        .page_break { page-break-before: always; }
     </style>
 </head>
 
 <body>
     <header>
+        
+        {{-- <p><span class="auto-style1"><strong>LAPORAN DATA PERMOHONAN </strong></span></p> --}}
+    </header>
+    <footer>
+        <hr>
+        <p>Tanggal Cetak : {{\Carbon\Carbon::now()->format('d-m-Y H:i:s')}}
+        </p>
+    </footer>
+    
+    <main>
         <table border="0" width="100%">
             <tr>
                 <td style="border: 0px;font-family:'Times New Roman; font-size:16px" align="left" width="60%">
@@ -64,22 +75,6 @@
                 </td>
             </tr>
         </table>
-        
-        {{-- <p><span class="auto-style1"><strong>LAPORAN DATA PERMOHONAN </strong></span></p> --}}
-    </header>
-    <footer>
-        <hr>
-        <p>Tanggal Cetak : {{\Carbon\Carbon::now()->format('d-m-Y H:i:s')}}
-        </p>
-    </footer>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <main>
         <table cellpadding="3" cellspacing="0" width="100%" style="font-size: 16px;font-family:'times new roman">
             Yang bertandatangan di bawah ini :
             <tbody>
@@ -172,6 +167,25 @@
             </tr>
         </table>
 
+        {{-- <div class="page_break">
+            LAMPIRAN 1 : KTP<br/>
+            <img src="http://localhost:8000/storage/krk/3/LAMPIRAN1_3.jpeg" width="10px"/>
+        </div>
+        <div class="page_break">
+            LAMPIRAN 2 : LUNAS PBB TAHUN BERJALAN<br/>
+        </div>
+        <div class="page_break">
+            LAMPIRAN 3 : SERTIFIKAT/SURAT-SURAT TANAH<br/>
+        </div>
+        <div class="page_break">
+            LAMPIRAN 4 : SURAT PERNYATAAN TIDAK ADA MASALAH ATAS TANAH TERSEBUT<br/>
+        </div>
+        <div class="page_break">
+            LAMPIRAN 5 : GAMBAR RENCANA(SITE PLAN,DENAH,TAMPAK DEPAN)<br/>
+        </div>
+        <div class="page_break">
+            LAMPIRAN 6 : NPWP<br/>
+        </div> --}}
     </main>
 </body>
 

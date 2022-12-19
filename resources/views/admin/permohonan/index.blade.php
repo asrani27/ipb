@@ -47,7 +47,7 @@
           </div>
           <!-- /.box-body -->
         </div>
-        {{$permohonan->links()}}
+        {{$data->links()}}
         <!-- /.box -->
       </div>
 </div>

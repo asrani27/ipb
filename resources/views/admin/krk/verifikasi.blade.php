@@ -122,37 +122,61 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">KTP</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran1 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran1}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Lunas PBB Tahun Berjalan</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran2 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran2}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Sertifikat/Surat-surat Tanah</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran3 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran3}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Surat pernyataan tidak ada masalah  atas tanah tersebut</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran4 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran4}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Gambar Rencana (Site Plan, Denah, Tampak Depan)</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran5 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran5}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">NPWP (bila ada)</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                        @if ($krk->lampiran6 == null)
+                            -
+                        @else
+                        <a href="/storage/krk/{{$krk->t_permohonan_id}}/{{$krk->lampiran6}}" class="btn btn-xs bg-purple" target="_blank"><i class="fa fa-eye"></i> Lihat</a>
+                        @endif
                     </div>
                 </div>
               

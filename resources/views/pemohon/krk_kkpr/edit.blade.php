@@ -134,41 +134,46 @@
                     <input type="text" class="form-control" name="jenis_peruntukan" placeholder="Jenis Peruntukan" value="{{$krk->jenis_peruntukan}}">
                     Sebagaimana kelengkapan bahan permohonan bersama ini di lampirkan Scan/Foto Maks (1 MB):
                     </div>
-                </div>
+                </div>                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">KTP</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran1">
+                    @if ($krk->lampiran1 == null)
+                        
+                    @else
+                    <a href="/storage/krk/{{$id}}/{{$krk->lampiran1}}" target="_blank"><i class="fa fa-file-o"></i></a>
+                    @endif
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Lunas PBB Tahun Berjalan</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran2">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Sertifikat/Surat-surat Tanah</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran3">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Surat pernyataan tidak ada masalah  atas tanah tersebut</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran4">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Gambar Rencana (Site Plan, Denah, Tampak Depan)</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran5">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">NPWP (bila ada)</label>
                     <div class="col-sm-10">
-                    <input type="file" class="form-control">
+                    <input type="file" class="form-control" name="lampiran6">
                     </div>
                 </div>
               
