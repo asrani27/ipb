@@ -200,19 +200,19 @@
                 <td>Total Rencana Fisik</td>
                 
                 <td></td>
-                <td style="text-align: right">{{number_format($data->sum('k_januari'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_februari'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_maret'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_april'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_mei'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_juni'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_juli'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_agustus'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_september'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_oktober'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_november'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_desember'))}}</td>
-                <td style="text-align: right">{{number_format($data->sum('k_jumlah'))}}</td>
+                <td style="text-align: right">{{round($data->sum('k_januari'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_februari'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_maret'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_april'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_mei'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_juni'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_juli'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_agustus'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_september'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_oktober'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_november'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_desember'),2)}}</td>
+                <td style="text-align: right">{{round($data->sum('k_jumlah'),2)}}</td>
                 </tr>
               </tbody>
             </table>
