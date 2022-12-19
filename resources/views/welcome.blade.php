@@ -123,7 +123,7 @@
               </div>
               <div class="box-footer social-auth-links">
                 <button type="submit" class="btn bg-purple btn-flat btn-block"><i class="fa fa-sign-in"></i> Masuk</button>
-                <a href="#" class="btn btn-block btn-danger btn-flat"><i class="fa fa-google"></i> Masuk Menggunakan Goggle</a>
+                {{-- <a href="#" class="btn btn-block btn-danger btn-flat"><i class="fa fa-google"></i> Masuk Menggunakan Goggle</a> --}}
               </div>
               </form>
             </div>
