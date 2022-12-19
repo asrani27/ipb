@@ -15,8 +15,10 @@
               </div> --}}
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              
+            <div class="box-body text-sm">
+                <dl>
+                <dd><strong>TAHUN :</strong> {{$tahun}}</dd>
+                </dl>
             </div>
             <!-- /.box-body -->
           </div>
@@ -28,11 +30,13 @@
         <!-- Block buttons -->
         <div class="box">
           <div class="box-header text-center">
-            <h3 class="box-title ">Pilih Tahun</h3>
+            <h3 class="box-title ">Pilih Program</h3>
           </div>
           <div class="box-body">
-            <a href="/bidang/realisasi/2022" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2022</strong></a>
-            <a href="/bidang/realisasi/2023" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2023</strong></a>
+            @foreach ($data as $item)
+                <a href="/bidang/realisasi/{{$tahun}}/{{$item->id}}" class="btn btn-primary btn-block btn-sm btn-flat"><strong>{{$item->nama}}</strong></a>                
+            @endforeach
+            <a href="/bidang/realisasi" class="btn bg-purple btn-block btn-sm btn-flat"><strong>Kembali</strong></a>   
           </div>
         </div>
       </div>

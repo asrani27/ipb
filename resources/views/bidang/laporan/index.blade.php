@@ -8,7 +8,7 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <div class="box-header">
-              <h3 class="box-title"><i class="fa fa-clipboard"></i> Realisasi</h3>
+              <h3 class="box-title"><i class="fa fa-clipboard"></i> Laporan RFK</h3>
     
               {{-- <div class="box-tools">
                 <a href="/bidang/program/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Program</a>
@@ -31,8 +31,8 @@
             <h3 class="box-title ">Pilih Tahun</h3>
           </div>
           <div class="box-body">
-            <a href="/bidang/realisasi/2022" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2022</strong></a>
-            <a href="/bidang/realisasi/2023" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2023</strong></a>
+            <a href="/bidang/laporanrfk/2022" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2022</strong></a>
+            <a href="/bidang/laporanrfk/2023" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2023</strong></a>
           </div>
         </div>
       </div>

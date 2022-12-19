@@ -23,6 +23,7 @@ use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminPermohonanController;
 use App\Http\Controllers\BidangRealisasiController;
+use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
 
@@ -85,6 +86,27 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('program/delete/{id}', [BidangProgramController::class, 'delete']);
 
         Route::get('realisasi', [BidangRealisasiController::class, 'index']);
+        Route::post('realisasi', [BidangRealisasiController::class, 'store']);
+        Route::get('realisasi/{tahun}', [BidangRealisasiController::class, 'tahun']);
+        Route::get('realisasi/{tahun}/{program_id}', [BidangRealisasiController::class, 'program']);
+        Route::get('realisasi/{tahun}/{program_id}/{kegiatan_id}', [BidangRealisasiController::class, 'kegiatan']);
+        Route::get('realisasi/{tahun}/{program_id}/{kegiatan_id}/{subkegiatan_id}', [BidangRealisasiController::class, 'subkegiatan']);
+
+        Route::get('laporanrfk', [BidangLaporanRFKController::class, 'index']);
+        Route::get('laporanrfk/{tahun}', [BidangLaporanRFKController::class, 'tahun']);
+        Route::get('laporanrfk/{tahun}/{bulan}', [BidangLaporanRFKController::class, 'bulan']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}', [BidangLaporanRFKController::class, 'program']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}', [BidangLaporanRFKController::class, 'kegiatan']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}', [BidangLaporanRFKController::class, 'subkegiatan']);
+
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/srp', [BidangLaporanRFKController::class, 'srp']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/rfk', [BidangLaporanRFKController::class, 'rfk']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/pbj', [BidangLaporanRFKController::class, 'pbj']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/st', [BidangLaporanRFKController::class, 'st']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/m', [BidangLaporanRFKController::class, 'm']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/v', [BidangLaporanRFKController::class, 'v']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/fiskeu', [BidangLaporanRFKController::class, 'fiskeu']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/input', [BidangLaporanRFKController::class, 'input']);
 
         Route::get('program/kegiatan/{id}', [BidangKegiatanController::class, 'index']);
         Route::get('program/kegiatan/{id}/add', [BidangKegiatanController::class, 'create']);
