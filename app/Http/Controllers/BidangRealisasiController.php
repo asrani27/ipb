@@ -65,10 +65,10 @@ class BidangRealisasiController extends Controller
     public function store(Request $req)
     {
         $data = Uraian::find($req->uraian_id);
-        if ($data['p_' . $req->bulan . '_keuangan'] < $req->real_realisasi) {
-            Session::flash('info', 'Tidak bisa melebihi angka yang di rencanakan');
-            return back();
-        }
+        // if ($data['p_' . $req->bulan . '_keuangan'] < $req->real_realisasi) {
+        //     Session::flash('info', 'Tidak bisa melebihi angka yang di rencanakan');
+        //     return back();
+        // }
         //hitung persen 
         //rumus (real / dpa) * 100
 
