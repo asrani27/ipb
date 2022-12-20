@@ -64,7 +64,7 @@
     </nav>
   </header>
   <!-- Full Width Column -->
-  <div class="content-wrapper"  style="background-image: url('/logo/bg3.jpg'); background-size:cover;">
+  <div class="content-wrapper"  style="background-image: url('/logo/bg4.jpg'); background-size:cover;">
     <div class="container">
       <!-- Content Header (Page header) -->
       <section class="content-header">
