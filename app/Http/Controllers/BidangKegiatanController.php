@@ -34,7 +34,6 @@ class BidangKegiatanController extends Controller
         $n = new Kegiatan;
         $n->program_id = $id;
         $n->nama = $req->nama;
-        $n->tahun = $req->tahun;
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/program/kegiatan/' . $id);
