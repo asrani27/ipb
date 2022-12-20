@@ -76,54 +76,62 @@
         <!-- Block buttons -->
         <div class="box">
           <div class="box-body">
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="/bidang/laporanrfk/rfk_input">
+              @csrf
               <div class="box-body">
                 <div class="form-group">
                   <label class="col-sm-3 control-label">SKPD</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm" readonly>
+                    <input type="hidden" class="form-control input-sm" name="skpd_id" value="{{Auth::user()->bidang->skpd->id}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="program_id" value="{{$program->id}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="kegiatan_id" value="{{$kegiatan->id}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="tahun" value="{{$tahun}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="bulan" value="{{$bulan}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="subkegiatan_id" value="{{$subkegiatan->id}}" readonly>
+                    <input type="hidden" class="form-control input-sm" name="pptk_id" value="{{$pptk == null ? null : $pptk->id}}" readonly>
+                    <input type="text" class="form-control input-sm" value="{{Auth::user()->bidang->skpd->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Program</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm" readonly>
+                    <input type="text" class="form-control input-sm" value="{{$program->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Kegiatan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm" readonly>
+                    <input type="text" class="form-control input-sm" value="{{$kegiatan->nama}}"  readonly>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Nama Sekre/Kabid</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="nama_kabid" value="{{$pptk == null ? null : $pptk->nama_kabid}}" >
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">NIP Sekre/Kabid</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="nip_kabid" value="{{$pptk == null ? null : $pptk->nip_kabid}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Nama PPTK</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="nama_pptk" value="{{$pptk == null ? null : $pptk->nama_pptk}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">NIP PPTK</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="nip_pptk" value="{{$pptk == null ? null : $pptk->nip_pptk}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Bidang</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" value="{{$pptk == null ? null : $pptk->program->bidang->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
@@ -134,13 +142,13 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Bulan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="pelaporan_bulan" value="{{$pptk == null ? null : $pptk->pelaporan_bulan}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Tanggal</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="pelaporan_tanggal" value="{{$pptk == null ? null : $pptk->pelaporan_tanggal}}">
                   </div>
                 </div>
 
@@ -153,13 +161,19 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Bulan</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="kondisi_bulan" value="{{$pptk == null ? null : $pptk->kondisi_bulan}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Tanggal</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm">
+                    <input type="text" class="form-control input-sm" name="kondisi_tanggal" value="{{$pptk == null ? null : $pptk->kondisi_tanggal}}">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"></label>
+                  <div class="col-sm-9">
+                    <button type="submit" class='btn btn-primary btn-flat btn-block'>SIMPAN</button>
                   </div>
                 </div>
               </div>

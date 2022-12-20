@@ -33,13 +33,8 @@
       <div class="col-md-12">
         <!-- Block buttons -->
         <div class="box">
-          <div class="box-header text-center">
-            <h3 class="box-title ">Laporan RFK</h3>
-          </div>
           <div class="box-body">
                 @include('bidang.laporan.rfk_menu')
-            <br/>
-            <br/>
           </div>
         </div>
       </div>

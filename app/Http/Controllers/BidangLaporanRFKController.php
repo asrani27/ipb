@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\T_pptk;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
+use App\Models\T_st;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BidangLaporanRFKController extends Controller
 {
@@ -78,9 +81,28 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
-    }
+        $checkPptk = T_pptk::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+        if ($checkPptk == null) {
+            $pptk = null;
+        } else {
+            $pptk = $checkPptk;
+        }
 
+        return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk'));
+    }
+    public function storeInput(Request $req)
+    {
+        if ($req->pptk_id == null) {
+            T_pptk::create($req->all());
+            Session::flash('success', 'Berhasil Di Simpan');
+            return back();
+        } else {
+            T_pptk::find($req->pptk_id)->update($req->all());
+
+            Session::flash('success', 'Berhasil Di Simpan');
+            return back();
+        }
+    }
     public function pbj($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $nama_bulan = namaBulan($bulan);
@@ -100,9 +122,23 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $st = T_st::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
+
+        return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st'));
+    }
+    public function storeSt(Request $req)
+    {
+        T_st::create($req->all());
+        Session::flash('success', 'Berhasil Di Simpan');
+        return back();
     }
 
+    public function deleteSt($id)
+    {
+        T_st::find($id)->delete();
+        Session::flash('success', 'Berhasil Di Hapus');
+        return back();
+    }
     public function m($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $nama_bulan = namaBulan($bulan);

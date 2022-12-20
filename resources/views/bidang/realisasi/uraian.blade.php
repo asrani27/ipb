@@ -72,80 +72,91 @@
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
-                  {{$item->p_januari_fisik}}% <br/>
-                  {{$item->r_januari_fisik}}%
+                  {{round($item->p_januari_fisik,2)}}% <br/>
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_fisik}}">{{round($item->r_januari_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_februari_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_keuangan}}">{{number_format($item->r_februari_keuangan)}} </a><br/>
-                  {{$item->p_februari_fisik}}% <br/>
-                  {{$item->r_februari_fisik}}%
+                  {{round($item->p_februari_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_fisik}}">{{round($item->r_februari_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_maret_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_keuangan}}">{{number_format($item->r_maret_keuangan)}} </a><br/>
-                  {{$item->p_maret_fisik}}% <br/>
-                  {{$item->r_maret_fisik}}%
+                  {{round($item->p_maret_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_fisik}}">{{round($item->r_maret_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_april_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_keuangan}}">{{number_format($item->r_april_keuangan)}} </a><br/>
-                  {{$item->p_april_fisik}}% <br/>
-                  {{$item->r_april_fisik}}%
+                  {{round($item->p_april_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_fisik}}">{{round($item->r_april_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_mei_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_keuangan}}">{{number_format($item->r_mei_keuangan)}} </a><br/>
-                  {{$item->p_mei_fisik}}% <br/>
-                  {{$item->r_mei_fisik}}%
+                  {{round($item->p_mei_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_fisik}}">{{round($item->r_mei_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juni_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_keuangan}}">{{number_format($item->r_juni_keuangan)}} </a><br/>
-                  {{$item->p_juni_fisik}}% <br/>
-                  {{$item->r_juni_fisik}}%
+                  {{round($item->p_juni_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_fisik}}">{{round($item->r_juni_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juli_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_keuangan}}">{{number_format($item->r_juli_keuangan)}} </a><br/>
-                  {{$item->p_juli_fisik}}% <br/>
-                  {{$item->r_juli_fisik}}%
+                  {{round($item->p_juli_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_fisik}}">{{round($item->r_juli_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_agustus_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_keuangan}}">{{number_format($item->r_agustus_keuangan)}} </a><br/>
-                  {{$item->p_agustus_fisik}}% <br/>
-                  {{$item->r_agustus_fisik}}%
+                  {{round($item->p_agustus_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_fisik}}">{{round($item->r_agustus_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_september_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_keuangan}}">{{number_format($item->r_september_keuangan)}} </a><br/>
-                  {{$item->p_september_fisik}}% <br/>
-                  {{$item->r_september_fisik}}%
+                  {{round($item->p_september_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_fisik}}">{{round($item->r_september_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_oktober_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_keuangan}}">{{number_format($item->r_oktober_keuangan)}} </a><br/>
-                  {{$item->p_oktober_fisik}}% <br/>
-                  {{$item->r_oktober_fisik}}%
+                  {{round($item->p_oktober_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_fisik}}">{{round($item->r_oktober_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_november_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_keuangan}}">{{number_format($item->r_november_keuangan)}} </a><br/>
-                  {{$item->p_november_fisik}}% <br/>
-                  {{$item->r_november_fisik}}%
+                  {{round($item->p_november_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_fisik}}">{{round($item->r_november_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_desember_keuangan)}} <br/>
                   <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_keuangan}}">{{number_format($item->r_desember_keuangan)}} </a><br/>
-                  {{$item->p_desember_fisik}}% <br/>
-                  {{$item->r_desember_fisik}}%
+                  {{round($item->p_desember_fisik,2)}}% <br/>
+                  
+                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_fisik}}">{{round($item->r_desember_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->jumlah_renc_keuangan)}} <br/>
                  {{number_format($item->jumlah_real_keuangan)}} <br/>
-                  {{$item->jumlah_renc_fisik}}% <br/>
-                  {{$item->jumlah_real_fisik}}%
+                  {{round($item->jumlah_renc_fisik,2)}}% <br/>
+                  {{round($item->jumlah_real_fisik,2)}}%
                 </td>
               </tr>
               @endforeach
@@ -182,7 +193,7 @@
           <div class="modal-header bg-purple">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title"><i class="ion ion-clipboard"></i> Realisasi</h4>
+            <h4 class="modal-title"><i class="ion ion-clipboard"></i> Realisasi Keuangan</h4>
           </div>
           <form method="post" action="/bidang/realisasi">
           <div class="modal-body">
@@ -199,12 +210,54 @@
                   <input type="text" id="bulan" class="form-control" name="bulan" readonly>
               </div>
               <div class="form-group">
-                  <label>Renc Realisasi</label>
+                  <label>Renc Keuangan</label>
                   <input type="text" id="renc_realisasi" class="form-control" readonly>
               </div>
               <div class="form-group">
-                  <label>Realisasi</label>
+                  <label>Realisasi Keuangan</label>
                   <input type="text" id="real_realisasi" class="form-control" name="real_realisasi">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn bg-grey pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Close</button>
+            <button type="submit" class="btn bg-purple"><i class="fa fa-save"></i> Simpan</button>
+          </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modal-editfisik">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-purple">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><i class="ion ion-clipboard"></i> Realisasi Fisik</h4>
+          </div>
+          <form method="post" action="/bidang/realisasifisik">
+          <div class="modal-body">
+              @csrf
+              <div class="form-group">
+                  <input type="hidden" id="uraian_idfisik" class="form-control" name="uraian_id">
+              </div>
+              <div class="form-group">
+                  <label>Uraian</label>
+                  <input type="text" id="uraianfisik" class="form-control" name="uraian" readonly>
+              </div>
+              <div class="form-group">
+                  <label>Bulan</label>
+                  <input type="text" id="bulanfisik" class="form-control" name="bulan" readonly>
+              </div>
+              <div class="form-group">
+                  <label>Renc Fisik</label>
+                  <input type="text" id="renc_realisasifisik" class="form-control" readonly>
+              </div>
+              <div class="form-group">
+                  <label>Realisasi Fisik</label>
+                  <input type="text" id="real_realisasifisik" class="form-control" name="real_realisasi">
               </div>
           </div>
           <div class="modal-footer">
@@ -229,6 +282,15 @@
   $('#uraian').val($(this).data('uraian'));
   $('#renc_realisasi').val($(this).data('rencrealisasi'));
   $("#modal-edit").modal();
+});
+</script>
+<script>
+  $(document).on('click', '.edit-realisasifisik', function() {
+  $('#uraian_idfisik').val($(this).data('id'));
+  $('#bulanfisik').val($(this).data('bulan'));
+  $('#uraianfisik').val($(this).data('uraian'));
+  $('#renc_realisasifisik').val($(this).data('rencrealisasi'));
+  $("#modal-editfisik").modal();
 });
 </script>
 @endpush

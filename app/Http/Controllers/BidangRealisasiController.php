@@ -82,4 +82,14 @@ class BidangRealisasiController extends Controller
         Session::flash('success', 'Berhasil Di Simpan');
         return back();
     }
+
+    public function storeFisik(Request $req)
+    {
+        Uraian::find($req->uraian_id)->update([
+            'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
+        ]);
+
+        Session::flash('success', 'Berhasil Di Simpan');
+        return back();
+    }
 }

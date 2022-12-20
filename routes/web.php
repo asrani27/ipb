@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 
         Route::get('realisasi', [BidangRealisasiController::class, 'index']);
         Route::post('realisasi', [BidangRealisasiController::class, 'store']);
+        Route::post('realisasifisik', [BidangRealisasiController::class, 'storeFisik']);
         Route::get('realisasi/{tahun}', [BidangRealisasiController::class, 'tahun']);
         Route::get('realisasi/{tahun}/{program_id}', [BidangRealisasiController::class, 'program']);
         Route::get('realisasi/{tahun}/{program_id}/{kegiatan_id}', [BidangRealisasiController::class, 'kegiatan']);
@@ -107,6 +108,9 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/v', [BidangLaporanRFKController::class, 'v']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/fiskeu', [BidangLaporanRFKController::class, 'fiskeu']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/input', [BidangLaporanRFKController::class, 'input']);
+        Route::post('laporanrfk/rfk_input', [BidangLaporanRFKController::class, 'storeInput']);
+        Route::post('laporanrfk/rfk_st', [BidangLaporanRFKController::class, 'storeSt']);
+        Route::get('laporanrfk-rfk_st/delete/{id}', [BidangLaporanRFKController::class, 'deleteSt']);
 
         Route::get('program/kegiatan/{id}', [BidangKegiatanController::class, 'index']);
         Route::get('program/kegiatan/{id}/add', [BidangKegiatanController::class, 'create']);
