@@ -23,7 +23,6 @@ class BidangProgramController extends Controller
     public function store(Request $req)
     {
         $n = new Program;
-        $n->tahun = $req->tahun;
         $n->nama = $req->nama;
         $n->bidang_id = Auth::user()->bidang->id;
         $n->save();
