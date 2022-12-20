@@ -212,34 +212,39 @@ class BidangLaporanRFKController extends Controller
 
     public function rfk($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
-        $nama_bulan = namaBulan($bulan);
-        $bidang_id = Auth::user()->bidang->id;
-        $program = Program::find($program_id);
-        $kegiatan = Kegiatan::find($kegiatan_id);
-        $subkegiatan = Subkegiatan::find($subkegiatan_id);
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
-        $totalDPA = $data->sum('dpa');
+        try {
+            $nama_bulan = namaBulan($bulan);
+            $bidang_id = Auth::user()->bidang->id;
+            $program = Program::find($program_id);
+            $kegiatan = Kegiatan::find($kegiatan_id);
+            $subkegiatan = Subkegiatan::find($subkegiatan_id);
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+            $totalDPA = $data->sum('dpa');
 
-        $data->map(function ($item) use ($totalDPA, $bulan) {
-            $item->persenDPA = ($item->dpa / $totalDPA) * 100;
-            $item->rencanaRP = totalRencana($bulan, $item);
-            $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
-            $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
-            $item->realisasiRP = totalRealisasi($bulan, $item);
-            $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
-            $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
-            $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
-            $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
-            $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
+            $data->map(function ($item) use ($totalDPA, $bulan) {
+                $item->persenDPA = ($item->dpa / $totalDPA) * 100;
+                $item->rencanaRP = totalRencana($bulan, $item);
+                $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
+                $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
+                $item->realisasiRP = totalRealisasi($bulan, $item);
+                $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
+                $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
+                $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
+                $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
+                $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
 
-            $item->fisikRencanaKUM = fisikRencana($bulan, $item);
-            $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
-            $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
-            $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
-            $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
-            $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
-            return $item;
-        });
+                $item->fisikRencanaKUM = fisikRencana($bulan, $item);
+                $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
+                $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
+                $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
+                $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
+                $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
+                return $item;
+            });
+        } catch (\Exception $e) {
+            Session::flash('error', 'Division By Zero');
+            return back();
+        }
 
         return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
     }
