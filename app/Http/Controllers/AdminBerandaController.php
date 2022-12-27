@@ -153,22 +153,39 @@ class AdminBerandaController extends Controller
 
     public function bukaPerubahan()
     {
-        $tahun = Carbon::now()->year;
-        $duplikatData = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->get();
 
+        //check
+        if (Auth::user()->skpd->murni != 0) {
+            Session::flash('info', 'Murni Harap Di tutup terlebih dahulu');
+            return back();
+        }
+        if (Auth::user()->skpd->pergeseran != 0) {
+            Session::flash('info', 'perubahan Harap Di tutup terlebih dahulu');
+            return back();
+        }
+
+        $tahun = Carbon::now()->year;
+        //get murni duplikasi data
+        $duplikatData = Uraian::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('status', null)->get();
+        //dd($duplikatData);
         foreach ($duplikatData as $d) {
             $attr = $d->toArray();
-            $attr['status'] = 2;
-            $check = Uraian::where('subkegiatan_id', $attr['id'])->first();
-            //dd($check);
-            if ($check == null) {
-                $attr['subkegiatan_id'] = $attr['id'];
-                Subkegiatan::create($attr);
-            }
+            $attr['status'] = 99;
+            $attr['uraian_id'] = $d->id;
+            //dd($attr, $attr['kode_rekening']);
+
+            Uraian::create($attr);
+            // $check = Uraian::where('kode_rekening', $attr['kode_rekening'])->where('uraian_id', $attr['id'])->where('status', 99)->first();
+
+            // if ($check == null) {
+            //     Uraian::create($attr);
+            // } else {
+            //     //dd($check);
+            // }
         }
 
         Auth::user()->skpd->update(['perubahan' => 1]);
-        Session::flash('success', 'Penginputan Dibuka');
+        Session::flash('success', 'Penginputan Perubahan Dibuka');
         return back();
     }
     public function tutupPerubahan()

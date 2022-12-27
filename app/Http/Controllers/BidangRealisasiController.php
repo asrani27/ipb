@@ -46,7 +46,14 @@ class BidangRealisasiController extends Controller
     public function subkegiatan($tahun, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $bidang_id = Auth::user()->bidang->id;
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+        if (Auth::user()->bidang->skpd->murni == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        }
+
+        if (Auth::user()->bidang->skpd->perubahan == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        }
+
         $data->map(function ($item) {
             $item->jumlah_renc_keuangan = $item->p_januari_keuangan + $item->p_februari_keuangan + $item->p_maret_keuangan + $item->p_april_keuangan + $item->p_mei_keuangan + $item->p_juni_keuangan + $item->p_juli_keuangan + $item->p_agustus_keuangan + $item->p_september_keuangan + $item->p_oktober_keuangan + $item->p_november_keuangan + $item->p_desember_keuangan;
             $item->jumlah_real_keuangan = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan + $item->r_april_keuangan + $item->r_mei_keuangan + $item->r_juni_keuangan + $item->r_juli_keuangan + $item->r_agustus_keuangan + $item->r_september_keuangan + $item->r_oktober_keuangan + $item->r_november_keuangan + $item->r_desember_keuangan;

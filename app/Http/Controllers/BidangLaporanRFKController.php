@@ -76,7 +76,14 @@ class BidangLaporanRFKController extends Controller
     {
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+
+        if (Auth::user()->bidang->skpd->murni == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        }
+
+        if (Auth::user()->bidang->skpd->perubahan == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        }
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
@@ -164,7 +171,15 @@ class BidangLaporanRFKController extends Controller
     {
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+
+        if (Auth::user()->bidang->skpd->murni == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        }
+
+        if (Auth::user()->bidang->skpd->perubahan == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        }
+
         $totalDPA = $data->sum('dpa');
 
         $data->map(function ($item) use ($bulan, $totalDPA) {
@@ -218,7 +233,15 @@ class BidangLaporanRFKController extends Controller
             $program = Program::find($program_id);
             $kegiatan = Kegiatan::find($kegiatan_id);
             $subkegiatan = Subkegiatan::find($subkegiatan_id);
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+
+            if (Auth::user()->bidang->skpd->murni == 1) {
+                $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+            }
+
+            if (Auth::user()->bidang->skpd->perubahan == 1) {
+                $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+            }
+
             $totalDPA = $data->sum('dpa');
 
             $data->map(function ($item) use ($totalDPA, $bulan) {
@@ -256,7 +279,15 @@ class BidangLaporanRFKController extends Controller
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->get();
+
+        if (Auth::user()->bidang->skpd->murni == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        }
+
+        if (Auth::user()->bidang->skpd->perubahan == 1) {
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        }
+
         $totalDPA = $data->sum('dpa');
 
         $data->map(function ($item) use ($totalDPA, $bulan) {

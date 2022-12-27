@@ -22,6 +22,7 @@ use App\Http\Controllers\DaftarLayananController;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminPermohonanController;
+use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
 use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangSubkegiatanController;
@@ -77,6 +78,17 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
     Route::prefix('bidang')->group(function () {
         Route::get('beranda', [BidangBerandaController::class, 'index']);
         Route::get('beranda/tahun', [PencarianController::class, 'bTahun']);
+
+        //-------------------route perubahan--------------------------//
+        Route::get('perubahan/program', [BidangPerubahanController::class, 'program']);
+        Route::get('perubahan/program/kegiatan/{program_id}', [BidangPerubahanController::class, 'kegiatan']);
+        Route::get('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}', [BidangPerubahanController::class, 'subKegiatan']);
+        Route::get('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}', [BidangPerubahanController::class, 'uraian']);
+        Route::get('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/edit/{uraian_id}', [BidangPerubahanController::class, 'editUraian']);
+        Route::post('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/edit/{uraian_id}', [BidangPerubahanController::class, 'updateUraian']);
+        Route::get('perubahan/program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangPerubahanController::class, 'editDPA']);
+        Route::post('perubahan/program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangPerubahanController::class, 'updateDPA']);
+        //------------------------------------------------------------//
 
         Route::get('program', [BidangProgramController::class, 'index']);
         Route::get('program/add', [BidangProgramController::class, 'create']);
