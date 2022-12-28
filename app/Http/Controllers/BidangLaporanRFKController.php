@@ -245,23 +245,43 @@ class BidangLaporanRFKController extends Controller
             $totalDPA = $data->sum('dpa');
 
             $data->map(function ($item) use ($totalDPA, $bulan) {
-                $item->persenDPA = ($item->dpa / $totalDPA) * 100;
-                $item->rencanaRP = totalRencana($bulan, $item);
-                $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
-                $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
-                $item->realisasiRP = totalRealisasi($bulan, $item);
-                $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
-                $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
-                $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
-                $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
-                $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
+                if ($item->dpa == 0) {
+                    $item->persenDPA = 0;
+                    $item->rencanaRP = 0;
+                    $item->rencanaKUM = 0;
+                    $item->rencanaTTB = 0;
+                    $item->realisasiRP = 0;
+                    $item->realisasiKUM = 0;
+                    $item->realisasiTTB = 0;
+                    $item->deviasiKUM = 0;
+                    $item->deviasiTTB = 0;
+                    $item->sisaAnggaran = 0;
 
-                $item->fisikRencanaKUM = fisikRencana($bulan, $item);
-                $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
-                $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
-                $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
-                $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
-                $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
+                    $item->fisikRencanaKUM = 0;
+                    $item->fisikRencanaTTB = 0;
+                    $item->fisikRealisasiKUM = 0;
+                    $item->fisikRealisasiTTB = 0;
+                    $item->fisikDeviasiKUM = 0;
+                    $item->fisikDeviasiTTB = 0;
+                } else {
+                    $item->persenDPA = ($item->dpa / $totalDPA) * 100;
+                    $item->rencanaRP = totalRencana($bulan, $item);
+                    $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
+                    $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
+                    $item->realisasiRP = totalRealisasi($bulan, $item);
+                    $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
+                    $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
+                    $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
+                    $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
+                    $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
+
+                    $item->fisikRencanaKUM = fisikRencana($bulan, $item);
+                    $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
+                    $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
+                    $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
+                    $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
+                    $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
+                }
                 return $item;
             });
         } catch (\Exception $e) {
