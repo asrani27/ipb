@@ -150,4 +150,31 @@ class BidangPerubahanController extends Controller
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/perubahan/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id . '/uraian/' . $subkegiatan_id);
     }
+
+    public function addUraian($program_id, $kegiatan_id, $subkegiatan_id)
+    {
+        $program = Program::find($program_id);
+        $kegiatan = Kegiatan::find($kegiatan_id);
+        $subkegiatan = Subkegiatan::find($subkegiatan_id);
+
+        return view('bidang.perubahan.create_uraian', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id'));
+    }
+
+    public function storeUraian(Request $req, $program_id, $kegiatan_id, $subkegiatan_id)
+    {
+        $n                  = new Uraian;
+        $n->skpd_id         = Auth::user()->bidang->skpd_id;
+        $n->bidang_id       = Auth::user()->bidang->id;
+        $n->program_id      = $program_id;
+        $n->tahun           = Program::find($program_id)->tahun;
+        $n->kegiatan_id     = $kegiatan_id;
+        $n->subkegiatan_id  = $subkegiatan_id;
+        $n->kode_rekening   = $req->kode_rekening;
+        $n->nama            = $req->nama;
+        $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
+        $n->status            = 99;
+        $n->save();
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/perubahan/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id . '/uraian/' . $subkegiatan_id);
+    }
 }

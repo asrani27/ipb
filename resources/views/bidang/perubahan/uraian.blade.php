@@ -16,7 +16,7 @@
         
                   <div class="box-tools">
                     <a href="/bidang/perubahan/program/kegiatan/{{$program->id}}/sub/{{$kegiatan->id}}/" class="btn btn-sm bg-gray btn-flat"><i class="fa fa-arrow-left"></i> Kembali</a>
-                    {{-- <a href="/bidang/program/kegiatan/{{$program->id}}/sub/{{$kegiatan->id}}/uraian/{{$subkegiatan->id}}/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Uraian</a> --}}
+                    <a href="/bidang/perubahan/program/kegiatan/{{$program->id}}/sub/{{$kegiatan->id}}/uraian/{{$subkegiatan->id}}/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Uraian</a>
                   </div>
                 </div>
                 <!-- /.box-header -->
