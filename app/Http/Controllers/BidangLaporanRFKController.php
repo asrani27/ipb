@@ -272,6 +272,7 @@ class BidangLaporanRFKController extends Controller
         return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
     }
 
+
     public function srp($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $nama_bulan = namaBulan($bulan);
