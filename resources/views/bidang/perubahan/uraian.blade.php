@@ -48,7 +48,12 @@
                         </td>
                     </tr>
                     @endforeach
-                    
+                    <tr>
+                      <td></td>
+                      <td>Total</td>
+                      <td>{{number_format($data->sum('dpa'))}}</td>
+                      <td></td>
+                    </tr>
                   </tbody></table>
                 </div>
                 <!-- /.box-body -->

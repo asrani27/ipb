@@ -34,7 +34,7 @@
                         <td>
 
                             <a href="/bidang/perubahan/program/kegiatan/{{$program->id}}/sub/{{$kegiatan_id}}/uraian/{{$item->id}}"
-                                class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianmurni->count()}} Uraian</strong></a>
+                                class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianperubahan->count()}} Uraian</strong></a>
 
                         </td>
 

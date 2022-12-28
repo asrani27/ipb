@@ -19,4 +19,8 @@ class Subkegiatan extends Model
     {
         return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('status', null);
     }
+    public function uraianperubahan()
+    {
+        return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('status', 99);
+    }
 }
