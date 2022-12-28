@@ -14,19 +14,19 @@ class BidangPerubahanController extends Controller
 {
     public function program()
     {
-        $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->paginate(15);
+        $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->paginate(30);
         return view('bidang.perubahan.program', compact('data'));
     }
 
     public function kegiatan($program_id)
     {
-        $data = Kegiatan::where('program_id', $program_id)->orderBy('id', 'DESC')->paginate(15);
+        $data = Kegiatan::where('program_id', $program_id)->orderBy('id', 'DESC')->paginate(30);
         $program = Program::find($program_id);
         return view('bidang.perubahan.kegiatan', compact('data', 'program'));
     }
     public function subKegiatan($program_id, $kegiatan_id)
     {
-        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->orderBy('id', 'DESC')->paginate(15);
+        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->orderBy('id', 'DESC')->paginate(30);
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         return view('bidang.perubahan.subkegiatan', compact('data', 'program', 'kegiatan', 'program_id', 'kegiatan_id'));
