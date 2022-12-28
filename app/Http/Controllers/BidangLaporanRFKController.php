@@ -271,16 +271,16 @@ class BidangLaporanRFKController extends Controller
                     $item->realisasiRP = totalRealisasi($bulan, $item);
                     $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
                     $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
-                    $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
-                    $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
+                    $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
+                    $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
                     $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
 
                     $item->fisikRencanaKUM = fisikRencana($bulan, $item);
                     $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
                     $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
                     $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
-                    $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
-                    $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
+                    $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
+                    $item->fisikDeviasiTTB =  $item->fisikRealisasiTTB - $item->fisikRencanaTTB;
                 }
                 return $item;
             });
@@ -338,16 +338,16 @@ class BidangLaporanRFKController extends Controller
                 $item->realisasiRP = totalRealisasi($bulan, $item);
                 $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
                 $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
-                $item->deviasiKUM = $item->rencanaKUM - $item->realisasiKUM;
-                $item->deviasiTTB = $item->rencanaTTB - $item->realisasiTTB;
+                $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
+                $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
                 $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
 
                 $item->fisikRencanaKUM = fisikRencana($bulan, $item);
                 $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
                 $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
                 $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
-                $item->fisikDeviasiKUM = $item->fisikRencanaKUM - $item->fisikRealisasiKUM;
-                $item->fisikDeviasiTTB = $item->fisikRencanaTTB - $item->fisikRealisasiTTB;
+                $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
+                $item->fisikDeviasiTTB =  $item->fisikRealisasiTTB - $item->fisikRencanaTTB;
             }
             return $item;
         });
