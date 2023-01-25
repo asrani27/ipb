@@ -27,6 +27,7 @@ use App\Http\Controllers\BidangRealisasiController;
 use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
+use App\Http\Controllers\SuperadminJenisrfkController;
 
 
 
@@ -39,6 +40,12 @@ Route::get('lupa-password', [LupaPasswordController::class, 'index']);
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::prefix('superadmin')->group(function () {
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);
+        Route::get('jenisrfk', [SuperadminJenisrfkController::class, 'index']);
+        Route::get('jenisrfk/add', [SuperadminJenisrfkController::class, 'create']);
+        Route::post('jenisrfk/add', [SuperadminJenisrfkController::class, 'store']);
+        Route::get('jenisrfk/edit/{id}', [SuperadminJenisrfkController::class, 'edit']);
+        Route::post('jenisrfk/edit/{id}', [SuperadminJenisrfkController::class, 'update']);
+        Route::get('jenisrfk/delete/{id}', [SuperadminJenisrfkController::class, 'delete']);
         Route::get('skpd', [SuperadminSkpdController::class, 'index']);
         Route::get('skpd/createakun/{id}', [SuperadminSkpdController::class, 'createakun']);
         Route::get('skpd/resetakun/{id}', [SuperadminSkpdController::class, 'resetakun']);

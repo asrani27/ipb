@@ -68,10 +68,10 @@ class AdminBerandaController extends Controller
             Session::flash('info', 'perubahan harap di tutup terlebih dahulu');
             return back();
         }
-        if (Auth::user()->skpd->realisasi != 0) {
-            Session::flash('info', 'Realisasi harap di tutup terlebih dahulu');
-            return back();
-        }
+        // if (Auth::user()->skpd->realisasi != 0) {
+        //     Session::flash('info', 'Realisasi harap di tutup terlebih dahulu');
+        //     return back();
+        // }
 
 
         Auth::user()->skpd->update(['murni' => 1]);

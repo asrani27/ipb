@@ -48,19 +48,19 @@
                 <th style="width: 10px" rowspan="3">#</th>
                 <th rowspan="3" style="text-align: center">Uraian Kegiatan</th>
                 <th colspan="2" style="text-align: center">DPA</th>
-                <th colspan="9" style="text-align: center">Keuangan</th>
-                <th colspan="6" style="text-align: center">Fisik</th>
+                <th colspan="8" style="text-align: center">Keuangan</th>
+                <th colspan="5" style="text-align: center">Fisik</th>
               </tr>
               <tr style="font-size:10px;" class="bg-purple">
                 <th rowspan="2" style="text-align: center">Rp</th>
                 <th rowspan="2" style="text-align: center">%</th>
                 <th colspan="3" style="text-align: center">Rencana</th>
                 <th colspan="3" style="text-align: center">Realisasi</th>
-                <th colspan="2" style="text-align: center">Deviasi</th>
+                <th style="text-align: center">Capaian</th>
                 <th rowspan="2" style="text-align: center">Sisa Anggaran <br/> Rp</th>
                 <th colspan="2" style="text-align: center">Rencana</th>
                 <th colspan="2" style="text-align: center">Realisasi</th>
-                <th colspan="2" style="text-align: center">Deviasi</th>
+                <th style="text-align: center">Capaian</th>
               </tr>
               <tr style="font-size:10px;" class="bg-purple">
               <th>Rp</th>
@@ -69,14 +69,12 @@
               <th>Rp</th>
               <th>%KUM</th>
               <th>%TTB</th>
-              <th>%KUM</th>
-              <th>%TTB</th>
+              <th>%</th>
               <th>KUM</th>
               <th>TTB</th>
               <th>KUM</th>
               <th>TTB</th>
-              <th>KUM</th>
-              <th>TTB</th>
+              <th></th>
               </tr>
               @foreach ($data as $key => $item)
 
@@ -91,15 +89,13 @@
                 <td style="text-align: right">{{number_format($item->realisasiRP)}}</td>
                 <td style="text-align: right">{{round($item->realisasiKUM, 2)}}</td>
                 <td style="text-align: right">{{round($item->realisasiTTB, 2)}}</td>
-                <td style="text-align: right">{{round($item->deviasiKUM, 2)}}</td>
-                <td style="text-align: right">{{round($item->deviasiTTB, 2)}}</td>
+                <td style="text-align: right">{{round($item->capaianKeuangan, 2)}}</td>
                 <td style="text-align: right">{{number_format($item->sisaAnggaran)}}</td>
                 <td style="text-align: right">{{round($item->fisikRencanaKUM, 2)}}</td>
                 <td style="text-align: right">{{round($item->fisikRencanaTTB, 2)}}</td>
                 <td style="text-align: right">{{round($item->fisikRealisasiKUM, 2)}}</td>
                 <td style="text-align: right">{{round($item->fisikRealisasiTTB, 2)}}</td>
-                <td style="text-align: right">{{round($item->fisikDeviasiKUM, 2)}}</td>
-                <td style="text-align: right">{{round($item->fisikDeviasiTTB, 2)}}</td>
+                <td style="text-align: right">{{round($item->capaianFisik, 2)}}</td>
               </tr>
               @endforeach
               <tr style="font-size:10px; background-color:#e7e4e6">
@@ -113,15 +109,13 @@
                 <td style="text-align: right">{{number_format($data->sum('realisasiRP'))}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('realisasiTTB'), 2)}}</td>
-                <td></td>
-                <td style="text-align: right">{{round($data->sum('deviasiTTB'), 2)}}</td>
+                <td style="text-align: right">{{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}</td>
                 <td style="text-align: right">{{number_format($data->sum('sisaAnggaran'))}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('fisikRencanaTTB'), 2)}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('fisikRealisasiTTB'), 2)}}</td>
-                <td></td>
-                <td style="text-align: right">{{round($data->sum('fisikDeviasiTTB'), 2)}}</td>
+                <td style="text-align: right">{{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}</td>
               </tr>
             </tbody>
           </table>

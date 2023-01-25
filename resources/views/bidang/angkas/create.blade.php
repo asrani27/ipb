@@ -37,7 +37,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_januari_keuangan, 0, ',', '.')}}" name="januari_keuangan" onkeyup="formatInput(this)" id="nilaijanuari">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_januari_fisik}}" name="januari_fisik" readonly id="fisikjanuari">
+                        <input type="text" class="form-control" value="{{$uraian->p_januari_fisik}}" name="januari_fisik" id="fisikjanuari">
                       </div>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_februari_keuangan, 0, ',', '.')}}" name="februari_keuangan" onkeyup="formatInput(this)" id="nilaifebruari">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_februari_fisik}}" name="februari_fisik" readonly id="fisikfebruari">
+                        <input type="text" class="form-control" value="{{$uraian->p_februari_fisik}}" name="februari_fisik"  id="fisikfebruari">
                       </div>
                     </div>
                     <div class="form-group">
@@ -55,7 +55,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_maret_keuangan, 0, ',', '.')}}" name="maret_keuangan" onkeyup="formatInput(this)" id="nilaimaret">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_maret_fisik}}" name="maret_fisik" readonly id="fisikmaret">
+                        <input type="text" class="form-control" value="{{$uraian->p_maret_fisik}}" name="maret_fisik"  id="fisikmaret">
                       </div>
                     </div>
                     <div class="form-group">
@@ -64,7 +64,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_april_keuangan, 0, ',', '.')}}" name="april_keuangan" onkeyup="formatInput(this)" id="nilaiapril">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_april_fisik}}" name="april_fisik" readonly id="fisikapril">
+                        <input type="text" class="form-control" value="{{$uraian->p_april_fisik}}" name="april_fisik"  id="fisikapril">
                       </div>
                     </div>
                     <div class="form-group">
@@ -73,7 +73,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_mei_keuangan, 0, ',', '.')}}" name="mei_keuangan" onkeyup="formatInput(this)" id="nilaimei">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_mei_fisik}}" name="mei_fisik" readonly id="fisikmei">
+                        <input type="text" class="form-control" value="{{$uraian->p_mei_fisik}}" name="mei_fisik"  id="fisikmei">
                       </div>
                     </div>
                     <div class="form-group">
@@ -82,7 +82,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_juni_keuangan, 0, ',', '.')}}" name="juni_keuangan" onkeyup="formatInput(this)" id="nilaijuni">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_juni_fisik}}" name="juni_fisik" readonly id="fisikjuni">
+                        <input type="text" class="form-control" value="{{$uraian->p_juni_fisik}}" name="juni_fisik"  id="fisikjuni">
                       </div>
                     </div>
                     <div class="form-group">
@@ -91,7 +91,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_juli_keuangan, 0, ',', '.')}}" name="juli_keuangan" onkeyup="formatInput(this)" id="nilaijuli">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_juli_fisik}}" name="juli_fisik" readonly id="fisikjuli">
+                        <input type="text" class="form-control" value="{{$uraian->p_juli_fisik}}" name="juli_fisik"  id="fisikjuli">
                       </div>
                     </div>
                     <div class="form-group">
@@ -100,7 +100,7 @@
                         <input type="text" class="form-control" name="agustus_keuangan" value="{{number_format($uraian->p_agustus_keuangan, 0, ',', '.')}}" onkeyup="formatInput(this)" id="nilaiagustus">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_agustus_fisik}}" name="agustus_fisik" readonly id="fisikagustus">
+                        <input type="text" class="form-control" value="{{$uraian->p_agustus_fisik}}" name="agustus_fisik"  id="fisikagustus">
                       </div>
                     </div>
                     <div class="form-group">
@@ -109,7 +109,7 @@
                         <input type="text" class="form-control" name="september_keuangan" value="{{number_format($uraian->p_september_keuangan, 0, ',', '.')}}"  onkeyup="formatInput(this)" id="nilaiseptember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_september_fisik}}" name="september_fisik" readonly id="fisikseptember">
+                        <input type="text" class="form-control" value="{{$uraian->p_september_fisik}}" name="september_fisik"  id="fisikseptember">
                       </div>
                     </div>
                     <div class="form-group">
@@ -118,7 +118,7 @@
                         <input type="text" class="form-control" name="oktober_keuangan" value="{{number_format($uraian->p_oktober_keuangan, 0, ',', '.')}}"   onkeyup="formatInput(this)" id="nilaioktober">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_oktober_fisik}}" name="oktober_fisik" readonly id="fisikoktober">
+                        <input type="text" class="form-control" value="{{$uraian->p_oktober_fisik}}" name="oktober_fisik"  id="fisikoktober">
                       </div>
                     </div>
                     <div class="form-group">
@@ -127,7 +127,7 @@
                         <input type="text" class="form-control" name="november_keuangan" value="{{number_format($uraian->p_november_keuangan, 0, ',', '.')}}"  onkeyup="formatInput(this)" id="nilainovember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_november_fisik}}" name="november_fisik" readonly id="fisiknovember">
+                        <input type="text" class="form-control" value="{{$uraian->p_november_fisik}}" name="november_fisik"  id="fisiknovember">
                       </div>
                     </div>
                     <div class="form-group">
@@ -136,7 +136,7 @@
                         <input type="text" class="form-control" name="desember_keuangan" value="{{number_format($uraian->p_desember_keuangan, 0, ',', '.')}}" onkeyup="formatInput(this)" id="nilaidesember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_desember_fisik}}" name="desember_fisik" readonly id="fisikdesember">
+                        <input type="text" class="form-control" value="{{$uraian->p_desember_fisik}}" name="desember_fisik"  id="fisikdesember">
                       </div>
                     </div>
                     

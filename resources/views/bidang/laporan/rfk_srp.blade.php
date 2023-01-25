@@ -64,9 +64,9 @@
               </tr>
               <tr>
                 <th></th>
-                <th></th>
-                <th style="text-align: center">{{round($data->sum('deviasiTTB'),2)}}</th>
-                <th style="text-align: center">{{round($data->sum('fisikDeviasiTTB'),2)}}</th>
+                <th>Capaian</th>
+                <th style="text-align: center">{{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}</th>
+                <th style="text-align: center">{{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}</th>
               </tr>
             </tbody>
           </table>
