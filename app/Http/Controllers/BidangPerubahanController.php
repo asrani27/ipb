@@ -51,10 +51,25 @@ class BidangPerubahanController extends Controller
     }
     public function updateUraian(Request $req, $program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
     {
+        $newdpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n = Uraian::find($uraian_id);
+
         $n->kode_rekening = $req->kode_rekening;
         $n->nama = $req->nama;
-        $n->dpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
+        $n->dpa = $newdpa;
+        $n->p_januari_fisik     = ($n->p_januari_keuangan / $newdpa) * 100;
+        $n->p_februari_fisik    = ($n->p_februari_keuangan / $newdpa) * 100;
+        $n->p_maret_fisik       = ($n->p_maret_keuangan / $newdpa) * 100;
+        $n->p_april_fisik       = ($n->p_april_keuangan / $newdpa) * 100;
+        $n->p_mei_fisik         = ($n->p_mei_keuangan / $newdpa) * 100;
+        $n->p_juni_fisik        = ($n->p_juni_keuangan / $newdpa) * 100;
+        $n->p_juli_fisik        = ($n->p_juli_keuangan / $newdpa) * 100;
+        $n->p_agustus_fisik     = ($n->p_agustus_keuangan / $newdpa) * 100;
+        $n->p_september_fisik   = ($n->p_september_keuangan / $newdpa) * 100;
+        $n->p_oktober_fisik     = ($n->p_oktober_keuangan / $newdpa) * 100;
+        $n->p_november_fisik    = ($n->p_november_keuangan / $newdpa) * 100;
+        $n->p_desember_fisik    = ($n->p_desember_keuangan / $newdpa) * 100;
+
         $n->save();
         Session::flash('success', 'Berhasil Di Update');
         return redirect('/bidang/perubahan/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id . '/uraian/' . $subkegiatan_id);

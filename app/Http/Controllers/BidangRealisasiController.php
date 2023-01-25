@@ -48,10 +48,12 @@ class BidangRealisasiController extends Controller
         $bidang_id = Auth::user()->bidang->id;
         if (Auth::user()->bidang->skpd->murni == 1) {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+            $jenis = 'Murni';
         }
 
         if (Auth::user()->bidang->skpd->perubahan == 1) {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+            $jenis = 'Perubahan';
         }
 
 
@@ -67,7 +69,7 @@ class BidangRealisasiController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.realisasi.uraian', compact('data', 'tahun', 'program', 'kegiatan', 'subkegiatan'));
+        return view('bidang.realisasi.uraian', compact('data', 'tahun', 'program', 'kegiatan', 'subkegiatan', 'jenis'));
     }
 
     public function store(Request $req)
