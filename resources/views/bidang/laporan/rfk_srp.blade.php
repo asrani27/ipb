@@ -66,8 +66,21 @@
               <tr>
                 <th></th>
                 <th>Capaian</th>
-                <th style="text-align: center">{{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}</th>
-                <th style="text-align: center">{{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}</th>
+                <th style="text-align: center">
+                  
+                  @if ($data->sum('realisasiTTB') == 0)
+                      0
+                  @else
+                  {{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}
+                  @endif
+                </th>
+                <th style="text-align: center">
+                  @if ($data->sum('fisikRealisasiTTB') == 0)
+                      0
+                  @else
+                  {{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}
+                  @endif
+                </th>
               </tr>
             </tbody>
           </table>

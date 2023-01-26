@@ -123,7 +123,6 @@
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('fisikRealisasiTTB'), 2)}}</td>
                 <td style="text-align: right">
-                  
                   @if ($data->sum('fisikRealisasiTTB') == 0)
                       0
                   @else
