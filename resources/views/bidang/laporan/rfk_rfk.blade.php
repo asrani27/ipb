@@ -110,13 +110,26 @@
                 <td style="text-align: right">{{number_format($data->sum('realisasiRP'))}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('realisasiTTB'), 2)}}</td>
-                <td style="text-align: right">{{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}</td>
+                <td style="text-align: right">
+                  @if ($data->sum('realisasiTTB') == 0)
+                      0
+                  @else
+                  {{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}
+                  @endif
+                </td>
                 <td style="text-align: right">{{number_format($data->sum('sisaAnggaran'))}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('fisikRencanaTTB'), 2)}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('fisikRealisasiTTB'), 2)}}</td>
-                <td style="text-align: right">{{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}</td>
+                <td style="text-align: right">
+                  
+                  @if ($data->sum('fisikRealisasiTTB') == 0)
+                      0
+                  @else
+                  {{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}
+                  @endif
+                </td>
               </tr>
             </tbody>
           </table>

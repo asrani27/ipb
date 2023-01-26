@@ -80,13 +80,16 @@ class BidangLaporanRFKController extends Controller
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
 
-        if (Auth::user()->bidang->skpd->murni == 1) {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
         }
 
-        if (Auth::user()->bidang->skpd->perubahan == 1) {
+        if ($jenisrfk == 'perubahan') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
         }
+
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
@@ -98,8 +101,7 @@ class BidangLaporanRFKController extends Controller
             $pptk = $checkPptk;
         }
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
-        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+
         return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk', 'jenisrfk'));
     }
     public function storeInput(Request $req)
@@ -185,11 +187,13 @@ class BidangLaporanRFKController extends Controller
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
 
-        if (Auth::user()->bidang->skpd->murni == 1) {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
         }
 
-        if (Auth::user()->bidang->skpd->perubahan == 1) {
+        if ($jenisrfk == 'perubahan') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
         }
 
@@ -234,8 +238,6 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
-        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         return view('bidang.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
@@ -249,11 +251,13 @@ class BidangLaporanRFKController extends Controller
             $kegiatan = Kegiatan::find($kegiatan_id);
             $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-            if (Auth::user()->bidang->skpd->murni == 1) {
+            $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+            $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+            if ($jenisrfk == 'murni') {
                 $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
             }
 
-            if (Auth::user()->bidang->skpd->perubahan == 1) {
+            if ($jenisrfk == 'perubahan') {
                 $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
             }
 
@@ -318,8 +322,6 @@ class BidangLaporanRFKController extends Controller
             return back();
         }
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
-        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
@@ -332,11 +334,13 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        if (Auth::user()->bidang->skpd->murni == 1) {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
         }
 
-        if (Auth::user()->bidang->skpd->perubahan == 1) {
+        if ($jenisrfk == 'perubahan') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
         }
 
@@ -395,8 +399,7 @@ class BidangLaporanRFKController extends Controller
             return $item;
         });
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
-        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+
         return view('bidang.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 }
