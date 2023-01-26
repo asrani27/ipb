@@ -39,7 +39,7 @@
     <nav class="navbar navbar-static-top"  style="box-shadow: 0 8px 8px 0 rgba(0,0,0,.2);">
       <div class="container">
         <div class="navbar-header">
-          <a href="#" class="navbar-brand"><b>DINAS PENDIDIKAN</b></a>
+          <a href="#" class="navbar-brand"><b>PEMKO BANJARMASIN</b></a>
         </div>
 
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">

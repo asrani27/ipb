@@ -22,6 +22,7 @@
                 <dd><strong>PROGRAM :</strong> {{$program->nama}}</dd>
                 <dd><strong>KEGIATAN :</strong> {{$kegiatan->nama}}</dd>
                 <dd><strong>SUB KEGIATAN :</strong> {{$subkegiatan->nama}}</dd>
+                <dd><strong>JENIS RFK :</strong> {{$jenisrfk}}</dd>
                 </dl>
             </div>
             <!-- /.box-body -->

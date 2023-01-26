@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisRfk;
 use App\Models\T_pptk;
 use App\Models\Uraian;
 use App\Models\Program;
@@ -69,8 +70,10 @@ class BidangLaporanRFKController extends Controller
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
-        return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
     public function input($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
@@ -95,7 +98,9 @@ class BidangLaporanRFKController extends Controller
             $pptk = $checkPptk;
         }
 
-        return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk', 'jenisrfk'));
     }
     public function storeInput(Request $req)
     {
@@ -118,7 +123,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_pbj', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_pbj', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
     public function st($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -131,7 +138,9 @@ class BidangLaporanRFKController extends Controller
 
         $st = T_st::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st', 'jenisrfk'));
     }
     public function storeSt(Request $req)
     {
@@ -154,7 +163,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
     public function v($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -165,7 +176,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_v', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_v', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
     public function fiskeu($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
@@ -221,7 +234,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
 
@@ -303,7 +318,9 @@ class BidangLaporanRFKController extends Controller
             return back();
         }
 
-        return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
 
@@ -378,6 +395,8 @@ class BidangLaporanRFKController extends Controller
             return $item;
         });
 
-        return view('bidang.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan'));
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        return view('bidang.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 }

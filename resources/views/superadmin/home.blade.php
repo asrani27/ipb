@@ -7,7 +7,7 @@
     <img src="/logo/pemko.png" width="80px">
 <h3>Selamat Datang di <br/>Aplikasi Realisasi Fisik Dan Keuangan </h3>
 </div>
-<div class="row">
+{{-- <div class="row">
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-aqua">
@@ -68,7 +68,7 @@
       </div>
     </div>
     <!-- ./col -->
-  </div>
+</div> --}}
 @endsection
 @push('js')
 
