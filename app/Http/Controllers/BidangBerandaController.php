@@ -18,7 +18,7 @@ class BidangBerandaController extends Controller
         $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
+        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->count();
 
         $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->get();
 
@@ -41,14 +41,6 @@ class BidangBerandaController extends Controller
 
     public function uraian()
     {
-        $data = null;
-
-        $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
-
-
         //status rfk
         $status = statusRFK();
         if ($status == 'murni') {
@@ -56,6 +48,14 @@ class BidangBerandaController extends Controller
         } elseif ($status == 'perubahan') {
             $result = 99;
         }
+
+        $data = null;
+
+        $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
+        $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->count();
+
 
         $uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->get();
         $uraian->map(function ($item) {
