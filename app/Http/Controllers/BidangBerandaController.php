@@ -25,10 +25,9 @@ class BidangBerandaController extends Controller
         $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->count();
+        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
 
-        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->get();
-
+        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
 
         $subkegiatan->map(function ($item) use ($result) {
             $item->uraian = $item->uraian->where('status', $result);
@@ -53,11 +52,11 @@ class BidangBerandaController extends Controller
 
         $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->count();
+        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
+        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
 
 
-        $uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->get();
+        $uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
         $uraian->map(function ($item) {
             $item->angkas = $item->p_januari_keuangan + $item->p_februari_keuangan + $item->p_maret_keuangan + $item->p_april_keuangan + $item->p_mei_keuangan + $item->p_juni_keuangan + $item->p_juli_keuangan + $item->p_agustus_keuangan + $item->p_september_keuangan + $item->p_oktober_keuangan + $item->p_november_keuangan + $item->p_desember_keuangan;
             return $item;
