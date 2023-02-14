@@ -37,8 +37,16 @@
                   <td>{{number_format($item->angkas)}}</td>
               </tr>
               @endforeach
-              
-            </tbody></table>
+              <tfoot>
+                <tr>
+                    <td></td>
+                    <td>Total</td>
+                    <td>{{number_format($data->sum('dpa'))}}</td>
+                    <td>{{number_format($data->sum('angkas'))}}</td>
+                </tr>
+              </tfoot>
+              </tbody>
+            </table>
           </div>
           <!-- /.box-body -->
       </div>

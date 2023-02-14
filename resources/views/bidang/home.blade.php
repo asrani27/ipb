@@ -140,7 +140,16 @@
               </tr>
               @endforeach
               
-            </tbody></table>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td>TOTAL</td>
+                  <td>{{number_format($subkegiatan->sum('totalsubkegiatan'))}}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
           <!-- /.box-body -->
       </div>
