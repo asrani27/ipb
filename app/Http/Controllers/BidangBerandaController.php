@@ -64,4 +64,17 @@ class BidangBerandaController extends Controller
         });
         return view('bidang.home_uraian', compact('data', 't_program', 't_kegiatan', 't_subkegiatan', 't_uraian', 'uraian'));
     }
+
+    public function angkas($id)
+    {
+        $uraian = Uraian::find($id);
+
+        return redirect('/bidang/program/angkas/' . $uraian->program_id . '/' . $uraian->kegiatan_id . '/' . $uraian->subkegiatan_id . '/' . $uraian->id);
+    }
+
+    public function realisasi($id)
+    {
+        $subkegiatan = Subkegiatan::find($id);
+        return redirect('/bidang/realisasi/' . $subkegiatan->tahun . '/' . $subkegiatan->program_id . '/' . $subkegiatan->kegiatan_id . '/' . $subkegiatan->id);
+    }
 }

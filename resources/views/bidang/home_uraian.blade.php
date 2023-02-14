@@ -122,8 +122,9 @@
               <tr>
                 <th class="text-center">No</th>
                 <th>Uraian Kegiatan</th>
-                <th>DPA</th>
-                <th>Total Angkas (12 bulan)</th>
+                <th style="text-align: right">DPA</th>
+                <th style="text-align: right">Total Angkas (12 bulan)</th>
+                <th></th>
               </tr>
               @php
                   $no =1;
@@ -136,8 +137,11 @@
               @endif
                   <td class="text-center">{{$no++}}</td>
                   <td>{{$item->nama}}</td>
-                  <td>{{number_format($item->dpa)}}</td>
-                  <td>{{number_format($item->angkas)}}</td>
+                  <td style="text-align: right">{{number_format($item->dpa)}}</td>
+                  <td style="text-align: right">{{number_format($item->angkas)}}</td>
+                  <td style="text-align: right">
+                    <a href="/bidang/beranda/uraian/angkas/{{$item->id}}" class="btn btn-xs btn-flat bg-purple">Angkas</a>
+                  </td>
               </tr>
               @endforeach
               
@@ -146,8 +150,9 @@
                 <tr>
                   <td></td>
                   <td>TOTAL</td>
-                  <td>{{number_format($uraian->sum('dpa'))}}</td>
-                  <td>{{number_format($uraian->sum('angkas'))}}</td>
+                  <td style="text-align: right">{{number_format($uraian->sum('dpa'))}}</td>
+                  <td style="text-align: right">{{number_format($uraian->sum('angkas'))}}</td>
+                  <td></td>
                 </tr>
               </tfoot>
             </table>

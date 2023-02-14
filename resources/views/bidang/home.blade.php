@@ -122,7 +122,7 @@
               <tr>
                 <th class="text-center">No</th>
                 <th>Subkegiatan</th>
-                <th>Total</th>
+                <th style="text-align: right">Total</th>
                 <th></th>
               </tr>
               @php
@@ -132,11 +132,12 @@
               <tr>
                   <td class="text-center">{{$no++}}</td>
                   <td>{{$item->nama}}</td>
-                  <td>{{number_format($item->totalsubkegiatan)}}</td>
+                  <td style="text-align: right">{{number_format($item->totalsubkegiatan)}}</td>
       
-                  <td width="15%">
+                  <td width="15%" style="text-align: right">
                       <a href="/bidang/detail/subkegiatan/{{$item->id}}"
                           class="btn btn-xs btn-flat btn-success"><i class="fa fa-list"></i> Detail</a>
+                      <a href="/bidang/beranda/realisasi/{{$item->id}}" class="btn btn-xs btn-flat bg-purple">Realisasi</a>
                           
                   </td>
               </tr>
@@ -147,7 +148,7 @@
                 <tr>
                   <td></td>
                   <td>TOTAL</td>
-                  <td>{{number_format($subkegiatan->sum('totalsubkegiatan'))}}</td>
+                  <td style="text-align: right">{{number_format($subkegiatan->sum('totalsubkegiatan'))}}</td>
                   <td></td>
                 </tr>
               </tfoot>
