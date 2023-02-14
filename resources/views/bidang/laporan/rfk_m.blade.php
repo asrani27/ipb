@@ -45,11 +45,40 @@
         <!-- Block buttons -->
         <div class="box">
           <div class="box-body">
-            M DALAM PENGEMBANGAN
+            <table class="table table-bordered table-condensed">
+              <tbody>
+              <tr style="font-size:10px;" class="bg-purple">
+                <th style="width: 10px">No</th>
+                <th>URAIAN KEGIATAN</th>
+                <th>PERMASALAHAN</th>
+                <th>UPAYA PEMECAHAN MASALAH</th>
+                <th>PIHAK YANG DIHARAPKAN DAPAT MEMBANTU PENYELESAIAN MASALAH</th>
+                
+                <th></th>
+              </tr>
+              @if ($m->count() != 0)
+                  
+              @foreach ($m as $key => $item)
+                  
+              <tr style="font-size:10px;">
+                <td style="width: 10px">{{$key + 1}}</td>
+                <td>{{$item->deskripsi}}</td>
+                <td>{{$item->permasalahan}}</td>
+                <td>{{$item->upaya}}</td>
+                <td>{{$item->pihak_pembantu}}</td>
+                <td>
+                  <a href="/bidang/laporanrfk-rfk_m/edit/{{$item->id}}"><i class="fa fa-edit"></i></a>
+                  <a href="/bidang/laporanrfk-rfk_m/delete/{{$item->id}}" onclick="return confirm('Yakin Ingin Di Hapus?');"><i class="fa fa-trash"></i></a>
+                </td>
+              </tr>
+              @endforeach
+              @endif
+              </tbody>
+            </table>
           </div>
         </div>
+        <a href="/bidang/laporanrfk-rfk_m/tambah-m/{{$subkegiatan->id}}/{{$bulan}}" class='btn btn-flat btn-block bg-purple'>TAMBAH</a>
       </div>
-      
     </div>
 </section>
 

@@ -7,6 +7,7 @@ use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
 use App\Models\LogBukaTutup;
+use App\Models\M_akun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -41,7 +42,8 @@ class BidangUraianController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.uraian.create', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id'));
+        $akun = M_akun::get();
+        return view('bidang.uraian.create', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id', 'akun'));
     }
 
     public function edit($program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
@@ -50,11 +52,14 @@ class BidangUraianController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
         $data = Uraian::find($uraian_id);
-        return view('bidang.uraian.edit', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id', 'data', 'uraian_id'));
+        $akun = M_akun::get();
+        return view('bidang.uraian.edit', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id', 'data', 'uraian_id', 'akun'));
     }
 
     public function store(Request $req, $program_id, $kegiatan_id, $subkegiatan_id)
     {
+        $rekening_belanja   = M_akun::find($req->kode_akun);
+
         $n                  = new Uraian;
         $n->skpd_id         = Auth::user()->bidang->skpd_id;
         $n->bidang_id       = Auth::user()->bidang->id;
@@ -62,8 +67,9 @@ class BidangUraianController extends Controller
         $n->tahun           = Program::find($program_id)->tahun;
         $n->kegiatan_id     = $kegiatan_id;
         $n->subkegiatan_id  = $subkegiatan_id;
-        $n->kode_rekening   = $req->kode_rekening;
-        $n->nama            = $req->nama;
+        $n->m_akun_id       = $rekening_belanja->id;
+        $n->kode_rekening   = $rekening_belanja->kode_akun;
+        $n->nama            = $rekening_belanja->nama_akun;
         $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
@@ -72,9 +78,11 @@ class BidangUraianController extends Controller
 
     public function update(Request $req, $program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
     {
+        $rekening_belanja   = M_akun::find($req->kode_akun);
         $n = Uraian::find($uraian_id);
-        $n->kode_rekening = $req->kode_rekening;
-        $n->nama = $req->nama;
+        $n->m_akun_id       = $rekening_belanja->id;
+        $n->kode_rekening   = $rekening_belanja->kode_akun;
+        $n->nama            = $rekening_belanja->nama_akun;
         $n->dpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Update');

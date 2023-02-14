@@ -141,8 +141,27 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/fiskeu', [BidangLaporanRFKController::class, 'fiskeu']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/input', [BidangLaporanRFKController::class, 'input']);
         Route::post('laporanrfk/rfk_input', [BidangLaporanRFKController::class, 'storeInput']);
-        Route::post('laporanrfk/rfk_st', [BidangLaporanRFKController::class, 'storeSt']);
+        //Route::post('laporanrfk/rfk_st', [BidangLaporanRFKController::class, 'storeSt']);
         Route::get('laporanrfk-rfk_st/delete/{id}', [BidangLaporanRFKController::class, 'deleteSt']);
+        Route::get('laporanrfk-rfk_st/edit/{id}', [BidangLaporanRFKController::class, 'editSt']);
+        Route::post('laporanrfk-rfk_st/edit/{id}', [BidangLaporanRFKController::class, 'updateSt']);
+        Route::get('laporanrfk-rfk_st/tambah-st/{id}/{bulan}', [BidangLaporanRFKController::class, 'tambahSt']);
+        Route::post('laporanrfk-rfk_st/tambah-st/{id}/{bulan}', [BidangLaporanRFKController::class, 'storeSt']);
+
+        Route::get('laporanrfk-rfk_m/delete/{id}', [BidangLaporanRFKController::class, 'deleteM']);
+        Route::get('laporanrfk-rfk_m/edit/{id}', [BidangLaporanRFKController::class, 'editM']);
+        Route::post('laporanrfk-rfk_m/edit/{id}', [BidangLaporanRFKController::class, 'updateM']);
+        Route::get('laporanrfk-rfk_m/tambah-m/{id}/{bulan}', [BidangLaporanRFKController::class, 'tambahM']);
+        Route::post('laporanrfk-rfk_m/tambah-m/{id}/{bulan}', [BidangLaporanRFKController::class, 'storeM']);
+
+        Route::get('laporanrfk-rfk_pbj/tambah-pbj/{id}/{bulan}', [BidangLaporanRFKController::class, 'tambahPbj']);
+        Route::post('laporanrfk-rfk_pbj/tambah-pbj/{id}/{bulan}', [BidangLaporanRFKController::class, 'storePbj']);
+        Route::get('laporanrfk-rfk_pbj/delete/{id}', [BidangLaporanRFKController::class, 'deletePbj']);
+        Route::get('laporanrfk-rfk_pbj/edit/{id}', [BidangLaporanRFKController::class, 'editPbj']);
+        Route::post('laporanrfk-rfk_pbj/edit/{id}', [BidangLaporanRFKController::class, 'updatePbj']);
+
+        Route::get('laporanrfk-rfk_v/delete/{id}', [BidangLaporanRFKController::class, 'deleteV']);
+        Route::post('laporanrfk-rfk_v/tambah-v/{id}/{bulan}', [BidangLaporanRFKController::class, 'storeV']);
 
         Route::get('program/kegiatan/{id}', [BidangKegiatanController::class, 'index']);
         Route::get('program/kegiatan/{id}/add', [BidangKegiatanController::class, 'create']);

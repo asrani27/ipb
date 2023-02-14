@@ -24,13 +24,24 @@
                     <div class="form-group">
                       <label for="inputEmail3" class="col-sm-2 control-label">Kode Rekening</label>
                       <div class="col-sm-10">
-                        <input type="text" name="kode_rekening" value="{{$data->kode_rekening}}" class='form-control'>
+                        <select class="form-control select2" name="kode_akun">
+                          <option value="">-pilih-</option>
+                          @foreach ($akun as $item)
+                              <option value="{{$item->id}}" {{$data->m_akun_id === $item->id ? 'selected':''}}>{{$item->kode_akun}} - {{$item->nama_akun}}</option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="inputEmail3" class="col-sm-2 control-label">Uraian Kegiatan</label>
+                      <label for="inputEmail3" class="col-sm-2 control-label">Kode Rekening (fitur disable)</label>
                       <div class="col-sm-10">
-                        <textarea name="nama" rows="3" required class="form-control">{{$data->nama}}</textarea>
+                        <input type="text" name="kode_rekening" value="{{$data->kode_rekening}}" class='form-control' readonly>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Uraian Kegiatan (fitur disable)</label>
+                      <div class="col-sm-10">
+                        <textarea name="nama" rows="3" required class="form-control" readonly>{{$data->nama}}</textarea>
                         
                       </div>
                     </div>

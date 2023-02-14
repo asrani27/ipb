@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('css')
-    
+<link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
 @endpush
 @section('content')
 <section class="content">
@@ -23,17 +23,21 @@
                   <div class="box-body">
                     <div class="form-group">
                       <label for="inputEmail3" class="col-sm-2 control-label">Kode Rekening</label>
-                      <div class="col-sm-10">
-                        <input type="text" name="kode_rekening" class='form-control'>
+                      <div class="col-sm-12">
+                        <select class="form-control selet2" name="kode_akun">
+                          @foreach ($akun as $item)
+                              <option value="{{$item->id}}">{{$item->nama}}</option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                       <label for="inputEmail3" class="col-sm-2 control-label">Uraian Kegiatan</label>
                       <div class="col-sm-10">
                         <textarea name="nama" rows="3" required class="form-control"></textarea>
                         
                       </div>
-                    </div>
+                    </div> --}}
                     
                     <div class="form-group">
                       <label for="inputEmail3" class="col-sm-2 control-label">DPA</label>
@@ -59,7 +63,12 @@
 
 @endsection
 @push('js')
+<script src="/assets/bower_components/select2/dist/js/select2.full.min.js"></script>
 <script>
+    $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    })
   var rupiah = document.getElementById("rupiah");
   rupiah.addEventListener("keyup", function(e) {
   rupiah.value = formatRupiah(this.value, "Rp. ");

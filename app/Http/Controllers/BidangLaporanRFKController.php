@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JenisRfk;
+use App\Models\T_m;
+use App\Models\T_st;
 use App\Models\T_pptk;
 use App\Models\Uraian;
 use App\Models\Program;
+use App\Models\JenisRfk;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
-use App\Models\T_st;
+use App\Models\T_pbj;
+use App\Models\T_v;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class BidangLaporanRFKController extends Controller
 {
@@ -20,6 +24,18 @@ class BidangLaporanRFKController extends Controller
         return view('bidang.laporan.index');
     }
 
+    public function tambahSt($id, $bulan)
+    {
+        return view('bidang.laporan.st.create', compact('id', 'bulan'));
+    }
+    public function tambahM($id, $bulan)
+    {
+        return view('bidang.laporan.m.create', compact('id', 'bulan'));
+    }
+    public function tambahPbj($id, $bulan)
+    {
+        return view('bidang.laporan.pbj.create', compact('id', 'bulan'));
+    }
     public function tahun($tahun)
     {
         return view('bidang.laporan.bulan', compact('tahun'));
@@ -127,7 +143,10 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        return view('bidang.laporan.rfk_pbj', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+
+        $pbj = T_pbj::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
+
+        return view('bidang.laporan.rfk_pbj', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'pbj'));
     }
 
     public function st($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -144,13 +163,116 @@ class BidangLaporanRFKController extends Controller
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st', 'jenisrfk'));
     }
-    public function storeSt(Request $req)
+
+    public function editSt($id)
     {
-        T_st::create($req->all());
+        $data = T_st::find($id);
+
+        return view('bidang.laporan.st.edit', compact('data'));
+    }
+
+    public function updateSt(Request $req, $id)
+    {
+        T_st::find($id)->update($req->all());
+        $data = T_st::find($id);
+
         Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $data->tahun . '/' . $data->bulan . '/' . $data->program_id . '/' . $data->kegiatan_id . '/' . $data->subkegiatan_id . '/st');
+    }
+
+    public function storeSt(Request $req, $id, $bulan)
+    {
+        $subkegiatan = Subkegiatan::find($id);
+
+        $param = $req->all();
+        $param['tahun'] = $subkegiatan->tahun;
+        $param['bulan'] = $bulan;
+        $param['program_id'] = $subkegiatan->program_id;
+        $param['kegiatan_id'] = $subkegiatan->kegiatan_id;
+        $param['subkegiatan_id'] = $subkegiatan->id;
+
+        T_st::create($param);
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $subkegiatan->tahun . '/' . $bulan . '/' . $subkegiatan->program_id . '/' . $subkegiatan->kegiatan_id . '/' . $subkegiatan->id . '/st');
+        //return back();
+    }
+
+    public function storeM(Request $req, $id, $bulan)
+    {
+        $subkegiatan = Subkegiatan::find($id);
+
+        $param = $req->all();
+        $param['tahun'] = $subkegiatan->tahun;
+        $param['bulan'] = $bulan;
+        $param['program_id'] = $subkegiatan->program_id;
+        $param['kegiatan_id'] = $subkegiatan->kegiatan_id;
+        $param['subkegiatan_id'] = $subkegiatan->id;
+
+        T_m::create($param);
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $subkegiatan->tahun . '/' . $bulan . '/' . $subkegiatan->program_id . '/' . $subkegiatan->kegiatan_id . '/' . $subkegiatan->id . '/m');
+        //return back();
+    }
+    public function storePbj(Request $req, $id, $bulan)
+    {
+        $subkegiatan = Subkegiatan::find($id);
+
+        $param = $req->all();
+        $param['tahun'] = $subkegiatan->tahun;
+        $param['bulan'] = $bulan;
+        $param['program_id'] = $subkegiatan->program_id;
+        $param['kegiatan_id'] = $subkegiatan->kegiatan_id;
+        $param['subkegiatan_id'] = $subkegiatan->id;
+
+        T_pbj::create($param);
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $subkegiatan->tahun . '/' . $bulan . '/' . $subkegiatan->program_id . '/' . $subkegiatan->kegiatan_id . '/' . $subkegiatan->id . '/pbj');
+        //return back();
+    }
+
+    public function editM($id)
+    {
+        $data = T_m::find($id);
+
+        return view('bidang.laporan.m.edit', compact('data'));
+    }
+
+    public function updateM(Request $req, $id)
+    {
+        T_m::find($id)->update($req->all());
+        $data = T_m::find($id);
+
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $data->tahun . '/' . $data->bulan . '/' . $data->program_id . '/' . $data->kegiatan_id . '/' . $data->subkegiatan_id . '/m');
+    }
+    public function deleteM($id)
+    {
+        T_m::find($id)->delete();
+        Session::flash('success', 'Berhasil Di Hapus');
         return back();
     }
 
+    public function editPbj($id)
+    {
+        $data = T_pbj::find($id);
+
+        return view('bidang.laporan.pbj.edit', compact('data'));
+    }
+
+    public function updatePbj(Request $req, $id)
+    {
+        T_pbj::find($id)->update($req->all());
+        $data = T_pbj::find($id);
+
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $data->tahun . '/' . $data->bulan . '/' . $data->program_id . '/' . $data->kegiatan_id . '/' . $data->subkegiatan_id . '/pbj');
+    }
+    public function deletePbj($id)
+    {
+        T_pbj::find($id)->delete();
+        Session::flash('success', 'Berhasil Di Hapus');
+        return back();
+    }
     public function deleteSt($id)
     {
         T_st::find($id)->delete();
@@ -167,7 +289,10 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        return view('bidang.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+
+        $m = T_m::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
+
+        return view('bidang.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'm'));
     }
 
     public function v($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -180,8 +305,56 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        return view('bidang.laporan.rfk_v', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+
+        $v = T_v::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
+
+        return view('bidang.laporan.rfk_v', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'v'));
     }
+
+    public function storeV(Request $req, $id, $bulan)
+    {
+        $subkegiatan = Subkegiatan::find($id);
+
+        $validator = Validator::make($req->all(), [
+            'file'  => 'mimes:jpg,png,jpeg,bmp|max:10240',
+        ]);
+
+        if ($validator->fails()) {
+            $req->flash();
+            Session::flash('error', 'File Harus Gambar');
+            return back();
+        }
+
+        if ($req->file == null) {
+            $filename = null;
+        } else {
+            $extension = $req->file->getClientOriginalExtension();
+            $filename = uniqid() . '.' . $extension;
+            $image = $req->file('file');
+            $realPath = public_path('storage') . '/visual';
+            $image->move($realPath, $filename);
+        }
+
+        $param['file']  = $filename;
+        $param['tahun'] = $subkegiatan->tahun;
+        $param['bulan'] = $bulan;
+        $param['program_id'] = $subkegiatan->program_id;
+        $param['kegiatan_id'] = $subkegiatan->kegiatan_id;
+        $param['subkegiatan_id'] = $subkegiatan->id;
+
+        T_v::create($param);
+        Session::flash('success', 'Berhasil Di Simpan');
+        return redirect('/bidang/laporanrfk/' . $subkegiatan->tahun . '/' . $bulan . '/' . $subkegiatan->program_id . '/' . $subkegiatan->kegiatan_id . '/' . $subkegiatan->id . '/v');
+        //return back();
+    }
+
+    public function deleteV($id)
+    {
+        T_v::find($id)->delete();
+        Session::flash('success', 'Berhasil Di Hapus');
+        return back();
+    }
+
     public function fiskeu($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $nama_bulan = namaBulan($bulan);
