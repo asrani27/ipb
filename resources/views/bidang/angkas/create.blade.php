@@ -34,7 +34,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Januari</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_januari_keuangan, 0, ',', '.')}}" name="januari_keuangan" onkeyup="formatInput(this)" id="nilaijanuari">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_januari_keuangan, 0, ',', '.')}}" name="januari_keuangan" oninput="formatInput(this)" id="nilaijanuari">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_januari_fisik}}" name="januari_fisik" id="fisikjanuari">
@@ -43,7 +43,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Februari</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_februari_keuangan, 0, ',', '.')}}" name="februari_keuangan" onkeyup="formatInput(this)" id="nilaifebruari">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_februari_keuangan, 0, ',', '.')}}" name="februari_keuangan" oninput="formatInput(this)" id="nilaifebruari">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_februari_fisik}}" name="februari_fisik"  id="fisikfebruari">
@@ -52,7 +52,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Maret</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_maret_keuangan, 0, ',', '.')}}" name="maret_keuangan" onkeyup="formatInput(this)" id="nilaimaret">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_maret_keuangan, 0, ',', '.')}}" name="maret_keuangan" oninput="formatInput(this)" id="nilaimaret">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_maret_fisik}}" name="maret_fisik"  id="fisikmaret">
@@ -61,7 +61,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">April</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_april_keuangan, 0, ',', '.')}}" name="april_keuangan" onkeyup="formatInput(this)" id="nilaiapril">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_april_keuangan, 0, ',', '.')}}" name="april_keuangan" oninput="formatInput(this)" id="nilaiapril">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_april_fisik}}" name="april_fisik"  id="fisikapril">
@@ -70,7 +70,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Mei</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_mei_keuangan, 0, ',', '.')}}" name="mei_keuangan" onkeyup="formatInput(this)" id="nilaimei">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_mei_keuangan, 0, ',', '.')}}" name="mei_keuangan" oninput="formatInput(this)" id="nilaimei">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_mei_fisik}}" name="mei_fisik"  id="fisikmei">
@@ -79,7 +79,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Juni</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_juni_keuangan, 0, ',', '.')}}" name="juni_keuangan" onkeyup="formatInput(this)" id="nilaijuni">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_juni_keuangan, 0, ',', '.')}}" name="juni_keuangan" oninput="formatInput(this)" id="nilaijuni">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_juni_fisik}}" name="juni_fisik"  id="fisikjuni">
@@ -88,7 +88,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Juli</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{number_format($uraian->p_juli_keuangan, 0, ',', '.')}}" name="juli_keuangan" onkeyup="formatInput(this)" id="nilaijuli">
+                        <input type="text" class="form-control" value="{{number_format($uraian->p_juli_keuangan, 0, ',', '.')}}" name="juli_keuangan" oninput="formatInput(this)" id="nilaijuli">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_juli_fisik}}" name="juli_fisik"  id="fisikjuli">
@@ -97,7 +97,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Agustus</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="agustus_keuangan" value="{{number_format($uraian->p_agustus_keuangan, 0, ',', '.')}}" onkeyup="formatInput(this)" id="nilaiagustus">
+                        <input type="text" class="form-control" name="agustus_keuangan" value="{{number_format($uraian->p_agustus_keuangan, 0, ',', '.')}}" oninput="formatInput(this)" id="nilaiagustus">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_agustus_fisik}}" name="agustus_fisik"  id="fisikagustus">
@@ -106,7 +106,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">September</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="september_keuangan" value="{{number_format($uraian->p_september_keuangan, 0, ',', '.')}}"  onkeyup="formatInput(this)" id="nilaiseptember">
+                        <input type="text" class="form-control" name="september_keuangan" value="{{number_format($uraian->p_september_keuangan, 0, ',', '.')}}"  oninput="formatInput(this)" id="nilaiseptember">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_september_fisik}}" name="september_fisik"  id="fisikseptember">
@@ -115,7 +115,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Oktober</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="oktober_keuangan" value="{{number_format($uraian->p_oktober_keuangan, 0, ',', '.')}}"   onkeyup="formatInput(this)" id="nilaioktober">
+                        <input type="text" class="form-control" name="oktober_keuangan" value="{{number_format($uraian->p_oktober_keuangan, 0, ',', '.')}}"   oninput="formatInput(this)" id="nilaioktober">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_oktober_fisik}}" name="oktober_fisik"  id="fisikoktober">
@@ -124,7 +124,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">November</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="november_keuangan" value="{{number_format($uraian->p_november_keuangan, 0, ',', '.')}}"  onkeyup="formatInput(this)" id="nilainovember">
+                        <input type="text" class="form-control" name="november_keuangan" value="{{number_format($uraian->p_november_keuangan, 0, ',', '.')}}"  oninput="formatInput(this)" id="nilainovember">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_november_fisik}}" name="november_fisik"  id="fisiknovember">
@@ -133,7 +133,7 @@
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Desember</label>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" name="desember_keuangan" value="{{number_format($uraian->p_desember_keuangan, 0, ',', '.')}}" onkeyup="formatInput(this)" id="nilaidesember">
+                        <input type="text" class="form-control" name="desember_keuangan" value="{{number_format($uraian->p_desember_keuangan, 0, ',', '.')}}" oninput="formatInput(this)" id="nilaidesember">
                       </div>
                       <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{$uraian->p_desember_fisik}}" name="desember_fisik"  id="fisikdesember">
@@ -142,9 +142,12 @@
                     
                     <div class="form-group">
                       <label class="col-sm-2 control-label">SISA DPA</label>
-                      <div class="col-sm-10">
+                      <div class="col-sm-5">
                         <input type="text" class="form-control" value="{{number_format($uraian->dpa, 0, ',', '.')}}" name="sisa_dpa" readonly id="sisa_dpa">
                         Pastikan sisa DPA 0
+                      </div>
+                      <div class="col-sm-5">
+                        <input type="text" class="form-control" value="" name="total_persen"  id="total_persen" readonly>
                       </div>
                     </div>
                   </div>
@@ -176,10 +179,21 @@
       const numberValue = Number(stringValue.replace(/\./g, '').replace(/,/g, ''))
       total += numberValue
     })
+    
+    let totalFisik = 0
+    inputs.map(bulan => {
+      const prefix = "fisik"
+      let stringFisik = document.getElementById(`${prefix}${bulan}`)?.value || "0"
+      const numberValue = Number(stringFisik)
+      // console.log(`${bulan}:`, numberValue);
+      totalFisik += numberValue
+    })
 
     const result = sisadpa - total
-    
+    const stringTotalFisik = String(totalFisik.toFixed(2))
+
     document.getElementById("sisa_dpa").value = result;
+    document.getElementById("total_persen").value = stringTotalFisik;
     
 });
 </script>
@@ -200,8 +214,8 @@
 
     el.value = formatRupiah(usedValue)
 
-    hitungSisa()
     hitungFisik(el)
+    hitungSisa()
   }
 
   const hitungFisik = (el) => {
@@ -219,18 +233,27 @@
 
     const inputs = ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september", "oktober", "november", "desember"];
     let total = 0
+    let totalFisik = 0
     inputs.map(bulan => {
       const prefix = "nilai"
       let stringValue = document.getElementById(`${prefix}${bulan}`)?.value || "0"
       const numberValue = Number(stringValue.replace(/\./g, '').replace(/,/g, ''))
-      console.log(stringValue+'asd')
+      
       total += numberValue
+    })
+    inputs.map(bulan => {
+      const prefix = "fisik"
+      let stringFisik = document.getElementById(`${prefix}${bulan}`)?.value || "0"
+      const numberValue = Number(stringFisik)
+      // console.log(`${bulan}:`, numberValue);
+      totalFisik += numberValue
     })
 
     const result = sisadpa - total
-    console.log("sisadpa:", sisadpa)
-    console.log("total:", total)
-    console.log("result:", result)
+    // console.log("sisadpa:", sisadpa)
+    // console.log("total:", total)
+    // console.log("result:", result)
+    // console.log("totalFisik:", totalFisik)
     // const isBelowZero = result < 0
     // if (isBelowZero) {
     //   alert("Tidak boleh melebihi sisa dpa")
@@ -243,6 +266,10 @@
     }else{
       document.getElementById("sisa_dpa").value = formatRupiah(stringResult)
     }
+
+    const stringTotalFisik = String(totalFisik.toFixed(2))
+    console.log({stringTotalFisik});
+    document.getElementById("total_persen").value = stringTotalFisik
   }
 
 /* Fungsi formatRupiah */

@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminKrkController;
 use App\Http\Controllers\AdminBidangController;
 use App\Http\Controllers\TpermohonanController;
 use App\Http\Controllers\AdminBerandaController;
+use App\Http\Controllers\AdminPeriodeController;
 use App\Http\Controllers\BidangAngkasController;
 use App\Http\Controllers\BidangUraianController;
 use App\Http\Controllers\LupaPasswordController;
@@ -54,6 +55,13 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
+        Route::get('perioderfk', [AdminPeriodeController::class, 'index']);
+        Route::get('perioderfk/add', [AdminPeriodeController::class, 'create']);
+        Route::post('perioderfk/add', [AdminPeriodeController::class, 'store']);
+        Route::get('perioderfk/edit/{id}', [AdminPeriodeController::class, 'edit']);
+        Route::post('perioderfk/edit/{id}', [AdminPeriodeController::class, 'update']);
+        Route::get('perioderfk/delete/{id}', [AdminPeriodeController::class, 'delete']);
+
         Route::get('beranda', [AdminBerandaController::class, 'index']);
 
         Route::get('beranda/murni/buka', [AdminBerandaController::class, 'bukaMurni']);
@@ -85,6 +93,8 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
     Route::prefix('bidang')->group(function () {
         Route::get('beranda', [BidangBerandaController::class, 'index']);
         Route::get('beranda/tahun', [PencarianController::class, 'bTahun']);
+
+        Route::get('detail/subkegiatan/{id}', [BidangSubkegiatanController::class, 'detailSubKegiatan']);
 
         //-------------------route perubahan--------------------------//
         Route::get('perubahan/program', [BidangPerubahanController::class, 'program']);

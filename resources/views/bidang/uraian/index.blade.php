@@ -50,8 +50,17 @@
                         </td>
                     </tr>
                     @endforeach
-                    
-                  </tbody></table>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{number_format($data->sum('dpa'))}}</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
                 <!-- /.box-body -->
               </div>

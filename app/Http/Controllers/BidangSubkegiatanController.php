@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
+use App\Models\Uraian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +20,26 @@ class BidangSubkegiatanController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         return view('bidang.subkegiatan.index', compact('data', 'program', 'kegiatan', 'program_id', 'kegiatan_id'));
     }
+
+    public function detailSubKegiatan($id)
+    {
+        //status rfk
+        $status = statusRFK();
+        if ($status == 'murni') {
+            $result = null;
+        } elseif ($status == 'perubahan') {
+            $result = 99;
+        }
+
+        $data = Uraian::where('subkegiatan_id', $id)->where('status', $result)->get();
+        $data->map(function ($item) {
+            $item->angkas = $item->p_januari_keuangan + $item->p_februari_keuangan + $item->p_maret_keuangan + $item->p_april_keuangan + $item->p_mei_keuangan + $item->p_juni_keuangan + $item->p_juli_keuangan + $item->p_agustus_keuangan + $item->p_september_keuangan + $item->p_oktober_keuangan + $item->p_november_keuangan + $item->p_desember_keuangan;
+            return $item;
+        });
+        $subkegiatan = Subkegiatan::find($id);
+        return view('bidang.detailuraian', compact('data', 'subkegiatan'));
+    }
+
 
     public function create($program_id, $kegiatan_id)
     {

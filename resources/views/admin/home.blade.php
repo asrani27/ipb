@@ -45,7 +45,7 @@
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>53</h3>
+          <h3>{{$t_program}}</h3>
 
           <p>TOTAL PROGRAM</p>
         </div>
@@ -60,7 +60,7 @@
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>44</h3>
+          <h3>{{$t_program}}</h3>
 
           <p>TOTAL KEGIATAN</p>
         </div>
@@ -75,7 +75,7 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{$t_program}}</h3>
 
           <p>TOTAL SUB KEGIATAN</p>
         </div>
