@@ -24,7 +24,7 @@ class BidangBerandaController extends Controller
 
         $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
         $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
         $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
 
         $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
