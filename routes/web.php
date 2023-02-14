@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 Route::group(['middleware' => ['auth', 'role:bidang']], function () {
     Route::prefix('bidang')->group(function () {
         Route::get('beranda', [BidangBerandaController::class, 'index']);
+        Route::get('beranda/uraian', [BidangBerandaController::class, 'uraian']);
         Route::get('beranda/tahun', [PencarianController::class, 'bTahun']);
 
         Route::get('detail/subkegiatan/{id}', [BidangSubkegiatanController::class, 'detailSubKegiatan']);

@@ -113,7 +113,7 @@
       <a href="/bidang/beranda/uraian" class="btn btn-primary btn-flat">Uraian Kegiatan</a><br/><br/>
       <div class="box box-primary">
           <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Sub Kegiatan, Tahun : 
+            <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Uraian Kegiatan, Tahun : 
               <strong>{{\Carbon\Carbon::today()->format('Y')}}</strong></h3>
           </div>
           <div class="box-body table-responsive no-padding text-sm">
@@ -121,24 +121,23 @@
               <tbody>
               <tr>
                 <th class="text-center">No</th>
-                <th>Subkegiatan</th>
-                <th>Total</th>
-                <th></th>
+                <th>Uraian Kegiatan</th>
+                <th>DPA</th>
+                <th>Total Angkas (12 bulan)</th>
               </tr>
               @php
                   $no =1;
               @endphp
-              @foreach ($subkegiatan as $key => $item)
+              @foreach ($uraian as $key => $item)
+              @if ($item->dpa != $item->angkas)
+              <tr style="background-color: rgba(251, 225, 225, 0.705)">
+              @else
               <tr>
+              @endif
                   <td class="text-center">{{$no++}}</td>
                   <td>{{$item->nama}}</td>
-                  <td>{{number_format($item->totalsubkegiatan)}}</td>
-      
-                  <td width="15%">
-                      <a href="/bidang/detail/subkegiatan/{{$item->id}}"
-                          class="btn btn-xs btn-flat btn-success"><i class="fa fa-list"></i> Detail</a>
-                          
-                  </td>
+                  <td>{{number_format($item->dpa)}}</td>
+                  <td>{{number_format($item->angkas)}}</td>
               </tr>
               @endforeach
               
@@ -147,8 +146,8 @@
                 <tr>
                   <td></td>
                   <td>TOTAL</td>
-                  <td>{{number_format($subkegiatan->sum('totalsubkegiatan'))}}</td>
-                  <td></td>
+                  <td>{{number_format($uraian->sum('dpa'))}}</td>
+                  <td>{{number_format($uraian->sum('angkas'))}}</td>
                 </tr>
               </tfoot>
             </table>
