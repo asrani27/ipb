@@ -13,6 +13,13 @@ class BidangBerandaController extends Controller
 {
     public function index()
     {
+        //status rfk
+        $status = statusRFK();
+        if ($status == 'murni') {
+            $result = null;
+        } elseif ($status == 'perubahan') {
+            $result = 99;
+        }
         $data = null;
 
         $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
@@ -22,13 +29,6 @@ class BidangBerandaController extends Controller
 
         $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->get();
 
-        //status rfk
-        $status = statusRFK();
-        if ($status == 'murni') {
-            $result = null;
-        } elseif ($status == 'perubahan') {
-            $result = 99;
-        }
 
         $subkegiatan->map(function ($item) use ($result) {
             $item->uraian = $item->uraian->where('status', $result);
