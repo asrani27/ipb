@@ -26,7 +26,11 @@
                   $no =1;
               @endphp
               @foreach ($data as $key => $item)
+              @if ($item->dpa != $item->angkas)
+              <tr style="background-color: rgba(251, 225, 225, 0.705)">
+              @else
               <tr>
+              @endif
                   <td class="text-center">{{$no++}}</td>
                   <td>{{$item->nama}}</td>
                   <td>{{number_format($item->dpa)}}</td>
