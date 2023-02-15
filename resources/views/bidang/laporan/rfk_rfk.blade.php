@@ -111,8 +111,8 @@
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('realisasiTTB'), 2)}}</td>
                 <td style="text-align: right">
-                  @if ($data->sum('realisasiTTB') == 0)
-                      0
+                  @if ($data->sum('rencanaTTB') == 0)
+                      100
                   @else
                   {{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}
                   @endif
