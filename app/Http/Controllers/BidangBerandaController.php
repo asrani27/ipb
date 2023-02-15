@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_akun;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
-use App\Models\M_akun;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BidangBerandaController extends Controller
 {
@@ -17,11 +18,18 @@ class BidangBerandaController extends Controller
         $bidang_id = Auth::user()->bidang->id;
         $data = Uraian::where('bidang_id', $bidang_id)->get();
         $data->map(function ($item) {
-            $item->m_akun->id = M_akun::where('kode_akun', $item->kode_rekening)->first() == null ? null : M_akun::where('kode_akun', $item->kode_rekening)->first()->kode_akun;
+            $check = M_akun::where('kode_akun', $item->kode_rekening)->first();
+
+            if ($check == null) {
+            } else {
+                $item->m_akun_id = $check->id;
+                $item->save();
+            }
             return $item;
         });
+
         Session::flash('success', 'Berhasil Di Sortir');
-        return back();
+        return redirect('/bidang/beranda/uraian');
     }
     public function index()
     {
@@ -39,7 +47,7 @@ class BidangBerandaController extends Controller
         $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
         $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
 
-        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
+        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->orderBy('m_akun_id', 'ASC')->get();
 
         $subkegiatan->map(function ($item) use ($result) {
             $item->uraian = $item->uraian->where('status', $result);
