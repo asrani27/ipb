@@ -113,7 +113,10 @@
       <a href="/bidang/beranda/uraian" class="btn btn-primary btn-flat">Uraian Kegiatan</a><br/><br/>
       <div class="box box-primary">
           <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Uraian Kegiatan, Tahun : 
+            <h3 class="box-title">
+              
+      <a href="/bidang/beranda/sortir" class="btn btn-primary btn-flat">Sortir</a>
+      <i class="fa fa-clipboard"></i> Data Uraian Kegiatan, Tahun : 
               <strong>{{\Carbon\Carbon::today()->format('Y')}}</strong></h3>
           </div>
           <div class="box-body table-responsive no-padding text-sm">
@@ -136,7 +139,7 @@
               <tr>
               @endif
                   <td class="text-center">{{$no++}}</td>
-                  <td>{{$item->nama}}</td>
+                  <td>{{$item->kode_rekening}} <br/>{{$item->nama}}</td>
                   <td style="text-align: right">{{number_format($item->dpa)}}</td>
                   <td style="text-align: right">{{number_format($item->angkas)}}</td>
                   <td style="text-align: right">

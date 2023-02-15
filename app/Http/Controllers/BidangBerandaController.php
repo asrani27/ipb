@@ -5,12 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\M_akun;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BidangBerandaController extends Controller
 {
+    public function sortir()
+    {
+        $bidang_id = Auth::user()->bidang->id;
+        $data = Uraian::where('bidang_id', $bidang_id)->get();
+        $data->map(function ($item) {
+            $item->m_akun->id = M_akun::where('kode_akun', $item->kode_rekening)->first() == null ? null : M_akun::where('kode_akun', $item->kode_rekening)->first()->kode_akun;
+            return $item;
+        });
+        Session::flash('success', 'Berhasil Di Sortir');
+        return back();
+    }
     public function index()
     {
         //status rfk
