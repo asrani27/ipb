@@ -33,7 +33,7 @@
                     @foreach ($data as $key => $item)
                     <tr>
                         <td class="text-center">{{$key+1}}</td>
-                        <td>{{$item->kode_rekening}}<br/>{{$item->nama}}</td>
+                        <td>{{$item->kode_rekening}}<br/>{{$item->nama}}<br/>{{$item->keterangan}}</td>
                         <td>{{number_format($item->dpa)}}</td>
                         <td>
                           

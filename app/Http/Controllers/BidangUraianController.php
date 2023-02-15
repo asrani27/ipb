@@ -70,6 +70,7 @@ class BidangUraianController extends Controller
         $n->m_akun_id       = $rekening_belanja->id;
         $n->kode_rekening   = $rekening_belanja->kode_akun;
         $n->nama            = $rekening_belanja->nama_akun;
+        $n->keterangan      = $req->keterangan;
         $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
@@ -83,6 +84,7 @@ class BidangUraianController extends Controller
         $n->m_akun_id       = $rekening_belanja->id;
         $n->kode_rekening   = $rekening_belanja->kode_akun;
         $n->nama            = $rekening_belanja->nama_akun;
+        $n->keterangan      = $req->keterangan;
         $n->dpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Update');

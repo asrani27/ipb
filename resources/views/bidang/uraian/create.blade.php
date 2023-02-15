@@ -33,6 +33,12 @@
                     </div>
                     
                     <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-2 control-label">Keterangan</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="keterangan" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
                       <label for="inputEmail3" class="col-sm-2 control-label">DPA</label>
                       <div class="col-sm-10">
                         <input type="text" name="dpa" class="form-control" id="rupiah">
