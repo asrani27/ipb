@@ -34,7 +34,7 @@
                     <tr>
                         <td class="text-center">{{$key+1}}</td>
                         <td>{{$item->kode_rekening}}<br/>{{$item->nama}}<br/>{{$item->keterangan}}</td>
-                        <td>{{number_format($item->dpa)}}- {{$item->keterangan}}</td>
+                        <td>{{number_format($item->dpa)}} - {{$item->keterangan}}</td>
                         <td>
                           
                             <a href="/bidang/perubahan/program/angkas/{{$program_id}}/{{$kegiatan_id}}/{{$subkegiatan_id}}/{{$item->id}}"
