@@ -139,7 +139,8 @@
               <tr>
               @endif
                   <td class="text-center">{{$no++}}</td>
-                  <td>{{$item->kode_rekening}} <br/>{{$item->nama}}</td>
+                  <td><strong>Subkegiatan: {{$item->subkegiatan->nama}}</strong><br/>
+                    {{$item->kode_rekening}} <br/>{{$item->nama}}</td>
                   <td style="text-align: right">{{number_format($item->dpa)}}</td>
                   <td style="text-align: right">{{number_format($item->angkas)}}</td>
                   <td style="text-align: right">
