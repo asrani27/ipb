@@ -47,7 +47,7 @@ class BidangBerandaController extends Controller
         $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
         $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->where('status', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
 
-        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->orderBy('m_akun_id', 'ASC')->get();
+        $subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
 
         $subkegiatan->map(function ($item) use ($result) {
             $item->uraian = $item->uraian->where('status', $result);
