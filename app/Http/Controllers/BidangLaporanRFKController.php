@@ -262,7 +262,7 @@ class BidangLaporanRFKController extends Controller
     public function updatePbj(Request $req, $id)
     {
         T_pbj::find($id)->update($req->all());
-        $data = T_pbj::find($id);
+        $data = T_m::find($id);
 
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/laporanrfk/' . $data->tahun . '/' . $data->bulan . '/' . $data->program_id . '/' . $data->kegiatan_id . '/' . $data->subkegiatan_id . '/pbj');
@@ -470,7 +470,7 @@ class BidangLaporanRFKController extends Controller
                     $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
                     $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
                     if ($item->rencanaRP == 0) {
-                        $item->capaianKeuangan = 100;
+                        $item->capaianKeuangan = 0;
                     } else {
                         $item->capaianKeuangan =  ($item->realisasiRP / $item->rencanaRP) * 100;
                     }
