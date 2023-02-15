@@ -470,7 +470,7 @@ class BidangLaporanRFKController extends Controller
                     $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
                     $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
                     if ($item->rencanaRP == 0) {
-                        $item->capaianKeuangan = 0;
+                        $item->capaianKeuangan = 100;
                     } else {
                         $item->capaianKeuangan =  ($item->realisasiRP / $item->rencanaRP) * 100;
                     }
