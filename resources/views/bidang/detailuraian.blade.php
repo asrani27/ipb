@@ -32,7 +32,7 @@
               <tr>
               @endif
                   <td class="text-center">{{$no++}}</td>
-                  <td>{{$item->nama}}</td>
+                  <td>{{$item->nama}}<br/>{{$item->keterangan}}</td>
                   <td style="text-align: right">{{number_format($item->dpa)}}</td>
                   <td style="text-align: right">{{number_format($item->angkas)}}</td>
               </tr>

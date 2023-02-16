@@ -16,7 +16,7 @@
     <dt>Sub Kegiatan</dt>
     <dd>{{$subkegiatan->nama}}</dd><br/>
     <dt>Uraian Kegiatan</dt>
-    <dd>{{$uraian->nama}}</dd><br/>
+    <dd>{{$uraian->nama}}<br/>{{$uraian->keterangan}}</dd><br/>
     <dt>DPA</dt>
     <dd>{{number_format($uraian->dpa)}}</dd>
     </dl>
