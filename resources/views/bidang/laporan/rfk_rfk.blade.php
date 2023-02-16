@@ -81,7 +81,7 @@
 
               <tr style="font-size:10px;">
                 <td style="width: 10px">{{$key + 1}}</td>
-                <td width="200px">{{$item->nama}}</td>
+                <td width="200px">{{$item->nama}}<br/>{{$item->keterangan}}</td>
                 <td style="text-align: right">{{number_format($item->dpa)}}</td>
                 <td style="text-align: right">{{round($item->persenDPA, 2)}}</td>
                 <td style="text-align: right">{{number_format($item->rencanaRP)}}</td>

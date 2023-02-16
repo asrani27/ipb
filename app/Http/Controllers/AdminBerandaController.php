@@ -52,11 +52,20 @@ class AdminBerandaController extends Controller
         $realisasi = Auth::user()->skpd->realisasi;
         $pergeseran = Auth::user()->skpd->pergeseran;
         $log = LogBukaTutup::orderBy('id', 'DESC')->paginate(15);
+        if (Auth::user()->hasRole('admin')) {
+            $t_program = Program::where('skpd_id', Auth::user()->skpd->id)->count();
+            $t_kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->count();
+            $t_subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->count();
+            $t_uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->count();
+        }
+        if (Auth::user()->hasRole('bidang')) {
+            $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
+            $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+            $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+            $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
+        }
 
-        $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-        $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
+
         return view('admin.home', compact('murni', 'perubahan', 'realisasi', 'pergeseran', 'log', 't_program', 't_kegiatan', 't_subkegiatan', 't_uraian'));
     }
 

@@ -87,9 +87,13 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
-        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-
-        return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+        if ($jenisrfk == null) {
+            Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+            return back();
+        } else {
+            $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+            return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+        }
     }
     public function input($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
