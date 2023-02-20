@@ -50,6 +50,7 @@ class AdminBatasInputController extends Controller
     public function delete($id)
     {
         $data = BatasInput::find($id)->delete();
+        Session::flash('success', 'Berhasil Di Hapus');
         return back();
     }
 }

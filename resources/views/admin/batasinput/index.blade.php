@@ -54,10 +54,9 @@
                     <td>{{\Carbon\Carbon::parse($item->november)->format('d-m-Y')}}</td>
                     <td>{{\Carbon\Carbon::parse($item->desember)->format('d-m-Y')}}</td>
                     <td>
-                        <a href="/admin/perioderfk/edit/{{$item->id}}" class="btn btn-xs btn-success btn-flat"><i
+                        <a href="/admin/batas_input/edit/{{$item->id}}" class="btn btn-xs btn-success btn-flat"><i
                                 class="fa fa-edit"></i></a>
-                        <a href="/admin/perioderfk/delete/{{$item->id}}"
-                            onclick="return confirm('Yakin ingin di hapus');" class="btn btn-xs btn-danger btn-flat"><i
+                        <a href="/admin/batas_input/delete/{{$item->id}}" onclick="return confirm('Yakin ingin di hapus');" class="btn btn-xs btn-danger btn-flat"><i
                                 class="fa fa-trash"></i></a>
                     </td>
                 </tr>
