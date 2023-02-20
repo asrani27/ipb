@@ -41,12 +41,18 @@
                               class="btn btn-xs btn-flat btn-primary">Anggaran Kas</a>
                         </td>
                         <td>
-
+                          @if ($item->subkegiatan->kirim_angkas == null)
+                              
                           <a href="/bidang/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/edit/{{$item->id}}"
                             class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
                           <a href="/bidang/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/delete/{{$item->id}}"
                             onclick="return confirm('Yakin ingin di hapus');"
                             class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i></a>
+                          @else
+
+                          <a href="#"
+                            class="btn btn-xs btn-flat btn-success"><i class="fa fa-send"></i> Terkirim</a>
+                          @endif
                         </td>
                     </tr>
                     @endforeach

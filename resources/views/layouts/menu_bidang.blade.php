@@ -5,3 +5,4 @@
 <li class="{{ (request()->is('bidang/perubahan/program*')) ? 'active' : '' }}"><a href="/bidang/perubahan/program"><i class="fa fa-clipboard"></i> <span>RFK Perubahan</span></a></li> --}}
 <li class="{{ (request()->is('bidang/realisasi*')) ? 'active' : '' }}"><a href="/bidang/realisasi"><i class="fa fa-clipboard"></i> <span>Realisasi</span></a></li>
 <li class="{{ (request()->is('bidang/laporanrfk*')) ? 'active' : '' }}"><a href="/bidang/laporanrfk"><i class="fa fa-clipboard"></i> <span>RFK Laporan</span></a></li>
+<li class="{{ (request()->is('bidang/kirimdata*')) ? 'active' : '' }}"><a href="/bidang/kirimdata"><i class="fa fa-send"></i> <span>Status Kirim Data</span></a></li>

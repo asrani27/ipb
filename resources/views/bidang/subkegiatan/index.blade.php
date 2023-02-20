@@ -28,24 +28,36 @@
                       <th>Subkegiatan</th>
                       <th>Uraian</th>
                       <th>Aksi</th>
+                      <th>Status</th>
                     </tr>
                     @foreach ($data as $key => $item)
                     <tr>
                         <td class="text-center">{{$data->firstItem() + $key}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
-
                             <a href="/bidang/program/kegiatan/{{$program->id}}/sub/{{$kegiatan_id}}/uraian/{{$item->id}}"
                                 class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianmurni->count()}} Uraian</strong></a>
-
+                        
                         </td>
                         <td width="15%">
+                          @if ($item->kirim_angkas == null)
                             <a href="/bidang/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/edit/{{$item->id}}"
                                 class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
                             <a href="/bidang/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/delete/{{$item->id}}"
                                 onclick="return confirm('Yakin ingin di hapus');"
                                 class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i>
                             </a>
+                          @endif
+                        </td>
+                        <td>
+                          @if ($item->kirim_angkas == null)
+                          <a href="/bidang/kirim_angkas/{{$item->id}}"
+                            onclick="return confirm('Yakin ingin di kirim');"
+                            class="btn btn-xs btn-flat btn-primary"><i class="fa fa-send"></i> Kirim
+                          </a> 
+                          @else
+                              <a href="#" class="btn btn-xs btn-flat btn-success"><i class="fa fa-check"></i> Terkirim</a>
+                          @endif
                         </td>
                     </tr>
                     @endforeach

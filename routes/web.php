@@ -11,8 +11,10 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminKrkController;
 use App\Http\Controllers\AdminBidangController;
+use App\Http\Controllers\BidangKirimController;
 use App\Http\Controllers\TpermohonanController;
 use App\Http\Controllers\AdminBerandaController;
+use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\AdminPeriodeController;
 use App\Http\Controllers\BidangAngkasController;
 use App\Http\Controllers\BidangUraianController;
@@ -22,6 +24,7 @@ use App\Http\Controllers\BidangProgramController;
 use App\Http\Controllers\DaftarLayananController;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
+use App\Http\Controllers\AdminBatasInputController;
 use App\Http\Controllers\AdminPermohonanController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
@@ -55,12 +58,22 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
+        Route::get('laporan', [AdminLaporanController::class, 'index']);
+        Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
+
         Route::get('perioderfk', [AdminPeriodeController::class, 'index']);
         Route::get('perioderfk/add', [AdminPeriodeController::class, 'create']);
         Route::post('perioderfk/add', [AdminPeriodeController::class, 'store']);
         Route::get('perioderfk/edit/{id}', [AdminPeriodeController::class, 'edit']);
         Route::post('perioderfk/edit/{id}', [AdminPeriodeController::class, 'update']);
         Route::get('perioderfk/delete/{id}', [AdminPeriodeController::class, 'delete']);
+
+        Route::get('batas_input', [AdminBatasInputController::class, 'index']);
+        Route::get('batas_input/add', [AdminBatasInputController::class, 'create']);
+        Route::post('batas_input/add', [AdminBatasInputController::class, 'store']);
+        Route::get('batas_input/edit/{id}', [AdminBatasInputController::class, 'edit']);
+        Route::post('batas_input/edit/{id}', [AdminBatasInputController::class, 'update']);
+        Route::get('batas_input/delete/{id}', [AdminBatasInputController::class, 'delete']);
 
         Route::get('beranda', [AdminBerandaController::class, 'index']);
 
@@ -91,6 +104,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:bidang']], function () {
     Route::prefix('bidang')->group(function () {
+
+        Route::get('kirim_angkas/{id}', [BidangKirimController::class, 'kirimAngkas']);
+
         Route::get('beranda', [BidangBerandaController::class, 'index']);
         Route::get('beranda/uraian', [BidangBerandaController::class, 'uraian']);
         Route::get('beranda/sortir', [BidangBerandaController::class, 'sortir']);
@@ -201,6 +217,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::post('skpd/bidang/pptk/createuser/{id}', [PPTKController::class, 'storeuser']);
         Route::get('skpd/bidang/pptk/resetpass/{id}', [PPTKController::class, 'resetpass']);
 
+        Route::get('kirimdata', [BidangKirimController::class, 'index']);
 
         Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}', [ExcelController::class, 'index']);
         Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}', [ExcelController::class, 'bulan']);
