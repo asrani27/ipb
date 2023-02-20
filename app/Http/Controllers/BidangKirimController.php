@@ -21,8 +21,19 @@ class BidangKirimController extends Controller
 
     public function kirimAngkas($id)
     {
-        Subkegiatan::find($id)->update(['kirim_angkas' => 1]);
-        Session::flash('success', 'Berhasil Di Kirim');
+        $tahun = Carbon::now()->format('Y');
+
+        $deadline = BatasInput::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        if ($deadline == null) {
+            Session::flash('error', 'Batas Input Angkas Belum Dibuat oleh Admin SKPD');
+        } else {
+            if (Carbon::now()->format('Y-m-d') > $deadline->angkas) {
+                Session::flash('error', 'Batas Input Angkas Sudah Lewat');
+            } else {
+                Subkegiatan::find($id)->update(['kirim_angkas' => 1]);
+                Session::flash('success', 'Berhasil Disimpan');
+            }
+        }
         return back();
     }
 }
