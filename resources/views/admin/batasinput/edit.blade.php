@@ -12,7 +12,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="/admin/perioderfk/edit/{{$data->id}}" method="post">
+            <form class="form-horizontal" action="/admin/batas_input/edit/{{$data->id}}" method="post">
                 @csrf
               <div class="box-body">
                 <div class="form-group">

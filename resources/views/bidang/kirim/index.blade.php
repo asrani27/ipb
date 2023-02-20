@@ -51,29 +51,29 @@
                       
                   @endif
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
                   
-                  <td><a href="/bidang/kirimdata/subkegiatan/lap_rfk/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa');"><i class="fa fa-send"></i></a></td>
+                  <td></td>
               </tr>
               @endforeach
               

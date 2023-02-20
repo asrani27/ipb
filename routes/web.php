@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('laporan', [AdminLaporanController::class, 'index']);
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
 
+        Route::get('subkegiatan/angkas/{id}', [AdminLaporanController::class, 'angkas']);
+
         Route::get('perioderfk', [AdminPeriodeController::class, 'index']);
         Route::get('perioderfk/add', [AdminPeriodeController::class, 'create']);
         Route::post('perioderfk/add', [AdminPeriodeController::class, 'store']);
