@@ -60,6 +60,48 @@ function namaBulan($bulan)
     return $nama_bulan;
 }
 
+
+function rencanaSKPD($bulan, $item, $jenisrfk)
+{
+    if ($bulan == 'januari') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan');
+    }
+    if ($bulan == 'februari') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan');
+    }
+    if ($bulan == 'maret') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan');
+    }
+    if ($bulan == 'april') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan');
+    }
+    if ($bulan == 'mei') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan');
+    }
+    if ($bulan == 'juni') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan');
+    }
+    if ($bulan == 'juli') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan');
+    }
+    if ($bulan == 'agustus') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan');
+    }
+    if ($bulan == 'september') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan');
+    }
+    if ($bulan == 'oktober') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan');
+    }
+    if ($bulan == 'november') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_november_keuangan');
+    }
+    if ($bulan == 'desember') {
+        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_november_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_desember_keuangan');
+    }
+    return $total;
+}
+
 function totalRencana($bulan, $item)
 {
     if ($bulan == '01') {
