@@ -100,7 +100,8 @@ class BidangLaporanRFKController extends Controller
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
@@ -120,7 +121,6 @@ class BidangLaporanRFKController extends Controller
         } else {
             $pptk = $checkPptk;
         }
-
 
         return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk', 'jenisrfk'));
     }
@@ -145,7 +145,7 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $pbj = T_pbj::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
@@ -163,7 +163,7 @@ class BidangLaporanRFKController extends Controller
 
         $st = T_st::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st', 'jenisrfk'));
     }
@@ -291,7 +291,7 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $m = T_m::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
@@ -307,7 +307,7 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $v = T_v::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
@@ -364,7 +364,7 @@ class BidangLaporanRFKController extends Controller
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
@@ -428,7 +428,7 @@ class BidangLaporanRFKController extends Controller
             $kegiatan = Kegiatan::find($kegiatan_id);
             $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-            $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+            $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
             if ($jenisrfk == 'murni') {
                 $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
@@ -511,7 +511,7 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
