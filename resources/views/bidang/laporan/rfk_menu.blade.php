@@ -1,5 +1,10 @@
 
 <a href="/bidang/laporanrfk/{{$tahun}}/{{$bulan}}/{{$program->id}}/{{$kegiatan->id}}" class="btn bg-purple btn-sm btn-flat"><strong>Kembali</strong></a>   
+@if ($status_kirim == null)
+<a href="/bidang/laporanrfk/kirimdata/{{$bulan}}/{{$subkegiatan->id}}" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-send"></i> Kirim Data</strong></a>   
+@else
+<a href="#" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-check"></i> Terkirim</strong></a> 
+@endif
 <a href="/bidang/laporanrfk/{{$tahun}}/{{$bulan}}/{{$program->id}}/{{$kegiatan->id}}/{{$subkegiatan->id}}/srp" class="btn btn-danger btn-sm btn-flat"><strong>Sr Pengantar</strong></a> 
 <a href="/bidang/laporanrfk/{{$tahun}}/{{$bulan}}/{{$program->id}}/{{$kegiatan->id}}/{{$subkegiatan->id}}/rfk" class="btn btn-danger btn-sm btn-flat"><strong>RFK</strong></a> 
 <a href="/bidang/laporanrfk/{{$tahun}}/{{$bulan}}/{{$program->id}}/{{$kegiatan->id}}/{{$subkegiatan->id}}/pbj" class="btn btn-warning btn-sm btn-flat"><strong>PBJ</strong></a> 

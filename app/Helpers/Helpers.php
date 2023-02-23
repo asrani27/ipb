@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\JenisRfk;
 use Illuminate\Support\Facades\Auth;
 
 function statusRFK()
@@ -16,6 +17,13 @@ function statusRFK()
         $result = 'perubahan';
     }
 
+    return $result;
+}
+
+function jenisRFK($bulan, $tahun)
+{
+
+    $result = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->first()[$bulan];
     return $result;
 }
 

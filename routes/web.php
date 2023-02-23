@@ -149,6 +149,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('realisasi/{tahun}/{program_id}/{kegiatan_id}/{subkegiatan_id}', [BidangRealisasiController::class, 'subkegiatan']);
 
         Route::get('laporanrfk', [BidangLaporanRFKController::class, 'index']);
+        Route::get('laporanrfk/kirimdata/{bulan}/{subkegiatan_id}', [BidangLaporanRFKController::class, 'kirimData']);
         Route::get('laporanrfk/{tahun}', [BidangLaporanRFKController::class, 'tahun']);
         Route::get('laporanrfk/{tahun}/{bulan}', [BidangLaporanRFKController::class, 'bulan']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}', [BidangLaporanRFKController::class, 'program']);

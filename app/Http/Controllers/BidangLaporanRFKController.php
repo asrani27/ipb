@@ -50,6 +50,15 @@ class BidangLaporanRFKController extends Controller
         return view('bidang.laporan.program', compact('tahun', 'bulan', 'nama_bulan', 'data'));
     }
 
+    public function kirimData($bulan, $subkegiatan_id)
+    {
+        $field = 'kirim_rfk_' . strtolower(namaBulan($bulan));
+        Subkegiatan::find($subkegiatan_id)->update([
+            $field => 1,
+        ]);
+        Session::flash('success', 'berhasil Di Kirim Ke Admin SKPD');
+        return back();
+    }
     public function program($tahun, $bulan, $program_id)
     {
         $nama_bulan = namaBulan($bulan);
@@ -86,13 +95,16 @@ class BidangLaporanRFKController extends Controller
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
+
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
         if ($jenisrfk == null) {
             Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
             return back();
         } else {
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-            return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+            return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
         }
     }
     public function input($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)

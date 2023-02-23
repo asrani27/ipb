@@ -9,9 +9,9 @@
       <!-- small box -->
       <div class="small-box bg-purple">
         <div class="inner">
-          <h3>{{$bidang}}</h3>
+          <h3>{{$program}}</h3>
 
-          <p>TOTAL BIDANG</p>
+          <p>TOTAL PROGRAM</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
@@ -24,9 +24,9 @@
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-            <h3>{{$program}}</h3>
+            <h3>{{$kegiatan}}</h3>
 
-          <p>TOTAL PROGRAM</p>
+          <p>TOTAL KEGIATAN</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
@@ -54,9 +54,9 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>-</h3>
+          <h3>rfk : {{jenisRFK($bulan, $tahun)}} </h3>
 
-          <p>-</p>
+          <p>LAPORAN BULAN {{strtoupper($bulan)}} {{$tahun}}</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
@@ -188,7 +188,7 @@
                 <td></td>
                 <td>JUMLAH</td>
                 <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom3'))}}</td>
-                <td style="text-align: right">{{$datasubkegiatan->sum('kolom4')}}</td>
+                <td style="text-align: right">{{round($datasubkegiatan->sum('kolom4'),2)}}</td>
                 
                 {{-- <td style="text-align: right">{{number_format($data->sum('rencanaRP'))}}</td>
                 <td></td>
