@@ -45,35 +45,96 @@
                   <td>{{$item->nama}}</td>
                   
                   @if ($item->kirim_angkas == null)
-                  <td><a href="/bidang/kirim_angkas/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa diubah kecuali saat RFK perubahan?');"><i class="fa fa-send"></i></a></td>
+                  <td>
+                    {{-- <a href="/bidang/kirim_angkas/{{$item->id}}" onclick="return confirm('Yakin ingin di kirim, setelah di kirim data tidak bisa diubah kecuali saat RFK perubahan?');"><i class="fa fa-send"></i></a> --}}
+                  </td>
                   @else
                   <td><i class="fa fa-check"></i></td>
-                      
                   @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_januari == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_februari == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_maret == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_april == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_mei == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_juni == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_juli == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_agustus == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_september == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_oktober == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_november == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
                   
-                  <td></td>
+                  @if ($item->kirim_rfk_desember == null)
+                  <td>
+                  </td>
+                  @else
+                  <td><i class="fa fa-check"></i></td>
+                  @endif
               </tr>
               @endforeach
               
