@@ -189,6 +189,31 @@
                 <td>JUMLAH</td>
                 <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom3'))}}</td>
                 <td style="text-align: right">{{round($datasubkegiatan->sum('kolom4'),2)}}</td>
+                <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom5'))}}</td>
+                <td></td>
+                <td style="text-align: right">{{round($datasubkegiatan->sum('kolom7'),2)}}</td>
+                <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom8'))}}</td>
+                <td></td>
+                <td style="text-align: right">{{round($datasubkegiatan->sum('kolom10'),2)}}</td>
+                <td style="text-align: right">
+                  @if ($datasubkegiatan->sum('kolom10') == 0 && $datasubkegiatan->sum('kolom7') == 0)
+                      0
+                  @else
+                    {{round(($datasubkegiatan->sum('kolom10') / $datasubkegiatan->sum('kolom7')) * 100,2)}}
+                  @endif
+                </td>
+                <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom12'))}}</td>
+                <td></td>
+                <td style="text-align: right">{{round($datasubkegiatan->sum('kolom14'),2)}}</td>
+                <td></td>
+                <td style="text-align: right">{{round($datasubkegiatan->sum('kolom16'),2)}}</td>
+                <td style="text-align: right">
+                  @if ($datasubkegiatan->sum('kolom16') == 0 && $datasubkegiatan->sum('kolom14') == 0)
+                      0
+                  @else
+                  {{round(($datasubkegiatan->sum('kolom16') / $datasubkegiatan->sum('kolom14')) * 100,2)}}
+                  @endif
+               </td>
                 
                 {{-- <td style="text-align: right">{{number_format($data->sum('rencanaRP'))}}</td>
                 <td></td>
