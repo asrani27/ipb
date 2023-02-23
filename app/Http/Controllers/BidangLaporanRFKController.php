@@ -98,6 +98,7 @@ class BidangLaporanRFKController extends Controller
 
         $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
         $status_kirim = $subkegiatan[$field_kirim];
+
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first();
         if ($jenisrfk == null) {
             Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
@@ -107,6 +108,7 @@ class BidangLaporanRFKController extends Controller
             return view('bidang.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
         }
     }
+
     public function input($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $nama_bulan = namaBulan($bulan);
@@ -127,6 +129,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+
         $checkPptk = T_pptk::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
         if ($checkPptk == null) {
             $pptk = null;
@@ -134,7 +139,7 @@ class BidangLaporanRFKController extends Controller
             $pptk = $checkPptk;
         }
 
-        return view('bidang.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk', 'jenisrfk'));
+        return view('bidang.laporan.rfk_input', compact('status_kirim', 'data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'pptk', 'jenisrfk'));
     }
     public function storeInput(Request $req)
     {
@@ -157,12 +162,15 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $pbj = T_pbj::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        return view('bidang.laporan.rfk_pbj', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'pbj'));
+        return view('bidang.laporan.rfk_pbj', compact('status_kirim', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'pbj'));
     }
 
     public function st($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -173,11 +181,14 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+
         $st = T_st::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        return view('bidang.laporan.rfk_st', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st', 'jenisrfk'));
+        return view('bidang.laporan.rfk_st', compact('status_kirim', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'st', 'jenisrfk'));
     }
 
     public function editSt($id)
@@ -303,12 +314,14 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $m = T_m::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        return view('bidang.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'm'));
+        return view('bidang.laporan.rfk_m', compact('status_kirim', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'm'));
     }
 
     public function v($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
@@ -319,12 +332,14 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $v = T_v::where('subkegiatan_id', $subkegiatan_id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        return view('bidang.laporan.rfk_v', compact('tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'v'));
+        return view('bidang.laporan.rfk_v', compact('status_kirim', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk', 'v'));
     }
 
     public function storeV(Request $req, $id, $bulan)
@@ -427,7 +442,9 @@ class BidangLaporanRFKController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('bidang.laporan.rfk_fiskeu', compact('status_kirim', 'data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
 
@@ -511,7 +528,9 @@ class BidangLaporanRFKController extends Controller
             return back();
         }
 
-        return view('bidang.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('bidang.laporan.rfk_rfk', compact('status_kirim', 'data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 
 
@@ -589,6 +608,8 @@ class BidangLaporanRFKController extends Controller
         });
 
 
-        return view('bidang.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('bidang.laporan.rfk_srp', compact('status_kirim', 'data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
     }
 }
