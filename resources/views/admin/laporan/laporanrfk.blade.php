@@ -158,7 +158,11 @@
                 </tr>
 
                   @foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3)
+                  @if ($item3->status_kirim == null)
+                  <tr style="font-size:10px; background-color:#d3f1f9">
+                  @else
                   <tr style="font-size:10px;">
+                  @endif
                     <td>{{$subkeg++}}</td>
                     <td width="200px">{{$item3->nama}}</td>
                     <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>

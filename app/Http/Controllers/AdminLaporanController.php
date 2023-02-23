@@ -97,7 +97,7 @@ class AdminLaporanController extends Controller
                 $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
                 $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
                 if ($item->kolom8 == 0 && $item->kolom5 == 0) {
-                    $item->kolom11 = 100;
+                    $item->kolom11 = 0;
                 } else {
                     $item->kolom11 = ($item->kolom8 / $item->kolom5) * 100;
                 }
@@ -107,12 +107,17 @@ class AdminLaporanController extends Controller
                 $item->kolom14 = ($item->kolom13 * $item->kolom4) / 100;
                 $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
                 $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
-                $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
+
+                if ($item->kolom15 == 0 && $item->kolom13 == 0) {
+                    $item->kolom17 = 0;
+                } else {
+                    $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
+                }
+                $status_kirim = 'kirim_rfk_' . $bulan;
+                $item->status_kirim = $item[$status_kirim];
             }
             return $item;
         });
-
-
 
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan'));
     }
