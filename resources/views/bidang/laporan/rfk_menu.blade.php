@@ -1,7 +1,7 @@
 
 <a href="/bidang/laporanrfk/{{$tahun}}/{{$bulan}}/{{$program->id}}/{{$kegiatan->id}}" class="btn bg-purple btn-sm btn-flat"><strong>Kembali</strong></a>   
 @if ($status_kirim == null)
-<a href="/bidang/laporanrfk/kirimdata/{{$bulan}}/{{$subkegiatan->id}}" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-send"></i> Kirim Data</strong></a>   
+<a href="/bidang/laporanrfk/kirimdata/{{$bulan}}/{{$subkegiatan->id}}" class="btn btn-primary btn-sm btn-flat" onclick="return confirm('Apakah Yakin Ingin Dikirim?');"><strong><i class="fa fa-send"></i> Kirim Data</strong></a>   
 @else
 <a href="#" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-check"></i> Terkirim</strong></a> 
 @endif
