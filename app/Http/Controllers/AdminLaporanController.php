@@ -80,16 +80,20 @@ class AdminLaporanController extends Controller
                 $item->kolom12 = 0;
                 $item->kolom13 = 0;
                 $item->kolom14 = 0;
+                $item->kolom15 = 0;
+                $item->kolom16 = 0;
+                $item->kolom17 = 0;
             } else {
                 $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
                 $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
-                $rencana = 'p_' . $bulan . '_keuangan';
 
                 $item->kolom5 = rencanaSKPD($bulan, $item, $result);
+
                 $item->kolom6 = ($item->kolom5 / $item->kolom3) * 100;
                 $item->kolom7 = ($item->kolom6 * $item->kolom4) / 100;
-                $realisasi = 'r_' . $bulan . '_keuangan';
-                $item->kolom8 = $item->uraian->where('status', $result)->sum($realisasi);
+
+                $item->kolom8 = realisasiSKPD($bulan, $item, $result);
+
                 $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
                 $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
                 if ($item->kolom8 == 0 && $item->kolom5 == 0) {
@@ -99,9 +103,11 @@ class AdminLaporanController extends Controller
                 }
                 $item->kolom12 = $item->kolom3 - $item->kolom8;
 
-                $rencanaFisik = 'p_' . $bulan . '_fisik';
-                $item->kolom13 = $item->uraian->where('status', $result)->sum($rencanaFisik);
+                $item->kolom13 = fisikRencanaSKPD($bulan, $item, $result);
                 $item->kolom14 = ($item->kolom13 * $item->kolom4) / 100;
+                $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
+                $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
+                $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
             }
             return $item;
         });

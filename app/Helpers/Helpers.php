@@ -63,41 +63,166 @@ function namaBulan($bulan)
 
 function rencanaSKPD($bulan, $item, $jenisrfk)
 {
+    $uraian = $item->uraian->where('status', $jenisrfk);
     if ($bulan == 'januari') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan');
+        $total = $uraian->sum('p_januari_keuangan');
     }
     if ($bulan == 'februari') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan');
     }
     if ($bulan == 'maret') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan');
     }
     if ($bulan == 'april') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan');
     }
     if ($bulan == 'mei') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan');
     }
     if ($bulan == 'juni') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan');
     }
     if ($bulan == 'juli') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan');
     }
     if ($bulan == 'agustus') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan');
     }
     if ($bulan == 'september') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan');
     }
     if ($bulan == 'oktober') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan');
     }
     if ($bulan == 'november') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_november_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan') + $uraian->sum('p_november_keuangan');
     }
     if ($bulan == 'desember') {
-        $total = $item->uraian->where('status', $jenisrfk)->sum('p_januari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_februari_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_maret_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_april_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_mei_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juni_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_juli_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_agustus_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_september_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_oktober_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_november_keuangan') + $item->uraian->where('status', $jenisrfk)->sum('p_desember_keuangan');
+        $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan') + $uraian->sum('p_november_keuangan') + $uraian->sum('p_desember_keuangan');
+    }
+    return $total;
+}
+function realisasiSKPD($bulan, $item, $jenisrfk)
+{
+    $uraian = $item->uraian->where('status', $jenisrfk);
+    if ($bulan == 'januari') {
+        $total = $uraian->sum('r_januari_keuangan');
+    }
+    if ($bulan == 'februari') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan');
+    }
+    if ($bulan == 'maret') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan');
+    }
+    if ($bulan == 'april') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan');
+    }
+    if ($bulan == 'mei') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan');
+    }
+    if ($bulan == 'juni') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan');
+    }
+    if ($bulan == 'juli') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan');
+    }
+    if ($bulan == 'agustus') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan');
+    }
+    if ($bulan == 'september') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan');
+    }
+    if ($bulan == 'oktober') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan');
+    }
+    if ($bulan == 'november') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan') + $uraian->sum('r_november_keuangan');
+    }
+    if ($bulan == 'desember') {
+        $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan') + $uraian->sum('r_november_keuangan') + $uraian->sum('r_desember_keuangan');
+    }
+    return $total;
+}
+
+function fisikRencanaSKPD($bulan, $item, $jenisrfk)
+{
+    $uraian = $item->uraian->where('status', $jenisrfk);
+    if ($bulan == 'januari') {
+        $total = $uraian->sum('p_januari_fisik');
+    }
+    if ($bulan == 'februari') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik');
+    }
+    if ($bulan == 'maret') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik');
+    }
+    if ($bulan == 'april') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik');
+    }
+    if ($bulan == 'mei') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik');
+    }
+    if ($bulan == 'juni') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik');
+    }
+    if ($bulan == 'juli') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik');
+    }
+    if ($bulan == 'agustus') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik') + $uraian->sum('p_agustus_fisik');
+    }
+    if ($bulan == 'september') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik') + $uraian->sum('p_agustus_fisik') + $uraian->sum('p_september_fisik');
+    }
+    if ($bulan == 'oktober') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik') + $uraian->sum('p_agustus_fisik') + $uraian->sum('p_september_fisik') + $uraian->sum('p_oktober_fisik');
+    }
+    if ($bulan == 'november') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik') + $uraian->sum('p_agustus_fisik') + $uraian->sum('p_september_fisik') + $uraian->sum('p_oktober_fisik') + $uraian->sum('p_november_fisik');
+    }
+    if ($bulan == 'desember') {
+        $total = $uraian->sum('p_januari_fisik') + $uraian->sum('p_februari_fisik') + $uraian->sum('p_maret_fisik') + $uraian->sum('p_april_fisik') + $uraian->sum('p_mei_fisik') + $uraian->sum('p_juni_fisik') + $uraian->sum('p_juli_fisik') + $uraian->sum('p_agustus_fisik') + $uraian->sum('p_september_fisik') + $uraian->sum('p_oktober_fisik') + $uraian->sum('p_november_fisik') + $uraian->sum('p_desember_fisik');
+    }
+    return $total;
+}
+function fisikRealisasiSKPD($bulan, $item, $jenisrfk)
+{
+    $uraian = $item->uraian->where('status', $jenisrfk);
+    if ($bulan == 'januari') {
+        $total = $uraian->sum('r_januari_fisik');
+    }
+    if ($bulan == 'februari') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik');
+    }
+    if ($bulan == 'maret') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik');
+    }
+    if ($bulan == 'april') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik');
+    }
+    if ($bulan == 'mei') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik');
+    }
+    if ($bulan == 'juni') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik');
+    }
+    if ($bulan == 'juli') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik');
+    }
+    if ($bulan == 'agustus') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik') + $uraian->sum('r_agustus_fisik');
+    }
+    if ($bulan == 'september') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik') + $uraian->sum('r_agustus_fisik') + $uraian->sum('r_september_fisik');
+    }
+    if ($bulan == 'oktober') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik') + $uraian->sum('r_agustus_fisik') + $uraian->sum('r_september_fisik') + $uraian->sum('r_oktober_fisik');
+    }
+    if ($bulan == 'november') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik') + $uraian->sum('r_agustus_fisik') + $uraian->sum('r_september_fisik') + $uraian->sum('r_oktober_fisik') + $uraian->sum('r_november_fisik');
+    }
+    if ($bulan == 'desember') {
+        $total = $uraian->sum('r_januari_fisik') + $uraian->sum('r_februari_fisik') + $uraian->sum('r_maret_fisik') + $uraian->sum('r_april_fisik') + $uraian->sum('r_mei_fisik') + $uraian->sum('r_juni_fisik') + $uraian->sum('r_juli_fisik') + $uraian->sum('r_agustus_fisik') + $uraian->sum('r_september_fisik') + $uraian->sum('r_oktober_fisik') + $uraian->sum('r_november_fisik') + $uraian->sum('r_desember_fisik');
     }
     return $total;
 }

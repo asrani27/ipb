@@ -128,6 +128,11 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
 
                 @foreach ($item->kegiatan as $item2)
@@ -135,6 +140,11 @@
                 <tr style="font-size:10px;" class="bg-warning">
                   <td></td>
                   <td width="200px">{{$item2->nama}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -163,6 +173,9 @@
                     <td style="text-align: right;">{{number_format($item3->kolom12)}}</td>
                     <td style="text-align: right;">{{round($item3->kolom13, 2)}}</td>
                     <td style="text-align: right;">{{round($item3->kolom14, 2)}}</td>
+                    <td style="text-align: right;">{{round($item3->kolom15, 2)}}</td>
+                    <td style="text-align: right;">{{round($item3->kolom16, 2)}}</td>
+                    <td style="text-align: right;">{{round($item3->kolom17, 2)}}</td>
                   </tr>
                   @endforeach
                 @endforeach
