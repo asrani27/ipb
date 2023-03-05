@@ -645,7 +645,8 @@ class BidangLaporanRFKController extends Controller
         }
         //dd($data, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
 
-        $filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
+        //$filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
+        $filename = 'RFK_A''.xlsx';
         //dd($nama_bulan);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=$filename");
