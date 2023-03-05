@@ -81,6 +81,12 @@
               @csrf
               <div class="box-body">
                 <div class="form-group">
+                  <label class="col-sm-3 control-label">No. Surat</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control input-sm" name="no_surat" value="{{$pptk == null ? null : $pptk->no_surat}}">
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-sm-3 control-label">SKPD</label>
                   <div class="col-sm-9">
                     <input type="hidden" class="form-control input-sm" name="skpd_id" value="{{Auth::user()->bidang->skpd->id}}" readonly>

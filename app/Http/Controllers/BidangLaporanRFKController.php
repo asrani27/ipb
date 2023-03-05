@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\T_m;
+use App\Models\T_v;
 use App\Models\T_st;
+use App\Models\T_pbj;
 use App\Models\T_pptk;
+use App\Models\T_input;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\JenisRfk;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
-use App\Models\T_pbj;
-use App\Models\T_v;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class BidangLaporanRFKController extends Controller
 {
@@ -344,6 +350,7 @@ class BidangLaporanRFKController extends Controller
 
     public function storeV(Request $req, $id, $bulan)
     {
+
         $subkegiatan = Subkegiatan::find($id);
 
         $validator = Validator::make($req->all(), [
@@ -611,5 +618,310 @@ class BidangLaporanRFKController extends Controller
         $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
         $status_kirim = $subkegiatan[$field_kirim];
         return view('bidang.laporan.rfk_srp', compact('status_kirim', 'data', 'tahun', 'bulan', 'nama_bulan', 'program', 'kegiatan', 'subkegiatan', 'jenisrfk'));
+    }
+
+
+    public function excel($tahun, $bulan, $program_id, $kegiatan_id, $subkegiatan_id)
+    {
+        $nama_bulan = namaBulan($bulan);
+        $bidang_id = Auth::user()->bidang->id;
+        $program = Program::find($program_id);
+        $kegiatan = Kegiatan::find($kegiatan_id);
+        $subkegiatan = Subkegiatan::find($subkegiatan_id);
+
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
+        if ($jenisrfk == 'murni') {
+            $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        }
+
+        if ($jenisrfk == 'perubahan') {
+            $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        }
+        $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
+        if ($biodata == null) {
+            Session::flash('error', 'Data Di menu Input kosong');
+            return back();
+        }
+        //dd($data, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
+
+        $filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
+        //dd($nama_bulan);
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment;filename=$filename");
+        header('Cache-Control: max-age=0');
+
+        if ($bulan == '01') {
+            $path = public_path('/excel/januari.xlsx');
+        }
+        if ($bulan == '02') {
+            $path = public_path('/excel/februari.xlsx');
+        }
+        if ($bulan == '03') {
+            $path = public_path('/excel/maret.xlsx');
+        }
+        if ($bulan == '04') {
+            $path = public_path('/excel/april.xlsx');
+        }
+        if ($bulan == '05') {
+            $path = public_path('/excel/mei.xlsx');
+        }
+        if ($bulan == '06') {
+            $path = public_path('/excel/juni.xlsx');
+        }
+        if ($bulan == '07') {
+            $path = public_path('/excel/juli.xlsx');
+        }
+        if ($bulan == '08') {
+            $path = public_path('/excel/agustus.xlsx');
+        }
+        if ($bulan == '09') {
+            $path = public_path('/excel/september.xlsx');
+        }
+        if ($bulan == '10') {
+            $path = public_path('/excel/oktober.xlsx');
+        }
+        if ($bulan == '11') {
+            $path = public_path('/excel/november.xlsx');
+        }
+        if ($bulan == '12') {
+            $path = public_path('/excel/desember.xlsx');
+        }
+
+        $reader = IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load($path);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H1', Auth::user()->bidang->skpd->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H2', $program->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H3', $kegiatan->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H4', $biodata->nama_kabid);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H5', $biodata->nip_kabid);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H6', $biodata->nama_pptk);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H7', $biodata->nip_pptk);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H8', $program->bidang->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H11', $biodata->pelaporan_bulan);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H12', $biodata->pelaporan_tanggal);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H15', $biodata->kondisi_bulan);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H16', $biodata->kondisi_tanggal);
+        $contentRow = 3;
+        $lastRow = 27;
+        foreach ($datainput as $key => $item) {
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('B' . $contentRow, $item->kode_rekening);
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('C' . $contentRow, $item->nama);
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('D' . $contentRow, $item->dpa);
+            $contentRow++;
+        }
+
+        $totalHapus = $lastRow - $contentRow - $datainput->count();
+
+        $mulaiHapus = $contentRow;
+        //total di hapus
+        for ($x = 0; $x < $totalHapus; $x++) {
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('B' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('C' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('D' . $mulaiHapus, '');
+            $mulaiHapus++;
+        }
+
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('F3', ': ' . Auth::user()->bidang->skpd->nama);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('F4', ': ' . $program->nama);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('F5', ': ' . $kegiatan->nama);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('F6', ': ' . $nama_bulan);
+
+        $rencanaKeuanganRow = 11;
+        $realisasiKeuanganRow = 12;
+        $rencanaFisikRow = 13;
+        $realisasiFisikRow = 14;
+        $sumKuning = 15;
+
+        $sumJ = '=J11';
+        $sumK = '=K11';
+        $sumL = '=L11';
+        $sumM = '=M11';
+        $sumN = '=N11';
+        $sumO = '=O11';
+        $sumP = '=P11';
+        $sumQ = '=Q11';
+        $sumR = '=R11';
+        $sumS = '=S11';
+        $sumT = '=T11';
+        $sumU = '=U11';
+        $sumV = '=V11';
+
+
+        $sumJfisik = '=J15';
+        $sumKfisik = '=K15';
+        $sumLfisik = '=L15';
+        $sumMfisik = '=M15';
+        $sumNfisik = '=N15';
+        $sumOfisik = '=O15';
+        $sumPfisik = '=P15';
+        $sumQfisik = '=Q15';
+        $sumRfisik = '=R15';
+        $sumSfisik = '=S15';
+        $sumTfisik = '=T15';
+        $sumUfisik = '=U15';
+
+        $count = $datainput->count();
+
+        foreach ($datainput as $key => $item) {
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $rencanaKeuanganRow, $item->p_januari_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $rencanaKeuanganRow, $item->p_februari_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $rencanaKeuanganRow, $item->p_maret_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $rencanaKeuanganRow, $item->p_april_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $rencanaKeuanganRow, $item->p_mei_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $rencanaKeuanganRow, $item->p_juni_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $rencanaKeuanganRow, $item->p_juli_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $rencanaKeuanganRow, $item->p_agustus_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $rencanaKeuanganRow, $item->p_september_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $rencanaKeuanganRow, $item->p_oktober_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $rencanaKeuanganRow, $item->p_november_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $rencanaKeuanganRow, $item->p_desember_keuangan);
+
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $realisasiKeuanganRow, $item->r_januari_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $realisasiKeuanganRow, $item->r_februari_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $realisasiKeuanganRow, $item->r_maret_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $realisasiKeuanganRow, $item->r_april_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $realisasiKeuanganRow, $item->r_mei_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $realisasiKeuanganRow, $item->r_juni_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $realisasiKeuanganRow, $item->r_juli_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $realisasiKeuanganRow, $item->r_agustus_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $realisasiKeuanganRow, $item->r_september_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $realisasiKeuanganRow, $item->r_oktober_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $realisasiKeuanganRow, $item->r_november_keuangan);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $realisasiKeuanganRow, $item->r_desember_keuangan);
+
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $rencanaFisikRow, $item->p_januari_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $rencanaFisikRow, $item->p_februari_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $rencanaFisikRow, $item->p_maret_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $rencanaFisikRow, $item->p_april_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $rencanaFisikRow, $item->p_mei_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $rencanaFisikRow, $item->p_juni_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $rencanaFisikRow, $item->p_juli_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $rencanaFisikRow, $item->p_agustus_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $rencanaFisikRow, $item->p_september_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $rencanaFisikRow, $item->p_oktober_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $rencanaFisikRow, $item->p_november_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $rencanaFisikRow, $item->p_desember_fisik / 100);
+
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $realisasiFisikRow, $item->r_januari_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $realisasiFisikRow, $item->r_februari_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $realisasiFisikRow, $item->r_maret_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $realisasiFisikRow, $item->r_april_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $realisasiFisikRow, $item->r_mei_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $realisasiFisikRow, $item->r_juni_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $realisasiFisikRow, $item->r_juli_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $realisasiFisikRow, $item->r_agustus_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $realisasiFisikRow, $item->r_september_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $realisasiFisikRow, $item->r_oktober_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $realisasiFisikRow, $item->r_november_fisik / 100);
+            $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $realisasiFisikRow, $item->r_desember_fisik / 100);
+
+            $rencanaKeuanganRow += 6;
+            $realisasiKeuanganRow += 6;
+            $rencanaFisikRow += 6;
+            $realisasiFisikRow += 6;
+            $sumKuning += 6;
+
+            if ($key == ($count - 1)) {
+            } else {
+                $sumJ = $sumJ . '+J' . $rencanaKeuanganRow;
+                $sumK = $sumK . '+K' . $rencanaKeuanganRow;
+                $sumL = $sumL . '+L' . $rencanaKeuanganRow;
+                $sumM = $sumM . '+M' . $rencanaKeuanganRow;
+                $sumN = $sumN . '+N' . $rencanaKeuanganRow;
+                $sumO = $sumO . '+O' . $rencanaKeuanganRow;
+                $sumP = $sumP . '+P' . $rencanaKeuanganRow;
+                $sumQ = $sumQ . '+Q' . $rencanaKeuanganRow;
+                $sumR = $sumR . '+R' . $rencanaKeuanganRow;
+                $sumS = $sumS . '+S' . $rencanaKeuanganRow;
+                $sumT = $sumT . '+T' . $rencanaKeuanganRow;
+                $sumU = $sumU . '+U' . $rencanaKeuanganRow;
+                $sumV = $sumV . '+V' . $rencanaKeuanganRow;
+
+                $sumJfisik = $sumJfisik . '+J' . $sumKuning;
+                $sumKfisik = $sumKfisik . '+K' . $sumKuning;
+                $sumLfisik = $sumLfisik . '+L' . $sumKuning;
+                $sumMfisik = $sumMfisik . '+M' . $sumKuning;
+                $sumNfisik = $sumNfisik . '+N' . $sumKuning;
+                $sumOfisik = $sumOfisik . '+O' . $sumKuning;
+                $sumPfisik = $sumPfisik . '+P' . $sumKuning;
+                $sumQfisik = $sumQfisik . '+Q' . $sumKuning;
+                $sumRfisik = $sumRfisik . '+R' . $sumKuning;
+                $sumSfisik = $sumSfisik . '+S' . $sumKuning;
+                $sumTfisik = $sumTfisik . '+T' . $sumKuning;
+                $sumUfisik = $sumUfisik . '+U' . $sumKuning;
+            }
+
+            $totalRencanaKeuanganBulanRow = $rencanaKeuanganRow + 1;
+            $totalRencanaFisikBulanRow = $rencanaKeuanganRow + 2;
+        }
+
+        //remove row
+        $countRemove = 59 - $rencanaKeuanganRow;
+        $spreadsheet->getSheetByName('FISKEU')->removeRow($rencanaKeuanganRow, $countRemove);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $totalRencanaKeuanganBulanRow, $sumJ);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $totalRencanaKeuanganBulanRow, $sumK);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $totalRencanaKeuanganBulanRow, $sumL);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $totalRencanaKeuanganBulanRow, $sumM);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $totalRencanaKeuanganBulanRow, $sumN);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $totalRencanaKeuanganBulanRow, $sumO);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $totalRencanaKeuanganBulanRow, $sumP);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $totalRencanaKeuanganBulanRow, $sumQ);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $totalRencanaKeuanganBulanRow, $sumR);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $totalRencanaKeuanganBulanRow, $sumS);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $totalRencanaKeuanganBulanRow, $sumT);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $totalRencanaKeuanganBulanRow, $sumU);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('V' . $totalRencanaKeuanganBulanRow, $sumV);
+
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $totalRencanaFisikBulanRow, $sumJfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $totalRencanaFisikBulanRow, $sumKfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $totalRencanaFisikBulanRow, $sumLfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('M' . $totalRencanaFisikBulanRow, $sumMfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('N' . $totalRencanaFisikBulanRow, $sumNfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('O' . $totalRencanaFisikBulanRow, $sumOfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('P' . $totalRencanaFisikBulanRow, $sumPfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('Q' . $totalRencanaFisikBulanRow, $sumQfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('R' . $totalRencanaFisikBulanRow, $sumRfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('S' . $totalRencanaFisikBulanRow, $sumSfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $totalRencanaFisikBulanRow, $sumTfisik);
+        $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $totalRencanaFisikBulanRow, $sumUfisik);
+
+        //remove RFK
+        // $countRemoveRFK = 12 + $count + 1;
+        // $jumlahRemove = 21 - $countRemoveRFK;
+        // $spreadsheet->getSheetByName('RFK')->removeRow($countRemoveRFK, $jumlahRemove);
+        //hapus kolom RFK
+        $rfkRow = 12 + $datainput->count();
+        $totalHapusRfk = 20 - $rfkRow;
+
+        $mulaiHapus = $rfkRow + 1;
+        //total di hapus
+        for ($x = 0; $x < $totalHapusRfk; $x++) {
+            $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $mulaiHapus, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('R' . $mulaiHapus, '');
+            $mulaiHapus++;
+        }
+
+        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('A3', strtoupper(Auth::user()->bidang->skpd->nama));
+        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . strtoupper(Auth::user()->bidang->skpd->nama));
+        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('C8', $biodata->no_surat);
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

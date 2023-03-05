@@ -164,6 +164,8 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/v', [BidangLaporanRFKController::class, 'v']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/fiskeu', [BidangLaporanRFKController::class, 'fiskeu']);
         Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/input', [BidangLaporanRFKController::class, 'input']);
+        Route::get('laporanrfk/{tahun}/{bulan}/{program_id}/{kegiatan_id}/{subkegiatan_id}/export', [BidangLaporanRFKController::class, 'excel']);
+
         Route::post('laporanrfk/rfk_input', [BidangLaporanRFKController::class, 'storeInput']);
         //Route::post('laporanrfk/rfk_st', [BidangLaporanRFKController::class, 'storeSt']);
         Route::get('laporanrfk-rfk_st/delete/{id}', [BidangLaporanRFKController::class, 'deleteSt']);
