@@ -645,12 +645,11 @@ class BidangLaporanRFKController extends Controller
         }
         //dd($data, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
 
-        //$filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
-        $filename = 'RFK_A.xlsx';
+        $filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
         //dd($nama_bulan);
-        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        // header("Content-Disposition: attachment;filename=$filename");
-        // header('Cache-Control: max-age=0');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment;filename=$filename");
+        header('Cache-Control: max-age=0');
 
         if ($bulan == '01') {
             $path = public_path('/excel/januari.xlsx');
@@ -691,7 +690,6 @@ class BidangLaporanRFKController extends Controller
 
         $reader = IOFactory::createReader('Xlsx');
         $spreadsheet = $reader->load($path);
-        dd($spreadsheet);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H1', Auth::user()->bidang->skpd->nama);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H2', $program->nama);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H3', $kegiatan->nama);
