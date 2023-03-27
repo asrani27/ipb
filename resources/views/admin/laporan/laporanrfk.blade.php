@@ -78,6 +78,7 @@
             <tbody>
               <tr style="font-size:10px;" class="bg-purple">
                 <th style="width: 10px" rowspan="3">#</th>
+                <th style="width: 10px" rowspan="3">#</th>
                 <th rowspan="3" style="text-align: center">Uraian Kegiatan</th>
                 <th colspan="2" style="text-align: center">DPA</th>
                 <th colspan="8" style="text-align: center">Keuangan</th>
@@ -116,6 +117,7 @@
               @foreach ($data as $key => $item)
 
               <tr style="font-size:10px;font-weight:bold;" class="bg-danger">
+                <td></td>
                 <td style="width: 10px;"></td>
                 <td width="400px">{{$item->nama}}</td>
                 <td></td>
@@ -138,6 +140,7 @@
                 @foreach ($item->kegiatan as $item2)
 
                 <tr style="font-size:10px;" class="bg-warning">
+                  <td></td>
                   <td></td>
                   <td width="200px">{{$item2->nama}}</td>
                   <td></td>
@@ -163,6 +166,11 @@
                   @else
                   <tr style="font-size:10px;">
                   @endif
+                    <td>
+                      @if ($item3->status_kirim == 1)
+                      <a href="/admin/laporan/batal/{{$item3->id}}/{{$bulan}}" onclick="return confirm('Yakin Ingin Di Batalkan?');"><i class="fa fa-times-circle text-danger"></i></a>
+                      @endif
+                    </td>
                     <td>{{$subkeg++}}</td>
                     <td width="200px">{{$item3->nama}}</td>
                     <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
@@ -185,6 +193,7 @@
                 @endforeach
               @endforeach
               <tr style="font-size:10px; background-color:#e7e4e6">
+                <td></td>
                 <td></td>
                 <td>JUMLAH</td>
                 <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom3'))}}</td>

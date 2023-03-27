@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
         Route::get('laporan', [AdminLaporanController::class, 'index']);
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
+        Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);
         Route::get('laporan/{tahun}/{bulan}', [AdminLaporanController::class, 'laporanRfk']);
 
         Route::get('subkegiatan/angkas/{id}', [AdminLaporanController::class, 'angkas']);

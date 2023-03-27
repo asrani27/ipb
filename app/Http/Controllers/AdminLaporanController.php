@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
-use App\Models\JenisRfk;
 use App\Models\Program;
+use App\Models\JenisRfk;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminLaporanController extends Controller
 {
@@ -41,6 +42,14 @@ class AdminLaporanController extends Controller
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data'));
     }
 
+    public function batal($id, $bulan)
+    {
+        Subkegiatan::find($id)->update([
+            'kirim_rfk_' . $bulan => null,
+        ]);
+        Session::flash('success', 'berhasil di batalkan');
+        return back();
+    }
 
     public function laporanRfk($tahun, $bulan)
     {
