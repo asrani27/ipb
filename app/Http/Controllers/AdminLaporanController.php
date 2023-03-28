@@ -137,7 +137,8 @@ class AdminLaporanController extends Controller
                     $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
                     $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
 
-                    if ($item->kolom15 == 0 && $item->kolom13 == 0) {
+                    //if ($item->kolom15 == 0 && $item->kolom13 == 0) {
+                    if ($item->kolom13 == 0) {
                         $item->kolom17 = 0;
                     } else {
                         $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
