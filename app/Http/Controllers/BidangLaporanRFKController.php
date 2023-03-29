@@ -645,8 +645,8 @@ class BidangLaporanRFKController extends Controller
         }
         //dd($data, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
 
-        $filename = 'RFK_' . trim($subkegiatan->nama) . '.xlsx';
-        //dd($nama_bulan);
+        $filename = 'RFK.xlsx';
+        //dd($nama_bulan, $bulan);
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=$filename");
         header('Cache-Control: max-age=0');
@@ -693,15 +693,16 @@ class BidangLaporanRFKController extends Controller
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H1', Auth::user()->bidang->skpd->nama);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H2', $program->nama);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H3', $kegiatan->nama);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H4', $biodata->nama_kabid);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H5', $biodata->nip_kabid);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H6', $biodata->nama_pptk);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H7', $biodata->nip_pptk);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H8', $program->bidang->nama);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H11', $biodata->pelaporan_bulan);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H12', $biodata->pelaporan_tanggal);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H15', $biodata->kondisi_bulan);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H16', $biodata->kondisi_tanggal);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H4', $subkegiatan->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H5', $biodata->nama_kabid);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H6', 'NIP. ' . $biodata->nip_kabid);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H7', $biodata->nama_pptk);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H8', 'NIP. ' . $biodata->nip_pptk);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H9', $program->bidang->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H12', $biodata->pelaporan_bulan);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H13', $biodata->pelaporan_tanggal);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H16', $biodata->kondisi_bulan);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H17', $biodata->kondisi_tanggal);
         $contentRow = 3;
         $lastRow = 27;
         foreach ($datainput as $key => $item) {
@@ -710,7 +711,7 @@ class BidangLaporanRFKController extends Controller
             $spreadsheet->getSheetByName('INPUT')->setCellValue('D' . $contentRow, $item->dpa);
             $contentRow++;
         }
-
+        //dd('s');
         $totalHapus = $lastRow - $contentRow - $datainput->count();
 
         $mulaiHapus = $contentRow;
@@ -760,7 +761,7 @@ class BidangLaporanRFKController extends Controller
         $sumSfisik = '=S15';
         $sumTfisik = '=T15';
         $sumUfisik = '=U15';
-
+        //dd('d');
         $count = $datainput->count();
 
         foreach ($datainput as $key => $item) {
@@ -856,9 +857,12 @@ class BidangLaporanRFKController extends Controller
             $totalRencanaFisikBulanRow = $rencanaKeuanganRow + 2;
         }
 
+        $mulaiHapusDariBaris = $rencanaKeuanganRow - 1;
+        $jumlahDihapus = 448 - $mulaiHapusDariBaris;
+
         //remove row
-        $countRemove = 59 - $rencanaKeuanganRow;
-        $spreadsheet->getSheetByName('FISKEU')->removeRow($rencanaKeuanganRow, $countRemove);
+        //$countRemove = 77;
+        $spreadsheet->getSheetByName('FISKEU')->removeRow($mulaiHapusDariBaris, $jumlahDihapus);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $totalRencanaKeuanganBulanRow, $sumJ);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $totalRencanaKeuanganBulanRow, $sumK);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('L' . $totalRencanaKeuanganBulanRow, $sumL);
@@ -886,40 +890,31 @@ class BidangLaporanRFKController extends Controller
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $totalRencanaFisikBulanRow, $sumTfisik);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $totalRencanaFisikBulanRow, $sumUfisik);
 
-        //remove RFK
-        // $countRemoveRFK = 12 + $count + 1;
-        // $jumlahRemove = 21 - $countRemoveRFK;
-        // $spreadsheet->getSheetByName('RFK')->removeRow($countRemoveRFK, $jumlahRemove);
-        //hapus kolom RFK
-        $rfkRow = 12 + $datainput->count();
-        $totalHapusRfk = 20 - $rfkRow;
+        $rfkMulaiKosong = $datainput->count() + 14;
 
-        $mulaiHapus = $rfkRow + 1;
-        //total di hapus
-        for ($x = 0; $x < $totalHapusRfk; $x++) {
-            $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $mulaiHapus, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('R' . $mulaiHapus, '');
-            $mulaiHapus++;
+        for ($x = $rfkMulaiKosong; $x < 86; $x++) {
+            $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('R' . $x, '');
         }
 
-        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('A3', strtoupper(Auth::user()->bidang->skpd->nama));
-        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . strtoupper(Auth::user()->bidang->skpd->nama));
-        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('C8', $biodata->no_surat);
+        // $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('A3', strtoupper(Auth::user()->bidang->skpd->nama));
+        // $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . strtoupper(Auth::user()->bidang->skpd->nama));
+        // $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('C8', $biodata->no_surat);
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
         exit;
