@@ -890,9 +890,9 @@ class BidangLaporanRFKController extends Controller
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('T' . $totalRencanaFisikBulanRow, $sumTfisik);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('U' . $totalRencanaFisikBulanRow, $sumUfisik);
 
-        $rfkMulaiKosong = $datainput->count() + 14;
+        $rfkMulaiKosong = $datainput->count() + 13;
 
-        for ($x = $rfkMulaiKosong; $x < 86; $x++) {
+        for ($x = $rfkMulaiKosong; $x < 85; $x++) {
             $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $x, '');
             $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $x, '');
             $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $x, '');
