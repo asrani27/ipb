@@ -29,6 +29,7 @@ use App\Http\Controllers\AdminPermohonanController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
 use App\Http\Controllers\BidangLaporanRFKController;
+use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
 use App\Http\Controllers\SuperadminJenisrfkController;
@@ -62,6 +63,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
         Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);
         Route::get('laporan/{tahun}/{bulan}', [AdminLaporanController::class, 'laporanRfk']);
+        Route::get('laporan/{tahun}/{bulan}/excel', [AdminLaporanController::class, 'excel']);
 
         Route::get('subkegiatan/angkas/{id}', [AdminLaporanController::class, 'angkas']);
 
@@ -119,6 +121,20 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('beranda/tahun', [PencarianController::class, 'bTahun']);
 
         Route::get('detail/subkegiatan/{id}', [BidangSubkegiatanController::class, 'detailSubKegiatan']);
+
+        //-------------------route pergeseran--------------------------//
+        Route::get('pergeseran/program', [BidangPergeseranController::class, 'program']);
+        Route::get('pergeseran/program/kegiatan/{program_id}', [BidangPergeseranController::class, 'kegiatan']);
+        Route::get('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}', [BidangPergeseranController::class, 'subKegiatan']);
+        Route::get('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}', [BidangPergeseranController::class, 'uraian']);
+        Route::get('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/edit/{uraian_id}', [BidangPergeseranController::class, 'editUraian']);
+        Route::post('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/edit/{uraian_id}', [BidangPergeseranController::class, 'updateUraian']);
+        Route::get('pergeseran/program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangPergeseranController::class, 'editDPA']);
+        Route::post('pergeseran/program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangPergeseranController::class, 'updateDPA']);
+
+        Route::get('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/add', [BidangPergeseranController::class, 'addUraian']);
+        Route::post('pergeseran/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/add', [BidangPergeseranController::class, 'storeUraian']);
+        //------------------------------------------------------------//
 
         //-------------------route perubahan--------------------------//
         Route::get('perubahan/program', [BidangPerubahanController::class, 'program']);

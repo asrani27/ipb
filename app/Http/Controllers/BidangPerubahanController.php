@@ -14,6 +14,9 @@ class BidangPerubahanController extends Controller
 {
     public function program()
     {
+        Session::flash('info', 'Fix kan Modul Murni Terlebih Dahulu');
+        return back();
+
         $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->paginate(30);
         return view('bidang.perubahan.program', compact('data'));
     }

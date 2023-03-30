@@ -26,6 +26,7 @@ class BidangProgramController extends Controller
         $n->tahun = $req->tahun;
         $n->nama = $req->nama;
         $n->bidang_id = Auth::user()->bidang->id;
+        $n->skpd_id = Auth::user()->bidang->skpd->id;
         $n->save();
 
         Session::flash('success', 'Berhasil Di Simpan');

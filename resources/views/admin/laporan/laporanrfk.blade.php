@@ -67,7 +67,7 @@
     <!-- ./col -->
   </div>
 
-  
+  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/excel" class="btn bg-purple btn-flat"><i class="fa fa-file-excel-o"></i> Export Excel</a>
   
   <div class="row">
     <div class="col-md-12">

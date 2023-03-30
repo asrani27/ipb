@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class BidangKegiatanController extends Controller
@@ -34,6 +35,9 @@ class BidangKegiatanController extends Controller
         $n = new Kegiatan;
         $n->program_id = $id;
         $n->nama = $req->nama;
+        $n->bidang_id = Auth::user()->bidang->id;
+        $n->skpd_id = Auth::user()->bidang->skpd->id;
+        $n->tahun = $req->tahun;
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/program/kegiatan/' . $id);

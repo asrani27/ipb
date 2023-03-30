@@ -27,7 +27,10 @@ class SuperadminSkpdController extends Controller
         $n->password = bcrypt('adminskpd');
         $n->save();
 
-        $skpd->update(['user_id' => $n->id]);
+        $skpd->update([
+            'user_id' => $n->id,
+            'murni' => 1,
+        ]);
 
         $n->roles()->attach($role);
 
