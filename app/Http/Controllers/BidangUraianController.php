@@ -21,11 +21,6 @@ class BidangUraianController extends Controller
     }
     public function index($program_id, $kegiatan_id, $subkegiatan_id)
     {
-        // $logLatest = LogBukaTutup::latest()->first();
-
-        // if ($logLatest != null) {
-
-        //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', $logLatest->ke)->orderBy('id', 'DESC')->paginate(20);
 
         $data = $this->uraianMurni($subkegiatan_id);
 

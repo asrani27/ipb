@@ -16,33 +16,91 @@ class AdminBerandaController extends Controller
 {
     public function duplikatData()
     {
+        //Membuka pergeseran, duplikat data mulai dari program, kegiatan, subkegiatan dan uraian berdasarkan tahun
 
-        $logLatest = LogBukaTutup::latest()->first();
-
+        $logLatest = LogBukaTutup::where('skpd_id', Auth::user()->skpd->id)->latest()->first();
         if ($logLatest->ke == null) {
-            $tahun = Carbon::now()->year;
-            $data = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get()->toArray();
-            foreach ($data as $i) {
-                $attr = $i;
-                $attr['uraian_id'] = $i['id'];
-                $attr['status'] = $attr['status'] == null ? 1 : $attr['status'] + 1;
-                Uraian::create($attr);
-            }
-
-            return $data;
+            $ke = 1;
         } else {
-            $tahun = Carbon::now()->year;
-            $data = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('status', $logLatest->ke)->get()->toArray();
-
-            foreach ($data as $i) {
-                $attr = $i;
-                $attr['uraian_id'] = $i['uraian_id'];
-                $attr['status'] = $attr['status'] == null ? 1 : $attr['status'] + 1;
-                Uraian::create($attr);
-            }
-
-            return $data;
+            $ke = $logLatest->ke + 1;
         }
+
+        $tahun = Carbon::now()->format('Y');
+        //menduplikat program
+        $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
+
+        foreach ($program as $key => $item) {
+            $param = $item->toArray();
+            $param['ke'] = $ke;
+            $param['jenis_rfk'] = 'pergeseran';
+            $param['before_id'] = $item->id;
+
+            Program::create($param);
+        }
+
+        $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
+        foreach ($kegiatan as $key => $item) {
+            //dd($item, Program::where('before_id', $item->id)->get());
+            $param = $item->toArray();
+            $param['ke'] = $ke;
+            $param['jenis_rfk'] = 'pergeseran';
+            $param['before_id'] = $item->id;
+            $param['program_id'] = Program::where('before_id', $item->program_id)->first()->id;
+
+            Kegiatan::create($param);
+        }
+
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
+        foreach ($subkegiatan as $key => $item) {
+
+            $param = $item->toArray();
+            $param['ke'] = $ke;
+            $param['jenis_rfk'] = 'pergeseran';
+            $param['before_id'] = $item->id;
+            $param['program_id'] = Program::where('before_id', $item->program_id)->first()->id;
+            $param['kegiatan_id'] = Kegiatan::where('before_id', $item->kegiatan_id)->first()->id;
+
+            Subkegiatan::create($param);
+        }
+        $uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
+
+        foreach ($uraian as $key => $item) {
+
+            $param = $item->toArray();
+            $param['ke'] = $ke;
+            $param['jenis_rfk'] = 'pergeseran';
+            $param['before_id'] = $item->id;
+            $param['program_id'] = Program::where('before_id', $item->program_id)->first()->id;
+            $param['kegiatan_id'] = Kegiatan::where('before_id', $item->kegiatan_id)->first()->id;
+            $param['subkegiatan_id'] = Subkegiatan::where('before_id', $item->subkegiatan_id)->first()->id;
+
+            Uraian::create($param);
+        }
+
+        // if ($logLatest->ke == null) {
+        //     $tahun = Carbon::now()->year;
+        //     $data = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get()->toArray();
+        //     foreach ($data as $i) {
+        //         $attr = $i;
+        //         $attr['uraian_id'] = $i['id'];
+        //         $attr['ke'] = $attr['status'] == null ? 1 : $attr['ke'] + 1;
+        //         Uraian::create($attr);
+        //     }
+
+        //     return $data;
+        // } else {
+        //     $tahun = Carbon::now()->year;
+        //     $data = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('ke', $logLatest->ke)->get()->toArray();
+
+        //     foreach ($data as $i) {
+        //         $attr = $i;
+        //         $attr['uraian_id'] = $i['uraian_id'];
+        //         $attr['ke'] = $attr['ke'] == null ? 1 : $attr['ke'] + 1;
+        //         Uraian::create($attr);
+        //     }
+
+        //     return $data;
+        // }
     }
 
     public function index()
@@ -84,7 +142,7 @@ class AdminBerandaController extends Controller
             Session::flash('info', 'perubahan harap di tutup terlebih dahulu');
             return back();
         }
-        
+
         Auth::user()->skpd->update(['murni' => 1]);
 
         $n = new LogBukaTutup;

@@ -7,15 +7,14 @@ function statusRFK()
 {
     if (Auth::user()->bidang->skpd->murni == 1) {
         $result = 'murni';
-    }
-
-    if (Auth::user()->bidang->skpd->pergeseran == 1) {
+    } elseif (Auth::user()->bidang->skpd->pergeseran == 1) {
         $result = 'pergeseran';
+    } elseif (Auth::user()->bidang->skpd->perubahan == 1) {
+        $result = 'perubahan';
+    } else {
+        $result = null;
     }
 
-    if (Auth::user()->bidang->skpd->perubahan == 1) {
-        $result = 'perubahan';
-    }
 
     return $result;
 }

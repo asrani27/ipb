@@ -78,7 +78,6 @@ class BidangSubkegiatanController extends Controller
     {
         $n = Subkegiatan::find($subkegiatan_id);
         $n->nama = $req->nama;
-        // $n->dpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Update');
         return redirect('/bidang/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id);

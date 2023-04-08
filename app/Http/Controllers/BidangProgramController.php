@@ -11,8 +11,13 @@ class BidangProgramController extends Controller
 {
     public function index()
     {
-        $data = Program::where('bidang_id', Auth::user()->bidang->id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(15);
-        return view('bidang.program.index', compact('data'));
+        if (statusRFK() == 'murni') {
+            $data = Program::where('bidang_id', Auth::user()->bidang->id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(15);
+            return view('bidang.program.index', compact('data'));
+        } else {
+            Session::flash('info', 'Murni Belum Di Buka / Atau Telah Di Tutup');
+            return back();
+        }
     }
 
     public function create()
