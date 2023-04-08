@@ -10,6 +10,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminKrkController;
+use App\Http\Controllers\AdminPptkController;
 use App\Http\Controllers\AdminBidangController;
 use App\Http\Controllers\BidangKirimController;
 use App\Http\Controllers\TpermohonanController;
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
         Route::get('laporan', [AdminLaporanController::class, 'index']);
+        Route::get('laporan/rencana/{tahun}', [AdminLaporanController::class, 'rencana']);
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
         Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);
         Route::get('laporan/{tahun}/{bulan}', [AdminLaporanController::class, 'laporanRfk']);
@@ -101,10 +103,19 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('bidang/edit/{id}', [AdminBidangController::class, 'edit']);
         Route::post('bidang/edit/{id}', [AdminBidangController::class, 'update']);
         Route::get('bidang/delete/{id}', [AdminBidangController::class, 'delete']);
-
         Route::get('bidang/createuser/{id}', [AdminBidangController::class, 'createuser']);
         Route::post('bidang/createuser/{id}', [AdminBidangController::class, 'storeuser']);
         Route::get('bidang/resetpass/{id}', [AdminBidangController::class, 'resetpass']);
+
+        Route::get('pptk', [AdminPptkController::class, 'index']);
+        Route::get('pptk/add', [AdminPptkController::class, 'create']);
+        Route::post('pptk/add', [AdminPptkController::class, 'store']);
+        Route::get('pptk/edit/{id}', [AdminPptkController::class, 'edit']);
+        Route::post('pptk/edit/{id}', [AdminPptkController::class, 'update']);
+        Route::get('pptk/delete/{id}', [AdminPptkController::class, 'delete']);
+        Route::get('pptk/createuser/{id}', [AdminPptkController::class, 'createuser']);
+        Route::post('pptk/createuser/{id}', [AdminPptkController::class, 'storeuser']);
+        Route::get('pptk/resetpass/{id}', [AdminPptkController::class, 'resetpass']);
     });
 });
 

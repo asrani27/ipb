@@ -16,9 +16,10 @@
               <tr class='bg-purple'>
                 <th class="text-center" rowspan=2>No</th>
                 <th rowspan=2 style="text-align: center">TAHUN</th>
-                <th colspan=12 style="text-align: center">Laporan RFK (bulan)</th>
+                <th colspan=13 style="text-align: center">Laporan RFK (bulan)</th>
               </tr>
               <tr class='bg-purple'>
+                <th>Rencana</th>
                 <th>Jan</th>
                 <th>Feb</th>
                 <th>Mar</th>
@@ -35,6 +36,9 @@
               <tr>
                 <td>1</td>
                 <td>2023</td>
+                <td>
+                  <a href="/admin/laporan/rencana/2023" class='btn btn-flat btn-xs bg-purple'>Rencana</a>
+                </td>
                 <td>
                   <a href="/admin/laporan/2023/januari" class='btn btn-flat btn-xs bg-purple'>RFK</a>
                 </td>

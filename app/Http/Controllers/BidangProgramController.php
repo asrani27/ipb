@@ -11,7 +11,7 @@ class BidangProgramController extends Controller
 {
     public function index()
     {
-        $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->paginate(15);
+        $data = Program::where('bidang_id', Auth::user()->bidang->id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(15);
         return view('bidang.program.index', compact('data'));
     }
 
@@ -27,6 +27,7 @@ class BidangProgramController extends Controller
         $n->nama = $req->nama;
         $n->bidang_id = Auth::user()->bidang->id;
         $n->skpd_id = Auth::user()->bidang->skpd->id;
+        $n->jenis_rfk = 'murni';
         $n->save();
 
         Session::flash('success', 'Berhasil Di Simpan');

@@ -148,10 +148,42 @@ class AdminLaporanController extends Controller
             }
             return $item;
         });
-        //dd($data);
+
 
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun'));
     }
+
+    public function rencana($tahun)
+    {
+
+        $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
+
+        $bidang = Bidang::count();
+        $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+
+        $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+
+        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+
+        $totalsubkegiatan = $subkeg->map(function ($item) {
+            $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
+            return $item;
+        })->sum('kolom3');
+
+        $datasubkegiatan = $subkeg->map(function ($item) {
+            if ($item->kirim_angkas == null) {
+                $item->kolom3 = 0;
+            } else {
+                $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
+            }
+            return $item;
+        });
+
+        return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan'));
+    }
+
 
     public function excel($tahun, $bulan)
     {

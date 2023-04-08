@@ -15,9 +15,11 @@ class BidangSubkegiatanController extends Controller
 {
     public function index($program_id, $kegiatan_id)
     {
-        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->orderBy('id', 'DESC')->paginate(25);
+        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(25);
+        //dd($data);
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
+        //dd('d');
         return view('bidang.subkegiatan.index', compact('data', 'program', 'kegiatan', 'program_id', 'kegiatan_id'));
     }
 
@@ -65,6 +67,7 @@ class BidangSubkegiatanController extends Controller
         $n->tahun       = Program::find($program_id)->tahun;
         $n->kegiatan_id = $kegiatan_id;
         $n->nama        = $req->nama;
+        $n->jenis_rfk   = 'murni';
         // $n->dpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Sub Kegiatan Berhasil Disimpan');

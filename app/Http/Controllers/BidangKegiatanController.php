@@ -12,7 +12,7 @@ class BidangKegiatanController extends Controller
 {
     public function index($id)
     {
-        $data = Kegiatan::where('program_id', $id)->orderBy('id', 'DESC')->paginate(15);
+        $data = Kegiatan::where('program_id', $id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(15);
         $program = Program::find($id);
         return view('bidang.kegiatan.index', compact('data', 'program'));
     }
@@ -38,6 +38,7 @@ class BidangKegiatanController extends Controller
         $n->bidang_id = Auth::user()->bidang->id;
         $n->skpd_id = Auth::user()->bidang->skpd->id;
         $n->tahun = $req->tahun;
+        $n->jenis_rfk = 'murni';
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/program/kegiatan/' . $id);

@@ -23,16 +23,6 @@
   });
 @endif
 
-{{-- @if ($errors->any())
-    @foreach ($errors->all() as $error)
-    iziToast.error({
-      title: 'Error',
-      message: '{{$error}}',
-      position: 'topCenter',
-    });
-    @endforeach
-@endif --}}
-
 @if (Session::get('error'))
   iziToast.error({
     title: 'Error',

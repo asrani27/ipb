@@ -16,7 +16,7 @@ class BidangUraianController extends Controller
 {
     public function uraianMurni($subkegiatan_id)
     {
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->orderBy('id', 'DESC')->get();
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->get();
         return $data;
     }
     public function index($program_id, $kegiatan_id, $subkegiatan_id)
@@ -71,6 +71,7 @@ class BidangUraianController extends Controller
         $n->kode_rekening   = $rekening_belanja->kode_akun;
         $n->nama            = $rekening_belanja->nama_akun;
         $n->keterangan      = $req->keterangan;
+        $n->jenis_rfk       = 'murni';
         $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');

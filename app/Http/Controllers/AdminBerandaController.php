@@ -84,18 +84,14 @@ class AdminBerandaController extends Controller
             Session::flash('info', 'perubahan harap di tutup terlebih dahulu');
             return back();
         }
-        // if (Auth::user()->skpd->realisasi != 0) {
-        //     Session::flash('info', 'Realisasi harap di tutup terlebih dahulu');
-        //     return back();
-        // }
-
-
+        
         Auth::user()->skpd->update(['murni' => 1]);
 
         $n = new LogBukaTutup;
         $n->tahun = Carbon::now()->year;
         $n->nama = 'murni';
         $n->jenis = 'buka';
+        $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
 
         Session::flash('success', 'Penginputan Dibuka');
@@ -110,6 +106,7 @@ class AdminBerandaController extends Controller
         $n->tahun = Carbon::now()->year;
         $n->nama = 'murni';
         $n->jenis = 'tutup';
+        $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
         Session::flash('success', 'Penginputan ditutup');
         return back();
@@ -137,6 +134,7 @@ class AdminBerandaController extends Controller
             $n->nama = 'pergeseran';
             $n->ke = 1;
             $n->jenis = 'buka';
+            $n->skpd_id = Auth::user()->skpd->id;
             $n->save();
         } else {
             //pergeseran selanjutnya
@@ -145,6 +143,7 @@ class AdminBerandaController extends Controller
             $n->nama = 'pergeseran';
             $n->ke = $cp->ke + 1;
             $n->jenis = 'buka';
+            $n->skpd_id = Auth::user()->skpd->id;
             $n->save();
         }
 
@@ -162,6 +161,7 @@ class AdminBerandaController extends Controller
         $n->nama = 'pergeseran';
         $n->ke = $cp->ke;
         $n->jenis = 'tutup';
+        $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
         Session::flash('success', 'Penginputan Pergeseran Ditutup');
         return back();
@@ -169,7 +169,6 @@ class AdminBerandaController extends Controller
 
     public function bukaPerubahan()
     {
-
         //check
         if (Auth::user()->skpd->murni != 0) {
             Session::flash('info', 'Murni Harap Di tutup terlebih dahulu');
@@ -188,16 +187,9 @@ class AdminBerandaController extends Controller
             $attr = $d->toArray();
             $attr['status'] = 99;
             $attr['uraian_id'] = $d->id;
-            //dd($attr, $attr['kode_rekening']);
+
 
             Uraian::create($attr);
-            // $check = Uraian::where('kode_rekening', $attr['kode_rekening'])->where('uraian_id', $attr['id'])->where('status', 99)->first();
-
-            // if ($check == null) {
-            //     Uraian::create($attr);
-            // } else {
-            //     //dd($check);
-            // }
         }
 
         Auth::user()->skpd->update(['perubahan' => 1]);
@@ -218,6 +210,7 @@ class AdminBerandaController extends Controller
         $n->tahun = Carbon::now()->year;
         $n->nama = 'realisasi';
         $n->jenis = 'buka';
+        $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
         Session::flash('success', 'Penginputan Dibuka');
         return back();
@@ -229,6 +222,7 @@ class AdminBerandaController extends Controller
         $n->tahun = Carbon::now()->year;
         $n->nama = 'realisasi';
         $n->jenis = 'tutup';
+        $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
         Session::flash('success', 'Penginputan Ditutup');
         return back();

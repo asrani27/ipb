@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\Subkegiatan;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
 
 class perbaikandata extends Command
 {
@@ -40,35 +42,54 @@ class perbaikandata extends Command
      */
     public function handle()
     {
+        //menambah field jenis_rfk di program, kegiatan, subkegiatan, dan uraian, mengisi data jenis rfk
+        //dd(Auth::user()->skpd);
         $program = Program::get();
-
-        foreach ($program as $key => $item) {
-            if ($item->skpd_id == null) {
-                $item->update([
-                    'skpd_id' => $item->bidang->skpd_id,
-                ]);
-            }
+        foreach ($program as $item) {
+            $item->update(['jenis_rfk' => 'murni']);
         }
 
         $kegiatan = Kegiatan::get();
-
-        foreach ($kegiatan as $key => $item) {
-            if ($item->bidang_id == null) {
-                $item->update([
-                    'bidang_id' => $item->program->bidang_id,
-                ]);
-            }
-            if ($item->skpd_id == null) {
-                $item->update([
-                    'skpd_id' => $item->program->skpd_id,
-                ]);
-            }
-            if ($item->tahun == null) {
-                $item->update([
-                    'tahun' => $item->program->tahun,
-                ]);
-            }
+        foreach ($kegiatan as $item) {
+            $item->update(['jenis_rfk' => 'murni']);
         }
+
+        $subkegiatan = Subkegiatan::get();
+        foreach ($subkegiatan as $item) {
+            $item->update(['jenis_rfk' => 'murni']);
+        }
+
+        $uraian = Uraian::get();
+        foreach ($uraian as $item) {
+            $item->update(['jenis_rfk' => 'murni']);
+        }
+        // foreach ($program as $key => $item) {
+        //     if ($item->skpd_id == null) {
+        //         $item->update([
+        //             'skpd_id' => $item->bidang->skpd_id,
+        //         ]);
+        //     }
+        // }
+
+        // $kegiatan = Kegiatan::get();
+
+        // foreach ($kegiatan as $key => $item) {
+        //     if ($item->bidang_id == null) {
+        //         $item->update([
+        //             'bidang_id' => $item->program->bidang_id,
+        //         ]);
+        //     }
+        //     if ($item->skpd_id == null) {
+        //         $item->update([
+        //             'skpd_id' => $item->program->skpd_id,
+        //         ]);
+        //     }
+        //     if ($item->tahun == null) {
+        //         $item->update([
+        //             'tahun' => $item->program->tahun,
+        //         ]);
+        //     }
+        // }
         // foreach ($data as $key => $item) {
         //     $item->update([
         //         'p_januari_fisik' => $item->p_januari_keuangan == 0 ? 0 : ($item->p_januari_keuangan / $item->dpa) * 100,

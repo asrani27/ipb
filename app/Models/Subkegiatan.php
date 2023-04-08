@@ -21,10 +21,10 @@ class Subkegiatan extends Model
     }
     public function uraianmurni()
     {
-        return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('status', null);
+        return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('jenis_rfk', 'murni');
     }
     public function uraianperubahan()
     {
-        return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('status', 99);
+        return $this->hasMany(Uraian::class, 'subkegiatan_id')->where('jenis_rfk', 'perubahan');
     }
 }
