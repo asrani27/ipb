@@ -146,6 +146,7 @@ class BidangPergeseranController extends Controller
 
     public function updateuraian(Request $req, $program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
     {
+        
         $rekening_belanja   = M_akun::find($req->kode_akun);
         $n = Uraian::find($uraian_id);
         $n->m_akun_id       = $rekening_belanja->id;

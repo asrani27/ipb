@@ -154,10 +154,8 @@
                   <!-- /.box-body -->
                   <div class="box-footer">
 
-                    @if ($uraian->subkegiatan->kirim_angkas == null)
-                              
                     <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-send"></i>  SIMPAN</button>
-                    @endif
+                    
                   </div>
                   <!-- /.box-footer -->
                 </form>
