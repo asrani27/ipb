@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
         Route::get('laporan', [AdminLaporanController::class, 'index']);
+        Route::get('laptriwulan', [AdminLaporanController::class, 'triwulan']);
+        Route::post('laptriwulan', [AdminLaporanController::class, 'exporttriwulan']);
         Route::get('laporan/rencana/{tahun}', [AdminLaporanController::class, 'rencana']);
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
         Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);

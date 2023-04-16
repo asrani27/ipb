@@ -18,7 +18,73 @@ class AdminLaporanController extends Controller
     {
         return view('admin.laporan.index');
     }
+    public function triwulan()
+    {
+        return view('admin.laporan.triwulan');
+    }
+    public function exporttriwulan(Request $req)
+    {
+        $data = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->where('jenis_rfk', $req->jenis)->get();
+        $data->map(function ($item) {
+            $item->angkas_januari       = $item->uraian->sum('p_januari_keuangan');
+            $item->angkas_februari      = $item->uraian->sum('p_februari_keuangan');
+            $item->angkas_maret         = $item->uraian->sum('p_maret_keuangan');
+            $item->angkas_april         = $item->uraian->sum('p_april_keuangan');
+            $item->angkas_mei           = $item->uraian->sum('p_mei_keuangan');
+            $item->angkas_juni          = $item->uraian->sum('p_juni_keuangan');
+            $item->angkas_juli          = $item->uraian->sum('p_juli_keuangan');
+            $item->angkas_agustus       = $item->uraian->sum('p_agustus_keuangan');
+            $item->angkas_september     = $item->uraian->sum('p_september_keuangan');
+            $item->angkas_oktober       = $item->uraian->sum('p_oktober_keuangan');
+            $item->angkas_november      = $item->uraian->sum('p_november_keuangan');
+            $item->angkas_desember      = $item->uraian->sum('p_desember_keuangan');
+            return $item;
+        });
 
+        $path = public_path('/excel/triwulan.xlsx');
+
+        $filename = substr(Auth::user()->skpd->nama, 0, 100) . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header("Content-Disposition: attachment;filename=$filename");
+        header('Cache-Control: max-age=0');
+
+        $reader = IOFactory::createReader('Xlsx');
+        $spreadsheet = $reader->load($path);
+        $spreadsheet->getSheetByName('triwulan')->setCellValue('B3', Auth::user()->skpd->nama);
+        $spreadsheet->getSheetByName('triwulan')->setCellValue('B4', $req->tahun);
+        $spreadsheet->getSheetByName('triwulan')->setCellValue('B5', $req->jenis);
+
+        $contentRow = 8;
+        foreach ($data as $key => $item) {
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('A' . $contentRow, $key + 1);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('B' . $contentRow, $item->nama);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('C' . $contentRow, $item->angkas_januari);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('D' . $contentRow, $item->angkas_februari);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('E' . $contentRow, $item->angkas_maret);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('F' . $contentRow, '=C' . $contentRow . '+D' . $contentRow . '+E' . $contentRow);
+
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('G' . $contentRow, $item->angkas_april);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('H' . $contentRow, $item->angkas_mei);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('I' . $contentRow, $item->angkas_juni);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('J' . $contentRow, '=G' . $contentRow . '+H' . $contentRow . '+I' . $contentRow);
+
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('K' . $contentRow, $item->angkas_juli);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('L' . $contentRow, $item->angkas_agustus);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('M' . $contentRow, $item->angkas_september);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('N' . $contentRow, '=K' . $contentRow . '+L' . $contentRow . '+M' . $contentRow);
+
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('O' . $contentRow, $item->angkas_oktober);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('P' . $contentRow, $item->angkas_november);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('Q' . $contentRow, $item->angkas_desember);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('R' . $contentRow, '=O' . $contentRow . '+P' . $contentRow . '+Q' . $contentRow);
+            $spreadsheet->getSheetByName('triwulan')->setCellValue('S' . $contentRow, '=F' . $contentRow . '+J' . $contentRow . '+N' . $contentRow . '+R' . $contentRow);
+            $contentRow++;
+        }
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
     public function angkas($id)
     {
         $data = Subkegiatan::find($id);
