@@ -20,8 +20,8 @@ class BidangRealisasiController extends Controller
     public function tahun($tahun)
     {
         $bidang_id = Auth::user()->bidang->id;
-        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->get();
-
+        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->where('jenis_rfk', statusRFK())->get();
+        //dd(statusRFK());
         return view('bidang.realisasi.program', compact('data', 'tahun'));
     }
 
@@ -46,15 +46,9 @@ class BidangRealisasiController extends Controller
     public function subkegiatan($tahun, $program_id, $kegiatan_id, $subkegiatan_id)
     {
         $bidang_id = Auth::user()->bidang->id;
-        if (Auth::user()->bidang->skpd->murni == 1) {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-            $jenis = 'Murni';
-        }
+        $jenis = statusRFK();
 
-        if (Auth::user()->bidang->skpd->perubahan == 1) {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-            $jenis = 'Perubahan';
-        }
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenis)->get();
 
 
         $data->map(function ($item) {
