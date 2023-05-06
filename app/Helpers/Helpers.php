@@ -111,7 +111,7 @@ function rencanaSKPD($bulan, $item, $jenisrfk)
 }
 function realisasiSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('status', $jenisrfk);
+    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
     if ($bulan == 'januari') {
         $total = $uraian->sum('r_januari_keuangan');
     }
@@ -153,7 +153,7 @@ function realisasiSKPD($bulan, $item, $jenisrfk)
 
 function fisikRencanaSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('status', $jenisrfk);
+    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
     if ($bulan == 'januari') {
         $total = $uraian->sum('p_januari_fisik');
     }
@@ -194,7 +194,7 @@ function fisikRencanaSKPD($bulan, $item, $jenisrfk)
 }
 function fisikRealisasiSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('status', $jenisrfk);
+    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
     if ($bulan == 'januari') {
         $total = $uraian->sum('r_januari_fisik');
     }
