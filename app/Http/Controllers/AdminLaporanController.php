@@ -136,16 +136,18 @@ class AdminLaporanController extends Controller
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
-        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
-            $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
+            //dd($item->uraian);
+            $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
             return $item;
         })->sum('kolom3');
-
+        //dd($result, $totalsubkegiatan);
         $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
             $status_kirim = 'kirim_rfk_' . $bulan;
             $item->status_kirim = $item[$status_kirim];
+
             if ($item->status_kirim == null) {
                 $item->kolom3 = 0;
                 $item->kolom4 = 0;
@@ -180,7 +182,7 @@ class AdminLaporanController extends Controller
                     $item->kolom16 = 0;
                     $item->kolom17 = 0;
                 } else {
-                    $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
+                    $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
                     $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
 
                     $item->kolom5 = rencanaSKPD($bulan, $item, $result);
@@ -214,7 +216,7 @@ class AdminLaporanController extends Controller
             }
             return $item;
         });
-
+        //dd($datasubkegiatan->take(10));
 
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun'));
     }

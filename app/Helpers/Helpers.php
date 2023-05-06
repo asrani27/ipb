@@ -70,7 +70,7 @@ function namaBulan($bulan)
 
 function rencanaSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('status', $jenisrfk);
+    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
     if ($bulan == 'januari') {
         $total = $uraian->sum('p_januari_keuangan');
     }
