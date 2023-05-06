@@ -122,15 +122,10 @@ class BidangLaporanRFKController extends Controller
         $bidang_id = Auth::user()->bidang->id;
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
-
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        if ($jenisrfk == 'murni') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-        }
 
-        if ($jenisrfk == 'perubahan') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-        }
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+
 
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
