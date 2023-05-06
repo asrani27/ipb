@@ -41,7 +41,10 @@
                               class="btn btn-xs btn-flat btn-primary">Anggaran Kas</a>
                         </td>
                         <td>
-                          @if ($item->subkegiatan->kirim_angkas == null)
+
+                          <a href="/bidang/pergeseran/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/edit/{{$item->id}}"
+                            class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
+                          {{-- @if ($item->subkegiatan->kirim_angkas == null)
                               
                           <a href="/bidang/pergeseran/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/edit/{{$item->id}}"
                             class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
@@ -52,7 +55,7 @@
 
                           <a href="#"
                             class="btn btn-xs btn-flat btn-success"><i class="fa fa-send"></i> Terkirim</a>
-                          @endif
+                          @endif --}}
                         </td>
                     </tr>
                     @endforeach
