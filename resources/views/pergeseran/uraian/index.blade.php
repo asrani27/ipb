@@ -44,6 +44,9 @@
 
                           <a href="/bidang/pergeseran/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/edit/{{$item->id}}"
                             class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
+                          <a href="/bidang/pergeseran/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/delete/{{$item->id}}"
+                            onclick="return confirm('Yakin ingin di hapus');"
+                            class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i></a>
                           {{-- @if ($item->subkegiatan->kirim_angkas == null)
                               
                           <a href="/bidang/pergeseran/program/kegiatan/{{$program_id}}/sub/{{$kegiatan_id}}/uraian/{{$subkegiatan_id}}/edit/{{$item->id}}"
