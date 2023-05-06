@@ -122,19 +122,19 @@ class AdminLaporanController extends Controller
     {
 
         $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
-
-        if ($statusRFK[$bulan] == 'murni') {
-            $result = null;
-        } elseif ($statusRFK[$bulan] == 'perubahan') {
-            $result = 99;
-        }
+        $result = $statusRFK[$bulan];
+        // if ($statusRFK[$bulan] == 'murni') {
+        //     $result = null;
+        // } elseif ($statusRFK[$bulan] == 'perubahan') {
+        //     $result = 99;
+        // }
 
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
-        $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
