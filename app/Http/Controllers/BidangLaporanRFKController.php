@@ -396,13 +396,15 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        if ($jenisrfk == 'murni') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-        }
 
-        if ($jenisrfk == 'perubahan') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-        }
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+        // if ($jenisrfk == 'murni') {
+        //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        // }
+
+        // if ($jenisrfk == 'perubahan') {
+        //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        // }
 
         $totalDPA = $data->sum('dpa');
 
@@ -462,13 +464,15 @@ class BidangLaporanRFKController extends Controller
 
             $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-            if ($jenisrfk == 'murni') {
-                $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-            }
+            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
 
-            if ($jenisrfk == 'perubahan') {
-                $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-            }
+            // if ($jenisrfk == 'murni') {
+            //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+            // }
+
+            // if ($jenisrfk == 'perubahan') {
+            //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+            // }
 
             $totalDPA = $data->sum('dpa');
 
@@ -527,6 +531,7 @@ class BidangLaporanRFKController extends Controller
                 return $item;
             });
         } catch (\Exception $e) {
+
             Session::flash('error', 'Division By Zero');
             return back();
         }
