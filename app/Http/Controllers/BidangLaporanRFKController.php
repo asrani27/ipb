@@ -632,19 +632,22 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        if ($jenisrfk == 'murni') {
-            $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-        }
+        $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+        //dd($datainput);
+        // dd($jenisrfk);
+        // if ($jenisrfk == 'murni') {
+        //     $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
+        // }
 
-        if ($jenisrfk == 'perubahan') {
-            $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-        }
+        // if ($jenisrfk == 'perubahan') {
+        //     $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        // }
         $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
         if ($biodata == null) {
             Session::flash('error', 'Data Di menu Input kosong');
             return back();
         }
-        //dd($data, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
+        //dd($datainput, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
 
         $filename = 'RFK.xlsx';
 
@@ -688,7 +691,7 @@ class BidangLaporanRFKController extends Controller
         if ($bulan == '12') {
             $path = public_path('/excel/desember.xlsx');
         }
-
+        //dd($path);
         $reader = IOFactory::createReader('Xlsx');
         $spreadsheet = $reader->load($path);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H1', Auth::user()->bidang->skpd->nama);
@@ -762,7 +765,7 @@ class BidangLaporanRFKController extends Controller
         $sumSfisik = '=S15';
         $sumTfisik = '=T15';
         $sumUfisik = '=U15';
-        //dd('d');
+        // //dd('d');
         $count = $datainput->count();
 
         foreach ($datainput as $key => $item) {
@@ -861,8 +864,8 @@ class BidangLaporanRFKController extends Controller
         $mulaiHapusDariBaris = $rencanaKeuanganRow - 1;
         $jumlahDihapus = 448 - $mulaiHapusDariBaris;
 
-        //remove row
-        //$countRemove = 77;
+        // //remove row
+        // //$countRemove = 77;
         $spreadsheet->getSheetByName('FISKEU')->removeRow($mulaiHapusDariBaris, $jumlahDihapus);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('J' . $totalRencanaKeuanganBulanRow, $sumJ);
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('K' . $totalRencanaKeuanganBulanRow, $sumK);
