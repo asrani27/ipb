@@ -122,6 +122,11 @@ class BidangLaporanRFKController extends Controller
         $bidang_id = Auth::user()->bidang->id;
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        if ($jenisrfk == null) {
+            Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+            return back();
+        }
+
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
@@ -395,6 +400,11 @@ class BidangLaporanRFKController extends Controller
         $bidang_id = Auth::user()->bidang->id;
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        if ($jenisrfk == null) {
+            Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+            return back();
+        }
+
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
 
         $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
@@ -463,6 +473,11 @@ class BidangLaporanRFKController extends Controller
             $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
             $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+            if ($jenisrfk == null) {
+                Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+                return back();
+            }
+
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
 
@@ -551,6 +566,11 @@ class BidangLaporanRFKController extends Controller
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        if ($jenisrfk == null) {
+            Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+            return back();
+        }
+
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         if ($jenisrfk == 'murni') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
