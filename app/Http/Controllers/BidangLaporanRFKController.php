@@ -652,6 +652,11 @@ class BidangLaporanRFKController extends Controller
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
+        if ($jenisrfk == null) {
+            Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
+            return back();
+        }
+
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
         //dd($datainput);
