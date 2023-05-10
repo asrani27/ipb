@@ -556,6 +556,7 @@ class BidangLaporanRFKController extends Controller
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
         }
 
+
         if ($jenisrfk == 'perubahan') {
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
         }
