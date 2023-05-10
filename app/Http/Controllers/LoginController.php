@@ -55,7 +55,7 @@ class LoginController extends Controller
                 return redirect('/bidang/beranda');
             } elseif (Auth::user()->hasRole('pptk')) {
                 Session::flash('success', 'Selamat Datang');
-                return redirect('/berandapptk');
+                return redirect('/pptk/beranda');
             } else {
                 Session::flash('success', 'Selamat Datang');
                 return 'role lain';

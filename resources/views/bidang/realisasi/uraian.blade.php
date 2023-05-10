@@ -62,7 +62,9 @@
                   
               <tr style="font-size:10px;">
                 <td style="width: 10px">{{$key + 1}}</td>
-                <td width="200px">{{$item->nama}}</td>
+                <td width="200px">{{$item->nama}}<br/>
+                {{$item->keterangan}}
+                </td>
                 <td>{{number_format($item->dpa)}}</td>
                 <td>
                 Renc.Keuangan <br/>

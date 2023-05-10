@@ -11,15 +11,19 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminKrkController;
 use App\Http\Controllers\AdminPptkController;
+use App\Http\Controllers\PPTKMurniController;
 use App\Http\Controllers\AdminBidangController;
 use App\Http\Controllers\BidangKirimController;
+use App\Http\Controllers\BidangMurniController;
 use App\Http\Controllers\TpermohonanController;
 use App\Http\Controllers\AdminBerandaController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\AdminPeriodeController;
+use App\Http\Controllers\AdminProgramController;
 use App\Http\Controllers\BidangAngkasController;
 use App\Http\Controllers\BidangUraianController;
 use App\Http\Controllers\LupaPasswordController;
+use App\Http\Controllers\AdminKegiatanController;
 use App\Http\Controllers\BidangBerandaController;
 use App\Http\Controllers\BidangProgramController;
 use App\Http\Controllers\DaftarLayananController;
@@ -27,6 +31,7 @@ use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminBatasInputController;
 use App\Http\Controllers\AdminPermohonanController;
+use App\Http\Controllers\AdminValidasiController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
 use App\Http\Controllers\BidangLaporanRFKController;
@@ -64,6 +69,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('laptriwulan', [AdminLaporanController::class, 'triwulan']);
         Route::post('laptriwulan', [AdminLaporanController::class, 'exporttriwulan']);
         Route::get('laporan/rencana/{tahun}', [AdminLaporanController::class, 'rencana']);
+        Route::get('laporan/rencana/batal/{id}', [AdminLaporanController::class, 'rencanabatal']);
         Route::get('laporan/{tahun}', [AdminLaporanController::class, 'laporan']);
         Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);
         Route::get('laporan/{tahun}/{bulan}', [AdminLaporanController::class, 'laporanRfk']);
@@ -85,6 +91,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('batas_input/edit/{id}', [AdminBatasInputController::class, 'update']);
         Route::get('batas_input/delete/{id}', [AdminBatasInputController::class, 'delete']);
 
+        Route::get('validasi', [AdminValidasiController::class, 'index']);
         Route::get('beranda', [AdminBerandaController::class, 'index']);
 
         Route::get('beranda/murni/buka', [AdminBerandaController::class, 'bukaMurni']);
@@ -108,6 +115,20 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('bidang/createuser/{id}', [AdminBidangController::class, 'createuser']);
         Route::post('bidang/createuser/{id}', [AdminBidangController::class, 'storeuser']);
         Route::get('bidang/resetpass/{id}', [AdminBidangController::class, 'resetpass']);
+
+        Route::get('program', [AdminProgramController::class, 'index']);
+        Route::get('program/add', [AdminProgramController::class, 'create']);
+        Route::post('program/add', [AdminProgramController::class, 'store']);
+        Route::get('program/edit/{id}', [AdminProgramController::class, 'edit']);
+        Route::post('program/edit/{id}', [AdminProgramController::class, 'update']);
+        Route::get('program/delete/{id}', [AdminProgramController::class, 'delete']);
+
+        Route::get('kegiatan', [AdminKegiatanController::class, 'index']);
+        Route::get('kegiatan/add', [AdminKegiatanController::class, 'create']);
+        Route::post('kegiatan/add', [AdminKegiatanController::class, 'store']);
+        Route::get('kegiatan/edit/{id}', [AdminKegiatanController::class, 'edit']);
+        Route::post('kegiatan/edit/{id}', [AdminKegiatanController::class, 'update']);
+        Route::get('kegiatan/delete/{id}', [AdminKegiatanController::class, 'delete']);
 
         Route::get('pptk', [AdminPptkController::class, 'index']);
         Route::get('pptk/add', [AdminPptkController::class, 'create']);
@@ -135,6 +156,10 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 
         Route::get('detail/subkegiatan/{id}', [BidangSubkegiatanController::class, 'detailSubKegiatan']);
 
+        //-------------------route pergeseran--------------------------//
+
+        Route::get('murni/subkegiatan', [BidangMurniController::class, 'subkegiatan']);
+        //-------------------------------------------------------------//
         //-------------------route pergeseran--------------------------//
         Route::get('pergeseran/program', [BidangPergeseranController::class, 'program']);
         Route::get('pergeseran/program/kegiatan/{program_id}', [BidangPergeseranController::class, 'kegiatan']);
@@ -316,14 +341,18 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
-    Route::get('berandapptk', [BerandaController::class, 'pptk']);
+    Route::get('pptk/beranda', [BerandaController::class, 'pptk']);
 
-    Route::get('skpd/bidang/program', [ProgramController::class, 'index']);
-    Route::get('skpd/bidang/program/add', [ProgramController::class, 'create']);
-    Route::post('skpd/bidang/program/add', [ProgramController::class, 'store']);
-    Route::get('skpd/bidang/program/edit/{id}', [ProgramController::class, 'edit']);
-    Route::post('skpd/bidang/program/edit/{id}', [ProgramController::class, 'update']);
-    Route::get('skpd/bidang/program/delete/{id}', [ProgramController::class, 'delete']);
+    Route::get('pptk/murni', [PPTKMurniController::class, 'subkegiatan']);
+    Route::get('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'addsubkegiatan']);
+    Route::post('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'storesubkegiatan']);
+
+    // Route::get('skpd/bidang/program', [ProgramController::class, 'index']);
+    // Route::get('skpd/bidang/program/add', [ProgramController::class, 'create']);
+    // Route::post('skpd/bidang/program/add', [ProgramController::class, 'store']);
+    // Route::get('skpd/bidang/program/edit/{id}', [ProgramController::class, 'edit']);
+    // Route::post('skpd/bidang/program/edit/{id}', [ProgramController::class, 'update']);
+    // Route::get('skpd/bidang/program/delete/{id}', [ProgramController::class, 'delete']);
 });
 
 Route::group(['middleware' => ['auth', 'role:superadmin|admin|bidang|pptk']], function () {

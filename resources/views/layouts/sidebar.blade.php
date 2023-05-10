@@ -8,6 +8,8 @@
         @include('layouts.menu_admin');
     @elseif(Auth::user()->hasRole('bidang'))
         @include('layouts.menu_bidang');
+    @elseif(Auth::user()->hasRole('pptk'))
+        @include('layouts.menu_pptk');
     @endif
     </ul>
 </section>

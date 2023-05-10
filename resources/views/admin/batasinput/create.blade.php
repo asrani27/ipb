@@ -29,79 +29,79 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Angkas</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="angkas" required>
+                    <input type="date" class="form-control" name="angkas" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Januari</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="januari" required>
+                    <input type="date" class="form-control" name="januari" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Februari</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="februari" required>
+                    <input type="date" class="form-control" name="februari" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Maret</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="maret" required>
+                    <input type="date" class="form-control" name="maret" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">April</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="april" required>
+                    <input type="date" class="form-control" name="april" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Mei</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="mei" required>
+                    <input type="date" class="form-control" name="mei" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Juni</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="juni" required>
+                    <input type="date" class="form-control" name="juni" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Juli</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="juli" required>
+                    <input type="date" class="form-control" name="juli" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Agustus</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="agustus" required>
+                    <input type="date" class="form-control" name="agustus" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">September</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="september" required>
+                    <input type="date" class="form-control" name="september" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Oktober</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="oktober" required>
+                    <input type="date" class="form-control" name="oktober" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">November</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="november" required>
+                    <input type="date" class="form-control" name="november" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Desember</label>
                   <div class="col-sm-10">
-                    <input type="date" class="form-control" name="desember" required>
+                    <input type="date" class="form-control" name="desember" required value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                   </div>
                 </div>
                 <div class="form-group">

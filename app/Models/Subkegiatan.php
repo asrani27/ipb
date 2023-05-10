@@ -11,6 +11,10 @@ class Subkegiatan extends Model
     protected $table = 'subkegiatan';
     protected $guarded = ['id'];
 
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'program_id');
+    }
     public function kegiatan()
     {
         return $this->belongsTo(Kegiatan::class, 'kegiatan_id');

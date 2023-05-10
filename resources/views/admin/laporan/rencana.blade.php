@@ -51,8 +51,8 @@
                   <tr style="font-size:10px;">
                   @endif
                     <td>
-                      @if ($item3->status_kirim == 1)
-                      <a href="/admin/laporan/batal/{{$item3->id}}/{{$bulan}}" onclick="return confirm('Yakin Ingin Di Batalkan?');"><i class="fa fa-times-circle text-danger"></i></a>
+                      @if ($item3->kirim_angkas == 1)
+                      <a href="/admin/laporan/rencana/batal/{{$item3->id}}" onclick="return confirm('Yakin Ingin Di Batalkan?');"><i class="fa fa-times-circle text-danger"></i></a>
                       @endif
                     </td>
                     <td>{{$subkeg++}}</td>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Uraian;
+use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -220,6 +222,21 @@ class BerandaController extends Controller
     }
     public function pptk()
     {
-        return view('pptk.beranda');
+        $status = statusRFK();
+        $result = $status;
+        $data = null;
+
+        $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
+        $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
+
+        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
+
+        $subkegiatan->map(function ($item) use ($result) {
+            $item->uraian = $item->uraian->where('jenis_rfk', $result);
+            $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+            return $item;
+        });
+
+        return view('pptk.home', compact('data', 't_subkegiatan', 't_uraian', 'subkegiatan'));
     }
 }

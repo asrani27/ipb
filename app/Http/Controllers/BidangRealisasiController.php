@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatasInput;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -68,6 +70,27 @@ class BidangRealisasiController extends Controller
 
     public function store(Request $req)
     {
+        //check status angkas
+        $check = Uraian::find($req->uraian_id);
+        if ($check->subkegiatan->kirim_angkas == null) {
+            Session::flash('warning', 'Rencana / Angkas Perlu di kirim terlebih dahulu');
+            return back();
+        }
+        //check status laporan telah di kirim
+        $kirim_rfk = 'kirim_rfk_' . $req->bulan;
+
+        if ($check->subkegiatan[$kirim_rfk] == 1) {
+            Session::flash('warning', 'Laporan RFK Bulan ' . $req->bulan . ' Sudah terkirim, jadi tidak bisa edit realisasi');
+            return back();
+        }
+
+        //check batas input
+        $bt = BatasInput::where('skpd_id', Auth::user()->bidang->skpd->id)->where('tahun', $check->tahun)->first();
+        if (Carbon::now()->format('Y-m-d') > $bt[$req->bulan]) {
+            Session::flash('warning', 'Batas Penginputan Realisasi ' . Carbon::parse($bt[$req->bulan])->format('d-m-Y'));
+            return back();
+        }
+
         $data = Uraian::find($req->uraian_id);
         // if ($data['p_' . $req->bulan . '_keuangan'] < $req->real_realisasi) {
         //     Session::flash('info', 'Tidak bisa melebihi angka yang di rencanakan');
@@ -89,6 +112,25 @@ class BidangRealisasiController extends Controller
 
     public function storeFisik(Request $req)
     {
+        $check = Uraian::find($req->uraian_id);
+        if ($check->subkegiatan->kirim_angkas == null) {
+            Session::flash('warning', 'Rencana / Angkas Perlu di kirim terlebih dahulu');
+            return back();
+        }
+        $kirim_rfk = 'kirim_rfk_' . $req->bulan;
+
+        if ($check->subkegiatan[$kirim_rfk] == 1) {
+            Session::flash('warning', 'Laporan RFK Bulan ' . $req->bulan . ' Sudah terkirim, jadi tidak bisa edit realisasi');
+            return back();
+        }
+
+        //check batas input
+        $bt = BatasInput::where('skpd_id', Auth::user()->bidang->skpd->id)->where('tahun', $check->tahun)->first();
+        if (Carbon::now()->format('Y-m-d') > $bt[$req->bulan]) {
+            Session::flash('warning', 'Batas Penginputan Realisasi ' . Carbon::parse($bt[$req->bulan])->format('d-m-Y'));
+            return back();
+        }
+
         Uraian::find($req->uraian_id)->update([
             'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
         ]);

@@ -5,16 +5,37 @@ use Illuminate\Support\Facades\Auth;
 
 function statusRFK()
 {
-    if (Auth::user()->bidang->skpd->murni == 1) {
-        $result = 'murni';
-    } elseif (Auth::user()->bidang->skpd->pergeseran == 1) {
-        $result = 'pergeseran';
-    } elseif (Auth::user()->bidang->skpd->perubahan == 1) {
-        $result = 'perubahan';
+    if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->skpd->murni == 1) {
+            $result = 'murni';
+        } elseif (Auth::user()->skpd->pergeseran == 1) {
+            $result = 'pergeseran';
+        } elseif (Auth::user()->skpd->perubahan == 1) {
+            $result = 'perubahan';
+        } else {
+            $result = null;
+        }
+    } elseif (Auth::user()->hasRole('pptk')) {
+        if (Auth::user()->pptk->skpd->murni == 1) {
+            $result = 'murni';
+        } elseif (Auth::user()->pptk->skpd->pergeseran == 1) {
+            $result = 'pergeseran';
+        } elseif (Auth::user()->pptk->skpd->perubahan == 1) {
+            $result = 'perubahan';
+        } else {
+            $result = null;
+        }
     } else {
-        $result = null;
+        if (Auth::user()->bidang->skpd->murni == 1) {
+            $result = 'murni';
+        } elseif (Auth::user()->bidang->skpd->pergeseran == 1) {
+            $result = 'pergeseran';
+        } elseif (Auth::user()->bidang->skpd->perubahan == 1) {
+            $result = 'perubahan';
+        } else {
+            $result = null;
+        }
     }
-
 
     return $result;
 }

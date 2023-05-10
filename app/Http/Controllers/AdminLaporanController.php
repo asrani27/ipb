@@ -122,6 +122,11 @@ class AdminLaporanController extends Controller
     {
 
         $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
+        if ($statusRFK == null) {
+            Session::flash('error', 'Periode RFK Tahun ' . $tahun . ' Belum Di isi');
+            return back();
+        }
+
         $result = $statusRFK[$bulan];
         // if ($statusRFK[$bulan] == 'murni') {
         //     $result = null;
@@ -252,6 +257,12 @@ class AdminLaporanController extends Controller
         return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan'));
     }
 
+    public function rencanabatal($id)
+    {
+        Subkegiatan::find($id)->update(['kirim_angkas' => null]);
+        Session::flash('success', 'Berhasil Di kembalikan');
+        return back();
+    }
 
     public function excel($tahun, $bulan)
     {
