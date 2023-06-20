@@ -938,6 +938,7 @@ class BidangLaporanRFKController extends Controller
 
         $rfkMulaiKosong = $datainput->count() + 13;
 
+        $spreadsheet->getSheetByName('RFK')->setCellValue('E13', 'jancuk');
         for ($x = $rfkMulaiKosong; $x < 85; $x++) {
             $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $x, '');
             $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $x, '');
