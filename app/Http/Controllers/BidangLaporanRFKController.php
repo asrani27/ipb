@@ -651,7 +651,8 @@ class BidangLaporanRFKController extends Controller
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
-
+        $masalah = T_m::where('subkegiatan_id', $subkegiatan_id)->where('bulan', $bulan)->where('tahun', $tahun)->get();
+        //dd($masalah);
         $jenisrfk = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         if ($jenisrfk == null) {
             Session::flash('info', 'Jenis RFK belum di input oleh admin skpd');
@@ -747,6 +748,24 @@ class BidangLaporanRFKController extends Controller
             $spreadsheet->getSheetByName('INPUT')->setCellValue('C' . $mulaiHapus, '');
             $spreadsheet->getSheetByName('INPUT')->setCellValue('D' . $mulaiHapus, '');
             $mulaiHapus++;
+        }
+
+        //insert masalah
+        $rowMasalah = 11;
+        foreach ($masalah as $key => $item) {
+            $spreadsheet->getSheetByName('M')->setCellValue('B' . $rowMasalah, $item->deskripsi);
+            $spreadsheet->getSheetByName('M')->setCellValue('D' . $rowMasalah, $item->permasalahan);
+            $spreadsheet->getSheetByName('M')->setCellValue('E' . $rowMasalah, $item->upaya);
+            $spreadsheet->getSheetByName('M')->setCellValue('F' . $rowMasalah, $item->pihak_pembantu);
+            $rowMasalah++;
+        }
+
+        //insert fiskeu
+        foreach ($datainput as $key => $item) {
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('B' . $contentRow, $item->kode_rekening);
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('C' . $contentRow, $item->nama);
+            $spreadsheet->getSheetByName('INPUT')->setCellValue('D' . $contentRow, $item->dpa);
+            $contentRow++;
         }
 
         $spreadsheet->getSheetByName('FISKEU')->setCellValue('F3', ': ' . Auth::user()->bidang->skpd->nama);
