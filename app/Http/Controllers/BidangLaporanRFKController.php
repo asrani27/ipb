@@ -942,21 +942,24 @@ class BidangLaporanRFKController extends Controller
             $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $x, '');
             $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $x, '');
             $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $x, '');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('R' . $x, '');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $x, '=D' . $x . '/$D$');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $x, '');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('R' . $x, '');
         }
+
+        $jmlrfkdihapus = 85 - $rfkMulaiKosong;
+        $spreadsheet->getSheetByName('RFK')->removeRow($rfkMulaiKosong, $jmlrfkdihapus);
 
         $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('A3', strtoupper(Auth::user()->bidang->skpd->nama));
         $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . ucfirst(strtolower(Auth::user()->bidang->skpd->nama)));
