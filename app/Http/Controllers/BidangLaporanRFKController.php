@@ -572,15 +572,16 @@ class BidangLaporanRFKController extends Controller
         }
 
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
-        if ($jenisrfk == 'murni') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-        }
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+        // dd($jenisrfk, $subkegiatan_id);
+        // if ($jenisrfk == 'murni') {
+        // }
 
 
-        if ($jenisrfk == 'perubahan') {
-            $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-        }
-
+        // if ($jenisrfk == 'perubahan') {
+        //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
+        // }
+        // dd($data);
         $totalDPA = $data->sum('dpa');
 
         $data->map(function ($item) use ($totalDPA, $bulan) {
