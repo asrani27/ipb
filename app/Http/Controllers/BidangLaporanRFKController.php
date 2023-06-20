@@ -659,15 +659,8 @@ class BidangLaporanRFKController extends Controller
 
         $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
         $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
-        //dd($datainput);
-        // dd($jenisrfk);
-        // if ($jenisrfk == 'murni') {
-        //     $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-        // }
 
-        // if ($jenisrfk == 'perubahan') {
-        //     $datainput = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-        // }
+
         $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
         if ($biodata == null) {
             Session::flash('error', 'Data Di menu Input kosong');
