@@ -753,6 +753,7 @@ class BidangLaporanRFKController extends Controller
         //insert masalah
         $rowMasalah = 11;
         foreach ($masalah as $key => $item) {
+            $spreadsheet->getSheetByName('M')->setCellValue('A' . $rowMasalah, $key + 1);
             $spreadsheet->getSheetByName('M')->setCellValue('B' . $rowMasalah, $item->deskripsi);
             $spreadsheet->getSheetByName('M')->setCellValue('D' . $rowMasalah, $item->permasalahan);
             $spreadsheet->getSheetByName('M')->setCellValue('E' . $rowMasalah, $item->upaya);
