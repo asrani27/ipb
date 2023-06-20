@@ -669,7 +669,9 @@ class BidangLaporanRFKController extends Controller
         }
         //dd($datainput, $jenisrfk, $bulan, $tahun, $subkegiatan_id, $biodata, $program, $kegiatan);
 
-        $filename = 'RFK.xlsx';
+        $replace = str_replace([" ", ","], "_", substr($kegiatan->nama, 0, 50));
+
+        $filename = 'RFK_' . $replace . '.xlsx';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header("Content-Disposition: attachment;filename=$filename");
@@ -937,7 +939,7 @@ class BidangLaporanRFKController extends Controller
         }
 
         $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('A3', strtoupper(Auth::user()->bidang->skpd->nama));
-        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . strtoupper(Auth::user()->bidang->skpd->nama));
+        $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('F9', 'Kepala ' . ucfirst(strtolower(Auth::user()->bidang->skpd->nama)));
         $spreadsheet->getSheetByName('SPENGANTAR')->setCellValue('C8', $biodata->no_surat);
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
