@@ -78,6 +78,7 @@
           </div>
         </div>
         <a href="/bidang/laporanrfk-rfk_m/tambah-m/{{$subkegiatan->id}}/{{$bulan}}" class='btn btn-flat btn-block bg-purple'>TAMBAH</a>
+        <a href="/bidang/laporanrfk-rfk_m/sama-m/{{$subkegiatan->id}}/{{$bulan}}/{{$tahun}}" class='btn btn-flat btn-block btn-primary' onclick="return confirm('Yakin ingin disamakan dengan bulan sebelumnya?');">SAMA DENGAN SEBELUMNYA</a>
       </div>
     </div>
 </section>

@@ -242,6 +242,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('laporanrfk-rfk_m/edit/{id}', [BidangLaporanRFKController::class, 'editM']);
         Route::post('laporanrfk-rfk_m/edit/{id}', [BidangLaporanRFKController::class, 'updateM']);
         Route::get('laporanrfk-rfk_m/tambah-m/{id}/{bulan}', [BidangLaporanRFKController::class, 'tambahM']);
+        Route::get('laporanrfk-rfk_m/sama-m/{id}/{bulan}/{tahun}', [BidangLaporanRFKController::class, 'samaM']);
         Route::post('laporanrfk-rfk_m/tambah-m/{id}/{bulan}', [BidangLaporanRFKController::class, 'storeM']);
 
         Route::get('laporanrfk-rfk_pbj/tambah-pbj/{id}/{bulan}', [BidangLaporanRFKController::class, 'tambahPbj']);

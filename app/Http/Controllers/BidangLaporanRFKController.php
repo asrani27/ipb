@@ -38,6 +38,26 @@ class BidangLaporanRFKController extends Controller
     {
         return view('bidang.laporan.m.create', compact('id', 'bulan'));
     }
+    public function samaM($id, $bulan, $tahun)
+    {
+        //ambil masalah di bulan sebelumnya
+        $data = T_m::where('subkegiatan_id', $id)->where('bulan', $bulan - 1)->where('tahun', $tahun)->get();
+        foreach ($data as $key => $item) {
+            $n = new T_m;
+            $n->deskripsi  = $item->deskripsi;
+            $n->permasalahan = $item->permasalahan;
+            $n->upaya = $item->upaya;
+            $n->pihak_pembantu = $item->pihak_pembantu;
+            $n->tahun = $tahun;
+            $n->bulan = $bulan;
+            $n->program_id = $item->program_id;
+            $n->kegiatan_id = $item->kegiatan_id;
+            $n->subkegiatan_id = $item->subkegiatan_id;
+            $n->save();
+        }
+        Session::flash('success', 'berhasil Di simpan');
+        return back();
+    }
     public function tambahPbj($id, $bulan)
     {
         return view('bidang.laporan.pbj.create', compact('id', 'bulan'));
