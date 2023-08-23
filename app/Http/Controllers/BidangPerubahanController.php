@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\M_akun;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,35 +15,34 @@ class BidangPerubahanController extends Controller
 {
     public function program()
     {
-        Session::flash('info', 'Fix kan Modul Murni Terlebih Dahulu');
-        return back();
 
-        $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->paginate(30);
-        return view('bidang.perubahan.program', compact('data'));
+        $data = Program::where('bidang_id', Auth::user()->bidang->id)->orderBy('id', 'DESC')->where('jenis_rfk', 'perubahan')->paginate(30);
+        return view('perubahan.program.index', compact('data'));
     }
 
     public function kegiatan($program_id)
     {
         $data = Kegiatan::where('program_id', $program_id)->orderBy('id', 'DESC')->paginate(30);
+
         $program = Program::find($program_id);
-        return view('bidang.perubahan.kegiatan', compact('data', 'program'));
+        return view('perubahan.kegiatan.index', compact('data', 'program'));
     }
     public function subKegiatan($program_id, $kegiatan_id)
     {
         $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->orderBy('id', 'DESC')->paginate(30);
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
-        return view('bidang.perubahan.subkegiatan', compact('data', 'program', 'kegiatan', 'program_id', 'kegiatan_id'));
+        return view('perubahan.subkegiatan.index', compact('data', 'program', 'kegiatan', 'program_id', 'kegiatan_id'));
     }
 
     public function uraian($program_id, $kegiatan_id, $subkegiatan_id)
     {
-        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->orderBy('id', 'DESC')->get();
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', 'perubahan')->orderBy('id', 'DESC')->get();
 
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
-        return view('bidang.perubahan.uraian', compact('data', 'program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id'));
+        return view('perubahan.uraian.index', compact('data', 'program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id'));
     }
     public function editUraian($program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
     {
@@ -175,11 +175,14 @@ class BidangPerubahanController extends Controller
         $kegiatan = Kegiatan::find($kegiatan_id);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
-        return view('bidang.perubahan.create_uraian', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id'));
+        $akun = M_akun::get();
+        return view('perubahan.uraian.create', compact('program', 'kegiatan', 'subkegiatan', 'program_id', 'kegiatan_id', 'subkegiatan_id', 'akun'));
     }
-
-    public function storeUraian(Request $req, $program_id, $kegiatan_id, $subkegiatan_id)
+    public function storeuraian(Request $req, $program_id, $kegiatan_id, $subkegiatan_id)
     {
+
+        $rekening_belanja   = M_akun::find($req->kode_akun);
+
         $n                  = new Uraian;
         $n->skpd_id         = Auth::user()->bidang->skpd_id;
         $n->bidang_id       = Auth::user()->bidang->id;
@@ -187,10 +190,12 @@ class BidangPerubahanController extends Controller
         $n->tahun           = Program::find($program_id)->tahun;
         $n->kegiatan_id     = $kegiatan_id;
         $n->subkegiatan_id  = $subkegiatan_id;
-        $n->kode_rekening   = $req->kode_rekening;
-        $n->nama            = $req->nama;
+        $n->m_akun_id       = $rekening_belanja->id;
+        $n->kode_rekening   = $rekening_belanja->kode_akun;
+        $n->nama            = $rekening_belanja->nama_akun;
+        $n->keterangan      = $req->keterangan;
+        $n->jenis_rfk       = 'perubahan';
         $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
-        $n->status            = 99;
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/perubahan/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id . '/uraian/' . $subkegiatan_id);

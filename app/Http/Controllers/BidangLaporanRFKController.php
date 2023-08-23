@@ -500,15 +500,7 @@ class BidangLaporanRFKController extends Controller
 
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
-
-            // if ($jenisrfk == 'murni') {
-            //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', null)->get();
-            // }
-
-            // if ($jenisrfk == 'perubahan') {
-            //     $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('status', 99)->get();
-            // }
-
+            
             $totalDPA = $data->sum('dpa');
 
             $data->map(function ($item) use ($totalDPA, $bulan) {
@@ -552,6 +544,7 @@ class BidangLaporanRFKController extends Controller
 
                     $item->fisikRencanaKUM = fisikRencana($bulan, $item);
                     $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
+                    //dd($item->fisikRencanaTTB);
                     $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
                     $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
                     $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
@@ -565,6 +558,7 @@ class BidangLaporanRFKController extends Controller
                 }
                 return $item;
             });
+            
         } catch (\Exception $e) {
 
             Session::flash('error', 'Division By Zero');

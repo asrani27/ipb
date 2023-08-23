@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bidang;
+use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\JenisRfk;
 use App\Models\Kegiatan;
@@ -142,14 +143,78 @@ class AdminLaporanController extends Controller
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
-
+        //dd($subkeg);
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
             //dd($item->uraian);
             $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
             return $item;
         })->sum('kolom3');
         //dd($result, $totalsubkegiatan);
+
+        // $data2 = Uraian::where('subkegiatan_id', 217)->where('jenis_rfk', $result)->get();
+        // //dd($data2);
+        // $totalDPA = $data2->sum('dpa');
+
+        // $data2->map(function ($item) use ($totalDPA, $bulan) {
+        //     //dd($totalDPA, $bulan);
+        //     if ($item->dpa == 0) {
+        //         $item->persenDPA = 0;
+        //         $item->rencanaRP = 0;
+        //         $item->rencanaKUM = 0;
+        //         $item->rencanaTTB = 0;
+        //         $item->realisasiRP = 0;
+        //         $item->realisasiKUM = 0;
+        //         $item->realisasiTTB = 0;
+        //         $item->deviasiKUM = 0;
+        //         $item->deviasiTTB = 0;
+        //         $item->sisaAnggaran = 0;
+        //         $item->capaianKeuangan = 0;
+
+        //         $item->fisikRencanaKUM = 0;
+        //         $item->fisikRencanaTTB = 0;
+        //         $item->fisikRealisasiKUM = 0;
+        //         $item->fisikRealisasiTTB = 0;
+        //         $item->fisikDeviasiKUM = 0;
+        //         $item->fisikDeviasiTTB = 0;
+        //         $item->capaianFisik = 0;
+        //     } else {
+
+        //         $item->persenDPA = ($item->dpa / $totalDPA) * 100;
+        //         $item->rencanaRP = totalRencana($bulan, $item);
+
+        //         $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
+        //         $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
+        //         $item->realisasiRP = totalRealisasi($bulan, $item);
+        //         $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
+        //         $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
+        //         $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
+        //         $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
+        //         $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
+        //         if ($item->rencanaRP == 0) {
+        //             $item->capaianKeuangan = 0;
+        //         } else {
+        //             $item->capaianKeuangan =  ($item->realisasiRP / $item->rencanaRP) * 100;
+        //         }
+
+        //         $item->fisikRencanaKUM = fisikRencana($bulan, $item);
+        //         $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
+        //         //dd($item->fisikRencanaTTB);
+        //         $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
+        //         $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
+        //         $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
+        //         $item->fisikDeviasiTTB =  $item->fisikRealisasiTTB - $item->fisikRencanaTTB;
+
+        //         if ($item->fisikRencanaKUM == 0) {
+        //             $item->capaianFisik = 0;
+        //         } else {
+        //             $item->capaianFisik =  ($item->fisikRealisasiKUM / $item->fisikRencanaKUM) * 100;
+        //         }
+        //     }
+        //     return $item;
+        // });
+        // dd($data2);
         $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
+            //dd();
             $status_kirim = 'kirim_rfk_' . $bulan;
             $item->status_kirim = $item[$status_kirim];
 
@@ -187,17 +252,26 @@ class AdminLaporanController extends Controller
                     $item->kolom16 = 0;
                     $item->kolom17 = 0;
                 } else {
+
                     $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
                     $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
 
                     $item->kolom5 = rencanaSKPD($bulan, $item, $result);
 
-                    $item->kolom6 = ($item->kolom5 / $item->kolom3) * 100;
+                    if ($item->kolom5 == 0 || $item->kolom4 == 0) {
+                        $item->kolom6 = 0;
+                    } else {
+                        $item->kolom6 = ($item->kolom5 / $item->kolom3) * 100;
+                    }
+
                     $item->kolom7 = ($item->kolom6 * $item->kolom4) / 100;
 
                     $item->kolom8 = realisasiSKPD($bulan, $item, $result);
-
-                    $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
+                    if ($item->kolom8 == 0 || $item->kolom3 == 0) {
+                        $item->kolom9 = 0;
+                    } else {
+                        $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
+                    }
                     $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
                     if ($item->kolom8 == 0 && $item->kolom5 == 0) {
                         $item->kolom11 = 0;
@@ -206,9 +280,9 @@ class AdminLaporanController extends Controller
                     }
                     $item->kolom12 = $item->kolom3 - $item->kolom8;
 
-                    $item->kolom13 = fisikRencanaSKPD($bulan, $item, $result);
+                    $item->kolom13 = rencanaKumSkpd($item->id, $result, $bulan);
                     $item->kolom14 = ($item->kolom13 * $item->kolom4) / 100;
-                    $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
+                    $item->kolom15 = realisasiKumSkpd($item->id, $result, $bulan);
                     $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
 
                     //if ($item->kolom15 == 0 && $item->kolom13 == 0) {
@@ -221,6 +295,7 @@ class AdminLaporanController extends Controller
             }
             return $item;
         });
+        //dd($datasubkegiatan);
         //dd($datasubkegiatan->take(10));
 
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun'));
