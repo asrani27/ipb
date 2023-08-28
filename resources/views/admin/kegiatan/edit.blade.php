@@ -21,9 +21,15 @@
                     <select name="program_id" class="form-control select2" required>
                       <option value="">-pilih-</option>
                       @foreach ($program as $item)
-                          <option value="{{$item->id}}" {{$data->program_id == $item->id ? 'selected':''}}>{{$item->nama}}</option>
+                          <option value="{{$item->id}}" {{$data->m_program_id == $item->id ? 'selected':''}}>{{$item->nama}}</option>
                       @endforeach
                   </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-2 control-label">Kode Kegiatan</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="kode" class="form-control" value="{{$data->kode}}" required>
                   </div>
                 </div>
                 <div class="form-group">

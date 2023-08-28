@@ -2,7 +2,39 @@
 
 use App\Models\Uraian;
 use App\Models\JenisRfk;
+use App\Models\T_capaian;
 use Illuminate\Support\Facades\Auth;
+
+
+function checkCapaianProgram($skpd_id, $tahun, $kode)
+{
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'program')->first();
+    if ($check == null) {
+        return false;
+    } else {
+        return $check->capaian;
+    }
+}
+function checkCapaianKegiatan($skpd_id, $tahun, $kode)
+{
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'kegiatan')->first();
+
+    if ($check == null) {
+        return false;
+    } else {
+        return $check->capaian;
+    }
+}
+function checkCapaianSubkegiatan($skpd_id, $tahun, $kode)
+{
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'subkegiatan')->first();
+    //dd($check);
+    if ($check == null) {
+        return false;
+    } else {
+        return $check->capaian;
+    }
+}
 
 function statusRFK()
 {

@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\M_kegiatan;
+use App\Models\M_program;
+use App\Models\M_subkegiatan;
 use App\Models\Subkegiatan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
@@ -43,26 +46,39 @@ class perbaikandata extends Command
     public function handle()
     {
         //menambah field jenis_rfk di program, kegiatan, subkegiatan, dan uraian, mengisi data jenis rfk
+        $sub = Subkegiatan::where('jenis_rfk', 'perubahan')->get();
+
+
+        foreach ($sub as $key => $item) {
+            $new = new M_subkegiatan;
+            $new->skpd_id = 1;
+            $new->tahun = '2023';
+            $new->m_program_id = M_program::where('nama', $item->program->nama)->first()->id;
+            $new->m_kegiatan_id = M_kegiatan::where('nama', $item->kegiatan->nama)->first()->id;
+            $new->nama = $item->nama;
+            $new->save();
+        }
+        return 'sukses';
         //dd(Auth::user()->skpd);
-        $program = Program::get();
-        foreach ($program as $item) {
-            $item->update(['jenis_rfk' => 'murni']);
-        }
+        // $program = Program::get();
+        // foreach ($program as $item) {
+        //     $item->update(['jenis_rfk' => 'murni']);
+        // }
 
-        $kegiatan = Kegiatan::get();
-        foreach ($kegiatan as $item) {
-            $item->update(['jenis_rfk' => 'murni']);
-        }
+        // $kegiatan = Kegiatan::get();
+        // foreach ($kegiatan as $item) {
+        //     $item->update(['jenis_rfk' => 'murni']);
+        // }
 
-        $subkegiatan = Subkegiatan::get();
-        foreach ($subkegiatan as $item) {
-            $item->update(['jenis_rfk' => 'murni']);
-        }
+        // $subkegiatan = Subkegiatan::get();
+        // foreach ($subkegiatan as $item) {
+        //     $item->update(['jenis_rfk' => 'murni']);
+        // }
 
-        $uraian = Uraian::get();
-        foreach ($uraian as $item) {
-            $item->update(['jenis_rfk' => 'murni']);
-        }
+        // $uraian = Uraian::get();
+        // foreach ($uraian as $item) {
+        //     $item->update(['jenis_rfk' => 'murni']);
+        // }
         // foreach ($program as $key => $item) {
         //     if ($item->skpd_id == null) {
         //         $item->update([

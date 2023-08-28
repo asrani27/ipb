@@ -17,6 +17,7 @@ use App\Http\Controllers\BidangKirimController;
 use App\Http\Controllers\BidangMurniController;
 use App\Http\Controllers\TpermohonanController;
 use App\Http\Controllers\AdminBerandaController;
+use App\Http\Controllers\AdminCapaianController;
 use App\Http\Controllers\AdminLaporanController;
 use App\Http\Controllers\AdminPeriodeController;
 use App\Http\Controllers\AdminProgramController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\BidangAngkasController;
 use App\Http\Controllers\BidangUraianController;
 use App\Http\Controllers\LupaPasswordController;
 use App\Http\Controllers\AdminKegiatanController;
+use App\Http\Controllers\AdminValidasiController;
 use App\Http\Controllers\BidangBerandaController;
 use App\Http\Controllers\BidangProgramController;
 use App\Http\Controllers\DaftarLayananController;
@@ -31,9 +33,9 @@ use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminBatasInputController;
 use App\Http\Controllers\AdminPermohonanController;
-use App\Http\Controllers\AdminValidasiController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
+use App\Http\Controllers\AdminSubKegiatanController;
 use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
@@ -65,6 +67,12 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
+
+        Route::get('capaian', [AdminCapaianController::class, 'index']);
+        Route::post('capaian/update', [AdminCapaianController::class, 'updateCapaian']);
+        Route::post('capaian/program', [AdminCapaianController::class, 'capaianProgram']);
+        Route::post('capaian/kegiatan', [AdminCapaianController::class, 'capaianKegiatan']);
+        Route::post('capaian/subkegiatan', [AdminCapaianController::class, 'capaianSubkegiatan']);
         Route::get('laporan', [AdminLaporanController::class, 'index']);
         Route::get('laptriwulan', [AdminLaporanController::class, 'triwulan']);
         Route::post('laptriwulan', [AdminLaporanController::class, 'exporttriwulan']);
@@ -129,6 +137,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('kegiatan/edit/{id}', [AdminKegiatanController::class, 'edit']);
         Route::post('kegiatan/edit/{id}', [AdminKegiatanController::class, 'update']);
         Route::get('kegiatan/delete/{id}', [AdminKegiatanController::class, 'delete']);
+
+        Route::get('subkegiatan', [AdminSubKegiatanController::class, 'index']);
+        Route::get('subkegiatan/edit/{id}', [AdminSubKegiatanController::class, 'edit']);
+        Route::post('subkegiatan/edit/{id}', [AdminSubKegiatanController::class, 'update']);
 
         Route::get('pptk', [AdminPptkController::class, 'index']);
         Route::get('pptk/add', [AdminPptkController::class, 'create']);

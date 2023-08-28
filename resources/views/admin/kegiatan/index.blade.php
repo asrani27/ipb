@@ -20,15 +20,19 @@
                 <tbody>
                 <tr>
                   <th class="text-center">No</th>
+                  <th>Tahun</th>
+                  <th>Kode</th>
                   <th>Kegiatan</th>
-                  <th>Tahun - Program</th>
+                  <th>Program</th>
                   <th>Aksi</th>
                 </tr>
                 @foreach ($data as $key => $item)
                 <tr>
                     <td class="text-center">{{$data->firstItem() + $key}}</td>
+                    <td>{{$item->tahun}}</td>
+                    <td>{{$item->kode}}</td>
                     <td>{{$item->nama}}</td>
-                    <td>{{$item->tahun}} - {{$item->program->nama}}</td>
+                    <td>{{$item->program->nama}}</td>
                     <td>
                         <a href="/admin/kegiatan/edit/{{$item->id}}" class="btn btn-xs btn-flat  btn-success"><i class="fa fa-edit"></i></a>
                         <a href="/admin/kegiatan/delete/{{$item->id}}"
@@ -42,6 +46,7 @@
             </div>
             <!-- /.box-body -->
           </div>
+          {{$data->links()}}
           <!-- /.box -->
         </div>
     </div>

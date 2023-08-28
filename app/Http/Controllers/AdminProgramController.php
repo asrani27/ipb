@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_program;
 use App\Models\Program;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,13 +12,8 @@ class AdminProgramController extends Controller
 {
     public function index()
     {
-        if (statusRFK() == 'murni') {
-            $data = Program::where('skpd_id', Auth::user()->skpd->id)->orderBy('id', 'DESC')->paginate(15);
-            return view('admin.program.index', compact('data'));
-        } else {
-            Session::flash('info', 'Murni Belum Di Buka / Atau Telah Di Tutup');
-            return back();
-        }
+        $data = M_program::where('skpd_id', Auth::user()->skpd->id)->orderBy('id', 'DESC')->paginate(15);
+        return view('admin.program.index', compact('data'));
     }
 
     public function create()
@@ -27,10 +23,10 @@ class AdminProgramController extends Controller
 
     public function store(Request $req)
     {
-        $n = new Program;
+        $n = new M_program;
         $n->tahun = $req->tahun;
         $n->nama = $req->nama;
-        //$n->bidang_id = Auth::user()->bidang->id;
+        $n->kode = $req->kode;
         $n->skpd_id = Auth::user()->skpd->id;
         //$n->jenis_rfk = 'murni';
         $n->save();
@@ -41,7 +37,7 @@ class AdminProgramController extends Controller
 
     public function edit($id)
     {
-        $data = Program::find($id);
+        $data = M_program::find($id);
         return view('admin.program.edit', compact('data'));
     }
 
@@ -49,7 +45,7 @@ class AdminProgramController extends Controller
     public function delete($id)
     {
         try {
-            Program::find($id)->delete();
+            M_program::find($id)->delete();
             Session::flash('success', 'Berhasil Di Hapus');
             return back();
         } catch (\Exception $e) {
@@ -60,8 +56,10 @@ class AdminProgramController extends Controller
 
     public function update(Request $req, $id)
     {
-        $n = Program::find($id);
+        //dd($req->all());
+        $n = M_program::find($id);
         $n->tahun = $req->tahun;
+        $n->kode = $req->kode;
         $n->nama = $req->nama;
         $n->save();
 
