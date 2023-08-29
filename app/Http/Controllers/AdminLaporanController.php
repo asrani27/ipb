@@ -273,7 +273,7 @@ class AdminLaporanController extends Controller
                         $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
                     }
                     $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
-                    if ($item->kolom8 == 0 && $item->kolom5 == 0) {
+                    if ($item->kolom8 == 0 || $item->kolom5 == 0) {
                         $item->kolom11 = 0;
                     } else {
                         $item->kolom11 = ($item->kolom8 / $item->kolom5) * 100;
