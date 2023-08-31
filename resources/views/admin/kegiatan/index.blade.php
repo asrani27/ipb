@@ -32,7 +32,7 @@
                     <td>{{$item->tahun}}</td>
                     <td>{{$item->kode}}</td>
                     <td>{{$item->nama}}</td>
-                    <td>{{$item->program->nama}}</td>
+                    <td>{{$item->program == null ? '' : $item->program->nama}}</td>
                     <td>
                         <a href="/admin/kegiatan/edit/{{$item->id}}" class="btn btn-xs btn-flat  btn-success"><i class="fa fa-edit"></i></a>
                         <a href="/admin/kegiatan/delete/{{$item->id}}"
