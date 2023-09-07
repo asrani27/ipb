@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
 
         Route::get('capaian', [AdminCapaianController::class, 'index']);
+        Route::post('capaian/store', [AdminCapaianController::class, 'simpanCapaian']);
         Route::post('capaian/update', [AdminCapaianController::class, 'updateCapaian']);
         Route::post('capaian/program', [AdminCapaianController::class, 'capaianProgram']);
         Route::post('capaian/kegiatan', [AdminCapaianController::class, 'capaianKegiatan']);

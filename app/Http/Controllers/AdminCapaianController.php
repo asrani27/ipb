@@ -9,10 +9,17 @@ use App\Models\M_kegiatan;
 use Illuminate\Http\Request;
 use App\Models\M_subkegiatan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class AdminCapaianController extends Controller
 {
+
+    public function tarikIndikator()
+    {
+        $response = Http::get('https://sikap.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
+        dd($response);
+    }
     public function index()
     {
         $tahun = Carbon::now()->format('Y');
@@ -36,13 +43,44 @@ class AdminCapaianController extends Controller
     {
 
         $check = T_capaian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->where('jenis', $req->jenis)->where('kode', $req->kode)->first();
-        $check->update(['capaian' => $req->capaian]);
+        $check->update([
+            'tw1' => $req->tw1,
+            'tw2' => $req->tw2,
+            'tw3' => $req->tw3,
+            'tw4' => $req->tw4,
+        ]);
         Session::flash('success', 'Diupdate');
         return back();
     }
+
+    public function storeCapaian(Request $req)
+    {
+        if ($req->kode == null) {
+            Session::flash('warning', 'Harap Isi Kode terlebih dahulu');
+            return back();
+        }
+        $check = T_capaian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->where('jenis', $req->jenis)->where('kode', $req->kode)->first();
+        if ($check != null) {
+            Session::flash('warning', 'Sudah ada');
+            return back();
+        } else {
+            $n = new T_capaian;
+            $n->skpd_id = Auth::user()->skpd->id;
+            $n->tahun = $req->tahun;
+            $n->jenis = $req->jenis;
+            $n->kode = $req->kode;
+            $n->nama = $req->uraian;
+            $n->tw1 = $req->tw1;
+            $n->tw2 = $req->tw2;
+            $n->tw3 = $req->tw3;
+            $n->tw4 = $req->tw4;
+            $n->save();
+            Session::flash('success', 'Berhasil Disimpan');
+            return back();
+        }
+    }
     public function capaianProgram(Request $req)
     {
-
         if ($req->kode == null) {
             Session::flash('warning', 'Harap Isi Kode terlebih dahulu');
             return back();

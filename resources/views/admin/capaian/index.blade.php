@@ -56,7 +56,7 @@
         <div class="inner">
           <h3>Capaian {{$tahun}} </h3>
 
-          <p>.</p>
+          <p><a href="/admin/capaian/tarik-indikator" class="btn btn-sm btn-primary text-bold">TARIK INDIKATOR</a></p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
@@ -79,7 +79,11 @@
               <tr style="font-size:10px;" class="bg-purple">
                 <th style="width: 10px">#</th>
                 <th style="text-align: center">Uraian Kegiatan</th>
-                <th style="text-align: center">Capaian</th>
+                <th style="text-align: center">TW1</th>
+                <th style="text-align: center">TW2</th>
+                <th style="text-align: center">TW3</th>
+                <th style="text-align: center">TW4</th>
+                <th style="text-align: center">aksi</th>
               </tr>
               
 
@@ -92,13 +96,48 @@
               <tr style="font-size:11px;font-weight:bold;" class="bg-danger">
                 <td style="width: 11px;"></td>
                 <td width="400px">{{$item->nama}}</td>
+                @if (checkCapaian($item->skpd_id, $item->tahun, $item->kode, 'program') != null)   
+                  @php
+                  $data = tampilCapaian($item->skpd_id, $item->tahun, $item->kode, 'program');
+                  $capaian = $data['capaian'];
+                  $tw1 = $data['tw1'];
+                  $tw2 = $data['tw2'];
+                  $tw3 = $data['tw3'];
+                  $tw4 = $data['tw4'];
+                  @endphp 
                 <td class="text-center">
-                    @if (checkCapaianProgram($item->skpd_id, $item->tahun, $item->kode) != false)
-                    <a href="#" class=" edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program"  data-tahun="{{$item->tahun}}"> {{checkCapaianProgram($item->skpd_id, $item->tahun, $item->kode)}}</a>
-                    @else
-                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}"  data-tahun="{{$item->tahun}}"><i class="fa fa-edit"></i></a>
-                    @endif
+                  {{$tw1}}
                 </td>
+                <td class="text-center">
+                  {{$tw2}}
+                </td>
+                <td class="text-center">
+                  {{$tw3}}
+                </td>
+                <td class="text-center">
+                  {{$tw4}}
+                </td>
+                <td class="text-center">
+                  
+                  <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                </td>
+                @else
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                </td>
+                @endif
               </tr>
 
                 @foreach ($item->kegiatan as $key2 => $item2)
@@ -108,12 +147,12 @@
                   <td width="200px">{{$item2->nama}}</td>
                   <td class="text-center">
 
-                    @if (checkCapaianKegiatan($item2->skpd_id, $item2->tahun, $item2->kode) != false)
-                    
-                    <a href="#" class=" edit-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}"> {{checkCapaianKegiatan($item2->skpd_id, $item2->tahun, $item2->kode)}}</a>
+                    {{-- Triwulan 1 --}}
+                    {{-- @if (checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan', 'tw1') != null)
+                      <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}">TW 1 : {{checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan', 'tw1')}}</a>
                     @else
-                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian2" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}"  data-tahun="{{$item2->tahun}}"><i class="fa fa-edit"></i></a>
-                    @endif
+                      <a href="#" class="btn btn-xs btn-flat btn-success add-capaian2" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-tahun="{{$item2->tahun}}">TW 1</a>
+                    @endif --}}
                   </td>
                 </tr>
 
@@ -124,11 +163,11 @@
                     <td width="200px">{{$item3->nama}}</td>
                     <td class="text-center">
 
-                        @if (checkCapaianSubkegiatan($item3->skpd_id, $item3->tahun, $item3->kode) != false)
-                        <a href="#" class="edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan"  data-tahun="{{$item3->tahun}}"> {{checkCapaianSubkegiatan($item3->skpd_id, $item3->tahun, $item3->kode)}}</a>
+                        {{-- @if (checkCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan','tw1') != false)
+                        <a href="#" class="edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan"  data-tahun="{{$item3->tahun}}">TW 1 : {{checkCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan', 'tw1')}}</a>
                         @else
-                            <a href="#" class="btn btn-xs btn-flat btn-success add-capaian3" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}"  data-tahun="{{$item3->tahun}}"><i class="fa fa-edit"></i></a>
-                        @endif
+                            <a href="#" class="btn btn-xs btn-flat btn-success add-capaian3" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}"  data-tahun="{{$item3->tahun}}">TW 1</a>
+                        @endif --}}
                         
                     </td>
                     </tr>
@@ -182,7 +221,7 @@
             <span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"><i class="ion ion-clipboard"></i> Isi Capaian</h4>
         </div>
-        <form method="post" action="/admin/capaian/program">
+        <form method="post" action="/admin/capaian/store">
         <div class="modal-body">
             @csrf
             <div class="form-group">
@@ -193,7 +232,7 @@
             </div>
             <div class="form-group">
                 <label>Jenis</label>
-                <input type="text" id="jenis" class="form-control" name="jenis" value="program" readonly>
+                <input type="text" id="jenis" class="form-control" name="jenis" readonly>
             </div>
             <div class="form-group">
                 <label>Kode</label>
@@ -204,8 +243,20 @@
                 <input type="text" id="uraian" class="form-control" name="uraian" readonly>
             </div>
             <div class="form-group">
-                <label>Capaian</label>
-                <input type="text" id="capaian" class="form-control" name="capaian" required>
+                <label>Capaian TW1</label>
+                <input type="text" id="tw1" class="form-control" name="tw1">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW2</label>
+                <input type="text" id="tw2" class="form-control" name="tw2">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW3</label>
+                <input type="text" id="tw3" class="form-control" name="tw3">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW4</label>
+                <input type="text" id="tw4" class="form-control" name="tw4">
             </div>
         </div>
         <div class="modal-footer">
@@ -326,23 +377,35 @@
             </div>
             <div class="form-group">
                 <label>Tahun</label>
-                <input type="text" id="tahun4" class="form-control" name="tahun" readonly>
+                <input type="text" id="edit-tahun" class="form-control" name="tahun" readonly>
             </div>
             <div class="form-group">
                 <label>Jenis</label>
-                <input type="text" id="jenis4" class="form-control" name="jenis" readonly>
+                <input type="text" id="edit-jenis" class="form-control" name="jenis" readonly>
             </div>
             <div class="form-group">
                 <label>Kode</label>
-                <input type="text" id="kode4" class="form-control" name="kode" readonly>
+                <input type="text" id="edit-kode" class="form-control" name="kode" readonly>
             </div>
             <div class="form-group">
                 <label>Uraian</label>
-                <input type="text" id="uraian4" class="form-control" name="uraian" readonly>
+                <input type="text" id="edit-uraian" class="form-control" name="uraian" readonly>
             </div>
             <div class="form-group">
-                <label>Capaian</label>
-                <input type="text" id="capaian4" class="form-control" name="capaian" required>
+                <label>Capaian TW1</label>
+                <input type="text" id="edit-tw1" class="form-control" name="tw1">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW2</label>
+                <input type="text" id="edit-tw2" class="form-control" name="tw2">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW3</label>
+                <input type="text" id="edit-tw3" class="form-control" name="tw3">
+            </div>
+            <div class="form-group">
+                <label>Capaian TW4</label>
+                <input type="text" id="edit-tw4" class="form-control" name="tw4">
             </div>
         </div>
         <div class="modal-footer">
@@ -362,10 +425,14 @@
 
 <script>
     $(document).on('click', '.edit-capaian', function() {
-    $('#kode4').val($(this).data('kode'));
-    $('#jenis4').val($(this).data('jenis'));
-    $('#tahun4').val($(this).data('tahun'));
-    $('#uraian4').val($(this).data('uraian'));
+    $('#edit-kode').val($(this).data('kode'));
+    $('#edit-jenis').val($(this).data('jenis'));
+    $('#edit-tahun').val($(this).data('tahun'));
+    $('#edit-uraian').val($(this).data('uraian'));
+    $('#edit-tw1').val($(this).data('tw1'));
+    $('#edit-tw2').val($(this).data('tw2'));
+    $('#edit-tw3').val($(this).data('tw3'));
+    $('#edit-tw4').val($(this).data('tw4'));
     $("#modal-editcapaian").modal();
   });
   </script>
@@ -373,13 +440,15 @@
 <script>
     $(document).on('click', '.add-capaian', function() {
     $('#kode').val($(this).data('kode'));
+    $('#jenis').val($(this).data('jenis'));
+    $('#triwulan').val($(this).data('tw'));
     $('#tahun').val($(this).data('tahun'));
     $('#uraian').val($(this).data('uraian'));
     $("#modal-addcapaian").modal();
   });
   </script>
 
-<script>
+{{-- <script>
     $(document).on('click', '.add-capaian2', function() {
     $('#kode2').val($(this).data('kode'));
     $('#tahun2').val($(this).data('tahun'));
@@ -395,5 +464,5 @@
     $('#uraian3').val($(this).data('uraian'));
     $("#modal-addcapaian3").modal();
   });
-</script>
+</script> --}}
 @endpush

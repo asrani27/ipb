@@ -5,7 +5,21 @@ use App\Models\JenisRfk;
 use App\Models\T_capaian;
 use Illuminate\Support\Facades\Auth;
 
-
+function checkCapaian($skpd_id, $tahun, $kode, $jenis)
+{
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
+    return $check;
+}
+function tampilCapaian($skpd_id, $tahun, $kode, $jenis)
+{
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
+    $data['capaian'] = 'TW 1 : ' . $check->tw1 . ', TW 2 : ' . $check->tw2 . ', TW 3 : ' . $check->tw3 . ', TW 4 : ' . $check->tw4;
+    $data['tw1'] = $check->tw1;
+    $data['tw2'] = $check->tw2;
+    $data['tw3'] = $check->tw3;
+    $data['tw4'] = $check->tw4;
+    return $data;
+}
 function checkCapaianProgram($skpd_id, $tahun, $kode)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'program')->first();
@@ -15,9 +29,9 @@ function checkCapaianProgram($skpd_id, $tahun, $kode)
         return $check->capaian;
     }
 }
-function checkCapaianKegiatan($skpd_id, $tahun, $kode)
+function checkCapaianKegiatanTW1($skpd_id, $tahun, $kode)
 {
-    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'kegiatan')->first();
+    $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'kegiatan')->where('tw1', '!=', null)->first();
 
     if ($check == null) {
         return false;
