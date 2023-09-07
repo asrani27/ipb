@@ -105,38 +105,38 @@
                   $tw3 = $data['tw3'];
                   $tw4 = $data['tw4'];
                   @endphp 
-                <td class="text-center">
-                  {{$tw1}}
-                </td>
-                <td class="text-center">
-                  {{$tw2}}
-                </td>
-                <td class="text-center">
-                  {{$tw3}}
-                </td>
-                <td class="text-center">
-                  {{$tw4}}
-                </td>
-                <td class="text-center">
-                  
-                  <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
-                </td>
+                  <td class="text-center">
+                    {{$tw1}}
+                  </td>
+                  <td class="text-center">
+                    {{$tw2}}
+                  </td>
+                  <td class="text-center">
+                    {{$tw3}}
+                  </td>
+                  <td class="text-center">
+                    {{$tw4}}
+                  </td>
+                  <td class="text-center">
+                    
+                    <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                  </td>
                 @else
-                <td class="text-center">
-                  
-                </td>
-                <td class="text-center">
-                  
-                </td>
-                <td class="text-center">
-                  
-                </td>
-                <td class="text-center">
-                  
-                </td>
-                <td class="text-center">
-                  <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tahun="{{$item->tahun}}">Isi Capaian</a>
-                </td>
+                  <td class="text-center">
+                    
+                  </td>
+                  <td class="text-center">
+                    
+                  </td>
+                  <td class="text-center">
+                    
+                  </td>
+                  <td class="text-center">
+                    
+                  </td>
+                  <td class="text-center">
+                    <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                  </td>
                 @endif
               </tr>
 
@@ -145,15 +145,48 @@
                 <tr style="font-size:10px;" class="bg-warning">
                   <td></td>
                   <td width="200px">{{$item2->nama}}</td>
-                  <td class="text-center">
-
-                    {{-- Triwulan 1 --}}
-                    {{-- @if (checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan', 'tw1') != null)
-                      <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}">TW 1 : {{checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan', 'tw1')}}</a>
-                    @else
-                      <a href="#" class="btn btn-xs btn-flat btn-success add-capaian2" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-tahun="{{$item2->tahun}}">TW 1</a>
-                    @endif --}}
-                  </td>
+                  @if (checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan') != null)   
+                    @php
+                    $data = tampilCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan');
+                    $capaian = $data['capaian'];
+                    $tw1 = $data['tw1'];
+                    $tw2 = $data['tw2'];
+                    $tw3 = $data['tw3'];
+                    $tw4 = $data['tw4'];
+                    @endphp 
+                    <td class="text-center">
+                      {{$tw1}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw2}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw3}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw4}}
+                    </td>
+                    <td class="text-center">
+                      
+                      <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item2->tahun}}">Edit Capaian</a>
+                    </td>
+                  @else
+                    <td class="text-center">
+                      
+                    </td>
+                    <td class="text-center">
+                      
+                    </td>
+                    <td class="text-center">
+                      
+                    </td>
+                    <td class="text-center">
+                      
+                    </td>
+                    <td class="text-center">
+                      <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}">Isi Capaian</a>
+                    </td>
+                  @endif
                 </tr>
 
                     @foreach ($item2->subkegiatan as $key3 => $item3)
@@ -269,98 +302,7 @@
     </div>
     <!-- /.modal-dialog -->
   </div>
-
-
-  <div class="modal fade" id="modal-addcapaian2">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-purple">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"><i class="ion ion-clipboard"></i> Isi Capaian</h4>
-        </div>
-        <form method="post" action="/admin/capaian/kegiatan">
-        <div class="modal-body">
-            @csrf
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-                <label>Tahun</label>
-                <input type="text" id="tahun2" class="form-control" name="tahun" readonly>
-            </div>
-            <div class="form-group">
-                <label>Jenis</label>
-                <input type="text" id="jenis2" class="form-control" name="jenis" value="kegiatan" readonly>
-            </div>
-            <div class="form-group">
-                <label>Kode</label>
-                <input type="text" id="kode2" class="form-control" name="kode" readonly>
-            </div>
-            <div class="form-group">
-                <label>Uraian</label>
-                <input type="text" id="uraian2" class="form-control" name="uraian" readonly>
-            </div>
-            <div class="form-group">
-                <label>Capaian</label>
-                <input type="text" id="capaian2" class="form-control" name="capaian" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-grey pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Close</button>
-          <button type="submit" class="btn bg-purple"><i class="fa fa-save"></i> Simpan</button>
-        </div>
-        </form>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-
-
-  <div class="modal fade" id="modal-addcapaian3">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-purple">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"><i class="ion ion-clipboard"></i> Isi Capaian</h4>
-        </div>
-        <form method="post" action="/admin/capaian/subkegiatan">
-        <div class="modal-body">
-            @csrf
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-                <label>Tahun</label>
-                <input type="text" id="tahun3" class="form-control" name="tahun" readonly>
-            </div>
-            <div class="form-group">
-                <label>Jenis</label>
-                <input type="text" id="jenis3" class="form-control" name="jenis" value="subkegiatan" readonly>
-            </div>
-            <div class="form-group">
-                <label>Kode</label>
-                <input type="text" id="kode3" class="form-control" name="kode" readonly>
-            </div>
-            <div class="form-group">
-                <label>Uraian</label>
-                <input type="text" id="uraian3" class="form-control" name="uraian" readonly>
-            </div>
-            <div class="form-group">
-                <label>Capaian</label>
-                <input type="text" id="capaian3" class="form-control" name="capaian" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn bg-grey pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Close</button>
-          <button type="submit" class="btn bg-purple"><i class="fa fa-save"></i> Simpan</button>
-        </div>
-        </form>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
+  
 
   <div class="modal fade" id="modal-editcapaian">
     <div class="modal-dialog">
@@ -447,22 +389,5 @@
     $("#modal-addcapaian").modal();
   });
   </script>
-
-{{-- <script>
-    $(document).on('click', '.add-capaian2', function() {
-    $('#kode2').val($(this).data('kode'));
-    $('#tahun2').val($(this).data('tahun'));
-    $('#uraian2').val($(this).data('uraian'));
-    $("#modal-addcapaian2").modal();
-  });
-</script>
-
-<script>
-    $(document).on('click', '.add-capaian3', function() {
-    $('#kode3').val($(this).data('kode'));
-    $('#tahun3').val($(this).data('tahun'));
-    $('#uraian3').val($(this).data('uraian'));
-    $("#modal-addcapaian3").modal();
-  });
-</script> --}}
+  
 @endpush

@@ -53,7 +53,7 @@ class AdminCapaianController extends Controller
         return back();
     }
 
-    public function storeCapaian(Request $req)
+    public function simpanCapaian(Request $req)
     {
         if ($req->kode == null) {
             Session::flash('warning', 'Harap Isi Kode terlebih dahulu');
