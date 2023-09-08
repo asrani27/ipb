@@ -25,7 +25,7 @@ class AdminCapaianController extends Controller
     }
     public function tarikIndikator()
     {
-        $response = Http::get('https://sikap.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
+        $response = Http::get('http://sikap.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
 
         foreach ($response as $key => $program) {
             //simpan indikator program
