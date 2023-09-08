@@ -54,9 +54,9 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>Capaian {{$tahun}} </h3>
+          <h3>{{$tahun}}  </h3>
 
-          <p><a href="/admin/capaian/tarik-indikator" class="btn btn-sm btn-primary text-bold">TARIK INDIKATOR</a></p>
+          <p>CAPAIAN TAHUN</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
@@ -74,6 +74,8 @@
       <!-- Block buttons -->
       <div class="box">
         <div class="box-body table-responsive">
+          <a href="/admin/capaian/tarik-indikator" class="btn btn-sm btn-primary text-bold"><i class="fa fa-recycle"></i> TARIK INDIKATOR DARI SIKAP</a>
+          <a href="/admin/capaian/hapus-indikator" class="btn btn-sm btn-danger text-bold"  onclick="return confirm('Akan menghapus semua indikator dan capaian, Yakin?');"><i class="fa fa-trash"></i> HAPUS INDIKATOR</a>
           <table class="table table-bordered table-condensed">
             <tbody>
               <tr style="font-size:10px;" class="bg-purple">
@@ -95,7 +97,7 @@
 
               <tr style="font-size:11px;font-weight:bold;" class="bg-danger">
                 <td style="width: 11px;"></td>
-                <td width="400px">{{$item->nama}}</td>
+                <td width="400px">{{$item->kode}} {{$item->nama}}</td>
                 @if (checkCapaian($item->skpd_id, $item->tahun, $item->kode, 'program') != null)   
                   @php
                   $data = tampilCapaian($item->skpd_id, $item->tahun, $item->kode, 'program');
@@ -139,12 +141,52 @@
                   </td>
                 @endif
               </tr>
-
+                @foreach (checkIndikator($item->kode, 'program', $item->tahun) as $indikator_program)
+                  <tr style="font-size:11px;font-weight:bold;" class="bg-info">
+                    <td style="width: 11px;"></td>
+                    <td style="width: 11px;">Indikator : {{$indikator_program->nama}}</td>
+                    @if (checkCapaian($item->skpd_id, $item->tahun, $indikator_program->kode_indikator, 'indikator_program') != null)   
+                    @php
+                    $data = tampilCapaian($item->skpd_id, $item->tahun, $indikator_program->kode_indikator, 'indikator_program');
+                    $capaian = $data['capaian'];
+                    $tw1 = $data['tw1'];
+                    $tw2 = $data['tw2'];
+                    $tw3 = $data['tw3'];
+                    $tw4 = $data['tw4'];
+                    @endphp 
+                    <td class="text-center">
+                      {{$tw1}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw2}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw3}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw4}}
+                    </td>
+                    <td class="text-center">
+                      
+                      <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$indikator_program->nama}}" data-kode="{{$indikator_program->kode_indikator}}" data-jenis="indikator_program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                    </td>
+                    @else
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$indikator_program->nama}}" data-kode="{{$indikator_program->kode_indikator}}" data-jenis="indikator_program" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                      </td>
+                    @endif
+                  </tr>
+                @endforeach
+                
                 @foreach ($item->kegiatan as $key2 => $item2)
 
                 <tr style="font-size:10px;" class="bg-warning">
                   <td></td>
-                  <td width="200px">{{$item2->nama}}</td>
+                  <td width="200px">{{$item2->kode}} {{$item2->nama}}</td>
                   @if (checkCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan') != null)   
                     @php
                     $data = tampilCapaian($item2->skpd_id, $item2->tahun, $item2->kode, 'kegiatan');
@@ -189,52 +231,137 @@
                   @endif
                 </tr>
 
+                @foreach (checkIndikator($item2->kode, 'kegiatan', $item2->tahun) as $indikator_kegiatan)
+                  <tr style="font-size:11px;" class="bg-info">
+                    <td style="width: 11px;"></td>
+                    <td style="width: 11px;">Indikator : {{$indikator_kegiatan->nama}}</td>
+                    @if (checkCapaian($item2->skpd_id, $item2->tahun, $indikator_kegiatan->kode_indikator, 'indikator_kegiatan') != null)   
+                    @php
+                    $data = tampilCapaian($item2->skpd_id, $item2->tahun, $indikator_kegiatan->kode_indikator, 'indikator_kegiatan');
+                    $capaian = $data['capaian'];
+                    $tw1 = $data['tw1'];
+                    $tw2 = $data['tw2'];
+                    $tw3 = $data['tw3'];
+                    $tw4 = $data['tw4'];
+                    @endphp 
+                    <td class="text-center">
+                      {{$tw1}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw2}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw3}}
+                    </td>
+                    <td class="text-center">
+                      {{$tw4}}
+                    </td>
+                    <td class="text-center">
+                      
+                      <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$indikator_kegiatan->nama}}" data-kode="{{$indikator_kegiatan->kode_indikator}}" data-jenis="indikator_kegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                    </td>
+                    @else
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$indikator_kegiatan->nama}}" data-kode="{{$indikator_kegiatan->kode_indikator}}" data-jenis="indikator_kegiatan" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                      </td>
+                    @endif
+                  </tr>
+                @endforeach
                     @foreach ($item2->subkegiatan as $key3 => $item3)
 
                     <tr style="font-size:10px;">
                     <td>{{$subkeg++}}</td>
-                    <td width="200px">{{$item3->nama}}</td>
-                    <td class="text-center">
-
-                        {{-- @if (checkCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan','tw1') != false)
-                        <a href="#" class="edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan"  data-tahun="{{$item3->tahun}}">TW 1 : {{checkCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan', 'tw1')}}</a>
-                        @else
-                            <a href="#" class="btn btn-xs btn-flat btn-success add-capaian3" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}"  data-tahun="{{$item3->tahun}}">TW 1</a>
-                        @endif --}}
+                    <td width="200px">{{$item3->kode}}  {{$item3->nama}}</td>
+                    @if (checkCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan') != null)   
+                      @php
+                      $data = tampilCapaian($item3->skpd_id, $item3->tahun, $item3->kode, 'subkegiatan');
+                      $capaian = $data['capaian'];
+                      $tw1 = $data['tw1'];
+                      $tw2 = $data['tw2'];
+                      $tw3 = $data['tw3'];
+                      $tw4 = $data['tw4'];
+                      @endphp 
+                      <td class="text-center">
+                        {{$tw1}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw2}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw3}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw4}}
+                      </td>
+                      <td class="text-center">
                         
-                    </td>
+                        <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item3->tahun}}">Edit Capaian</a>
+                      </td>
+                    @else
+                      <td class="text-center">
+                        
+                      </td>
+                      <td class="text-center">
+                        
+                      </td>
+                      <td class="text-center">
+                        
+                      </td>
+                      <td class="text-center">
+                        
+                      </td>
+                      <td class="text-center">
+                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tahun="{{$item3->tahun}}">Isi Capaian</a>
+                      </td>
+                    @endif
+                    </tr>
+
+                    @foreach (checkIndikator($item3->kode, 'subkegiatan', $item3->tahun) as $indikator_subkegiatan)
+                    <tr style="font-size:11px;" class="bg-info">
+                      <td style="width: 11px;"></td>
+                      <td style="width: 11px;">Indikator : {{$indikator_subkegiatan->nama}}</td>
+                      @if (checkCapaian($item3->skpd_id, $item3->tahun, $indikator_subkegiatan->kode_indikator, 'indikator_subkegiatan') != null)   
+                      @php
+                      $data = tampilCapaian($item3->skpd_id, $item3->tahun, $indikator_subkegiatan->kode_indikator, 'indikator_subkegiatan');
+                      $capaian = $data['capaian'];
+                      $tw1 = $data['tw1'];
+                      $tw2 = $data['tw2'];
+                      $tw3 = $data['tw3'];
+                      $tw4 = $data['tw4'];
+                      @endphp 
+                      <td class="text-center">
+                        {{$tw1}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw2}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw3}}
+                      </td>
+                      <td class="text-center">
+                        {{$tw4}}
+                      </td>
+                      <td class="text-center">
+                        
+                        <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$indikator_subkegiatan->nama}}" data-kode="{{$indikator_subkegiatan->kode_indikator}}" data-jenis="indikator_subkegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                      </td>
+                      @else
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                        <td class="text-center">
+                          <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$indikator_subkegiatan->nama}}" data-kode="{{$indikator_subkegiatan->kode_indikator}}" data-jenis="indikator_subkegiatan" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                        </td>
+                      @endif
                     </tr>
                     @endforeach
-                  {{-- @foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3)
-                  @if ($item3->status_kirim == null)
-                  <tr style="font-size:10px; background-color:#d3f1f9">
-                  @else
-                  <tr style="font-size:10px;">
-                  @endif
-                    <td>
-                      @if ($item3->status_kirim == 1)
-                      <a href="/admin/laporan/batal/{{$item3->id}}/{{$bulan}}" onclick="return confirm('Yakin Ingin Di Batalkan?');"><i class="fa fa-times-circle text-danger"></i></a>
-                      @endif
-                    </td>
-                    <td>{{$subkeg++}}</td>
-                    <td width="200px">{{$item3->nama}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom4, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom5)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom6, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom7, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom8)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom9, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom10, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom11, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom12)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom13, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom14, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom15, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom16, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom17, 2)}}</td>
-                  </tr>
-                  @endforeach --}}
+
+                    @endforeach
                 @endforeach
               @endforeach
               

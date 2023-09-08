@@ -2,12 +2,19 @@
 
 use App\Models\Uraian;
 use App\Models\JenisRfk;
+use App\Models\M_indikator;
 use App\Models\T_capaian;
 use Illuminate\Support\Facades\Auth;
 
 function checkCapaian($skpd_id, $tahun, $kode, $jenis)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
+    return $check;
+}
+
+function checkIndikator($kode, $jenis, $tahun)
+{
+    $check = M_indikator::where('kode', $kode)->where('jenis', $jenis)->where('tahun', $tahun)->get();
     return $check;
 }
 function tampilCapaian($skpd_id, $tahun, $kode, $jenis)
