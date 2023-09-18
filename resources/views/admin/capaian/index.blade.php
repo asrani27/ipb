@@ -121,7 +121,7 @@
                   </td>
                   <td class="text-center">
                     
-                    <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a>
+                    {{-- <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item->tahun}}">Edit Capaian</a> --}}
                   </td>
                 @else
                   <td class="text-center">
@@ -137,7 +137,7 @@
                     
                   </td>
                   <td class="text-center">
-                    <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                    {{-- <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item->nama}}" data-kode="{{$item->kode}}" data-jenis="program" data-tahun="{{$item->tahun}}">Isi Capaian</a> --}}
                   </td>
                 @endif
               </tr>
@@ -226,7 +226,7 @@
                       
                     </td>
                     <td class="text-center">
-                      <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}">Isi Capaian</a>
+                      {{-- <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item2->nama}}" data-kode="{{$item2->kode}}" data-jenis="kegiatan" data-tahun="{{$item2->tahun}}">Isi Capaian</a> --}}
                     </td>
                   @endif
                 </tr>
@@ -266,7 +266,7 @@
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center">
-                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$indikator_kegiatan->nama}}" data-kode="{{$indikator_kegiatan->kode_indikator}}" data-jenis="indikator_kegiatan" data-tahun="{{$item->tahun}}">Isi Capaian</a>
+                        {{-- <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$indikator_kegiatan->nama}}" data-kode="{{$indikator_kegiatan->kode_indikator}}" data-jenis="indikator_kegiatan" data-tahun="{{$item->tahun}}">Isi Capaian</a> --}}
                       </td>
                     @endif
                   </tr>
@@ -299,7 +299,7 @@
                       </td>
                       <td class="text-center">
                         
-                        <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item3->tahun}}">Edit Capaian</a>
+                        {{-- <a href="#" class="btn btn-xs btn-success edit-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tw1="{{$tw1}}" data-tw2="{{$tw2}}" data-tw3="{{$tw3}}" data-tw4="{{$tw4}}" data-tahun="{{$item3->tahun}}">Edit Capaian</a> --}}
                       </td>
                     @else
                       <td class="text-center">
@@ -315,7 +315,7 @@
                         
                       </td>
                       <td class="text-center">
-                        <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tahun="{{$item3->tahun}}">Isi Capaian</a>
+                        {{-- <a href="#" class="btn btn-xs btn-flat btn-success add-capaian" data-uraian="{{$item3->nama}}" data-kode="{{$item3->kode}}" data-jenis="subkegiatan" data-tahun="{{$item3->tahun}}">Isi Capaian</a> --}}
                       </td>
                     @endif
                     </tr>
