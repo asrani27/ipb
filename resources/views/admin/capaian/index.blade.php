@@ -76,6 +76,7 @@
         <div class="box-body table-responsive">
           <a href="/admin/capaian/tarik-indikator" class="btn btn-sm btn-primary text-bold"><i class="fa fa-recycle"></i> TARIK INDIKATOR DARI SIKAP</a>
           <a href="/admin/capaian/hapus-indikator" class="btn btn-sm btn-danger text-bold"  onclick="return confirm('Akan menghapus semua indikator dan capaian, Yakin?');"><i class="fa fa-trash"></i> HAPUS INDIKATOR</a>
+          <a href="/admin/capaian/hitung-realisasi" class="btn btn-sm btn-success text-bold"  onclick="return confirm('akan menghitung realisasi keuangan?');"><i class="fa fa-money"></i> HITUNG REALISASI</a>
           <table class="table table-bordered table-condensed">
             <tbody>
               <tr style="font-size:10px;" class="bg-purple">
@@ -286,16 +287,16 @@
                       $tw4 = $data['tw4'];
                       @endphp 
                       <td class="text-center">
-                        {{$tw1}}
+                        {{number_format($tw1)}}
                       </td>
                       <td class="text-center">
-                        {{$tw2}}
+                        {{number_format($tw2)}}
                       </td>
                       <td class="text-center">
-                        {{$tw3}}
+                        {{number_format($tw3)}}
                       </td>
                       <td class="text-center">
-                        {{$tw4}}
+                        {{number_format($tw4)}}
                       </td>
                       <td class="text-center">
                         

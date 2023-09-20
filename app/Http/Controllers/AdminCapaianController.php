@@ -3,18 +3,84 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\JenisRfk;
 use App\Models\M_program;
 use App\Models\T_capaian;
 use App\Models\M_kegiatan;
+use App\Models\M_indikator;
+use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use App\Models\M_subkegiatan;
-use App\Models\M_indikator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
 class AdminCapaianController extends Controller
 {
+
+    public function hitungRealisasi()
+    {
+        $period = Carbon::now()->subMonths(11)->monthsUntil(now());
+
+        $getAllMonth = [];
+        foreach ($period as $date) {
+            $getAllMonth[] = ['month' => $date->translatedFormat('F')];
+        }
+
+        $map = [];
+        foreach ($getAllMonth as $item) {
+            $item[] = [
+                'tw' => 1,
+            ];
+        }
+        //dd($getAllMonth);
+
+        $bulan = Carbon::now()->translatedFormat('F');
+        $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', 2023)->first();
+
+        $result = $statusRFK[$bulan];
+
+        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', 2023)->where('jenis_rfk', $result)->get();
+
+        $mapsubkegi = $subkeg->map(function ($item) use ($result, $bulan) {
+            $item->realisasi = realisasiSKPDTriwulan($bulan, $item, $result);
+            $item->kodesubkegiatan = M_subkegiatan::where('nama', $item->nama)->first() == null ? null : M_subkegiatan::where('nama', $item->nama)->first()->kode;
+
+            //simpan capaian di tabel t_capaian
+            $check = T_capaian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', 2023)->where('jenis', 'subkegiatan')->where('kode', $item->kodesubkegiatan)->first();
+
+            if ($check == null) {
+                $data = M_subkegiatan::where('nama', $item->nama)->first();
+                if ($data == null) {
+                    
+                } else {
+                    //dd($data, $item->realisasi);
+                    $new = new T_capaian;
+                    $new->skpd_id = Auth::user()->skpd->id;
+                    $new->jenis = 'subkegiatan';
+                    $new->tahun = '2023';
+                    $new->kode  = $data->kode;
+                    $new->nama = $data->nama;
+                    $new->tw1  = $item->realisasi['tw1'];
+                    $new->tw2  = $item->realisasi['tw2'];
+                    $new->tw3  = $item->realisasi['tw3'];
+                    $new->tw4  = $item->realisasi['tw4'];
+                    $new->save();
+                }
+            } else {
+                $update = $check;
+                $update->tw1 = $item->realisasi['tw1'];
+                $update->tw2 = $item->realisasi['tw2'];
+                $update->tw3 = $item->realisasi['tw3'];
+                $update->tw4 = $item->realisasi['tw4'];
+                $update->save();
+                //update capaian TW1, TW2, TW3, TW4
+            }
+            return $item;
+        });
+        Session::flash('success', 'Berhasil Di Hitung');
+        return back();
+    }
 
     public function hapusIndikator()
     {

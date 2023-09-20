@@ -107,6 +107,7 @@ class AdminLaporanController extends Controller
         $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
         $data = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        //dd($data);
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data'));
     }
 

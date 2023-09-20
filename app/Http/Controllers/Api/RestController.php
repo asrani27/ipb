@@ -21,13 +21,18 @@ class RestController extends Controller
                 });
 
                 $item->kegiatan = $item->kegiatan->map(function ($indikator_kegiatan) use ($tahun, $skpd_id) {
-
                     $indikator_kegiatan->indikator = M_indikator::where('tahun', $tahun)->where('jenis', 'kegiatan')->where('skpd_id', $skpd_id)->where('kode', $indikator_kegiatan->kode)->get()->map(function ($capaian_kegiatan) use ($tahun, $skpd_id) {
                         $capaian_kegiatan->capaian = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'indikator_kegiatan')->where('kode', $capaian_kegiatan->kode_indikator)->first();
                         return $capaian_kegiatan;
                     });
                     //$indikator_kegiatan->capaian = T_capaian::where('tahun', $tahun)->where('jenis', 'indikator_kegiatan')->where('kode', $indikator_kegiatan->kode_indikator)->first();
                     $indikator_kegiatan->subkegiatan = $indikator_kegiatan->subkegiatan->map(function ($subkegiatan) use ($tahun, $skpd_id) {
+                        $realisasi = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'subkegiatan')->where('kode', $subkegiatan->kode)->first();
+                        if ($realisasi == null) {
+                            $subkegiatan->realisasi_keuangan = null;
+                        } else {
+                            $subkegiatan->realisasi_keuangan = $realisasi;
+                        }
                         $subkegiatan->indikator = M_indikator::where('tahun', $tahun)->where('jenis', 'subkegiatan')->where('skpd_id', $skpd_id)->where('kode', $subkegiatan->kode)->get()->map(function ($capaian_subkegiatan) use ($tahun, $skpd_id) {
                             $capaian_subkegiatan->capaian = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'indikator_subkegiatan')->where('kode', $capaian_subkegiatan->kode_indikator)->first();
                             return $capaian_subkegiatan;
@@ -36,7 +41,7 @@ class RestController extends Controller
                     });
                     return $indikator_kegiatan;
                 });
-                $item->realisasi_keuanga = 123;
+
                 return $item;
             }
         );

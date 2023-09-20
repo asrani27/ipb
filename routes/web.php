@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('capaian', [AdminCapaianController::class, 'index']);
         Route::get('capaian/tarik-indikator', [AdminCapaianController::class, 'tarikIndikator']);
         Route::get('capaian/hapus-indikator', [AdminCapaianController::class, 'hapusIndikator']);
+        Route::get('capaian/hitung-realisasi', [AdminCapaianController::class, 'hitungRealisasi']);
         Route::post('capaian/store', [AdminCapaianController::class, 'simpanCapaian']);
         Route::post('capaian/update', [AdminCapaianController::class, 'updateCapaian']);
         Route::post('capaian/program', [AdminCapaianController::class, 'capaianProgram']);
