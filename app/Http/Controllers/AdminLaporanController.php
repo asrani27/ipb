@@ -144,7 +144,7 @@ class AdminLaporanController extends Controller
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
-        //dd($subkeg);
+        dd($subkeg, $tahun, $result, $bulan, $statusRFK);
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
             //dd($item->uraian);
             $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');

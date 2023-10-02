@@ -21,6 +21,12 @@ class RestController extends Controller
                 });
 
                 $item->kegiatan = $item->kegiatan->map(function ($indikator_kegiatan) use ($tahun, $skpd_id) {
+                    $indikator_kegiatan->realisasi_tw1 = $indikator_kegiatan->subkegiatan->sum('realisasi_tw1');
+                    $indikator_kegiatan->realisasi_tw2 = $indikator_kegiatan->subkegiatan->sum('realisasi_tw2');
+                    $indikator_kegiatan->realisasi_tw3 = $indikator_kegiatan->subkegiatan->sum('realisasi_tw3');
+                    $indikator_kegiatan->realisasi_tw4 = $indikator_kegiatan->subkegiatan->sum('realisasi_tw4');
+
+
                     $indikator_kegiatan->indikator = M_indikator::where('tahun', $tahun)->where('jenis', 'kegiatan')->where('skpd_id', $skpd_id)->where('kode', $indikator_kegiatan->kode)->get()->map(function ($capaian_kegiatan) use ($tahun, $skpd_id) {
                         $capaian_kegiatan->capaian = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'indikator_kegiatan')->where('kode', $capaian_kegiatan->kode_indikator)->first();
                         return $capaian_kegiatan;
@@ -29,9 +35,15 @@ class RestController extends Controller
                     $indikator_kegiatan->subkegiatan = $indikator_kegiatan->subkegiatan->map(function ($subkegiatan) use ($tahun, $skpd_id) {
                         $realisasi = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'subkegiatan')->where('kode', $subkegiatan->kode)->first();
                         if ($realisasi == null) {
-                            $subkegiatan->realisasi_keuangan = null;
+                            $subkegiatan->realisasi_tw1 = null;
+                            $subkegiatan->realisasi_tw2 = null;
+                            $subkegiatan->realisasi_tw3 = null;
+                            $subkegiatan->realisasi_tw4 = null;
                         } else {
-                            $subkegiatan->realisasi_keuangan = $realisasi;
+                            $subkegiatan->realisasi_tw1 = (int)$realisasi->tw1;
+                            $subkegiatan->realisasi_tw2 = (int)$realisasi->tw2;
+                            $subkegiatan->realisasi_tw3 = (int)$realisasi->tw3;
+                            $subkegiatan->realisasi_tw4 = (int) $realisasi->tw4;
                         }
                         $subkegiatan->indikator = M_indikator::where('tahun', $tahun)->where('jenis', 'subkegiatan')->where('skpd_id', $skpd_id)->where('kode', $subkegiatan->kode)->get()->map(function ($capaian_subkegiatan) use ($tahun, $skpd_id) {
                             $capaian_subkegiatan->capaian = T_capaian::where('tahun', $tahun)->where('skpd_id', $skpd_id)->where('jenis', 'indikator_subkegiatan')->where('kode', $capaian_subkegiatan->kode_indikator)->first();
