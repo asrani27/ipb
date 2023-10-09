@@ -211,6 +211,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 
         Route::get('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/add', [BidangPerubahanController::class, 'addUraian']);
         Route::post('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/add', [BidangPerubahanController::class, 'storeUraian']);
+        Route::get('perubahan/program/kegiatan/{program_id}/sub/{kegiatan_id}/uraian/{subkegiatan_id}/delete/{uraian_id}', [BidangPerubahanController::class, 'deleteUraian']);
         //------------------------------------------------------------//
 
         Route::get('program', [BidangProgramController::class, 'index']);

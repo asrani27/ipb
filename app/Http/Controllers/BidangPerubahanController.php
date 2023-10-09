@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 
 class BidangPerubahanController extends Controller
 {
+
     public function program()
     {
 
@@ -199,5 +200,17 @@ class BidangPerubahanController extends Controller
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/bidang/perubahan/program/kegiatan/' . $program_id . '/sub/' . $kegiatan_id . '/uraian/' . $subkegiatan_id);
+    }
+
+    public function deleteUraian($program_id, $kegiatan_id, $subkegiatan_id, $uraian_id)
+    {
+        try {
+            Uraian::find($uraian_id)->delete();
+            Session::flash('success', 'Berhasil Di Hapus');
+            return back();
+        } catch (\Exception $e) {
+            Session::flash('error', 'Tidak dapat di hapus');
+            return back();
+        }
     }
 }
