@@ -130,11 +130,6 @@ class AdminLaporanController extends Controller
         }
 
         $result = $statusRFK[$bulan];
-        // if ($statusRFK[$bulan] == 'murni') {
-        //     $result = null;
-        // } elseif ($statusRFK[$bulan] == 'perubahan') {
-        //     $result = 99;
-        // }
 
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
@@ -144,76 +139,15 @@ class AdminLaporanController extends Controller
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
+
         //dd($subkeg, $tahun, $result, $bulan, $statusRFK);
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
             //dd($item->uraian);
             $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
             return $item;
         })->sum('kolom3');
-        //dd($result, $totalsubkegiatan);
 
-        // $data2 = Uraian::where('subkegiatan_id', 217)->where('jenis_rfk', $result)->get();
-        // //dd($data2);
-        // $totalDPA = $data2->sum('dpa');
 
-        // $data2->map(function ($item) use ($totalDPA, $bulan) {
-        //     //dd($totalDPA, $bulan);
-        //     if ($item->dpa == 0) {
-        //         $item->persenDPA = 0;
-        //         $item->rencanaRP = 0;
-        //         $item->rencanaKUM = 0;
-        //         $item->rencanaTTB = 0;
-        //         $item->realisasiRP = 0;
-        //         $item->realisasiKUM = 0;
-        //         $item->realisasiTTB = 0;
-        //         $item->deviasiKUM = 0;
-        //         $item->deviasiTTB = 0;
-        //         $item->sisaAnggaran = 0;
-        //         $item->capaianKeuangan = 0;
-
-        //         $item->fisikRencanaKUM = 0;
-        //         $item->fisikRencanaTTB = 0;
-        //         $item->fisikRealisasiKUM = 0;
-        //         $item->fisikRealisasiTTB = 0;
-        //         $item->fisikDeviasiKUM = 0;
-        //         $item->fisikDeviasiTTB = 0;
-        //         $item->capaianFisik = 0;
-        //     } else {
-
-        //         $item->persenDPA = ($item->dpa / $totalDPA) * 100;
-        //         $item->rencanaRP = totalRencana($bulan, $item);
-
-        //         $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
-        //         $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
-        //         $item->realisasiRP = totalRealisasi($bulan, $item);
-        //         $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
-        //         $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
-        //         $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
-        //         $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
-        //         $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
-        //         if ($item->rencanaRP == 0) {
-        //             $item->capaianKeuangan = 0;
-        //         } else {
-        //             $item->capaianKeuangan =  ($item->realisasiRP / $item->rencanaRP) * 100;
-        //         }
-
-        //         $item->fisikRencanaKUM = fisikRencana($bulan, $item);
-        //         $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
-        //         //dd($item->fisikRencanaTTB);
-        //         $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
-        //         $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
-        //         $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
-        //         $item->fisikDeviasiTTB =  $item->fisikRealisasiTTB - $item->fisikRencanaTTB;
-
-        //         if ($item->fisikRencanaKUM == 0) {
-        //             $item->capaianFisik = 0;
-        //         } else {
-        //             $item->capaianFisik =  ($item->fisikRealisasiKUM / $item->fisikRencanaKUM) * 100;
-        //         }
-        //     }
-        //     return $item;
-        // });
-        // dd($data2);
         $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
             //dd();
             $status_kirim = 'kirim_rfk_' . $bulan;

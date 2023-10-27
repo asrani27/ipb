@@ -12,6 +12,7 @@ class AdminPeriodeController extends Controller
     public function index()
     {
         $data = JenisRfk::where('skpd_id', Auth::user()->skpd->id)->get();
+
         return view('admin.perioderfk.index', compact('data'));
     }
 
