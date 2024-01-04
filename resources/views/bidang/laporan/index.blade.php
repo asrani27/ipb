@@ -33,6 +33,7 @@
           <div class="box-body">
             <a href="/bidang/laporanrfk/2022" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2022</strong></a>
             <a href="/bidang/laporanrfk/2023" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2023</strong></a>
+            <a href="/bidang/laporanrfk/2024" class="btn btn-primary btn-block btn-sm btn-flat"><strong>2024</strong></a>
           </div>
         </div>
       </div>

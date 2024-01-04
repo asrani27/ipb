@@ -52,7 +52,6 @@ class AdminCapaianController extends Controller
             if ($check == null) {
                 $data = M_subkegiatan::where('nama', $item->nama)->first();
                 if ($data == null) {
-                    
                 } else {
                     //dd($data, $item->realisasi);
                     $new = new T_capaian;
@@ -91,7 +90,7 @@ class AdminCapaianController extends Controller
     }
     public function tarikIndikator()
     {
-        $response = Http::get('http://sikap.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
+        $response = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
 
         foreach ($response as $key => $program) {
             //simpan indikator program
