@@ -28,7 +28,7 @@ class AdminBerandaController extends Controller
         $tahun = Carbon::now()->format('Y');
         //menduplikat program
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
-
+        //dd($program, Auth::user()->skpd->id);
         foreach ($program as $key => $item) {
             $param = $item->toArray();
             $param['ke'] = $ke;
