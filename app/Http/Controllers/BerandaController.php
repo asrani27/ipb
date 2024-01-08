@@ -226,10 +226,10 @@ class BerandaController extends Controller
         $result = $status;
         $data = null;
 
-        $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
-        $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', \Carbon\Carbon::today()->format('Y'))->count();
+        $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->count();
+        $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', '2023')->count();
 
-        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', \Carbon\Carbon::today()->format('Y'))->get();
+        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->get();
 
         $subkegiatan->map(function ($item) use ($result) {
             $item->uraian = $item->uraian->where('jenis_rfk', $result);

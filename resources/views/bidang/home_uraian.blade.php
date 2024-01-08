@@ -37,7 +37,7 @@
             <div class="progress-bar" style="width: 70%"></div>
           </div>
               <span class="progress-description">
-                <strong>{{\Carbon\Carbon::today()->format('Y')}}</strong>
+                <strong>2023</strong>
               </span>
         </div>
         <!-- /.info-box-content -->
@@ -117,7 +117,7 @@
               
       <a href="/bidang/beranda/sortir" class="btn btn-primary btn-flat">Sortir</a>
       <i class="fa fa-clipboard"></i> Data Uraian Kegiatan, Tahun : 
-              <strong>{{\Carbon\Carbon::today()->format('Y')}}</strong></h3>
+              <strong>2023</strong></h3>
           </div>
           <div class="box-body table-responsive no-padding text-sm">
             <table class="table table-hover">

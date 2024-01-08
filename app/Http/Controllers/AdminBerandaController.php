@@ -25,7 +25,7 @@ class AdminBerandaController extends Controller
             $ke = $logLatest->ke + 1;
         }
 
-        $tahun = Carbon::now()->format('Y');
+        $tahun = 2023;
         //menduplikat program
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
         //dd($program, Auth::user()->skpd->id);
@@ -113,7 +113,7 @@ class AdminBerandaController extends Controller
             $ke = $logLatest->ke;
         }
 
-        $tahun = Carbon::now()->format('Y');
+        $tahun = '2023';
         //menduplikat program
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'pergeseran')->where('ke', $ke)->get();
 

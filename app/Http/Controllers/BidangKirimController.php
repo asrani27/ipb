@@ -15,7 +15,7 @@ class BidangKirimController extends Controller
 {
     public function index()
     {
-        $tahun = Carbon::now()->format('Y');
+        $tahun = '2023';
         $data = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->where('tahun', $tahun)->get();
         $program = Program::where('bidang_id', Auth::user()->bidang->id)->get();
         return view('bidang.kirim.index', compact('data', 'program'));
@@ -23,7 +23,7 @@ class BidangKirimController extends Controller
 
     public function kirimAngkas($id)
     {
-        $tahun = Carbon::now()->format('Y');
+        $tahun = '2023';
         $status_rfk = statusRFK();
         $deadline = BatasInput::where('tahun', $tahun)->where('skpd_id', Auth::user()->bidang->skpd_id)->first();
         $uraian = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $status_rfk)->where('tahun', $tahun)->get()->map(function ($item) {

@@ -167,7 +167,7 @@ class AdminCapaianController extends Controller
     }
     public function index()
     {
-        $tahun = Carbon::now()->format('Y');
+        $tahun = "2023";
         $program = M_program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get()->map(function ($item, $key) use ($tahun) {
             return $item;
         });
