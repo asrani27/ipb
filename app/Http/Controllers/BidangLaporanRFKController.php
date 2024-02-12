@@ -71,7 +71,7 @@ class BidangLaporanRFKController extends Controller
     {
         $nama_bulan = namaBulan($bulan);
         $bidang_id = Auth::user()->bidang->id;
-        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->where('jenis_rfk', statusRFK())->get();
+        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->get();
 
         return view('bidang.laporan.program', compact('tahun', 'bulan', 'nama_bulan', 'data'));
     }
@@ -500,7 +500,7 @@ class BidangLaporanRFKController extends Controller
 
             $jenisrfk = $jenisrfk[strtolower($nama_bulan)];
             $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
-            
+
             $totalDPA = $data->sum('dpa');
 
             $data->map(function ($item) use ($totalDPA, $bulan) {
@@ -558,7 +558,6 @@ class BidangLaporanRFKController extends Controller
                 }
                 return $item;
             });
-            
         } catch (\Exception $e) {
 
             Session::flash('error', 'Division By Zero');

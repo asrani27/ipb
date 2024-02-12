@@ -16,7 +16,7 @@
         
                   <div class="box-tools">
                     <a href="/bidang/program" class="btn btn-sm bg-gray btn-flat"><i class="fa fa-arrow-left"></i> Kembali</a>
-                    <a href="/bidang/program/kegiatan/{{$program->id}}/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Kegiatan</a>
+                    {{-- <a href="/bidang/program/kegiatan/{{$program->id}}/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Kegiatan</a> --}}
                   </div>
                 </div>
                 <!-- /.box-header -->
@@ -31,7 +31,7 @@
                     </tr>
                     @foreach ($data as $key => $item)
                     <tr>
-                        <td class="text-center">{{$data->firstItem() + $key}}</td>
+                        <td class="text-center">{{$key + 1}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
                             <a href="/bidang/program/kegiatan/{{$program->id}}/sub/{{$item->id}}"

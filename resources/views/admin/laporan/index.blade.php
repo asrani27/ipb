@@ -76,6 +76,49 @@
                   <a href="/admin/laporan/2024/desember" class='btn btn-flat btn-xs bg-purple'>RFK</a>
                 </td>
               </tr>
+              <tr>
+                <td>1</td>
+                <td>2023</td>
+                <td>
+                  <a href="/admin/laporan/rencana/2023" class='btn btn-flat btn-xs bg-purple'>Rencana</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/januari" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/februari" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/maret" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/april" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/mei" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/juni" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/juli" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/agustus" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/september" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/oktober" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/november" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+                <td>
+                  <a href="/admin/laporan/2023/desember" class='btn btn-flat btn-xs bg-purple'>RFK</a>
+                </td>
+              </tr>
               </tbody>
               
             </table>

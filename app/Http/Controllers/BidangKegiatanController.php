@@ -12,7 +12,7 @@ class BidangKegiatanController extends Controller
 {
     public function index($id)
     {
-        $data = Kegiatan::where('program_id', $id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(15);
+        $data = Kegiatan::where('program_id', $id)->orderBy('id', 'DESC')->get();
         $program = Program::find($id);
         return view('bidang.kegiatan.index', compact('data', 'program'));
     }

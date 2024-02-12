@@ -41,8 +41,7 @@ use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
 use App\Http\Controllers\SuperadminJenisrfkController;
-
-
+use App\Http\Controllers\TarikDataController;
 
 Route::get('/', [LoginController::class, 'index']);
 
@@ -68,6 +67,12 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
 
+        Route::get('datatarik', [TarikDataController::class, 'index']);
+        Route::post('datatarik/bidang', [TarikDataController::class, 'updateBidang']);
+        Route::get('datatarik/program/{tahun}', [TarikDataController::class, 'program']);
+        Route::get('datatarik/kegiatan/{tahun}', [TarikDataController::class, 'kegiatan']);
+        Route::get('datatarik/subkegiatan/{tahun}', [TarikDataController::class, 'subkegiatan']);
+        Route::post('datatarik', [TarikDataController::class, 'tarikData']);
         Route::get('capaian', [AdminCapaianController::class, 'index']);
         Route::get('capaian/tarik-indikator', [AdminCapaianController::class, 'tarikIndikator']);
         Route::get('capaian/hapus-indikator', [AdminCapaianController::class, 'hapusIndikator']);
@@ -222,6 +227,7 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('program/delete/{id}', [BidangProgramController::class, 'delete']);
 
         Route::get('realisasi', [BidangRealisasiController::class, 'index']);
+        Route::get('realisasi/caridata', [BidangRealisasiController::class, 'caridata']);
         Route::post('realisasi', [BidangRealisasiController::class, 'store']);
         Route::post('realisasifisik', [BidangRealisasiController::class, 'storeFisik']);
         Route::get('realisasi/{tahun}', [BidangRealisasiController::class, 'tahun']);

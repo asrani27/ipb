@@ -6,12 +6,12 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
+          <a href="/admin/datatarik" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-arrow-left"></i> Kembali</a><br/><br/>
           <div class="box box-primary">
             <div class="box-header">
               <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Program</h3>
     
               <div class="box-tools">
-                {{-- <a href="/bidang/program/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Program</a> --}}
               </div>
             </div>
             <!-- /.box-header -->
@@ -22,28 +22,32 @@
                   <th class="text-center">No</th>
                   <th>Tahun</th>
                   <th>Program</th>
-                  <th>Kegiatan</th>
-                  <th>Aksi</th>
+                  <th>Bidang</th>
                 </tr>
+                <form method="post" action="/admin/datatarik/bidang">
+                  @csrf
                 @foreach ($data as $key => $item)
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
                     <td>{{$item->nama}}</td>
                     <td>
-                        <a href="/bidang/program/kegiatan/{{$item->id}}"
-                            class="btn btn-xs btn-flat bg-purple" data-toggle="tooltip" data-placement="top"
-                            title="Data Kegiatan"><strong>{{$item->kegiatan->count()}} Kegiatan</strong></a>
+                      <select name="bidang_id[]">
+                        <option value="">-</option>
+                      @foreach ($bidang as $item2)
+                          <option value="{{$item2->id}}" {{$item2->id == $item->bidang_id ? 'selected':''}}>{{$item2->nama}}</option>
+                      @endforeach
+                      </select>
                     </td>
-                    <td>
-                        <a href="/bidang/program/edit/{{$item->id}}" class="btn btn-xs btn-flat  btn-success"><i class="fa fa-edit"></i></a>
-                        <a href="/bidang/program/delete/{{$item->id}}"
-                            onclick="return confirm('Yakin ingin di hapus');"
-                            class="btn btn-xs btn-flat  btn-danger"><i class="fa fa-trash"></i></a>
-                    </td>
+                    <input type="hidden" name="program_id[]" value="{{$item->id}}">
                 </tr>
                 @endforeach
-                
+                <tr>
+                  <td colspan='4'>
+                    <button type="submit" class="btn btn-block btn-primary">UPDATE BIDANG</button>
+                  </td>
+                </tr>
+                </form>
               </tbody></table>
             </div>
             <!-- /.box-body -->

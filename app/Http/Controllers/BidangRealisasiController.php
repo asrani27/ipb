@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BatasInput;
+use Carbon\Carbon;
+use App\Models\Tahun;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\BatasInput;
 use App\Models\Subkegiatan;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -16,13 +17,48 @@ class BidangRealisasiController extends Controller
 {
     public function index()
     {
-        return view('bidang.realisasi.index');
+        $bidang_id = Auth::user()->bidang->id;
+        $subkegiatan = Subkegiatan::where('bidang_id', $bidang_id)->get();
+        $tahun = Tahun::get();
+        return view('bidang.realisasi.index', compact('subkegiatan', 'tahun'));
     }
 
+    public function caridata()
+    {
+        $subkegiatan_id = request()->get('subkegiatan_id');
+        $jenis = request()->get('jenis');
+
+        $uraian = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $jenis);
+        if ($uraian->count() == 0) {
+            Session::flash('warning', 'Tidak ada Data');
+            request()->flash();
+            return back();
+        } else {
+
+            $bidang_id = Auth::user()->bidang->id;
+
+            $data = $uraian;
+
+            $data->map(function ($item) {
+                $item->jumlah_renc_keuangan = $item->p_januari_keuangan + $item->p_februari_keuangan + $item->p_maret_keuangan + $item->p_april_keuangan + $item->p_mei_keuangan + $item->p_juni_keuangan + $item->p_juli_keuangan + $item->p_agustus_keuangan + $item->p_september_keuangan + $item->p_oktober_keuangan + $item->p_november_keuangan + $item->p_desember_keuangan;
+                $item->jumlah_real_keuangan = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan + $item->r_april_keuangan + $item->r_mei_keuangan + $item->r_juni_keuangan + $item->r_juli_keuangan + $item->r_agustus_keuangan + $item->r_september_keuangan + $item->r_oktober_keuangan + $item->r_november_keuangan + $item->r_desember_keuangan;
+                $item->jumlah_renc_fisik = $item->p_januari_fisik + $item->p_februari_fisik + $item->p_maret_fisik + $item->p_april_fisik + $item->p_mei_fisik + $item->p_juni_fisik + $item->p_juli_fisik + $item->p_agustus_fisik + $item->p_september_fisik + $item->p_oktober_fisik + $item->p_november_fisik + $item->p_desember_fisik;
+                $item->jumlah_real_fisik = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik + $item->r_september_fisik + $item->r_oktober_fisik + $item->r_november_fisik + $item->r_desember_fisik;
+                return $item;
+            });
+            $program = Subkegiatan::find($subkegiatan_id)->program;
+            $kegiatan = Subkegiatan::find($subkegiatan_id)->kegiatan;
+            $subkegiatan = Subkegiatan::find($subkegiatan_id);
+            $tahun = Subkegiatan::find($subkegiatan_id)->tahun;
+
+            return view('bidang.realisasi.uraian', compact('data', 'tahun', 'program', 'kegiatan', 'subkegiatan', 'jenis'));
+        }
+    }
     public function tahun($tahun)
     {
         $bidang_id = Auth::user()->bidang->id;
-        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->where('jenis_rfk', statusRFK())->get();
+        $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->get();
+        // $data = Program::where('bidang_id', $bidang_id)->where('tahun', $tahun)->where('jenis_rfk', statusRFK())->get();
         //dd(statusRFK());
         return view('bidang.realisasi.program', compact('data', 'tahun'));
     }

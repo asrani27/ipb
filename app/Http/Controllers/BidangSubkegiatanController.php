@@ -15,7 +15,7 @@ class BidangSubkegiatanController extends Controller
 {
     public function index($program_id, $kegiatan_id)
     {
-        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->where('jenis_rfk', 'murni')->orderBy('id', 'DESC')->paginate(25);
+        $data = Subkegiatan::where('kegiatan_id', $kegiatan_id)->orderBy('id', 'DESC')->paginate(25);
         //dd($data);
         $program = Program::find($program_id);
         $kegiatan = Kegiatan::find($kegiatan_id);

@@ -184,7 +184,7 @@
               </tr>
               </tbody>
             </table>
-            <a href="/bidang/realisasi/{{$tahun}}/{{$program->id}}/{{$kegiatan->id}}" class="btn bg-purple btn-block btn-sm btn-flat"><strong>Kembali</strong></a>   
+            <a href="/bidang/realisasi" class="btn bg-purple btn-block btn-sm btn-flat"><strong>Kembali</strong></a>   
           </div>
         </div>
       </div>
