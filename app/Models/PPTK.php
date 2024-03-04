@@ -15,6 +15,10 @@ class PPTK extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function program()
+    {
+        return $this->belongsTo(Program::class, 'program_id');
+    }
     public function bidang()
     {
         return $this->belongsTo(Bidang::class, 'bidang_id');
