@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bidang;
+use App\Models\PPTK;
 use App\Models\Tahun;
+use App\Models\Bidang;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
@@ -53,6 +54,16 @@ class TarikDataController extends Controller
         Session::flash('success', 'Berhasil Di Update');
         return back();
     }
+    public function updatePPTK(Request $req)
+    {
+        foreach ($req->subkegiatan_id as $key => $item) {
+            Subkegiatan::find($item)->update([
+                'pptk_id' => $req->pptk_id[$key],
+            ]);
+        }
+        Session::flash('success', 'Berhasil Di Update');
+        return back();
+    }
     public function kegiatan($tahun)
     {
         $skpd_id = Auth::user()->skpd->id;
@@ -63,7 +74,8 @@ class TarikDataController extends Controller
     {
         $skpd_id = Auth::user()->skpd->id;
         $data = Subkegiatan::where('tahun', $tahun)->where('skpd_id', $skpd_id)->get();
-        return view('admin.datatarik.subkegiatan', compact('data'));
+        $pptk = PPTK::where('skpd_id', $skpd_id)->get();
+        return view('admin.datatarik.subkegiatan', compact('data', 'pptk'));
     }
     public function tarikData(Request $req)
     {
@@ -109,6 +121,7 @@ class TarikDataController extends Controller
                     $k->tahun = $tahun;
                     $k->skpd_id = $skpd_id;
                     $k->integrasi_id = $subkegiatan['id'];
+                    $k->jenis_rfk = 'murni';
                     $k->save();
                 }
             }

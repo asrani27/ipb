@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kegiatan;
 use Carbon\Carbon;
+use App\Models\Tahun;
 use App\Models\Uraian;
 use App\Models\Program;
+use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
 use App\Models\LogBukaTutup;
 use Illuminate\Http\Request;
@@ -165,6 +166,17 @@ class AdminBerandaController extends Controller
             Uraian::create($param);
         }
     }
+
+    public function indexTahun($tahun)
+    {
+        $t_program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $t_kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $t_subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $t_uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+
+        $dataTahun = Tahun::get();
+        return view('admin.home', compact('t_program', 't_kegiatan', 't_subkegiatan', 't_uraian', 'dataTahun', 'tahun'));
+    }
     public function index()
     {
         $murni = Auth::user()->skpd->murni;
@@ -172,21 +184,18 @@ class AdminBerandaController extends Controller
         $realisasi = Auth::user()->skpd->realisasi;
         $pergeseran = Auth::user()->skpd->pergeseran;
         $log = LogBukaTutup::orderBy('id', 'DESC')->paginate(15);
-        if (Auth::user()->hasRole('admin')) {
-            $t_program = Program::where('skpd_id', Auth::user()->skpd->id)->count();
-            $t_kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->count();
-            $t_subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->count();
-            $t_uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->count();
-        }
-        if (Auth::user()->hasRole('bidang')) {
-            $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
-            $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-            $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
-            $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
-        }
+
+        $tahun = Carbon::now()->format('Y');
+        return redirect('/admin/beranda/' . $tahun);
+        // if (Auth::user()->hasRole('bidang')) {
+        //     $t_program = Program::where('bidang_id', Auth::user()->bidang->id)->count();
+        //     $t_kegiatan = Kegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+        //     $t_subkegiatan = Subkegiatan::where('bidang_id', Auth::user()->bidang->id)->count();
+        //     $t_uraian = Uraian::where('bidang_id', Auth::user()->bidang->id)->count();
+        // }
 
 
-        return view('admin.home', compact('murni', 'perubahan', 'realisasi', 'pergeseran', 'log', 't_program', 't_kegiatan', 't_subkegiatan', 't_uraian'));
+        // return view('admin.home', compact('murni', 'perubahan', 'realisasi', 'pergeseran', 'log', 't_program', 't_kegiatan', 't_subkegiatan', 't_uraian'));
     }
 
     public function bukaMurni()

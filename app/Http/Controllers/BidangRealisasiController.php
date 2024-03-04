@@ -115,12 +115,6 @@ class BidangRealisasiController extends Controller
         //check status laporan telah di kirim
         $kirim_rfk = 'kirim_rfk_' . $req->bulan;
 
-
-        // if ($check->subkegiatan[$kirim_rfk] == 1) {
-        //     Session::flash('warning', 'Laporan RFK Bulan ' . $req->bulan . ' Sudah terkirim, jadi tidak bisa edit realisasi');
-        //     return back();
-        // }
-
         //check batas input
         $bt = BatasInput::where('skpd_id', Auth::user()->bidang->skpd->id)->where('tahun', $check->tahun)->first();
         if (Carbon::now()->format('Y-m-d') > $bt[$req->bulan]) {

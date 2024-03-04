@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('css')
-    
+
 @endpush
 @section('content')
 <section class="content">
@@ -16,9 +16,9 @@
           <div class="progress">
             <div class="progress-bar" style="width: 70%"></div>
           </div>
-              <span class="progress-description">
-               Anda sebagai PPTK dapat mengelola RFK mulai dari sub kegiatan..
-              </span>
+          <span class="progress-description">
+            Anda sebagai PPTK dapat mengelola RFK mulai dari sub kegiatan..
+          </span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -36,14 +36,14 @@
           <div class="progress">
             <div class="progress-bar" style="width: 70%"></div>
           </div>
-              <span class="progress-description">
-                <strong>{{$tahun}}</strong>
-              </span>
+          <span class="progress-description">
+            <strong>{{$tahun}}</strong>
+          </span>
         </div>
         <!-- /.info-box-content -->
       </div>
     </div>
-    
+
   </div>
   <div class="row">
     <div class="col-lg-6 col-xs-6">
@@ -80,56 +80,62 @@
   <div class="row">
     <div class="col-md-12">
       <a href="/pptk/beranda" class="btn btn-primary btn-flat">Sub Kegiatan</a>
-      <a href="/pptk/beranda/uraian" class="btn btn-primary btn-flat">Uraian Kegiatan</a><br/><br/>
+      <a href="/pptk/beranda/uraian" class="btn btn-primary btn-flat">Uraian Kegiatan</a><br /><br />
       <div class="box box-primary">
-          <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Sub Kegiatan, Tahun : 
-              <strong>{{$tahun}}</strong></h3>
-          </div>
-          <div class="box-body table-responsive no-padding text-sm">
-            <table class="table table-hover">
-              <tbody>
+        <div class="box-header">
+          <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Sub Kegiatan, Tahun :
+            <strong>{{$tahun}}</strong>
+          </h3>
+        </div>
+        <div class="box-body table-responsive no-padding text-sm">
+          
+          <table class="table table-hover">
+            <tbody>
+            <tr>
+              <th class="text-center">No</th>
+              <th>Uraian Kegiatan</th>
+              <th style="text-align: right">DPA</th>
+              <th style="text-align: right">Total Angkas (12 bulan)</th>
+              <th></th>
+            </tr>
+            @php
+                $no =1;
+            @endphp
+            @foreach ($uraian as $key => $item)
+            @if ($item->dpa != $item->angkas)
+            <tr style="background-color: rgba(251, 225, 225, 0.705)">
+            @else
+            <tr>
+            @endif
+                <td class="text-center">{{$no++}}</td>
+                <td><strong>Subkegiatan: {{$item->subkegiatan->nama}}</strong><br/>
+                  {{$item->kode_rekening}} <br/>{{$item->nama}}<br/>{{$item->keterangan}}</td>
+                <td style="text-align: right">{{number_format($item->dpa)}}</td>
+                <td style="text-align: right">{{number_format($item->angkas)}}</td>
+                <td style="text-align: right">
+                  <a href="/pptk/angkas/{{$item->id}}" class="btn btn-xs btn-flat bg-purple">Angkas</a>
+                </td>
+            </tr>
+            @endforeach
+            
+            </tbody>
+            <tfoot>
               <tr>
-                <th class="text-center">No</th>
-                <th>Subkegiatan</th>
-                <th style="text-align: right">Total</th>
-                <th></th>
+                <td></td>
+                <td>TOTAL</td>
+                <td style="text-align: right">{{number_format($uraian->sum('dpa'))}}</td>
+                <td style="text-align: right">{{number_format($uraian->sum('angkas'))}}</td>
+                <td></td>
               </tr>
-              @php
-                  $no =1;
-              @endphp
-              @foreach ($subkegiatan as $key => $item)
-              <tr>
-                  <td class="text-center">{{$no++}}</td>
-                  <td>{{$item->nama}}</td>
-                  <td style="text-align: right">{{number_format($item->totalsubkegiatan)}}</td>
-      
-                  <td width="15%" style="text-align: right">
-                      <a href="/pptk/subkegiatan/{{$item->id}}"
-                          class="btn btn-xs btn-flat btn-success"><i class="fa fa-list"></i> Detail</a>
-                      <a href="/pptk/realisasi/{{$item->id}}" class="btn btn-xs btn-flat bg-purple">Realisasi</a>
-                          
-                  </td>
-              </tr>
-              @endforeach
-              
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td></td>
-                  <td>TOTAL</td>
-                  <td style="text-align: right">{{number_format($subkegiatan->sum('totalsubkegiatan'))}}</td>
-                  <td></td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-          <!-- /.box-body -->
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.box-body -->
       </div>
     </div>
-    
+
   </div>
-  
+
 </section>
 
 

@@ -57,20 +57,12 @@ class BidangAngkasController extends Controller
         $des_fisik = (float)str_replace(str_split(','), '.', $req->desember_fisik);
         $fisik = $jan_fisik + $feb_fisik + $mar_fisik + $apr_fisik + $mei_fisik + $jun_fisik + $jul_fisik + $agu_fisik + $sep_fisik + $okt_fisik + $nov_fisik + $des_fisik;
 
-        //dd($keuangan, $fisik, $req->all());
-        //dd($fisik, $jan_fisik, $feb_fisik, $mar_fisik, $apr_fisik, $mei_fisik, $jun_fisik, $jul_fisik, $agu_fisik,$sep_fisik,$okt_fisik,$nov_fisik,$des_fisik);
         if ($keuangan != $uraian->dpa) {
             Session::flash('info', 'SISA DPA HARUS 0');
 
             $req->flash();
             return back();
         }
-
-        // if ((int)$fisik != 100) {
-        //     toastr()->error('Jumlah Fisik: ' . $fisik . '%, Tidak 100%, Harap Ulangi');
-        //     $req->flash();
-        //     return back();
-        // }
 
         $u = $uraian;
         $u->p_januari_keuangan     = $jan_keuangan;

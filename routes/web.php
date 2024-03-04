@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PPTKController;
 use App\Http\Controllers\TkrkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DaftarController;
@@ -11,7 +12,9 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminKrkController;
 use App\Http\Controllers\AdminPptkController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PPTKMurniController;
+use App\Http\Controllers\TarikDataController;
 use App\Http\Controllers\AdminBidangController;
 use App\Http\Controllers\BidangKirimController;
 use App\Http\Controllers\BidangMurniController;
@@ -39,10 +42,8 @@ use App\Http\Controllers\AdminSubKegiatanController;
 use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperadminBerandaController;
 use App\Http\Controllers\SuperadminJenisrfkController;
-use App\Http\Controllers\TarikDataController;
 
 Route::get('/', [DashboardController::class, 'index']);
 
@@ -53,6 +54,7 @@ Route::get('lupa-password', [LupaPasswordController::class, 'index']);
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::prefix('superadmin')->group(function () {
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);
+        Route::get('pengaturan/batasinput', [SuperadminBerandaController::class, 'batasinput']);
         Route::get('jenisrfk', [SuperadminJenisrfkController::class, 'index']);
         Route::get('jenisrfk/add', [SuperadminJenisrfkController::class, 'create']);
         Route::post('jenisrfk/add', [SuperadminJenisrfkController::class, 'store']);
@@ -73,6 +75,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('datatarik/program/{tahun}', [TarikDataController::class, 'program']);
         Route::get('datatarik/kegiatan/{tahun}', [TarikDataController::class, 'kegiatan']);
         Route::get('datatarik/subkegiatan/{tahun}', [TarikDataController::class, 'subkegiatan']);
+        Route::post('datatarik/pptk', [TarikDataController::class, 'updatePPTK']);
         Route::post('datatarik', [TarikDataController::class, 'tarikData']);
         Route::get('capaian', [AdminCapaianController::class, 'index']);
         Route::get('capaian/tarik-indikator', [AdminCapaianController::class, 'tarikIndikator']);
@@ -110,7 +113,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('batas_input/delete/{id}', [AdminBatasInputController::class, 'delete']);
 
         Route::get('validasi', [AdminValidasiController::class, 'index']);
+
         Route::get('beranda', [AdminBerandaController::class, 'index']);
+        Route::get('beranda/{tahun}', [AdminBerandaController::class, 'indexTahun']);
 
         Route::get('beranda/murni/buka', [AdminBerandaController::class, 'bukaMurni']);
         Route::get('beranda/murni/tutup', [AdminBerandaController::class, 'tutupMurni']);
@@ -314,38 +319,6 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 
         Route::get('kirimdata', [BidangKirimController::class, 'index']);
 
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}', [ExcelController::class, 'index']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}', [ExcelController::class, 'bulan']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/suratpengantar', [ExcelController::class, 'sp']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/rfk', [ExcelController::class, 'rfk']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/v', [ExcelController::class, 'v']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/fiskeu', [ExcelController::class, 'fiskeu']);
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/kppbj', [ExcelController::class, 'kppbj']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/kppbj', [ExcelController::class, 'storeKppbj']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/kppbj/delete/{m_id}', [ExcelController::class, 'deleteKppbj']);
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/m', [ExcelController::class, 'm']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/m', [ExcelController::class, 'storeM']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/m/delete/{m_id}', [ExcelController::class, 'deleteM']);
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/pbj', [ExcelController::class, 'pbj']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/pbj', [ExcelController::class, 'storePbj']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/pbj/delete/{pbj_id}', [ExcelController::class, 'deletePbj']);
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/st', [ExcelController::class, 'st']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/st', [ExcelController::class, 'storeSt']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/st/delete/{st_id}', [ExcelController::class, 'deleteSt']);
-
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/input', [ExcelController::class, 'input']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/input', [ExcelController::class, 'storeInput']);
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/input/delete/{input_id}', [ExcelController::class, 'deleteInput']);
-        // Route::post('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/updatepptk', [ExcelController::class, 'updatepptk']);
-
-
-        // Route::get('skpd/bidang/program/kegiatan/{program_id}/sub/{kegiatan_id}/excel/{subkegiatan_id}/{bulan}/input/exportexcel/{t_pptk_id}', [ExportController::class, 'exportInput']);
-
         Route::get('murni/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [MurniController::class, 'create']);
         Route::post('murni/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [MurniController::class, 'store']);
 
@@ -367,17 +340,41 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
 
 Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
     Route::get('pptk/beranda', [BerandaController::class, 'pptk']);
+    Route::get('pptk/beranda/uraian', [BerandaController::class, 'uraian']);
 
-    Route::get('pptk/murni', [PPTKMurniController::class, 'subkegiatan']);
-    Route::get('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'addsubkegiatan']);
-    Route::post('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'storesubkegiatan']);
+    // Route::get('pptk/murni', [PPTKMurniController::class, 'subkegiatan']);
+    // Route::get('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'addsubkegiatan']);
+    // Route::post('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'storesubkegiatan']);
 
-    // Route::get('skpd/bidang/program', [ProgramController::class, 'index']);
-    // Route::get('skpd/bidang/program/add', [ProgramController::class, 'create']);
-    // Route::post('skpd/bidang/program/add', [ProgramController::class, 'store']);
-    // Route::get('skpd/bidang/program/edit/{id}', [ProgramController::class, 'edit']);
-    // Route::post('skpd/bidang/program/edit/{id}', [ProgramController::class, 'update']);
-    // Route::get('skpd/bidang/program/delete/{id}', [ProgramController::class, 'delete']);
+    Route::get('pptk/subkegiatan', [PPTKController::class, 'subkegiatan']);
+    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}', [PPTKController::class, 'uraian']);
+    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTKController::class, 'addUraian']);
+    Route::post('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTKController::class, 'storeUraian']);
+    Route::get('pptk/edituraian/{id}', [PPTKController::class, 'editUraian']);
+    Route::post('pptk/edituraian/{id}', [PPTKController::class, 'updateUraian']);
+    Route::get('pptk/deleteuraian/{id}', [PPTKController::class, 'deleteUraian']);
+    Route::get('pptk/angkas/{id}', [PPTKController::class, 'angkas']);
+    Route::post('pptk/angkas/{id}', [PPTKController::class, 'updateAngkas']);
+
+    Route::get('pptk/realisasi', [PPTKController::class, 'realisasi']);
+    Route::post('pptk/realisasikeuangan', [PPTKController::class, 'updateRealisasiKeuangan']);
+    Route::post('pptk/realisasifisik', [PPTKController::class, 'updateRealisasiFisik']);
+    Route::get('pptk/realisasi/{id}', [PPTKController::class, 'detailRealisasi']);
+    Route::get('pptk/laporanrfk', [PPTKController::class, 'laporanrfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}', [PPTKController::class, 'detailLaporanRfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/srp', [PPTKController::class, 'srp']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/rfk', [PPTKController::class, 'rfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m', [PPTKController::class, 'm']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTKController::class, 'm_tambah']);
+    Route::post('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTKController::class, 'm_store']);
+    Route::get('pptk/edit_m/{id}', [PPTKController::class, 'edit_m']);
+    Route::post('pptk/edit_m/{id}', [PPTKController::class, 'update_m']);
+    Route::get('pptk/delete_m/{id}', [PPTKController::class, 'delete_m']);
+
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/fiskeu', [PPTKController::class, 'fiskeu']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/input', [PPTKController::class, 'input']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/export', [PPTKController::class, 'excel']);
+    Route::post('/pptk/laporanrfk/rfk_input', [PPTKController::class, 'storeInput']);
 });
 
 Route::group(['middleware' => ['auth', 'role:superadmin|admin|bidang|pptk']], function () {

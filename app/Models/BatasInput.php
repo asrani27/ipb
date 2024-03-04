@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class BatasInput extends Model
 {
     use HasFactory;
-    protected $table = 'batas_input';
+    protected $table = 'batasinput';
     protected $guarded = ['id'];
 }

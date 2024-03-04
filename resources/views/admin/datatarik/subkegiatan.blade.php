@@ -22,15 +22,32 @@
                   <th class="text-center">No</th>
                   <th>Tahun</th>
                   <th>Subkegiatan</th>
+                  <th>PPTK</th>
                 </tr>
+                <form method="post" action="/admin/datatarik/pptk">
+                  @csrf
                 @foreach ($data as $key => $item)
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
                     <td>{{$item->nama}}</td>
+                    <td>
+                      <select name="pptk_id[]">
+                        <option value="">-</option>
+                      @foreach ($pptk as $item2)
+                          <option value="{{$item2->id}}" {{$item2->id == $item->pptk_id ? 'selected':''}}>{{$item2->nip_pptk}} - {{$item2->nama_pptk}}</option>
+                      @endforeach
+                      </select>
+                    </td>
+                    <input type="hidden" name="subkegiatan_id[]" value="{{$item->id}}">
                 </tr>
                 @endforeach
-                
+                <tr>
+                  <td colspan='4'>
+                    <button type="submit" class="btn btn-block btn-primary">UPDATE PPTK</button>
+                  </td>
+                </tr>
+                </form>
               </tbody></table>
             </div>
             <!-- /.box-body -->

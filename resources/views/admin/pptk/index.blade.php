@@ -50,9 +50,6 @@
                                 class="fa fa-key"></i> Reset Pass</a>
 
                         @endif
-
-                        <a href="/admin/pptk/subkegiatan/{{$item->id}}" class="btn btn-xs bg-purple btn-flat"><i
-                          class="fa fa-list"></i> Sub Kegiatan</a>
                     </td>
                 </tr>
                 @endforeach

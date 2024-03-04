@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Uraian;
+use App\Models\BatasInput;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -222,21 +224,39 @@ class BerandaController extends Controller
     }
     public function pptk()
     {
-        $status = statusRFK();
-        $result = $status;
-        $data = null;
+        $tahun = Carbon::now()->format('Y');
+        $status = BatasInput::where('is_aktif', 1)->first()->nama;
+        // $result = $status;
+        // $data = null;
 
-        $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->count();
-        $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', '2023')->count();
+        // $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->count();
+        // $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', '2023')->count();
 
-        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->get();
+        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', $tahun)->get();
 
-        $subkegiatan->map(function ($item) use ($result) {
-            $item->uraian = $item->uraian->where('jenis_rfk', $result);
-            $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+        $subkegiatan->map(function ($item) use ($status) {
+            $item->uraian = $item->uraian->where('jenis_rfk', $status);
+            $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $status)->sum('dpa');
             return $item;
         });
 
-        return view('pptk.home', compact('data', 't_subkegiatan', 't_uraian', 'subkegiatan'));
+        return view('pptk.home', compact('tahun', 'subkegiatan', 'status'));
+    }
+    public function uraian()
+    {
+        //status rfk
+        $tahun = Carbon::now()->format('Y');
+        $status = BatasInput::where('is_aktif', 1)->first()->nama;
+
+        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $status)->where('tahun', $tahun)->get();
+        $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $status)->where('tahun', $tahun)->count();
+        $data = null;
+
+        $uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $status)->where('tahun', $tahun)->orderBy('m_akun_id', 'ASC')->get();
+        $uraian->map(function ($item) {
+            $item->angkas = $item->p_januari_keuangan + $item->p_februari_keuangan + $item->p_maret_keuangan + $item->p_april_keuangan + $item->p_mei_keuangan + $item->p_juni_keuangan + $item->p_juli_keuangan + $item->p_agustus_keuangan + $item->p_september_keuangan + $item->p_oktober_keuangan + $item->p_november_keuangan + $item->p_desember_keuangan;
+            return $item;
+        });
+        return view('pptk.home_uraian', compact('data', 't_uraian', 'uraian', 'status', 'tahun', 'subkegiatan'));
     }
 }

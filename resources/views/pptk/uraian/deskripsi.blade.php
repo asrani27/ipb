@@ -8,11 +8,13 @@
 <div class="box-body text-sm">
     <dl>
     <dt>Tahun</dt>
-    <dd>{{$data->first() == null ? '' : 'ada'}}</dd><br/>
+    <dd>{{$program->tahun}}</dd><br/>
     <dt>Program</dt>
-    <dd>{{$data->first() == null ? '' : 'ada'}}</dd><br/>
+    <dd>{{$program->nama}}</dd><br/>
     <dt>Kegiatan</dt>
-    <dd>{{$data->first() == null ? '' : 'ada'}}</dd>
+    <dd>{{$kegiatan->nama}}</dd><br/>
+    <dt>Sub Kegiatan</dt>
+    <dd>{{$subkegiatan->nama}}</dd>
     </dl>
 </div>
 <!-- /.box-body -->

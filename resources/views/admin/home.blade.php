@@ -17,7 +17,7 @@
             <div class="progress-bar" style="width: 70%"></div>
           </div>
               <span class="progress-description">
-               Anda sebagai admin dapat mengatur pembukaan dan penutupan penginputan RFK
+               Anda sebagai Admin SKPD dapat mengatur pembukaan dan penutupan penginputan RFK
               </span>
         </div>
         <!-- /.info-box-content -->
@@ -25,7 +25,15 @@
       <!-- /.info-box -->
     </div>
   </div>
-  {{-- <div class="row">
+  <div class="row">
+    <div class="col-lg-12">
+    @foreach ($dataTahun as $item)
+        <a href="/admin/beranda/{{$item->nama}}" class="btn btn-lg {{$item->nama == $tahun ? 'btn-success': 'btn-default'}}">{{$item->nama}}</a>
+    @endforeach
+    </div>
+  </div>
+  <br/>
+  <div class="row">
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-purple">
@@ -37,7 +45,7 @@
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/bidang" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -52,7 +60,7 @@
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/program/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -60,14 +68,14 @@
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>{{$t_program}}</h3>
+          <h3>{{$t_kegiatan}}</h3>
 
           <p>TOTAL KEGIATAN</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/kegiatan/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -75,19 +83,19 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>{{$t_program}}</h3>
+          <h3>{{$t_subkegiatan}}</h3>
 
           <p>TOTAL SUB KEGIATAN</p>
         </div>
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/subkegiatan/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
-  </div> --}}
-  <div class="row">
+  </div>
+  {{-- <div class="row">
     <div class="col-md-6">
         <div class="box box-primary">
           <div class="box-header">
@@ -231,7 +239,7 @@
         <!-- /.box-body -->
       </div>
     </div>
-  </div>
+  </div> --}}
 </section>
 
 

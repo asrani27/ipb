@@ -1,5 +1,6 @@
 <li class="{{ (request()->is('admin/beranda')) ? 'active' : '' }}"><a href="/admin/beranda"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
 <li class="{{ (request()->is('admin/bidang*')) ? 'active' : '' }}"><a href="/admin/bidang"><i class="fa fa-institution"></i> <span>Bidang</span></a></li>
+<li class="{{ (request()->is('admin/pptk*')) ? 'active' : '' }}"><a href="/admin/pptk"><i class="fa fa-institution"></i> <span>PPTK</span></a></li>
 <li class="{{ (request()->is('admin/datatarik*')) ? 'active' : '' }}"><a href="/admin/datatarik"><i class="fa fa-list"></i> <span>Data Tarikan</span></a></li>
 {{-- <li class="{{ (request()->is('admin/program*')) ? 'active' : '' }}"><a href="/admin/program"><i class="fa fa-list"></i> <span>Program</span></a></li>
 <li class="{{ (request()->is('admin/kegiatan*')) ? 'active' : '' }}"><a href="/admin/kegiatan"><i class="fa fa-list"></i> <span>Kegiatan</span></a></li>
