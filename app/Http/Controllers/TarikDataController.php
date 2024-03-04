@@ -71,7 +71,7 @@ class TarikDataController extends Controller
         $kode_skpd = Auth::user()->username;
         $skpd_id = Auth::user()->skpd->id;
 
-        $response = Http::get('https://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
+        $response = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
 
         foreach ($response as $key => $program) {
             //simpan program
