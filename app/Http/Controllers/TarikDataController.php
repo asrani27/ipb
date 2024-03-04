@@ -123,6 +123,8 @@ class TarikDataController extends Controller
                     $k->integrasi_id = $subkegiatan['id'];
                     $k->jenis_rfk = 'murni';
                     $k->save();
+                } else {
+                    $checkSub->update(['jenis_rfk' => 'murni']);
                 }
             }
         }
