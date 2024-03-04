@@ -319,6 +319,7 @@ class PPTKController extends Controller
 
     public function storeInput(Request $req)
     {
+        // dd($req->all());
         if ($req->pptk_id == null) {
             T_pptk::create($req->all());
             Session::flash('success', 'Berhasil Di Simpan');
