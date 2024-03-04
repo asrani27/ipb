@@ -90,79 +90,86 @@ class AdminCapaianController extends Controller
     }
     public function tarikIndikator()
     {
-        $response = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/renstra/target/skpd/1.01.001/2023')->json();
+        $kode_skpd = Auth::user()->username;
+        $tahun = Carbon::now()->format('Y');
+        $response = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/renstra/target/skpd/' . $kode_skpd . '/' . $tahun);
+        if ($response->getStatusCode() == 404) {
+            Session::flash('error', 'kode skpd tidak ditemukan');
+            return back();
+        } else {
+            foreach ($response->json() as $key => $program) {
 
-        foreach ($response as $key => $program) {
-            //simpan indikator program
-            foreach ($program['list_indikator'] as $indikator_program) {
-                $checkIndikatorProgram = M_indikator::where('jenis', 'program')->where('tahun', '2023')->where('kode', $program['kode'])->where('kode_indikator', $indikator_program['kode'])->first();
-                if ($checkIndikatorProgram == null) {
-                    $s = new M_indikator;
-                    $s->kode = $program['kode'];
-                    $s->jenis = 'program';
-                    $s->tahun = 2023;
-                    $s->kode_indikator = $indikator_program['kode'];
-                    $s->nama = $indikator_program['indikator'];
-                    $s->skpd_id = Auth::user()->skpd->id;
-                    $s->save();
-                } else {
-                    $checkIndikatorProgram->update([
-                        'nama' => $indikator_program['indikator'],
-                        'skpd_id' => Auth::user()->skpd->id,
-                    ]);
-                }
-            }
-
-            foreach ($program['kegiatan'] as $kegiatan) {
-                //simpan indikator kegiatan
-                foreach ($kegiatan['list_indikator'] as $indikator_kegiatan) {
-                    $checkIndikatorKegiatan = M_indikator::where('jenis', 'kegiatan')->where('tahun', '2023')->where('kode', $kegiatan['kode'])->where('kode_indikator', $indikator_kegiatan['kode'])->first();
-                    //dd($checkIndikatorKegiatan, $kegiatan);
-                    if ($checkIndikatorKegiatan == null) {
+                //simpan indikator program
+                foreach ($program['list_indikator'] as $indikator_program) {
+                    $checkIndikatorProgram = M_indikator::where('jenis', 'program')->where('tahun', '2023')->where('kode', $program['kode'])->where('kode_indikator', $indikator_program['kode'])->first();
+                    if ($checkIndikatorProgram == null) {
                         $s = new M_indikator;
-                        $s->kode = $kegiatan['kode'];
-                        $s->jenis = 'kegiatan';
+                        $s->kode = $program['kode'];
+                        $s->jenis = 'program';
                         $s->tahun = 2023;
-                        $s->kode_indikator = $indikator_kegiatan['kode'];
-                        $s->nama = $indikator_kegiatan['indikator'];
+                        $s->kode_indikator = $indikator_program['kode'];
+                        $s->nama = $indikator_program['indikator'];
                         $s->skpd_id = Auth::user()->skpd->id;
                         $s->save();
                     } else {
-                        $checkIndikatorKegiatan->update([
-                            'nama' => $indikator_kegiatan['indikator'],
+                        $checkIndikatorProgram->update([
+                            'nama' => $indikator_program['indikator'],
                             'skpd_id' => Auth::user()->skpd->id,
                         ]);
                     }
                 }
 
-                //simpan indikator subkegiatan
-                foreach ($kegiatan['subkegiatan'] as $subkegiatan) {
-                    foreach ($subkegiatan['list_indikator'] as $indikator_subkegiatan) {
-                        $checkIndikatorSubKegiatan = M_indikator::where('jenis', 'subkegiatan')->where('tahun', '2023')->where('kode', $subkegiatan['kode'])->where('kode_indikator', $indikator_subkegiatan['kode'])->first();
-                        //dd($checkIndikatorSubKegiatan, $indikator_subkegiatan, $kegiatan['kode']);
-                        if ($checkIndikatorSubKegiatan == null) {
+                foreach ($program['kegiatan'] as $kegiatan) {
+                    //simpan indikator kegiatan
+                    foreach ($kegiatan['list_indikator'] as $indikator_kegiatan) {
+                        $checkIndikatorKegiatan = M_indikator::where('jenis', 'kegiatan')->where('tahun', '2023')->where('kode', $kegiatan['kode'])->where('kode_indikator', $indikator_kegiatan['kode'])->first();
+                        //dd($checkIndikatorKegiatan, $kegiatan);
+                        if ($checkIndikatorKegiatan == null) {
                             $s = new M_indikator;
-                            $s->kode = $subkegiatan['kode'];
-                            $s->jenis = 'subkegiatan';
+                            $s->kode = $kegiatan['kode'];
+                            $s->jenis = 'kegiatan';
                             $s->tahun = 2023;
-                            $s->kode_indikator = $indikator_subkegiatan['kode'];
-                            $s->nama = $indikator_subkegiatan['indikator'];
+                            $s->kode_indikator = $indikator_kegiatan['kode'];
+                            $s->nama = $indikator_kegiatan['indikator'];
                             $s->skpd_id = Auth::user()->skpd->id;
                             $s->save();
                         } else {
-                            $checkIndikatorSubKegiatan->update([
-                                'nama' => $indikator_subkegiatan['indikator'],
+                            $checkIndikatorKegiatan->update([
+                                'nama' => $indikator_kegiatan['indikator'],
                                 'skpd_id' => Auth::user()->skpd->id,
                             ]);
                         }
                     }
+
+                    //simpan indikator subkegiatan
+                    foreach ($kegiatan['subkegiatan'] as $subkegiatan) {
+                        foreach ($subkegiatan['list_indikator'] as $indikator_subkegiatan) {
+                            $checkIndikatorSubKegiatan = M_indikator::where('jenis', 'subkegiatan')->where('tahun', '2023')->where('kode', $subkegiatan['kode'])->where('kode_indikator', $indikator_subkegiatan['kode'])->first();
+                            //dd($checkIndikatorSubKegiatan, $indikator_subkegiatan, $kegiatan['kode']);
+                            if ($checkIndikatorSubKegiatan == null) {
+                                $s = new M_indikator;
+                                $s->kode = $subkegiatan['kode'];
+                                $s->jenis = 'subkegiatan';
+                                $s->tahun = 2023;
+                                $s->kode_indikator = $indikator_subkegiatan['kode'];
+                                $s->nama = $indikator_subkegiatan['indikator'];
+                                $s->skpd_id = Auth::user()->skpd->id;
+                                $s->save();
+                            } else {
+                                $checkIndikatorSubKegiatan->update([
+                                    'nama' => $indikator_subkegiatan['indikator'],
+                                    'skpd_id' => Auth::user()->skpd->id,
+                                ]);
+                            }
+                        }
+                    }
                 }
+                //dd($indikator_kegiatan);
             }
-            //dd($indikator_kegiatan);
+            Session::flash('success', 'Berhasil Di Tarik');
+            return back();
         }
 
-        Session::flash('success', 'Berhasil Di Tarik');
-        return back();
         //        dd($response);
     }
     public function index()
