@@ -39,11 +39,12 @@ use App\Http\Controllers\AdminSubKegiatanController;
 use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperadminBerandaController;
 use App\Http\Controllers\SuperadminJenisrfkController;
 use App\Http\Controllers\TarikDataController;
 
-Route::get('/', [LoginController::class, 'index']);
+Route::get('/', [DashboardController::class, 'index']);
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
