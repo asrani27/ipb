@@ -447,7 +447,7 @@ desired effect
             toolTipContent: "{name}: <strong>{y} SKPD </strong>",
             indexLabel: "{name} - {y} SKPD ",
             dataPoints: [
-                { y: 26, name: "SANGAT BAIK"},
+                { y: 6, name: "SANGAT BAIK"},
                 { y: 20, name: "BAIK" },
                 { y: 5, name: "KURANG" },
                 { y: 3, name: "CUKUP" }
