@@ -30,7 +30,7 @@
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->nip_pptk}}</td>
                     <td>{{$item->nama_pptk}}</td>
-                    <td>{{$item->bidang->nama}}</td>
+                    <td>{{$item->bidang == null ? null : $item->bidang->nama}}</td>
                     <td>
                         @if ($item->user == null)
                         <a href="/admin/pptk/createuser/{{$item->id}}" class="btn btn-xs btn-primary btn-flat"><i
