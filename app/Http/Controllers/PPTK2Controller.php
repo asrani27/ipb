@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-class PPTKController extends Controller
+class PPTK2Controller extends Controller
 {
     public function subkegiatan()
     {

@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PPTKController;
 use App\Http\Controllers\TkrkController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PPTK2Controller;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfilController;
@@ -307,15 +307,15 @@ Route::group(['middleware' => ['auth', 'role:bidang']], function () {
         Route::get('program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangAngkasController::class, 'create']);
         Route::post('program/angkas/{program_id}/{kegiatan_id}/{subkegiatan_id}/{uraian_id}', [BidangAngkasController::class, 'store']);
 
-        Route::get('skpd/bidang/pptk', [PPTKController::class, 'index']);
-        Route::get('skpd/bidang/pptk/add', [PPTKController::class, 'create']);
-        Route::post('skpd/bidang/pptk/add', [PPTKController::class, 'store']);
-        Route::get('skpd/bidang/pptk/edit/{id}', [PPTKController::class, 'edit']);
-        Route::post('skpd/bidang/pptk/edit/{id}', [PPTKController::class, 'update']);
-        Route::get('skpd/bidang/pptk/delete/{id}', [PPTKController::class, 'delete']);
-        Route::get('skpd/bidang/pptk/createuser/{id}', [PPTKController::class, 'createuser']);
-        Route::post('skpd/bidang/pptk/createuser/{id}', [PPTKController::class, 'storeuser']);
-        Route::get('skpd/bidang/pptk/resetpass/{id}', [PPTKController::class, 'resetpass']);
+        Route::get('skpd/bidang/pptk', [PPTK2Controller::class, 'index']);
+        Route::get('skpd/bidang/pptk/add', [PPTK2Controller::class, 'create']);
+        Route::post('skpd/bidang/pptk/add', [PPTK2Controller::class, 'store']);
+        Route::get('skpd/bidang/pptk/edit/{id}', [PPTK2Controller::class, 'edit']);
+        Route::post('skpd/bidang/pptk/edit/{id}', [PPTK2Controller::class, 'update']);
+        Route::get('skpd/bidang/pptk/delete/{id}', [PPTK2Controller::class, 'delete']);
+        Route::get('skpd/bidang/pptk/createuser/{id}', [PPTK2Controller::class, 'createuser']);
+        Route::post('skpd/bidang/pptk/createuser/{id}', [PPTK2Controller::class, 'storeuser']);
+        Route::get('skpd/bidang/pptk/resetpass/{id}', [PPTK2Controller::class, 'resetpass']);
 
         Route::get('kirimdata', [BidangKirimController::class, 'index']);
 
@@ -342,41 +342,37 @@ Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
     Route::get('pptk/beranda', [BerandaController::class, 'pptk']);
     Route::get('pptk/beranda/uraian', [BerandaController::class, 'uraian']);
 
-    // Route::get('pptk/murni', [PPTKMurniController::class, 'subkegiatan']);
-    // Route::get('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'addsubkegiatan']);
-    // Route::post('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'storesubkegiatan']);
+    Route::get('pptk/laporanrfk/kirimdata/{bulan}/{subkegiatan_id}', [PPTK2Controller::class, 'kirimData']);
+    Route::get('pptk/subkegiatan', [PPTK2Controller::class, 'subkegiatan']);
+    Route::get('pptk/subkegiatan/kirim/{id}', [PPTK2Controller::class, 'kirimAngkas2']);
+    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}', [PPTK2Controller::class, 'uraian']);
+    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTK2Controller::class, 'addUraian']);
+    Route::post('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTK2Controller::class, 'storeUraian']);
+    Route::get('pptk/edituraian/{id}', [PPTK2Controller::class, 'editUraian']);
+    Route::post('pptk/edituraian/{id}', [PPTK2Controller::class, 'updateUraian']);
+    Route::get('pptk/deleteuraian/{id}', [PPTK2Controller::class, 'deleteUraian']);
+    Route::get('pptk/angkas/{id}', [PPTK2Controller::class, 'angkas']);
+    Route::post('pptk/angkas/{id}', [PPTK2Controller::class, 'updateAngkas']);
 
-    Route::get('pptk/laporanrfk/kirimdata/{bulan}/{subkegiatan_id}', [PPTKController::class, 'kirimData']);
-    Route::get('pptk/subkegiatan', [PPTKController::class, 'subkegiatan']);
-    Route::get('pptk/subkegiatan/kirim/{id}', [PPTKController::class, 'kirimAngkas']);
-    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}', [PPTKController::class, 'uraian']);
-    Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTKController::class, 'addUraian']);
-    Route::post('pptk/subkegiatan/uraian/{subkegiatan_id}/add', [PPTKController::class, 'storeUraian']);
-    Route::get('pptk/edituraian/{id}', [PPTKController::class, 'editUraian']);
-    Route::post('pptk/edituraian/{id}', [PPTKController::class, 'updateUraian']);
-    Route::get('pptk/deleteuraian/{id}', [PPTKController::class, 'deleteUraian']);
-    Route::get('pptk/angkas/{id}', [PPTKController::class, 'angkas']);
-    Route::post('pptk/angkas/{id}', [PPTKController::class, 'updateAngkas']);
+    Route::get('pptk/realisasi', [PPTK2Controller::class, 'realisasi']);
+    Route::post('pptk/realisasikeuangan', [PPTK2Controller::class, 'updateRealisasiKeuangan']);
+    Route::post('pptk/realisasifisik', [PPTK2Controller::class, 'updateRealisasiFisik']);
+    Route::get('pptk/realisasi/{id}', [PPTK2Controller::class, 'detailRealisasi']);
+    Route::get('pptk/laporanrfk', [PPTK2Controller::class, 'laporanrfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}', [PPTK2Controller::class, 'detailLaporanRfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/srp', [PPTK2Controller::class, 'srp']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/rfk', [PPTK2Controller::class, 'rfk']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m', [PPTK2Controller::class, 'm']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTK2Controller::class, 'm_tambah']);
+    Route::post('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTK2Controller::class, 'm_store']);
+    Route::get('pptk/edit_m/{id}', [PPTK2Controller::class, 'edit_m']);
+    Route::post('pptk/edit_m/{id}', [PPTK2Controller::class, 'update_m']);
+    Route::get('pptk/delete_m/{id}', [PPTK2Controller::class, 'delete_m']);
 
-    Route::get('pptk/realisasi', [PPTKController::class, 'realisasi']);
-    Route::post('pptk/realisasikeuangan', [PPTKController::class, 'updateRealisasiKeuangan']);
-    Route::post('pptk/realisasifisik', [PPTKController::class, 'updateRealisasiFisik']);
-    Route::get('pptk/realisasi/{id}', [PPTKController::class, 'detailRealisasi']);
-    Route::get('pptk/laporanrfk', [PPTKController::class, 'laporanrfk']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}', [PPTKController::class, 'detailLaporanRfk']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/srp', [PPTKController::class, 'srp']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/rfk', [PPTKController::class, 'rfk']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m', [PPTKController::class, 'm']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTKController::class, 'm_tambah']);
-    Route::post('pptk/laporanrfk/{id}/{tahun}/{bulan}/m/add', [PPTKController::class, 'm_store']);
-    Route::get('pptk/edit_m/{id}', [PPTKController::class, 'edit_m']);
-    Route::post('pptk/edit_m/{id}', [PPTKController::class, 'update_m']);
-    Route::get('pptk/delete_m/{id}', [PPTKController::class, 'delete_m']);
-
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/fiskeu', [PPTKController::class, 'fiskeu']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/input', [PPTKController::class, 'input']);
-    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/export', [PPTKController::class, 'excel']);
-    Route::post('/pptk/laporanrfk/rfk_input', [PPTKController::class, 'storeInput']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/fiskeu', [PPTK2Controller::class, 'fiskeu']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/input', [PPTK2Controller::class, 'input']);
+    Route::get('pptk/laporanrfk/{id}/{tahun}/{bulan}/export', [PPTK2Controller::class, 'excel']);
+    Route::post('/pptk/laporanrfk/rfk_input', [PPTK2Controller::class, 'storeInput']);
 });
 
 Route::group(['middleware' => ['auth', 'role:superadmin|admin|bidang|pptk']], function () {
