@@ -33,8 +33,15 @@
                         <td>{{$item->jenis_rfk}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
+                          @if ($item->kirim_angkas != null)
+                              Telah dikirim
+                          @else
+                              
                             <a href="/pptk/subkegiatan/uraian/{{$item->id}}"
-                                class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianmurni->count()}} Uraian</strong></a>
+                              class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianmurni->count()}} Uraian</strong></a>
+                          <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
+                              class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a>
+                          @endif
                         
                         </td>
                         

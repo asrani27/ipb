@@ -891,4 +891,11 @@ class PPTKController extends Controller
         Session::flash('success', 'Berhasil Di hapus');
         return back();
     }
+
+    public function kirimAngkas($id)
+    {
+        Subkegiatan::find($id)->update(['kirim_angkas' => 1]);
+        Session::flash('success', 'Berhasil Dikirim');
+        return back();
+    }
 }
