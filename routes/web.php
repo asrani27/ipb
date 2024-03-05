@@ -346,6 +346,7 @@ Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
     // Route::get('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'addsubkegiatan']);
     // Route::post('pptk/murni/subkegiatan/add', [PPTKMurniController::class, 'storesubkegiatan']);
 
+    Route::get('pptk/laporanrfk/kirimdata/{bulan}/{subkegiatan_id}', [PPTKController::class, 'kirimData']);
     Route::get('pptk/subkegiatan', [PPTKController::class, 'subkegiatan']);
     Route::get('pptk/subkegiatan/kirim/{id}', [PPTKController::class, 'kirimAngkas']);
     Route::get('pptk/subkegiatan/uraian/{subkegiatan_id}', [PPTKController::class, 'uraian']);

@@ -294,7 +294,10 @@ class PPTKController extends Controller
         $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
 
         $jenisrfk = BatasInput::where('is_aktif', 1)->first();
-        return view('pptk.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk'));
+
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
     }
 
     public function input($id, $tahun, $bulan)
@@ -314,7 +317,9 @@ class PPTKController extends Controller
             $pptk = $checkPptk;
         }
 
-        return view('pptk.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'pptk', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'pptk', 'jenisrfk', 'status_kirim'));
     }
 
     public function storeInput(Request $req)
@@ -377,7 +382,9 @@ class PPTKController extends Controller
 
         $subkegiatan = Subkegiatan::find($id);
 
-        return view('pptk.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk_fiskeu', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
     }
 
     public function m($id, $tahun, $bulan)
@@ -388,7 +395,9 @@ class PPTKController extends Controller
 
         $m = T_m::where('subkegiatan_id', $id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
-        return view('pptk.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'm'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk_m', compact('tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'm', 'status_kirim'));
     }
 
     public function rfk($id, $tahun, $bulan)
@@ -464,7 +473,9 @@ class PPTKController extends Controller
             return back();
         }
 
-        return view('pptk.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk_rfk', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
     }
     public function srp($id, $tahun, $bulan)
     {
@@ -531,7 +542,9 @@ class PPTKController extends Controller
             return $item;
         });
 
-        return view('pptk.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk'));
+        $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
+        $status_kirim = $subkegiatan[$field_kirim];
+        return view('pptk.laporan.rfk_srp', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'jenisrfk', 'status_kirim'));
     }
 
     public function excel($id, $tahun, $bulan)
@@ -896,6 +909,15 @@ class PPTKController extends Controller
     {
         Subkegiatan::find($id)->update(['kirim_angkas' => 1]);
         Session::flash('success', 'Berhasil Dikirim');
+        return back();
+    }
+    public function kirimData($bulan, $subkegiatan_id)
+    {
+        $field = 'kirim_rfk_' . strtolower(namaBulan($bulan));
+        Subkegiatan::find($subkegiatan_id)->update([
+            $field => 1,
+        ]);
+        Session::flash('success', 'berhasil Di Kirim Ke Admin SKPD');
         return back();
     }
 }

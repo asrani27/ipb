@@ -33,18 +33,18 @@
                         <td>{{$item->jenis_rfk}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/01" class="btn btn-xs btn-flat btn-primary"><strong> Jan</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/02" class="btn btn-xs btn-flat btn-primary"><strong> Feb</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/03" class="btn btn-xs btn-flat btn-primary"><strong> Mar</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/04" class="btn btn-xs btn-flat btn-primary"><strong> Apr</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/05" class="btn btn-xs btn-flat btn-primary"><strong> Mei</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/06" class="btn btn-xs btn-flat btn-primary"><strong> Jun</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/07" class="btn btn-xs btn-flat btn-primary"><strong> Jul</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/08" class="btn btn-xs btn-flat btn-primary"><strong> Aug</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/09" class="btn btn-xs btn-flat btn-primary"><strong> Sept</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/10" class="btn btn-xs btn-flat btn-primary"><strong> Okt</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/11" class="btn btn-xs btn-flat btn-primary"><strong> Nov</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/12" class="btn btn-xs btn-flat btn-primary"><strong> Des</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/01" class="btn btn-xs btn-flat {{$item->kirim_rfk_januari != null ? 'btn-success':'btn-primary'}}"><strong> Jan</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/02" class="btn btn-xs btn-flat {{$item->kirim_rfk_februari != null ? 'btn-success':'btn-primary'}}"><strong> Feb</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/03" class="btn btn-xs btn-flat {{$item->kirim_rfk_maret != null ? 'btn-success':'btn-primary'}}"><strong> Mar</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/04" class="btn btn-xs btn-flat {{$item->kirim_rfk_april != null ? 'btn-success':'btn-primary'}}"><strong> Apr</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/05" class="btn btn-xs btn-flat {{$item->kirim_rfk_mei != null ? 'btn-success':'btn-primary'}}"><strong> Mei</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/06" class="btn btn-xs btn-flat {{$item->kirim_rfk_juni != null ? 'btn-success':'btn-primary'}}"><strong> Jun</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/07" class="btn btn-xs btn-flat {{$item->kirim_rfk_juli != null ? 'btn-success':'btn-primary'}}"><strong> Jul</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/08" class="btn btn-xs btn-flat {{$item->kirim_rfk_agustus != null ? 'btn-success':'btn-primary'}}"><strong> Aug</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/09" class="btn btn-xs btn-flat {{$item->kirim_rfk_september != null ? 'btn-success':'btn-primary'}}"><strong> Sept</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/10" class="btn btn-xs btn-flat {{$item->kirim_rfk_oktober != null ? 'btn-success':'btn-primary'}}"><strong> Okt</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/11" class="btn btn-xs btn-flat {{$item->kirim_rfk_november != null ? 'btn-success':'btn-primary'}}"><strong> Nov</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/12" class="btn btn-xs btn-flat {{$item->kirim_rfk_desember != null ? 'btn-success':'btn-primary'}}"><strong> Des</strong></a>
                         
                         </td>
                         
