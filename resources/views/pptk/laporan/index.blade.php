@@ -44,7 +44,7 @@
                             <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/09" class="btn btn-xs btn-flat {{$item->kirim_rfk_september != null ? 'btn-success':'btn-primary'}}"><strong> Sept</strong></a>
                             <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/10" class="btn btn-xs btn-flat {{$item->kirim_rfk_oktober != null ? 'btn-success':'btn-primary'}}"><strong> Okt</strong></a>
                             <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/11" class="btn btn-xs btn-flat {{$item->kirim_rfk_november != null ? 'btn-success':'btn-primary'}}"><strong> Nov</strong></a>
-                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/12" class="btn btn-xs btn-flat {{$item->kirim_rfk_desember != null ? 'btn-success':'btn-primary'}}"><strong> Des</strong></a>
+                            <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/12" class="btn btn-xs btn-flat {{$item->kirim_rfk_desemberT != null ? 'btn-success':'btn-primary'}}"><strong> Des</strong></a>
                         
                         </td>
                         
