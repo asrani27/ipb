@@ -374,7 +374,7 @@ desired effect
             name: "Keuangan",
             showInLegend: true,
             markerSize: 0,
-            yValueFormatString: "$#,###k",
+            yValueFormatString: "Rp,#,###k",
             dataPoints: [		
                 { x: new Date(2014, 00, 01), y: 850 },
                 { x: new Date(2014, 01, 01), y: 889 },
