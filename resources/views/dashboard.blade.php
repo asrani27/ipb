@@ -213,6 +213,7 @@ desired effect
                     <table class="table table-bordered">
                         <tr style="background-color: antiquewhite">
                             <td>No</td>
+                            <td>Kode</td>
                             <td>SKPD</td>
                             <td>Keuangan</td>
                             <td>Fisik</td>
@@ -220,6 +221,7 @@ desired effect
                         @foreach ($skpd as $key => $item)
                             <tr>
                                 <td>{{$key + 1}}</td>
+                                <td>{{$item->kode_skpd}}</td>
                                 <td>{{$item->nama}}</td>
                                 <td>50 %</td>
                                 <td>75 %</td>
