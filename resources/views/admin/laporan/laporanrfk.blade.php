@@ -54,7 +54,7 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>rfk : {{jenisRFK($bulan, $tahun)}} </h3>
+          {{-- <h3>rfk : {{jenisRFK($bulan, $tahun)}} </h3> --}}
 
           <p>LAPORAN BULAN {{strtoupper($bulan)}} {{$tahun}}</p>
         </div>

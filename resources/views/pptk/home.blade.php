@@ -105,8 +105,8 @@
                   <td style="text-align: right">{{number_format($item->totalsubkegiatan)}}</td>
       
                   <td width="15%" style="text-align: right">
-                      <a href="/pptk/subkegiatan/{{$item->id}}"
-                          class="btn btn-xs btn-flat btn-success"><i class="fa fa-list"></i> Detail</a>
+                      {{-- <a href="/pptk/subkegiatan/{{$item->id}}"
+                          class="btn btn-xs btn-flat btn-success"><i class="fa fa-list"></i> Detail</a> --}}
                       <a href="/pptk/realisasi/{{$item->id}}" class="btn btn-xs btn-flat bg-purple">Realisasi</a>
                           
                   </td>

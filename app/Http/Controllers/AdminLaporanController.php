@@ -107,7 +107,7 @@ class AdminLaporanController extends Controller
         $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
         $data = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
-        //dd($data);
+
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data'));
     }
 
@@ -123,14 +123,14 @@ class AdminLaporanController extends Controller
     public function laporanRfk($tahun, $bulan)
     {
 
-        $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
-        if ($statusRFK == null) {
-            Session::flash('error', 'Periode RFK Tahun ' . $tahun . ' Belum Di isi');
-            return back();
-        }
+        // $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
+        // if ($statusRFK == null) {
+        //     Session::flash('error', 'Periode RFK Tahun ' . $tahun . ' Belum Di isi');
+        //     return back();
+        // }
 
-        $result = $statusRFK[$bulan];
-
+        $result = 'murni';
+        //dd($result);
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
@@ -249,7 +249,6 @@ class AdminLaporanController extends Controller
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
-
         $totalsubkegiatan = $subkeg->map(function ($item) {
             $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
             return $item;
@@ -264,6 +263,7 @@ class AdminLaporanController extends Controller
             return $item;
         });
 
+
         return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan'));
     }
 
@@ -276,6 +276,9 @@ class AdminLaporanController extends Controller
 
     public function excel($tahun, $bulan)
     {
+
+        Session::flash('info', 'Export Excel Dalam Pengembangan');
+        return back();
         $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
 
         if ($statusRFK[$bulan] == 'murni') {
