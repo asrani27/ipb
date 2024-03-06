@@ -121,10 +121,10 @@ class AdminPptkController extends Controller
                 $data->update(['user_id' => $n->id]);
             }
             DB::commit();
-            Session::flash('success', 'Berhasil Di Buat');
+            Session::flash('success', 'Berhasil Di Buat password : pptk123456');
             return redirect('/admin/pptk');
         } catch (\Exception $e) {
-            dd($e);
+
             DB::rollback();
             Session::flash('error', 'Sistem Error');
             return back();

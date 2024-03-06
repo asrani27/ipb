@@ -22,8 +22,8 @@
                           <label for="inputEmail3" class="col-sm-2 control-label">Tahun</label>
                           <div class="col-sm-8">
                             <select name="tahun" class="form-control">
-                                <option value="2023">2023</option>
-                                <option value="2024">2024</option>
+                                <option value="2023" {{old('tahun') == '2023' ? 'selected':''}}>2023</option>
+                                <option value="2024" {{old('tahun') == '2024' ? 'selected':''}}>2024</option>
                             </select>
                           </div>
                           <div class="col-sm-2">

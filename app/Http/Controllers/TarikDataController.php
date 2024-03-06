@@ -8,6 +8,7 @@ use App\Models\Bidang;
 use App\Models\Program;
 use App\Models\Kegiatan;
 use App\Models\Subkegiatan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -83,52 +84,69 @@ class TarikDataController extends Controller
         $kode_skpd = Auth::user()->username;
         $skpd_id = Auth::user()->skpd->id;
 
-        $response = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
+        $program = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
 
-        foreach ($response as $key => $program) {
-            //simpan program
-            $checkProgram = Program::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('nama', $program['nama'])->first();
-            if ($checkProgram == null) {
+        foreach ($program as $key => $item) {
+            //check
+            $check = Program::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
+            if ($check == null) {
                 $n = new Program;
-                $n->nama = $program['nama'];
+                $n->nama = $item['nama'];
                 $n->tahun = $tahun;
                 $n->skpd_id = $skpd_id;
-                $n->integrasi_id = $program['id'];
+                $n->integrasi_id = $item['id'];
                 $n->save();
+            } else {
+                $check->update([
+                    'nama' => $item['nama']
+                ]);
             }
+        }
 
-            foreach ($program['kegiatans'] as $keg => $kegiatan) {
-                $checkKegiatan = Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('nama', $kegiatan['nama'])->first();
-                //Simpan kegiatan
-                if ($checkKegiatan == null) {
-                    $k = new Kegiatan;
-                    $k->program_id = Program::where('integrasi_id', $program['id'])->first()->id;
-                    $k->nama = $kegiatan['nama'];
-                    $k->tahun = $tahun;
-                    $k->skpd_id = $skpd_id;
-                    $k->integrasi_id = $kegiatan['id'];
-                    $k->save();
-                }
+        $kegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/kegiatans/' . $kode_skpd . '/' . $tahun)->json();
+
+        foreach ($kegiatan as $key => $item) {
+            //check
+            $check = Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
+            if ($check == null) {
+                $k = new Kegiatan;
+                $k->program_id = Program::where('integrasi_id', $item['id_program'])->first()->id;
+                $k->nama = $item['nama'];
+                $k->tahun = $tahun;
+                $k->skpd_id = $skpd_id;
+                $k->integrasi_id = $item['id'];
+                $k->save();
+            } else {
+                $check->update([
+                    'nama' => $item['nama']
+                ]);
             }
-            foreach ($kegiatan['sub_kegiatans'] as $sub => $subkegiatan) {
-                $checkSub = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('nama', $subkegiatan['nama'])->first();
-                //Simpan kegiatan
-                if ($checkSub == null) {
-                    $k = new Subkegiatan;
-                    $k->program_id = Program::where('integrasi_id', $program['id'])->first()->id;
-                    $k->kegiatan_id = Kegiatan::where('integrasi_id', $kegiatan['id'])->first()->id;
-                    $k->nama = $subkegiatan['nama'];
-                    $k->tahun = $tahun;
-                    $k->skpd_id = $skpd_id;
-                    $k->integrasi_id = $subkegiatan['id'];
-                    $k->jenis_rfk = 'murni';
-                    $k->save();
-                } else {
-                    $checkSub->update(['jenis_rfk' => 'murni']);
-                }
+        }
+
+        $subkegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/sub_kegiatans/' . $kode_skpd . '/' . $tahun)->json();
+
+        foreach ($kegiatan as $key => $item) {
+            //check
+            dd($item);
+            $check = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
+            if ($check == null) {
+                $sub = new Subkegiatan;
+                $sub->program_id = Kegiatan::where('integrasi_id', $item['id_kegiatan'])->first()->program->id;
+                $sub->kegiatan_id = Kegiatan::where('integrasi_id', $item['id_kegiatan'])->first()->id;
+                $sub->nama = $item['nama'];
+                $sub->tahun = $tahun;
+                $sub->skpd_id = $skpd_id;
+                $sub->integrasi_id = $item['id'];
+                $sub->jenis_rfk = 'murni';
+                $sub->save();
+            } else {
+                $check->update([
+                    'nama' => $item['nama']
+                ]);
             }
         }
         Session::flash('success', 'Berhasil Di Tarik');
+        $req->flash();
         return back();
     }
 }
