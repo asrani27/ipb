@@ -125,9 +125,8 @@ class TarikDataController extends Controller
 
         $subkegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/sub_kegiatans/' . $kode_skpd . '/' . $tahun)->json();
 
-        foreach ($kegiatan as $key => $item) {
-            //check
-            dd($item);
+        foreach ($subkegiatan as $key => $item) {
+
             $check = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
             if ($check == null) {
                 $sub = new Subkegiatan;
