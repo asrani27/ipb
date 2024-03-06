@@ -166,6 +166,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('pptk/createuser/{id}', [AdminPptkController::class, 'createuser']);
         Route::post('pptk/createuser/{id}', [AdminPptkController::class, 'storeuser']);
         Route::get('pptk/resetpass/{id}', [AdminPptkController::class, 'resetpass']);
+        Route::get('pptk/hapusakun/{id}', [AdminPptkController::class, 'hapusakun']);
     });
 });
 

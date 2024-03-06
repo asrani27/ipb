@@ -22,6 +22,7 @@
                   <th class="text-center">No</th>
                   <th>NIP</th>
                   <th>Nama</th>
+                  <th>Login</th>
                   <th>Bidang</th>
                   <th>Aksi</th>
                 </tr>
@@ -30,6 +31,15 @@
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->nip_pptk}}</td>
                     <td>{{$item->nama_pptk}}</td>
+                    <td>
+                      Username : {{$item->user == null ? null : $item->user->username}}<br/>
+                      Password : 
+                      @if ($item->user != null)
+                        <a href="/admin/pptk/resetpass/{{$item->id}}" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin di reset');">resetpass</a>
+                        
+                        <a href="/admin/pptk/hapusakun/{{$item->id}}" class="btn btn-xs btn-danger" onclick="return confirm('Yakin ingin di hapus akun login');">hapus akun</a>
+                      @endif
+                    </td>
                     <td>{{$item->bidang == null ? null : $item->bidang->nama}}</td>
                     <td>
                         @if ($item->user == null)
@@ -43,13 +53,6 @@
                         <a href="/admin/pptk/delete/{{$item->id}}"
                             onclick="return confirm('Yakin ingin di hapus');" class="btn btn-xs btn-danger btn-flat"><i
                                 class="fa fa-trash"></i></a>
-
-                        @if ($item->user == null)
-                        @else
-                        <a href="/admin/pptk/resetpass/{{$item->id}}" class="btn btn-xs bg-gray btn-flat"><i
-                                class="fa fa-key"></i> Reset Pass</a>
-
-                        @endif
                     </td>
                 </tr>
                 @endforeach

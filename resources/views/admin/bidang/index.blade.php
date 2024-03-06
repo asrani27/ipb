@@ -21,14 +21,14 @@
                 <tr>
                   <th class="text-center">No</th>
                   <th>Bidang</th>
-                  <th>User Login</th>
+                  {{-- <th>User Login</th> --}}
                   <th>Aksi</th>
                 </tr>
                 @foreach ($data as $key => $item)
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->nama}}</td>
-                    <td>
+                    {{-- <td>
                         @if ($item->user == null)
                         <a href="/admin/bidang/createuser/{{$item->id}}" class="btn btn-xs btn-warning btn-flat"><i
                                 class="fa fa-key"></i> Buat
@@ -36,7 +36,7 @@
                         @else
                         {{$item->user->username}}
                         @endif
-                    </td>
+                    </td> --}}
                     <td>
                         <a href="/admin/bidang/edit/{{$item->id}}" class="btn btn-xs btn-success btn-flat"><i
                                 class="fa fa-edit"></i></a>
@@ -44,12 +44,12 @@
                             onclick="return confirm('Yakin ingin di hapus');" class="btn btn-xs btn-danger btn-flat"><i
                                 class="fa fa-trash"></i></a>
 
-                        @if ($item->user == null)
+                        {{-- @if ($item->user == null)
                         @else
                         <a href="/admin/bidang/resetpass/{{$item->id}}" class="btn btn-xs btn-primary btn-flat"><i
                                 class="fa fa-key"></i> Reset Pass</a>
 
-                        @endif
+                        @endif --}}
                     </td>
                 </tr>
                 @endforeach

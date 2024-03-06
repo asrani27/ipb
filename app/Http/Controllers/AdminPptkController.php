@@ -29,21 +29,27 @@ class AdminPptkController extends Controller
 
     public function store(Request $req)
     {
-        $check = PPTK::where('nip_pptk', $req->nip_pptk)->first();
-        if ($check == null) {
-            $n = new PPTK;
-            $n->nip_pptk = $req->nip_pptk;
-            $n->nama_pptk = $req->nama_pptk;
-            $n->bidang_id = $req->bidang_id;
-            $n->skpd_id = Auth::user()->skpd->id;
-            $n->save();
 
-            Session::flash('success', 'Berhasil Disimpan');
-            return redirect('/admin/pptk');
-        } else {
-            Session::flash('error', 'NIP sudah ada');
-            $req->flash();
+        if (preg_match('/\s/', $req->nip_pptk)) {
+            Session::flash('warning', 'tidak boleh ada spasi');
             return back();
+        } else {
+            $check = PPTK::where('nip_pptk', $req->nip_pptk)->where('skpd_id', Auth::user()->skpd->id)->first();
+            if ($check == null) {
+                $n = new PPTK;
+                $n->nip_pptk = $req->nip_pptk;
+                $n->nama_pptk = $req->nama_pptk;
+                $n->bidang_id = $req->bidang_id;
+                $n->skpd_id = Auth::user()->skpd->id;
+                $n->save();
+
+                Session::flash('success', 'Berhasil Disimpan');
+                return redirect('/admin/pptk');
+            } else {
+                Session::flash('error', 'NIP sudah ada');
+                $req->flash();
+                return back();
+            }
         }
     }
 
@@ -54,8 +60,15 @@ class AdminPptkController extends Controller
         return view('admin.pptk.edit', compact('data', 'bidang'));
     }
 
+    public function hapusakun($id)
+    {
+        PPTK::find($id)->user->delete();
+        Session::flash('success', 'Berhasil dihapus');
+        return back();
+    }
     public function resetpass($id)
     {
+
         PPTK::find($id)->user->update([
             'password' => bcrypt('pptk123456'),
         ]);
@@ -104,18 +117,49 @@ class AdminPptkController extends Controller
 
             return back();
         }
+        return view('admin.pptk.createuser', compact('data'));
+    }
+    public function storeuser(Request $req, $id)
+    {
+        if (preg_match('/\s/', $req->username)) {
+            $req->flash();
+            Session::flash('warning', 'username tidak boleh ada spasi');
+            return back();
+        }
+        if (preg_match('/\s/', $req->password)) {
+            $req->flash();
+            Session::flash('warning', 'password tidak boleh ada spasi');
+            return back();
+        }
+        if (strlen($req->username) < 8) {
+            $req->flash();
+            Session::flash('warning', 'username minimal 8 karakter');
+            return back();
+        }
+        if (strlen($req->password) < 8) {
+            $req->flash();
+            Session::flash('warning', 'password minimal 8 karakter');
+            return back();
+        }
+
+        $data = PPTK::find($id);
+        if (Auth::user()->skpd->id != $data->skpd_id) {
+            Session::flash('info', 'PPTK Ini Bukan di SKPD anda');
+
+            return back();
+        }
         DB::beginTransaction();
         try {
             $role = Role::where('name', 'pptk')->first();
-            $check = User::where('username', $data->nip_pptk)->first();
+            $check = User::where('username', $req->username)->first();
             if ($check != null) {
-                Session::flash('info', 'Username ' . $data->nip_pptk . ' sudah ada, silahkan coba yang lain');
+                Session::flash('info', 'Username sudah ada, silahkan coba yang lain');
                 return back();
             } else {
                 $n = new User;
                 $n->name = $data->nama_pptk;
-                $n->username = $data->nip_pptk;
-                $n->password = bcrypt('pptk123456');
+                $n->username = $req->username;
+                $n->password = bcrypt($req->password);
                 $n->save();
 
                 $n->roles()->attach($role);
@@ -123,7 +167,8 @@ class AdminPptkController extends Controller
                 $data->update(['user_id' => $n->id]);
             }
             DB::commit();
-            Session::flash('success', 'Berhasil Di Buat password : pptk123456');
+            Session::flash('success', 'Berhasil Di Buat');
+            $req->flash();
             return redirect('/admin/pptk');
         } catch (\Exception $e) {
 

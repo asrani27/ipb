@@ -18,7 +18,7 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">NIP PPTK</label>
                   <div class="col-sm-10">
-                    <input type="text" name="nip_pptk" placeholder="NIP PPTK" value="{{old('nip_pptk')}}" class="form-control" required>
+                    <input type="text" name="nip_pptk" placeholder="NIP PPTK" value="{{old('nip_pptk')}}" class="form-control" required onkeypress="return RestrictSpace()">
                   </div>
                 </div>
                 
@@ -59,6 +59,12 @@
 
 @endsection
 @push('js')
-
+<script>
+function RestrictSpace() {
+  if (event.keyCode == 32) {
+      return false;
+  }
+}
+</script>
 @endpush
 
