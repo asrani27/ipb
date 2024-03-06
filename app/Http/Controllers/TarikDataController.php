@@ -84,7 +84,7 @@ class TarikDataController extends Controller
         $kode_skpd = Auth::user()->username;
         $skpd_id = Auth::user()->skpd->id;
 
-        $program = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun);
+        $program = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
         //dd($program, $kode_skpd);
         foreach ($program as $key => $item) {
             //check
