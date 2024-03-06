@@ -85,7 +85,7 @@ class TarikDataController extends Controller
         $skpd_id = Auth::user()->skpd->id;
 
         $program = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun);
-        dd($program, $kode_skpd);
+        //dd($program, $kode_skpd);
         foreach ($program as $key => $item) {
             //check
             $check = Program::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
