@@ -65,7 +65,9 @@ class AdminPptkController extends Controller
     public function delete($id)
     {
         try {
-            PPTK::find($id)->delete();
+            $pptk = PPTK::find($id);
+            User::find($pptk->user_id)->delete();
+            $pptk->delete();
             Session::flash('success', 'berhasil di hapus');
             return back();
         } catch (\Exception $e) {
