@@ -31,7 +31,7 @@
               <tr style="font-size:10px;font-weight:bold;" class="bg-danger">
                 <td></td>
                 <td style="width: 10px;"></td>
-                <td width="400px">{{$item->nama}}</td>
+                <td width="400px">{{$item->nama}} {{$item->id}}</td>
                 <td></td>
               </tr>
 

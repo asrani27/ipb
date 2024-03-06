@@ -248,6 +248,8 @@ class AdminLaporanController extends Controller
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
+        $keg = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
         $totalsubkegiatan = $subkeg->map(function ($item) {
             $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
