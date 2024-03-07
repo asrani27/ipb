@@ -14,6 +14,10 @@ class T_pptk extends Model
     {
         return $this->belongsTo(Program::class, 'program_id');
     }
+    public function bidang()
+    {
+        return $this->belongsTo(Bidang::class, 'bidang_id');
+    }
     public function kegiatan()
     {
         return $this->belongsTo(Kegiatan::class, 'kegiatan_id');

@@ -140,7 +140,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Bidang</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm" value="{{$pptk == null ? null : Auth::user()->pptk->bidang->nama}}" readonly>
+                    <input type="text" class="form-control input-sm" value="{{$pptk == null ? Auth::user()->pptk->bidang->nama : $pptk->bidang->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
