@@ -32,7 +32,7 @@
 			</h3>
 
 			<p class="txt-center l1-txt2 p-b-60">
-				Website Sedang Dalam Perbaikan
+				Website Sedang Dalam Pengembangan Fitur
 			</p>
 
 			<button class="flex-c-m s1-txt2 size3 how-btn"  data-toggle="modal" data-target="#subscribe">
