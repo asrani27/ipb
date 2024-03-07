@@ -274,6 +274,7 @@ class PPTKController extends Controller
     public function laporanrfk()
     {
         $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
+
         return view('pptk.laporan.index', compact('data'));
     }
     public function detailLaporanRfk($id, $tahun, $bulan)

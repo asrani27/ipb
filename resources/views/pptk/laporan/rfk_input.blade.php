@@ -97,7 +97,7 @@
                     <input type="hidden" class="form-control input-sm" name="bulan" value="{{$bulan}}" readonly>
                     <input type="hidden" class="form-control input-sm" name="subkegiatan_id" value="{{$subkegiatan->id}}" readonly>
                     <input type="hidden" class="form-control input-sm" name="pptk_id" value="{{$pptk == null ? null : $pptk->id}}" readonly>
-                    <input type="text" class="form-control input-sm" value="{{$subkegiatan->skpd_id}}" readonly>
+                    <input type="text" class="form-control input-sm" value="{{Auth::user()->pptk->skpd->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
@@ -140,7 +140,7 @@
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Bidang</label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control input-sm" value="{{$pptk == null ? null : $pptk->program->bidang->nama}}" readonly>
+                    <input type="text" class="form-control input-sm" value="{{$pptk == null ? null : Auth::user()->pptk->bidang->nama}}" readonly>
                   </div>
                 </div>
                 <div class="form-group">
