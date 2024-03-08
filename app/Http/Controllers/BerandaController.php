@@ -224,6 +224,12 @@ class BerandaController extends Controller
     }
     public function pptk()
     {
+        if (Auth::user()->pptk->bidang->skpd->kode_skpd ==  "4.01.03.") {
+            Auth::logout();
+            toastr()->info('PPTK setda sedang dalam pengembangan fitur untuk per BAGIAN');
+            return redirect('/');
+        }
+
         $tahun = Carbon::now()->format('Y');
         $status = BatasInput::where('is_aktif', 1)->first()->nama;
         // $result = $status;
