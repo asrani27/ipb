@@ -8,6 +8,7 @@ use App\Models\BatasInput;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class BerandaController extends Controller
 {
@@ -226,7 +227,9 @@ class BerandaController extends Controller
     {
         if (Auth::user()->pptk->bidang->skpd->kode_skpd ==  "4.01.03.") {
             Auth::logout();
-            toastr()->info('PPTK setda sedang dalam pengembangan fitur untuk per BAGIAN');
+
+            Session::flash('warning', 'PPTK setda sedang dalam pengembangan fitur untuk per BAGIAN');
+
             return redirect('/');
         }
 
