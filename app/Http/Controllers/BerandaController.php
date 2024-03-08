@@ -230,7 +230,7 @@ class BerandaController extends Controller
 
             Session::flash('warning', 'PPTK setda sedang dalam pengembangan fitur untuk per BAGIAN');
 
-            return redirect('/');
+            return redirect('/login');
         }
 
         $tahun = Carbon::now()->format('Y');
