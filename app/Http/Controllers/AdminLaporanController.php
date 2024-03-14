@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BatasInput;
 use App\Models\Bidang;
 use App\Models\Uraian;
 use App\Models\Program;
@@ -239,7 +240,7 @@ class AdminLaporanController extends Controller
     public function rencana($tahun)
     {
 
-        $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
+        $statusRFK = BatasInput::where('is_aktif', 1)->first()->nama;
 
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
@@ -262,9 +263,11 @@ class AdminLaporanController extends Controller
             } else {
                 $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
             }
+            // $format['nama'] = $item->nama;
+            // $format['status_kirim'] = $item->kirim_angkas;
             return $item;
         });
-
+        //dd($datasubkegiatan, Auth::user()->skpd->id);
 
         return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan'));
     }

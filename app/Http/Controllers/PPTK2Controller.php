@@ -17,6 +17,7 @@ class PPTK2Controller extends Controller
 {
     public function subkegiatan()
     {
+        //dd(auth::user()->pptk);
         $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
         return view('pptk.subkegiatan.index', compact('data'));
     }

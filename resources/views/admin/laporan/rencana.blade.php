@@ -31,7 +31,7 @@
               <tr style="font-size:10px;font-weight:bold;" class="bg-danger">
                 <td></td>
                 <td style="width: 10px;"></td>
-                <td width="400px">{{$item->nama}}</td>
+                <td width="400px">[{{$item->id}}] {{$item->nama}}</td>
                 <td></td>
               </tr>
 
@@ -40,7 +40,7 @@
                 <tr style="font-size:10px;" class="bg-warning">
                   <td></td>
                   <td></td>
-                  <td width="200px">{{$item2->nama}}</td>
+                  <td width="200px">[{{$item2->id}}] {{$item2->nama}}</td>
                   <td></td>
                 </tr>
 
