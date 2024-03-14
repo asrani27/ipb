@@ -56,7 +56,7 @@
                       @endif
                     </td>
                     <td>{{$subkeg++}}</td>
-                    <td width="200px">{{$item3->nama}}</td>
+                    <td width="200px">[{{$item3->id}}] {{$item3->nama}}</td>
                     <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
                   </tr>
                   @endforeach
