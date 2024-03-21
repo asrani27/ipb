@@ -30,7 +30,9 @@
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
-                    <td>{{$item->nama}}</td>
+                    <td>{{$item->nama}}<br/>
+                    
+                    <small>SKPD : {{$item->skpd->nama}}</small></td>
                     <td>
                       <select name="bidang_id[]">
                         <option value="">-</option>

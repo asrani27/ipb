@@ -14,6 +14,10 @@ class Kegiatan extends Model
     {
         return $this->belongsTo(Program::class, 'program_id');
     }
+    public function skpd()
+    {
+        return $this->belongsTo(Skpd::class, 'skpd_id');
+    }
     public function subkegiatan()
     {
         return $this->hasMany(Subkegiatan::class, 'kegiatan_id');

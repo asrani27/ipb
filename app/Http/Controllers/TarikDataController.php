@@ -98,7 +98,9 @@ class TarikDataController extends Controller
                 $n->save();
             } else {
                 $check->update([
-                    'nama' => $item['nama']
+                    'nama' => $item['nama'],
+                    'skpd_id' => $skpd_id,
+                    'tahun' => $tahun,
                 ]);
             }
         }
@@ -119,13 +121,15 @@ class TarikDataController extends Controller
             } else {
                 $check->update([
                     'nama' => $item['nama'],
+                    'skpd_id' => $skpd_id,
+                    'tahun' => $tahun,
                     'program_id' => Program::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id_program'])->first()->id,
                 ]);
             }
         }
 
         $subkegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/sub_kegiatans/' . $kode_skpd . '/' . $tahun)->json();
-
+        //dd($subkegiatan);
         foreach ($subkegiatan as $key => $item) {
 
             $check = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
@@ -144,6 +148,8 @@ class TarikDataController extends Controller
                     'nama' => $item['nama'],
                     'program_id' => Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id_kegiatan'])->first()->program->id,
                     'kegiatan_id' => Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id_kegiatan'])->first()->id,
+                    'skpd_id' => $skpd_id,
+                    'tahun' => $tahun,
                 ]);
             }
         }

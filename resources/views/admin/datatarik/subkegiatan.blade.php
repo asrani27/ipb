@@ -30,7 +30,14 @@
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
-                    <td>{{$item->nama}}</td>
+                    <td>
+                      [{{$item->id}}] {{$item->nama}}<br/>
+                      <small>kegiatan : [{{$item->kegiatan->id}}] {{$item->kegiatan->nama}}</small><br/>
+                      <small>Program : [{{$item->kegiatan->program->id}}] {{$item->kegiatan->program->nama}}</small><br/>
+                      <small>SKPD : [{{$item->skpd->nama}}]</small><br/>
+
+                      <small>tahun : {{$item->tahun}}</small>
+                    </td>
                     <td>
                       <select name="pptk_id[]">
                         <option value="">-</option>

@@ -19,4 +19,8 @@ class Program extends Model
     {
         return $this->belongsTo(Bidang::class, 'bidang_id');
     }
+    public function skpd()
+    {
+        return $this->belongsTo(Skpd::class, 'skpd_id');
+    }
 }

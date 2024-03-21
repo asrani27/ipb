@@ -249,7 +249,7 @@ class AdminLaporanController extends Controller
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
-        $keg = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        $datakegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
         $totalsubkegiatan = $subkeg->map(function ($item) {
@@ -267,9 +267,12 @@ class AdminLaporanController extends Controller
             // $format['status_kirim'] = $item->kirim_angkas;
             return $item;
         });
+
+
         //dd($datasubkegiatan, Auth::user()->skpd->id);
 
-        return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan'));
+
+        return view('admin.laporan.rencana', compact('bidang', 'program', 'subkegiatan', 'data', 'totalsubkegiatan', 'datasubkegiatan', 'datakegiatan'));
     }
 
     public function rencanabatal($id)
