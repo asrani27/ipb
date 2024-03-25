@@ -47,9 +47,10 @@ class LoginController extends Controller
 
         if (Auth::attempt($credential, $remember)) {
 
-            if (Auth::user()->skpd->kode_skpd === '4.01.03.') {
+            if (Auth::user()->skpd->kode_skpd == '4.01.03.') {
+                Auth::logout();
                 Session::flash('info', 'Sekretariat Daerah sedang dalam pengembangan fitur');
-                return back();
+                return redirect('/login');
             } else {
                 if (Auth::user()->hasRole('superadmin')) {
                     Session::flash('success', 'Selamat Datang');
