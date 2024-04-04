@@ -70,6 +70,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
 
+        Route::get('datatarik/{tahun}', [TarikDataController::class, 'detail']);
         Route::get('datatarik', [TarikDataController::class, 'index']);
         Route::post('datatarik/bidang', [TarikDataController::class, 'updateBidang']);
         Route::get('datatarik/program/{tahun}', [TarikDataController::class, 'program']);

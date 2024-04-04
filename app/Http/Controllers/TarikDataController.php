@@ -71,6 +71,10 @@ class TarikDataController extends Controller
         $data = Kegiatan::where('tahun', $tahun)->where('skpd_id', $skpd_id)->get();
         return view('admin.datatarik.kegiatan', compact('data'));
     }
+    public function detail($tahun)
+    {
+        return view('admin.datatarik.detail', compact('data'));
+    }
     public function subkegiatan($tahun)
     {
         $skpd_id = Auth::user()->skpd->id;
@@ -85,7 +89,7 @@ class TarikDataController extends Controller
         $skpd_id = Auth::user()->skpd->id;
 
         $program = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/programs/' . $kode_skpd . '/' . $tahun)->json();
-
+        //dd($program);
         foreach ($program as $key => $item) {
             //check
             $check = Program::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
@@ -106,7 +110,7 @@ class TarikDataController extends Controller
         }
 
         $kegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/kegiatans/' . $kode_skpd . '/' . $tahun)->json();
-
+        //dd($kegiatan);
         foreach ($kegiatan as $key => $item) {
             //check
             $check = Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
@@ -131,8 +135,7 @@ class TarikDataController extends Controller
         $subkegiatan = Http::get('http://kayuhbaimbai.banjarmasinkota.go.id/api/sub_kegiatans/' . $kode_skpd . '/' . $tahun)->json();
         //dd($subkegiatan);
         foreach ($subkegiatan as $key => $item) {
-
-            $check = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id'])->get()->first();
+            $check = Subkegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('nama', $item['nama'])->where('integrasi_id', $item['id_sub_kegiatan'])->get()->first();
             if ($check == null) {
                 $sub = new Subkegiatan;
                 $sub->program_id = Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id_kegiatan'])->first()->program->id;
@@ -150,6 +153,8 @@ class TarikDataController extends Controller
                     'kegiatan_id' => Kegiatan::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('integrasi_id', $item['id_kegiatan'])->first()->id,
                     'skpd_id' => $skpd_id,
                     'tahun' => $tahun,
+                    'jabatan_id' => $item['id_jabatan'],
+                    'jabatan' => $item['nama_jabatan'],
                 ]);
             }
         }

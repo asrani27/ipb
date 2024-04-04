@@ -61,6 +61,7 @@
                     <tr>
                         <td>{{$item->nama}}</td>
                         <td>
+                          <a href="/admin/datatarik/detail/{{$item->nama}}" class="btn btn-sm bg-green"> DETAIL</a>
                             <a href="/admin/datatarik/program/{{$item->nama}}" class="btn btn-sm bg-blue">{{$item->program}} PROGRAM</a>
                             <a href="/admin/datatarik/kegiatan/{{$item->nama}}" class="btn btn-sm  bg-blue">{{$item->kegiatan}} KEGIATAN</a>
                             <a href="/admin/datatarik/subkegiatan/{{$item->nama}}" class="btn btn-sm  bg-blue">{{$item->subkegiatan}} SUB KEGIATAN</a>
