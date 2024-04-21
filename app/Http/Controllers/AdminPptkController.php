@@ -79,7 +79,10 @@ class AdminPptkController extends Controller
     {
         try {
             $pptk = PPTK::find($id);
-            User::find($pptk->user_id)->delete();
+            if (User::find($pptk->user_id) == null) {
+            } else {
+                User::find($pptk->user_id)->delete();
+            }
             $pptk->delete();
             Session::flash('success', 'berhasil di hapus');
             return back();
