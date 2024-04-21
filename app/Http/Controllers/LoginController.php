@@ -47,29 +47,29 @@ class LoginController extends Controller
 
         if (Auth::attempt($credential, $remember)) {
 
-            if (Auth::user()->skpd->kode_skpd == '4.01.03.') {
+            // if (Auth::user()->skpd->kode_skpd == '4.01.03.') {
+            //     Auth::logout();
+            //     Session::flash('info', 'Sekretariat Daerah sedang dalam pengembangan fitur');
+            //     return redirect('/login');
+            // } else {
+            if (Auth::user()->hasRole('superadmin')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/superadmin/beranda');
+            } elseif (Auth::user()->hasRole('admin')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/admin/beranda');
+            } elseif (Auth::user()->hasRole('bidang')) {
+                Session::flash('info', 'Dalam Pengembangan Untuk akun bidang');
                 Auth::logout();
-                Session::flash('info', 'Sekretariat Daerah sedang dalam pengembangan fitur');
                 return redirect('/login');
+            } elseif (Auth::user()->hasRole('pptk')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/pptk/beranda');
             } else {
-                if (Auth::user()->hasRole('superadmin')) {
-                    Session::flash('success', 'Selamat Datang');
-                    return redirect('/superadmin/beranda');
-                } elseif (Auth::user()->hasRole('admin')) {
-                    Session::flash('success', 'Selamat Datang');
-                    return redirect('/admin/beranda');
-                } elseif (Auth::user()->hasRole('bidang')) {
-                    Session::flash('info', 'Dalam Pengembangan Untuk akun bidang');
-                    Auth::logout();
-                    return redirect('/login');
-                } elseif (Auth::user()->hasRole('pptk')) {
-                    Session::flash('success', 'Selamat Datang');
-                    return redirect('/pptk/beranda');
-                } else {
-                    Session::flash('success', 'Selamat Datang');
-                    return 'role lain';
-                }
+                Session::flash('success', 'Selamat Datang');
+                return 'role lain';
             }
+            // }
         } else {
             Session::flash('error', 'username/password salah');
             $req->flash();

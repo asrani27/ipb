@@ -320,6 +320,7 @@ class PPTK2Controller extends Controller
 
         $field_kirim = 'kirim_rfk_' . strtolower($nama_bulan);
         $status_kirim = $subkegiatan[$field_kirim];
+        //dd($pptk);
         return view('pptk.laporan.rfk_input', compact('data', 'tahun', 'bulan', 'nama_bulan', 'subkegiatan', 'pptk', 'jenisrfk', 'status_kirim'));
     }
 
@@ -561,6 +562,7 @@ class PPTK2Controller extends Controller
         //dd($datainput);
 
         $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $id)->first();
+        //dd($biodata);
         if ($biodata == null) {
             Session::flash('error', 'Data Di menu Input kosong');
             return back();
@@ -621,7 +623,7 @@ class PPTK2Controller extends Controller
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H6', 'NIP. ' . $biodata->nip_kabid);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H7', $biodata->nama_pptk);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H8', 'NIP. ' . $biodata->nip_pptk);
-        $spreadsheet->getSheetByName('INPUT')->setCellValue('H9', $subkegiatan->kegiatan->program->bidang->nama);
+        $spreadsheet->getSheetByName('INPUT')->setCellValue('H9', $subkegiatan->kegiatan->program->bidang == null ? '' : $subkegiatan->kegiatan->program->bidang->nama);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H12', $biodata->pelaporan_bulan);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H13', $biodata->pelaporan_tanggal);
         $spreadsheet->getSheetByName('INPUT')->setCellValue('H16', $biodata->kondisi_bulan);
@@ -914,6 +916,14 @@ class PPTK2Controller extends Controller
     }
     public function kirimData($bulan, $subkegiatan_id)
     {
+        $tahun = Subkegiatan::find($subkegiatan_id)->tahun;
+        $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
+        //dd($biodata);
+        if ($biodata == null) {
+            Session::flash('error', 'Data Di menu Input kosong');
+            return back();
+        }
+
         $field = 'kirim_rfk_' . strtolower(namaBulan($bulan));
         Subkegiatan::find($subkegiatan_id)->update([
             $field => 1,

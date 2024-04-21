@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @push('css')
     
+<link rel="stylesheet" href="/assets/bower_components/select2/dist/css/select2.min.css">
 @endpush
 @section('content')
 <section class="content">
@@ -8,34 +9,22 @@
     <div class="col-md-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title"><i class="fa fa-clipboard"></i> Tambah Kegiatan</h3>
+              <h3 class="box-title"><i class="fa fa-clipboard"></i> Tambah SubKegiatan</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="/admin/kegiatan/add" method="post">
+            <form class="form-horizontal" action="/admin/subkegiatan/add" method="post">
                 @csrf
               <div class="box-body">
                 <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Pilih Program</label>
+                  <label for="inputEmail3" class="col-sm-2 control-label">SubKegiatan Baru</label>
                   <div class="col-sm-10">
-                        <select name="program_id" class="form-control select2" required>
-                            <option value="">-pilih-</option>
-                            @foreach ($program as $item)
-                                <option value="{{$item->id}}">{{$item->nama}}</option>
-                            @endforeach
-                        </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Kode Kegiatan</label>
-                  <div class="col-sm-10">
-                    <input type="text" name="kode" class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Nama Kegiatan</label>
-                  <div class="col-sm-10">
-                    <input type="text" name="nama" class="form-control" required>
+                    <select class="form-control select2" name="subkegiatan_id" required>
+                      <option value="">-pilih-</option>
+                      @foreach ($subkegiatan as $item)
+                          <option value="{{$item->id}}">{{$item->kode}} - {{$item->nama}}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
                 <div class="form-group">
@@ -57,5 +46,13 @@
 @endsection
 @push('js')
 
+
+<script src="/assets/bower_components/select2/dist/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    })
+</script>
 @endpush
 

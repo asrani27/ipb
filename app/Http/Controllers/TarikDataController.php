@@ -84,6 +84,10 @@ class TarikDataController extends Controller
     }
     public function tarikData(Request $req)
     {
+
+        Session::flash('info', 'FITUR INI DI NONAKTIFKAN');
+        return back();
+
         $tahun = $req->tahun;
         $kode_skpd = Auth::user()->username;
         $skpd_id = Auth::user()->skpd->id;

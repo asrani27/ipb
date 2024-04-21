@@ -155,8 +155,11 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('kegiatan/delete/{id}', [AdminKegiatanController::class, 'delete']);
 
         Route::get('subkegiatan', [AdminSubKegiatanController::class, 'index']);
+        Route::get('subkegiatan/add', [AdminSubKegiatanController::class, 'create']);
+        Route::post('subkegiatan/add', [AdminSubKegiatanController::class, 'store']);
         Route::get('subkegiatan/edit/{id}', [AdminSubKegiatanController::class, 'edit']);
         Route::post('subkegiatan/edit/{id}', [AdminSubKegiatanController::class, 'update']);
+        Route::get('subkegiatan/delete/{id}', [AdminSubKegiatanController::class, 'delete']);
 
         Route::get('pptk', [AdminPptkController::class, 'index']);
         Route::get('pptk/add', [AdminPptkController::class, 'create']);

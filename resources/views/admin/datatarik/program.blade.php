@@ -22,7 +22,7 @@
                   <th class="text-center">No</th>
                   <th>Tahun</th>
                   <th>Program</th>
-                  <th>Bidang</th>
+                  {{-- <th>Bidang</th> --}}
                 </tr>
                 <form method="post" action="/admin/datatarik/bidang">
                   @csrf
@@ -30,23 +30,21 @@
                 <tr>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
-                    <td>{{$item->nama}}<br/>
-                    
-                    <small>SKPD : {{$item->skpd->nama}}</small></td>
-                    <td>
+                    <td>{{$item->nama}}</td>
+                    {{-- <td>
                       <select name="bidang_id[]">
                         <option value="">-</option>
                       @foreach ($bidang as $item2)
                           <option value="{{$item2->id}}" {{$item2->id == $item->bidang_id ? 'selected':''}}>{{$item2->nama}}</option>
                       @endforeach
                       </select>
-                    </td>
+                    </td> --}}
                     <input type="hidden" name="program_id[]" value="{{$item->id}}">
                 </tr>
                 @endforeach
                 <tr>
                   <td colspan='4'>
-                    <button type="submit" class="btn btn-block btn-primary">UPDATE BIDANG</button>
+                    {{-- <button type="submit" class="btn btn-block btn-primary">UPDATE BIDANG</button> --}}
                   </td>
                 </tr>
                 </form>

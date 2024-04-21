@@ -6,7 +6,10 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-          <a href="/admin/datatarik" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-arrow-left"></i> Kembali</a><br/><br/>
+          <a href="/admin/datatarik" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-arrow-left"></i> Kembali</a>
+          
+          <a href="/admin/subkegiatan/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus"></i> Tambah Sub Kegiatan</a>
+          <br/><br/>
           <div class="box box-primary">
             <div class="box-header">
               <h3 class="box-title"><i class="fa fa-clipboard"></i> Data Subkegiatan</h3>
@@ -15,12 +18,14 @@
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
+            <div class="box-body table-responsive no-padding table-border">
               <table class="table table-hover">
                 <tbody>
                 <tr>
+                  <th></th>
                   <th class="text-center">No</th>
                   <th>Tahun</th>
+                  <th>Kode</th>
                   <th>Subkegiatan</th>
                   <th>PPTK</th>
                 </tr>
@@ -28,13 +33,18 @@
                   @csrf
                 @foreach ($data as $key => $item)
                 <tr>
+                    <td width="70px">
+                    <a href="/admin/subkegiatan/delete/{{$item->id}}" class="btn btn-danger btn-xs" onclick="return confirm('Yakin Ingin dihapus, uraian yang terkait akan juga ikut terhapus?');"><i class="fa fa-trash"></i></a>
+                    <a href="/admin/subkegiatan/edit/{{$item->id}}" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                  </td>
                     <td class="text-center">{{$key + 1}}</td>
                     <td>{{$item->tahun}}</td>
                     <td>
-                      {{$item->nama}}<br/>
-                      {{-- <small>kegiatan : [{{$item->kegiatan->id}}] {{$item->kegiatan->nama}}</small><br/>
-                      <small>Program : [{{$item->kegiatan->program->id}}] {{$item->kegiatan->program->nama}}</small><br/> --}}
-                      <small>SKPD : [{{$item->skpd->nama}}]</small><br/>
+
+                      {{$item->kode}}
+                    </td>
+                    <td>
+                      {{$item->nama}}
 
                     </td>
                     <td>
@@ -49,7 +59,7 @@
                 </tr>
                 @endforeach
                 <tr>
-                  <td colspan='4'>
+                  <td colspan='6'>
                     <button type="submit" class="btn btn-block btn-primary">UPDATE PPTK</button>
                   </td>
                 </tr>

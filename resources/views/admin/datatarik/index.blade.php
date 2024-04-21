@@ -42,7 +42,7 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <div class="box-header">
-              <h3 class="box-title"><i class="fa fa-list"></i> Data Hasil Tarikan</h3>
+              <h3 class="box-title"><i class="fa fa-list"></i> Data Program, Kegiatan Dan Subkegiatan</h3>
     
               <div class="box-tools">
                 {{-- <a href="/admin/bidang/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus"></i> Tambah Bidang</a> --}}
@@ -61,7 +61,7 @@
                     <tr>
                         <td>{{$item->nama}}</td>
                         <td>
-                          <a href="/admin/datatarik/detail/{{$item->nama}}" class="btn btn-sm bg-green"> DETAIL</a>
+                          {{-- <a href="/admin/datatarik/detail/{{$item->nama}}" class="btn btn-sm bg-green"> DETAIL</a> --}}
                             <a href="/admin/datatarik/program/{{$item->nama}}" class="btn btn-sm bg-blue">{{$item->program}} PROGRAM</a>
                             <a href="/admin/datatarik/kegiatan/{{$item->nama}}" class="btn btn-sm  bg-blue">{{$item->kegiatan}} KEGIATAN</a>
                             <a href="/admin/datatarik/subkegiatan/{{$item->nama}}" class="btn btn-sm  bg-blue">{{$item->subkegiatan}} SUB KEGIATAN</a>
