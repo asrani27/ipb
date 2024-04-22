@@ -45,7 +45,7 @@ class AdminProgramController extends Controller
     public function delete($id)
     {
         try {
-            M_program::find($id)->delete();
+            Program::find($id)->delete();
             Session::flash('success', 'Berhasil Di Hapus');
             return back();
         } catch (\Exception $e) {

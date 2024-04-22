@@ -31,7 +31,7 @@
               <tr style="font-size:10px;font-weight:bold;" class="bg-danger">
                 <td></td>
                 <td style="width: 10px;"></td>
-                <td width="400px">[{{$item->id}}] {{$item->nama}}</td>
+                <td width="400px"><a href="/admin/program/delete/{{$item->id}}" onclick="return confirm('Yakin ingin di hapus?');"><span class="text-red"><i class="fa fa-trash"></i></span></a> {{$item->nama}} </td>
                 <td></td>
               </tr>
 
@@ -40,7 +40,7 @@
                 <tr style="font-size:10px;" class="bg-warning">
                   <td></td>
                   <td></td>
-                  <td width="200px">[{{$item2->id}}] {{$item2->nama}}</td>
+                  <td width="200px">{{$item2->nama}}</td>
                   <td></td>
                 </tr>
 
@@ -56,7 +56,7 @@
                       @endif
                     </td>
                     <td>{{$subkeg++}}</td>
-                    <td width="200px">[{{$item3->id}}] {{$item3->nama}}</td>
+                    <td width="200px"> {{$item3->nama}}</td>
                     <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
                   </tr>
                   @endforeach
