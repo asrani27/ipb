@@ -1,11 +1,11 @@
 <li class="{{ (request()->is('admin/beranda')) ? 'active' : '' }}"><a href="/admin/beranda"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
 <li class="{{ (request()->is('admin/bidang*')) ? 'active' : '' }}"><a href="/admin/bidang"><i class="fa fa-institution"></i> <span>Bidang</span></a></li>
 <li class="{{ (request()->is('admin/pptk*')) ? 'active' : '' }}"><a href="/admin/pptk"><i class="fa fa-institution"></i> <span>PPTK</span></a></li>
-@if (Auth::user()->username == "4.01.03.")
+{{-- @if (Auth::user()->username == "4.01.03.")
 <li class="{{ (request()->is('admin/bagian*')) ? 'active' : '' }}"><a href="/admin/bagian"><i class="fa fa-list"></i> <span>Data Tarikan Bagian</span></a></li>
-@else
+@else --}}
 <li class="{{ (request()->is('admin/datatarik*')) ? 'active' : '' }}"><a href="/admin/datatarik"><i class="fa fa-list"></i> <span>Data Tarikan</span></a></li>
-@endif
+{{-- @endif --}}
 {{-- <li class="{{ (request()->is('admin/program*')) ? 'active' : '' }}"><a href="/admin/program"><i class="fa fa-list"></i> <span>Program</span></a></li>
 <li class="{{ (request()->is('admin/kegiatan*')) ? 'active' : '' }}"><a href="/admin/kegiatan"><i class="fa fa-list"></i> <span>Kegiatan</span></a></li>
 <li class="{{ (request()->is('admin/subkegiatan*')) ? 'active' : '' }}"><a href="/admin/subkegiatan"><i class="fa fa-list"></i> <span>Sub Kegiatan</span></a></li> --}}
