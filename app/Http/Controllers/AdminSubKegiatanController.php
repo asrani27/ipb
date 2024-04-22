@@ -50,7 +50,7 @@ class AdminSubKegiatanController extends Controller
         $n->skpd_id = Auth::user()->skpd->id;
         $n->save();
 
-        $checkProgram = Program::where('tahun', $req->tahun)->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 7))->first();
+        $checkProgram = Program::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 7))->first();
         if ($checkProgram == null) {
             $p = new Program();
             $p->skpd_id = Auth::user()->skpd->id;
@@ -70,7 +70,7 @@ class AdminSubKegiatanController extends Controller
             ]);
         }
 
-        $checkKegiatan = Kegiatan::where('tahun', $req->tahun)->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 12))->first();
+        $checkKegiatan = Kegiatan::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 12))->first();
         if ($checkKegiatan == null) {
             $k = new Kegiatan();
             $k->skpd_id = Auth::user()->skpd->id;
