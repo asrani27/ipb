@@ -48,7 +48,7 @@ class AdminSubKegiatanController extends Controller
         $n->nama = $subkegiatan->nama;
         $n->tahun = '2024';
         $n->skpd_id = Auth::user()->skpd->id;
-        $k->jenis_rfk = 'murni';
+        $n->jenis_rfk = 'murni';
         $n->save();
 
         $checkProgram = Program::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 7))->first();
