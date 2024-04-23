@@ -260,7 +260,7 @@
               </div>
               <div class="form-group">
                   <label>Realisasi Fisik</label>
-                  <input type="text" id="real_realisasifisik" class="form-control" name="real_realisasi" onkeypress="return hanyaAngka(event)"/>
+                  <input type="text" id="real_realisasifisik" class="form-control" name="real_realisasi">
               </div>
           </div>
           <div class="modal-footer">

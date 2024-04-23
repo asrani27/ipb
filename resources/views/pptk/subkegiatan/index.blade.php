@@ -34,7 +34,7 @@
                         <td>{{$item->nama}}</td>
                         <td>
                           @if ($item->kirim_angkas != null)
-                              Telah dikirim
+                              Telah dikirimx
                           @else
                               
                             <a href="/pptk/subkegiatan/uraian/{{$item->id}}"
