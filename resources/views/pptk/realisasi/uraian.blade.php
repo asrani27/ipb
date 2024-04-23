@@ -218,7 +218,7 @@
               </div>
               <div class="form-group">
                   <label>Realisasi Keuangan</label>
-                  <input type="text" id="real_realisasi" class="form-control" name="real_realisasi">
+                  <input type="text" id="real_realisasi" class="form-control" name="real_realisasi" onkeypress="return hanyaAngka(event)"/>
               </div>
           </div>
           <div class="modal-footer">
@@ -260,7 +260,7 @@
               </div>
               <div class="form-group">
                   <label>Realisasi Fisik</label>
-                  <input type="text" id="real_realisasifisik" class="form-control" name="real_realisasi">
+                  <input type="text" id="real_realisasifisik" class="form-control" name="real_realisasi" onkeypress="return hanyaAngka(event)"/>
               </div>
           </div>
           <div class="modal-footer">
@@ -278,6 +278,15 @@
 
 @endsection
 @push('js')
+<script>
+  function hanyaAngka(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57))
+
+      return false;
+    return true;
+  }
+</script>
 <script>
   $(document).on('click', '.edit-realisasi', function() {
   $('#uraian_id').val($(this).data('id'));
