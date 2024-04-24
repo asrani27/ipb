@@ -28,7 +28,14 @@
                   <th>Kode</th>
                   <th>Subkegiatan</th>
                   <th>PPTK</th>
+                  @if (Auth::user()->username == "4.01.03.")
                   <th>Bagian</th>
+                  @endif
+
+                  @if (Auth::user()->username == "4.01.09." || Auth::user()->username == "4.01.10." || Auth::user()->username == "4.01.11." || Auth::user()->username == "4.01.12."||Auth::user()->username == "4.01.13.")
+
+                  <th>Kelurahan</th>
+                  @endif
                 </tr>
                 <form method="post" action="/admin/datatarik/pptk">
                   @csrf
@@ -58,6 +65,7 @@
                     </td>
                     <input type="hidden" name="subkegiatan_id[]" value="{{$item->id}}">
                     {{-- Khusus Setda --}}
+                    @if (Auth::user()->username == "4.01.03.")
                     <td>
                       <select name="bagian_id[]">
                         <option value="">-</option>
@@ -66,7 +74,20 @@
                       @endforeach
                       </select>
                     </td>
+                    @endif
                      {{-- Khusus Setda --}}
+                     {{-- Khusus kecamatan --}}
+                     @if (Auth::user()->username == "4.01.09." || Auth::user()->username == "4.01.10." || Auth::user()->username == "4.01.11." || Auth::user()->username == "4.01.12."||Auth::user()->username == "4.01.13.")
+                    <td>
+                      <select name="kelurahan_id[]">
+                        <option value="">-</option>
+                      @foreach ($kelurahan as $item3)
+                          <option value="{{$item3->id}}" {{$item3->id == $item->kelurahan_id ? 'selected':''}}> {{$item3->nama}}</option>
+                      @endforeach
+                      </select>
+                    </td>
+                    @endif
+                     {{-- Khusus kecamatan --}}
                 </tr>
                 @endforeach
                 <tr>

@@ -8,6 +8,7 @@ use App\Models\Bagian;
 use App\Models\Bidang;
 use App\Models\Program;
 use App\Models\Kegiatan;
+use App\Models\Kelurahan;
 use App\Models\Subkegiatan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -58,11 +59,26 @@ class TarikDataController extends Controller
     }
     public function updatePPTK(Request $req)
     {
-        foreach ($req->subkegiatan_id as $key => $item) {
-            Subkegiatan::find($item)->update([
-                'pptk_id' => $req->pptk_id[$key],
-                'bagian_id' => $req->bagian_id[$key],
-            ]);
+        if (Auth::user()->username == "4.01.03.") {
+            foreach ($req->subkegiatan_id as $key => $item) {
+                Subkegiatan::find($item)->update([
+                    'pptk_id' => $req->pptk_id[$key],
+                    'bagian_id' => $req->bagian_id[$key],
+                ]);
+            }
+        } elseif (Auth::user()->username == "4.01.09." || Auth::user()->username == "4.01.10." || Auth::user()->username == "4.01.11." || Auth::user()->username == "4.01.12." || Auth::user()->username == "4.01.13.") {
+            foreach ($req->subkegiatan_id as $key => $item) {
+                Subkegiatan::find($item)->update([
+                    'pptk_id' => $req->pptk_id[$key],
+                    'kelurahan_id' => $req->kelurahan_id[$key],
+                ]);
+            }
+        } else {
+            foreach ($req->subkegiatan_id as $key => $item) {
+                Subkegiatan::find($item)->update([
+                    'pptk_id' => $req->pptk_id[$key],
+                ]);
+            }
         }
         Session::flash('success', 'Berhasil Di Update');
         return back();
@@ -83,7 +99,8 @@ class TarikDataController extends Controller
         $data = Subkegiatan::where('tahun', $tahun)->where('skpd_id', $skpd_id)->get();
         $pptk = PPTK::where('skpd_id', $skpd_id)->get();
         $bagian = Bagian::get();
-        return view('admin.datatarik.subkegiatan', compact('data', 'pptk', 'bagian'));
+        $kelurahan = Kelurahan::where('skpd_id', Auth::user()->skpd->id)->get();
+        return view('admin.datatarik.subkegiatan', compact('data', 'pptk', 'bagian', 'kelurahan'));
     }
     public function tarikData(Request $req)
     {
