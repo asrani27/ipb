@@ -28,6 +28,7 @@
                   <th>Kode</th>
                   <th>Subkegiatan</th>
                   <th>PPTK</th>
+                  <th>Bagian</th>
                 </tr>
                 <form method="post" action="/admin/datatarik/pptk">
                   @csrf
@@ -56,11 +57,21 @@
                       </select>
                     </td>
                     <input type="hidden" name="subkegiatan_id[]" value="{{$item->id}}">
+                    {{-- Khusus Setda --}}
+                    <td>
+                      <select name="bagian_id[]">
+                        <option value="">-</option>
+                      @foreach ($bagian as $item3)
+                          <option value="{{$item3->id}}" {{$item3->id == $item->bagian_id ? 'selected':''}}> {{$item3->nama}}</option>
+                      @endforeach
+                      </select>
+                    </td>
+                     {{-- Khusus Setda --}}
                 </tr>
                 @endforeach
                 <tr>
-                  <td colspan='6'>
-                    <button type="submit" class="btn btn-block btn-primary">UPDATE PPTK</button>
+                  <td colspan='7'>
+                    <button type="submit" class="btn btn-block btn-primary">UPDATE</button>
                   </td>
                 </tr>
                 </form>

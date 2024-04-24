@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PPTK;
 use App\Models\Tahun;
+use App\Models\Bagian;
 use App\Models\Bidang;
 use App\Models\Program;
 use App\Models\Kegiatan;
@@ -60,6 +61,7 @@ class TarikDataController extends Controller
         foreach ($req->subkegiatan_id as $key => $item) {
             Subkegiatan::find($item)->update([
                 'pptk_id' => $req->pptk_id[$key],
+                'bagian_id' => $req->bagian_id[$key],
             ]);
         }
         Session::flash('success', 'Berhasil Di Update');
@@ -80,7 +82,8 @@ class TarikDataController extends Controller
         $skpd_id = Auth::user()->skpd->id;
         $data = Subkegiatan::where('tahun', $tahun)->where('skpd_id', $skpd_id)->get();
         $pptk = PPTK::where('skpd_id', $skpd_id)->get();
-        return view('admin.datatarik.subkegiatan', compact('data', 'pptk'));
+        $bagian = Bagian::get();
+        return view('admin.datatarik.subkegiatan', compact('data', 'pptk', 'bagian'));
     }
     public function tarikData(Request $req)
     {

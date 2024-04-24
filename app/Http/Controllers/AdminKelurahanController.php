@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelurahan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AdminKelurahanController extends Controller
 {

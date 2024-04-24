@@ -3,8 +3,10 @@
 <li class="{{ (request()->is('admin/pptk*')) ? 'active' : '' }}"><a href="/admin/pptk"><i class="fa fa-institution"></i> <span>PPTK</span></a></li>
 @if (Auth::user()->username == "4.01.03.")
 <li class="{{ (request()->is('admin/bagian*')) ? 'active' : '' }}"><a href="/admin/bagian"><i class="fa fa-list"></i> <span>Data Bagian</span></a></li>
-@else
+@endif
+@if (Auth::user()->username == "4.01.09." || Auth::user()->username == "4.01.10." || Auth::user()->username == "4.01.11." || Auth::user()->username == "4.01.12."||Auth::user()->username == "4.01.13.")
 <li class="{{ (request()->is('admin/kelurahan*')) ? 'active' : '' }}"><a href="/admin/kelurahan"><i class="fa fa-list"></i> <span>Data kelurahan</span></a></li>
+@endif
 <li class="{{ (request()->is('admin/datatarik*')) ? 'active' : '' }}"><a href="/admin/datatarik"><i class="fa fa-list"></i> <span>Data Tarikan</span></a></li>
 {{-- @endif --}}
 {{-- <li class="{{ (request()->is('admin/program*')) ? 'active' : '' }}"><a href="/admin/program"><i class="fa fa-list"></i> <span>Program</span></a></li>
