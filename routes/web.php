@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminBagianController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\DaftarLayananController;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminBatasInputController;
+use App\Http\Controllers\AdminKelurahanController;
 use App\Http\Controllers\AdminPermohonanController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
@@ -136,6 +138,22 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('bidang/edit/{id}', [AdminBidangController::class, 'edit']);
         Route::post('bidang/edit/{id}', [AdminBidangController::class, 'update']);
         Route::get('bidang/delete/{id}', [AdminBidangController::class, 'delete']);
+
+        Route::get('bagian', [AdminBagianController::class, 'index']);
+        Route::get('bagian/add', [AdminBagianController::class, 'create']);
+        Route::post('bagian/add', [AdminBagianController::class, 'store']);
+        Route::get('bagian/edit/{id}', [AdminBagianController::class, 'edit']);
+        Route::post('bagian/edit/{id}', [AdminBagianController::class, 'update']);
+        Route::get('bagian/delete/{id}', [AdminBagianController::class, 'delete']);
+
+
+        Route::get('kelurahan', [AdminKelurahanController::class, 'index']);
+        Route::get('kelurahan/add', [AdminKelurahanController::class, 'create']);
+        Route::post('kelurahan/add', [AdminKelurahanController::class, 'store']);
+        Route::get('kelurahan/edit/{id}', [AdminKelurahanController::class, 'edit']);
+        Route::post('kelurahan/edit/{id}', [AdminKelurahanController::class, 'update']);
+        Route::get('kelurahan/delete/{id}', [AdminKelurahanController::class, 'delete']);
+
         Route::get('bidang/createuser/{id}', [AdminBidangController::class, 'createuser']);
         Route::post('bidang/createuser/{id}', [AdminBidangController::class, 'storeuser']);
         Route::get('bidang/resetpass/{id}', [AdminBidangController::class, 'resetpass']);
