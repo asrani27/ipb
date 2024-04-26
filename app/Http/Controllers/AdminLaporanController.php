@@ -154,6 +154,11 @@ class AdminLaporanController extends Controller
             $status_kirim = 'kirim_rfk_' . $bulan;
             $item->status_kirim = $item[$status_kirim];
 
+            if ($item->kelurahan != null) {
+                $item->kelurahan = $item->kelurahan->nama;
+            } else {
+                $item->kelurahan = null;
+            }
             if ($item->status_kirim == null) {
                 $item->kolom3 = 0;
                 $item->kolom4 = 0;

@@ -172,7 +172,10 @@
                       @endif
                     </td>
                     <td>{{$subkeg++}}</td>
-                    <td width="200px">{{$item3->nama}}</td>
+                    <td width="200px">{{$item3->nama}}
+                      @if ($item3->kelurahan != null)
+                      ({{$item3->kelurahan}})
+                      @endif</td>
                     <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
                     <td style="text-align: right;">{{round($item3->kolom4, 2)}}</td>
                     <td style="text-align: right;">{{number_format($item3->kolom5)}}</td>
