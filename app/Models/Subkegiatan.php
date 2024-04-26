@@ -25,6 +25,10 @@ class Subkegiatan extends Model
     {
         return $this->belongsTo(Kegiatan::class, 'kegiatan_id');
     }
+    public function kelurahan()
+    {
+        return $this->belongsTo(Kelurahan::class, 'kelurahan_id');
+    }
     public function uraian()
     {
         return $this->hasMany(Uraian::class, 'subkegiatan_id');

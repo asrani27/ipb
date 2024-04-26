@@ -263,10 +263,17 @@ class AdminLaporanController extends Controller
             } else {
                 $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
             }
+            if ($item->kelurahan != null) {
+                $item->kelurahan = $item->kelurahan->nama;
+            } else {
+                $item->kelurahan = null;
+            }
             // $format['nama'] = $item->nama;
+
             // $format['status_kirim'] = $item->kirim_angkas;
             return $item;
         });
+
 
 
         //dd($datasubkegiatan, Auth::user()->skpd->id);
