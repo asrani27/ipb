@@ -45,6 +45,7 @@ use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
+use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\SuperadminJenisrfkController;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -66,6 +67,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('skpd', [SuperadminSkpdController::class, 'index']);
         Route::get('skpd/createakun/{id}', [SuperadminSkpdController::class, 'createakun']);
         Route::get('skpd/resetakun/{id}', [SuperadminSkpdController::class, 'resetakun']);
+        Route::get('laporan', [SuperadminController::class, 'laporan']);
+        Route::get('laporan/rfk', [SuperadminController::class, 'export']);
     });
 });
 

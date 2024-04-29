@@ -41,6 +41,7 @@ class SuperadminSkpdController extends Controller
     public function resetakun($id)
     {
         Skpd::find($id)->user->update(['password' => bcrypt('adminskpd')]);
+
         Session::flash('success', 'Password : adminskpd');
         return back();
     }

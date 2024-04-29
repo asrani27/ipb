@@ -141,8 +141,169 @@ function namaBulan($bulan)
     }
     return $nama_bulan;
 }
+function superadminRencanaFisik($bulan, $uraian)
+{
+    if ($bulan == '1') {
+        $total = $uraian->p_januari_fisik;
+    }
+    if ($bulan == '2') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik;
+    }
+    if ($bulan == '3') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik;
+    }
+    if ($bulan == '4') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik;
+    }
+    if ($bulan == '5') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik;
+    }
+    if ($bulan == '6') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik;
+    }
+    if ($bulan == '7') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik;
+    }
+    if ($bulan == '8') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik + $uraian->p_agustus_fisik;
+    }
+    if ($bulan == '9') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik + $uraian->p_agustus_fisik + $uraian->p_september_fisik;
+    }
+    if ($bulan == '10') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik + $uraian->p_agustus_fisik + $uraian->p_september_fisik + $uraian->p_oktober_fisik;
+    }
+    if ($bulan == '11') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik + $uraian->p_agustus_fisik + $uraian->p_september_fisik + $uraian->p_oktober_fisik + $uraian->p_november_fisik;
+    }
+    if ($bulan == '12') {
+        $total = $uraian->p_januari_fisik + $uraian->p_februari_fisik + $uraian->p_maret_fisik + $uraian->p_april_fisik + $uraian->p_mei_fisik + $uraian->p_juni_fisik + $uraian->p_juli_fisik + $uraian->p_agustus_fisik + $uraian->p_september_fisik + $uraian->p_oktober_fisik + $uraian->p_november_fisik + $uraian->p_desember_fisik;
+    }
+    //dd($uraian, $total, $uraian->sum('p_januari_fisik'), $uraian->sum('p_februari_fisik'), $uraian->sum('p_maret_fisik'), $uraian->sum('p_april_fisik'), $uraian->sum('p_mei_fisik'), $uraian->sum('p_juni_fisik'), $uraian->sum('p_juli_fisik'));
+    return $total;
+}
+function superadminRealisasiFisik($bulan, $uraian)
+{
+    if ($bulan == '1') {
+        $total = $uraian->r_januari_fisik;
+    }
+    if ($bulan == '2') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik;
+    }
+    if ($bulan == '3') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik;
+    }
+    if ($bulan == '4') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik;
+    }
+    if ($bulan == '5') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik;
+    }
+    if ($bulan == '6') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik;
+    }
+    if ($bulan == '7') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik;
+    }
+    if ($bulan == '8') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik + $uraian->r_agustus_fisik;
+    }
+    if ($bulan == '9') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik + $uraian->r_agustus_fisik + $uraian->r_september_fisik;
+    }
+    if ($bulan == '10') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik + $uraian->r_agustus_fisik + $uraian->r_september_fisik + $uraian->r_oktober_fisik;
+    }
+    if ($bulan == '11') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik + $uraian->r_agustus_fisik + $uraian->r_september_fisik + $uraian->r_oktober_fisik + $uraian->r_november_fisik;
+    }
+    if ($bulan == '12') {
+        $total = $uraian->r_januari_fisik + $uraian->r_februari_fisik + $uraian->r_maret_fisik + $uraian->r_april_fisik + $uraian->r_mei_fisik + $uraian->r_juni_fisik + $uraian->r_juli_fisik + $uraian->r_agustus_fisik + $uraian->r_september_fisik + $uraian->r_oktober_fisik + $uraian->r_november_fisik + $uraian->r_desember_fisik;
+    }
+    return $total;
+}
 
+function superadminRencana($bulan, $uraian)
+{
+    if ($bulan == '1') {
+        $total = $uraian->p_januari_keuangan;
+    }
+    if ($bulan == '2') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan;
+    }
+    if ($bulan == '3') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan;
+    }
+    if ($bulan == '4') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan;
+    }
+    if ($bulan == '5') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan;
+    }
+    if ($bulan == '6') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan;
+    }
+    if ($bulan == '7') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan;
+    }
+    if ($bulan == '8') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan + $uraian->p_agustus_keuangan;
+    }
+    if ($bulan == '9') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan + $uraian->p_agustus_keuangan + $uraian->p_september_keuangan;
+    }
+    if ($bulan == '10') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan + $uraian->p_agustus_keuangan + $uraian->p_september_keuangan + $uraian->p_oktober_keuangan;
+    }
+    if ($bulan == '11') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan + $uraian->p_agustus_keuangan + $uraian->p_september_keuangan + $uraian->p_oktober_keuangan + $uraian->p_november_keuangan;
+    }
+    if ($bulan == '12') {
+        $total = $uraian->p_januari_keuangan + $uraian->p_februari_keuangan + $uraian->p_maret_keuangan + $uraian->p_april_keuangan + $uraian->p_mei_keuangan + $uraian->p_juni_keuangan + $uraian->p_juli_keuangan + $uraian->p_agustus_keuangan + $uraian->p_september_keuangan + $uraian->p_oktober_keuangan + $uraian->p_november_keuangan + $uraian->p_desember_keuangan;
+    }
+    return $total;
+}
+function superadminRealisasi($bulan, $uraian)
+{
+    if ($bulan == '1' || $bulan == 'Januari') {
+        $total = $uraian->r_januari_keuangan;
+    }
+    if ($bulan == '2' || $bulan == 'Februari') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan;
+    }
+    if ($bulan == '3' || $bulan == 'Maret') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan;
+    }
+    if ($bulan == '4' || $bulan == 'April') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan;
+    }
+    if ($bulan == '5' || $bulan == 'Mei') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan;
+    }
+    if ($bulan == '6' || $bulan == 'Juni') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan;
+    }
+    if ($bulan == '7' || $bulan == 'Juli') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan;
+    }
+    if ($bulan == '8' || $bulan == 'Agustus') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan + $uraian->r_agustus_keuangan;
+    }
+    if ($bulan == '9' || $bulan == 'September') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan + $uraian->r_agustus_keuangan + $uraian->r_september_keuangan;
+    }
+    if ($bulan == '10' || $bulan == 'Oktober') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan + $uraian->r_agustus_keuangan + $uraian->r_september_keuangan + $uraian->r_oktober_keuangan;
+    }
+    if ($bulan == '11' || $bulan == 'November') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan + $uraian->r_agustus_keuangan + $uraian->r_september_keuangan + $uraian->r_oktober_keuangan + $uraian->r_november_keuangan;
+    }
+    if ($bulan == '12' || $bulan == 'Desember') {
+        $total = $uraian->r_januari_keuangan + $uraian->r_februari_keuangan + $uraian->r_maret_keuangan + $uraian->r_april_keuangan + $uraian->r_mei_keuangan + $uraian->r_juni_keuangan + $uraian->r_juli_keuangan + $uraian->r_agustus_keuangan + $uraian->r_september_keuangan + $uraian->r_oktober_keuangan + $uraian->r_november_keuangan + $uraian->r_desember_keuangan;
+    }
 
+    return $total;
+}
 function rencanaSKPD($bulan, $item, $jenisrfk)
 {
     $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
