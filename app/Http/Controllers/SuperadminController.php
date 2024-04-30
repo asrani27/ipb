@@ -127,6 +127,13 @@ class SuperadminController extends Controller
             $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
             return $item;
         });
+        $perdagin = Uraian::where('tahun', $tahun)->where('skpd_id', 20)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan) {
+            $item->rencana = superadminRencana($bulan, $item);
+            $item->realisasi = superadminRealisasi($bulan, $item);
+            $item->rencana_fisik = superadminRencanaFisik($bulan, $item);
+            $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
+            return $item;
+        });
         //dd($disdik);
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -1166,6 +1173,74 @@ class SuperadminController extends Controller
             }
         }
 
+
+        // perdaginP
+        $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('A2', 'Dinas Perdaganan');
+        $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $perdaginRow = 11;
+        if ($perdagin->count() != 0) {
+            $spreadsheet->getSheetByName('PERDAGIN')->insertNewRowBefore(12, $perdagin->count() - 1);
+            foreach ($perdagin as $key => $item_dinkes) {
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('A' . $perdaginRow, $key + 1);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('B' . $perdaginRow, $item_dinkes->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('C' . $perdaginRow, $item_dinkes->perdagin);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('D' . $perdaginRow, '=C' . $perdaginRow . '/$C$' . $perdagin->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('E' . $perdaginRow, $item_dinkes->rencana);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('F' . $perdaginRow, '=E' . $perdaginRow . '/C' . $perdaginRow . '*100');
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('G' . $perdaginRow, '=F' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('H' . $perdaginRow, $item_dinkes->realisasi);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('I' . $perdaginRow, '=H' . $perdaginRow . '/C' . $perdaginRow . '*100');
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('J' . $perdaginRow, '=I' . $perdaginRow . '*D' . $perdaginRow . '/100');
+
+                if ($item_dinkes->rencana == 0) {
+                    $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('K' . $perdaginRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('K' . $perdaginRow, '=H' . $perdaginRow . '/E' . $perdaginRow . '*100');
+                }
+
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('L' . $perdaginRow, '=J' . $perdaginRow . '-G' . $perdaginRow);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('M' . $perdaginRow, '=C' . $perdaginRow . '-H' . $perdaginRow);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('N' . $perdaginRow, $item_dinkes->rencana_fisik);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('O' . $perdaginRow, '=N' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('P' . $perdaginRow, $item_dinkes->realisasi_fisik);
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('Q' . $perdaginRow, '=P' . $perdaginRow . '*D' . $perdaginRow . '/100');
+
+                if ($item_dinkes->rencana_fisik == 0) {
+                    $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('R' . $perdaginRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('R' . $perdaginRow, '=P' . $perdaginRow . '/N' . $perdaginRow . '*100');
+                }
+                $perdaginRow++;
+            }
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('B' . $perdagin->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('C' . $perdagin->count() + 11, '=SUM(C11:C' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('D' . $perdagin->count() + 11, '=SUM(D11:D' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('E' . $perdagin->count() + 11, '=SUM(E11:E' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('F' . $perdagin->count() + 11, '=SUM(G11:G' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('G' . $perdagin->count() + 11, '=SUM(G11:G' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('H' . $perdagin->count() + 11, '=SUM(H11:H' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('I' . $perdagin->count() + 11, '=SUM(J11:J' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('J' . $perdagin->count() + 11, '=SUM(J11:J' . $perdagin->count() + 10 . ')');
+            if ($perdagin->sum('rencana') == 0) {
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('K' . $perdagin->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('K' . $perdagin->count() + 11, '=H' . $perdagin->count() + 11 . '/E' . $perdagin->count() + 11 . '*100');
+            }
+
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('L' . $perdagin->count() + 11, '=J' . $perdagin->count() + 11 . '-G' .  $perdagin->count() + 11);
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('M' . $perdagin->count() + 11, '=C' . $perdagin->count() + 11 . '-H' .  $perdagin->count() + 11);
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('N' . $perdagin->count() + 11, '=SUM(O11:O' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('O' . $perdagin->count() + 11, '=SUM(O11:O' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('P' . $perdagin->count() + 11, '=SUM(Q11:Q' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('Q' . $perdagin->count() + 11, '=SUM(Q11:Q' . $perdagin->count() + 10 . ')');
+            if ($perdagin->sum('rencana_fisik') == 0) {
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('R' . $perdagin->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('PERDAGIN')->setCellValue('R' . $perdagin->count() + 11, '=P' . $perdagin->count() + 11 . '/N' . $perdagin->count() + 11 . '*100');
+            }
+        }
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
