@@ -83,6 +83,36 @@ class SuperadminController extends Controller
             $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
             return $item;
         });
+
+        $capil = Uraian::where('tahun', $tahun)->where('skpd_id', 11)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan) {
+            $item->rencana = superadminRencana($bulan, $item);
+            $item->realisasi = superadminRealisasi($bulan, $item);
+            $item->rencana_fisik = superadminRencanaFisik($bulan, $item);
+            $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
+            return $item;
+        });
+
+        $dppkbpm = Uraian::where('tahun', $tahun)->where('skpd_id', 12)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan) {
+            $item->rencana = superadminRencana($bulan, $item);
+            $item->realisasi = superadminRealisasi($bulan, $item);
+            $item->rencana_fisik = superadminRencanaFisik($bulan, $item);
+            $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
+            return $item;
+        });
+        $dishub = Uraian::where('tahun', $tahun)->where('skpd_id', 13)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan) {
+            $item->rencana = superadminRencana($bulan, $item);
+            $item->realisasi = superadminRealisasi($bulan, $item);
+            $item->rencana_fisik = superadminRencanaFisik($bulan, $item);
+            $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
+            return $item;
+        });
+        $diskominfotik = Uraian::where('tahun', $tahun)->where('skpd_id', 14)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan) {
+            $item->rencana = superadminRencana($bulan, $item);
+            $item->realisasi = superadminRealisasi($bulan, $item);
+            $item->rencana_fisik = superadminRencanaFisik($bulan, $item);
+            $item->realisasi_fisik = superadminRealisasiFisik($bulan, $item);
+            return $item;
+        });
         //dd($disdik);
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -709,6 +739,280 @@ class SuperadminController extends Controller
             }
         }
 
+        // capilP
+        $spreadsheet->getSheetByName('CAPIL')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('CAPIL')->setCellValue('A2', 'Dinas Kependudukan dan Pencatatan Sipil');
+        $spreadsheet->getSheetByName('CAPIL')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('CAPIL')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $capilRow = 11;
+        if ($capil->count() != 0) {
+            $spreadsheet->getSheetByName('CAPIL')->insertNewRowBefore(12, $capil->count() - 1);
+            foreach ($capil as $key => $item_dinkes) {
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('A' . $capilRow, $key + 1);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('B' . $capilRow, $item_dinkes->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('C' . $capilRow, $item_dinkes->dpa);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('D' . $capilRow, '=C' . $capilRow . '/$C$' . $capil->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('E' . $capilRow, $item_dinkes->rencana);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('F' . $capilRow, '=E' . $capilRow . '/C' . $capilRow . '*100');
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('G' . $capilRow, '=F' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('H' . $capilRow, $item_dinkes->realisasi);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('I' . $capilRow, '=H' . $capilRow . '/C' . $capilRow . '*100');
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('J' . $capilRow, '=I' . $capilRow . '*D' . $capilRow . '/100');
+
+                if ($item_dinkes->rencana == 0) {
+                    $spreadsheet->getSheetByName('CAPIL')->setCellValue('K' . $capilRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('CAPIL')->setCellValue('K' . $capilRow, '=H' . $capilRow . '/E' . $capilRow . '*100');
+                }
+
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('L' . $capilRow, '=J' . $capilRow . '-G' . $capilRow);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('M' . $capilRow, '=C' . $capilRow . '-H' . $capilRow);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('N' . $capilRow, $item_dinkes->rencana_fisik);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('O' . $capilRow, '=N' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('P' . $capilRow, $item_dinkes->realisasi_fisik);
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('Q' . $capilRow, '=P' . $capilRow . '*D' . $capilRow . '/100');
+
+                if ($item_dinkes->rencana_fisik == 0) {
+                    $spreadsheet->getSheetByName('CAPIL')->setCellValue('R' . $capilRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('CAPIL')->setCellValue('R' . $capilRow, '=P' . $capilRow . '/N' . $capilRow . '*100');
+                }
+                $capilRow++;
+            }
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('B' . $capil->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('C' . $capil->count() + 11, '=SUM(C11:C' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('D' . $capil->count() + 11, '=SUM(D11:D' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('E' . $capil->count() + 11, '=SUM(E11:E' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('F' . $capil->count() + 11, '=SUM(G11:G' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('G' . $capil->count() + 11, '=SUM(G11:G' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('H' . $capil->count() + 11, '=SUM(H11:H' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('I' . $capil->count() + 11, '=SUM(J11:J' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('J' . $capil->count() + 11, '=SUM(J11:J' . $capil->count() + 10 . ')');
+            if ($capil->sum('rencana') == 0) {
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('K' . $capil->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('K' . $capil->count() + 11, '=H' . $capil->count() + 11 . '/E' . $capil->count() + 11 . '*100');
+            }
+
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('L' . $capil->count() + 11, '=J' . $capil->count() + 11 . '-G' .  $capil->count() + 11);
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('M' . $capil->count() + 11, '=C' . $capil->count() + 11 . '-H' .  $capil->count() + 11);
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('N' . $capil->count() + 11, '=SUM(O11:O' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('O' . $capil->count() + 11, '=SUM(O11:O' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('P' . $capil->count() + 11, '=SUM(Q11:Q' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('CAPIL')->setCellValue('Q' . $capil->count() + 11, '=SUM(Q11:Q' . $capil->count() + 10 . ')');
+            if ($capil->sum('rencana_fisik') == 0) {
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('R' . $capil->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('CAPIL')->setCellValue('R' . $capil->count() + 11, '=P' . $capil->count() + 11 . '/N' . $capil->count() + 11 . '*100');
+            }
+        }
+
+
+        // dppkbpmP
+        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A2', 'DINAS SOSIAL');
+        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $dppkbpmRow = 11;
+        if ($dppkbpm->count() != 0) {
+            $spreadsheet->getSheetByName('DPPKBPM')->insertNewRowBefore(12, $dppkbpm->count() - 1);
+            foreach ($dppkbpm as $key => $item_dinkes) {
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A' . $dppkbpmRow, $key + 1);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('B' . $dppkbpmRow, $item_dinkes->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('C' . $dppkbpmRow, $item_dinkes->dpa);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('D' . $dppkbpmRow, '=C' . $dppkbpmRow . '/$C$' . $dppkbpm->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('E' . $dppkbpmRow, $item_dinkes->rencana);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('F' . $dppkbpmRow, '=E' . $dppkbpmRow . '/C' . $dppkbpmRow . '*100');
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('G' . $dppkbpmRow, '=F' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('H' . $dppkbpmRow, $item_dinkes->realisasi);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('I' . $dppkbpmRow, '=H' . $dppkbpmRow . '/C' . $dppkbpmRow . '*100');
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('J' . $dppkbpmRow, '=I' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+
+                if ($item_dinkes->rencana == 0) {
+                    $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('K' . $dppkbpmRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('K' . $dppkbpmRow, '=H' . $dppkbpmRow . '/E' . $dppkbpmRow . '*100');
+                }
+
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('L' . $dppkbpmRow, '=J' . $dppkbpmRow . '-G' . $dppkbpmRow);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('M' . $dppkbpmRow, '=C' . $dppkbpmRow . '-H' . $dppkbpmRow);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('N' . $dppkbpmRow, $item_dinkes->rencana_fisik);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('O' . $dppkbpmRow, '=N' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('P' . $dppkbpmRow, $item_dinkes->realisasi_fisik);
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('Q' . $dppkbpmRow, '=P' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+
+                if ($item_dinkes->rencana_fisik == 0) {
+                    $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('R' . $dppkbpmRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('R' . $dppkbpmRow, '=P' . $dppkbpmRow . '/N' . $dppkbpmRow . '*100');
+                }
+                $dppkbpmRow++;
+            }
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('B' . $dppkbpm->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('C' . $dppkbpm->count() + 11, '=SUM(C11:C' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('D' . $dppkbpm->count() + 11, '=SUM(D11:D' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('E' . $dppkbpm->count() + 11, '=SUM(E11:E' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('F' . $dppkbpm->count() + 11, '=SUM(G11:G' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('G' . $dppkbpm->count() + 11, '=SUM(G11:G' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('H' . $dppkbpm->count() + 11, '=SUM(H11:H' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('I' . $dppkbpm->count() + 11, '=SUM(J11:J' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('J' . $dppkbpm->count() + 11, '=SUM(J11:J' . $dppkbpm->count() + 10 . ')');
+            if ($dppkbpm->sum('rencana') == 0) {
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('K' . $dppkbpm->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('K' . $dppkbpm->count() + 11, '=H' . $dppkbpm->count() + 11 . '/E' . $dppkbpm->count() + 11 . '*100');
+            }
+
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('L' . $dppkbpm->count() + 11, '=J' . $dppkbpm->count() + 11 . '-G' .  $dppkbpm->count() + 11);
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('M' . $dppkbpm->count() + 11, '=C' . $dppkbpm->count() + 11 . '-H' .  $dppkbpm->count() + 11);
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('N' . $dppkbpm->count() + 11, '=SUM(O11:O' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('O' . $dppkbpm->count() + 11, '=SUM(O11:O' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('P' . $dppkbpm->count() + 11, '=SUM(Q11:Q' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('Q' . $dppkbpm->count() + 11, '=SUM(Q11:Q' . $dppkbpm->count() + 10 . ')');
+            if ($dppkbpm->sum('rencana_fisik') == 0) {
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('R' . $dppkbpm->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('R' . $dppkbpm->count() + 11, '=P' . $dppkbpm->count() + 11 . '/N' . $dppkbpm->count() + 11 . '*100');
+            }
+        }
+
+
+        // dishubP
+        $spreadsheet->getSheetByName('DISHUB')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('DISHUB')->setCellValue('A2', 'DINAS PERHUBUNGAN');
+        $spreadsheet->getSheetByName('DISHUB')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('DISHUB')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $dishubRow = 11;
+        if ($dishub->count() != 0) {
+            $spreadsheet->getSheetByName('DISHUB')->insertNewRowBefore(12, $dishub->count() - 1);
+            foreach ($dishub as $key => $item_dinkes) {
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('A' . $dishubRow, $key + 1);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('B' . $dishubRow, $item_dinkes->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('C' . $dishubRow, $item_dinkes->dpa);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('D' . $dishubRow, '=C' . $dishubRow . '/$C$' . $dishub->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('E' . $dishubRow, $item_dinkes->rencana);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('F' . $dishubRow, '=E' . $dishubRow . '/C' . $dishubRow . '*100');
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('G' . $dishubRow, '=F' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('H' . $dishubRow, $item_dinkes->realisasi);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('I' . $dishubRow, '=H' . $dishubRow . '/C' . $dishubRow . '*100');
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('J' . $dishubRow, '=I' . $dishubRow . '*D' . $dishubRow . '/100');
+
+                if ($item_dinkes->rencana == 0) {
+                    $spreadsheet->getSheetByName('DISHUB')->setCellValue('K' . $dishubRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DISHUB')->setCellValue('K' . $dishubRow, '=H' . $dishubRow . '/E' . $dishubRow . '*100');
+                }
+
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('L' . $dishubRow, '=J' . $dishubRow . '-G' . $dishubRow);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('M' . $dishubRow, '=C' . $dishubRow . '-H' . $dishubRow);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('N' . $dishubRow, $item_dinkes->rencana_fisik);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('O' . $dishubRow, '=N' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('P' . $dishubRow, $item_dinkes->realisasi_fisik);
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('Q' . $dishubRow, '=P' . $dishubRow . '*D' . $dishubRow . '/100');
+
+                if ($item_dinkes->rencana_fisik == 0) {
+                    $spreadsheet->getSheetByName('DISHUB')->setCellValue('R' . $dishubRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DISHUB')->setCellValue('R' . $dishubRow, '=P' . $dishubRow . '/N' . $dishubRow . '*100');
+                }
+                $dishubRow++;
+            }
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('B' . $dishub->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('C' . $dishub->count() + 11, '=SUM(C11:C' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('D' . $dishub->count() + 11, '=SUM(D11:D' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('E' . $dishub->count() + 11, '=SUM(E11:E' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('F' . $dishub->count() + 11, '=SUM(G11:G' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('G' . $dishub->count() + 11, '=SUM(G11:G' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('H' . $dishub->count() + 11, '=SUM(H11:H' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('I' . $dishub->count() + 11, '=SUM(J11:J' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('J' . $dishub->count() + 11, '=SUM(J11:J' . $dishub->count() + 10 . ')');
+            if ($dishub->sum('rencana') == 0) {
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('K' . $dishub->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('K' . $dishub->count() + 11, '=H' . $dishub->count() + 11 . '/E' . $dishub->count() + 11 . '*100');
+            }
+
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('L' . $dishub->count() + 11, '=J' . $dishub->count() + 11 . '-G' .  $dishub->count() + 11);
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('M' . $dishub->count() + 11, '=C' . $dishub->count() + 11 . '-H' .  $dishub->count() + 11);
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('N' . $dishub->count() + 11, '=SUM(O11:O' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('O' . $dishub->count() + 11, '=SUM(O11:O' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('P' . $dishub->count() + 11, '=SUM(Q11:Q' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISHUB')->setCellValue('Q' . $dishub->count() + 11, '=SUM(Q11:Q' . $dishub->count() + 10 . ')');
+            if ($dishub->sum('rencana_fisik') == 0) {
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('R' . $dishub->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DISHUB')->setCellValue('R' . $dishub->count() + 11, '=P' . $dishub->count() + 11 . '/N' . $dishub->count() + 11 . '*100');
+            }
+        }
+
+
+        // diskominfotikP
+        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A2', 'DINAS PERHUBUNGAN');
+        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $diskominfotikRow = 11;
+        if ($diskominfotik->count() != 0) {
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->insertNewRowBefore(12, $diskominfotik->count() - 1);
+            foreach ($diskominfotik as $key => $item_dinkes) {
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A' . $diskominfotikRow, $key + 1);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('B' . $diskominfotikRow, $item_dinkes->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('C' . $diskominfotikRow, $item_dinkes->dpa);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('D' . $diskominfotikRow, '=C' . $diskominfotikRow . '/$C$' . $diskominfotik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('E' . $diskominfotikRow, $item_dinkes->rencana);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('F' . $diskominfotikRow, '=E' . $diskominfotikRow . '/C' . $diskominfotikRow . '*100');
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('G' . $diskominfotikRow, '=F' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('H' . $diskominfotikRow, $item_dinkes->realisasi);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('I' . $diskominfotikRow, '=H' . $diskominfotikRow . '/C' . $diskominfotikRow . '*100');
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('J' . $diskominfotikRow, '=I' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+
+                if ($item_dinkes->rencana == 0) {
+                    $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('K' . $diskominfotikRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('K' . $diskominfotikRow, '=H' . $diskominfotikRow . '/E' . $diskominfotikRow . '*100');
+                }
+
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('L' . $diskominfotikRow, '=J' . $diskominfotikRow . '-G' . $diskominfotikRow);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('M' . $diskominfotikRow, '=C' . $diskominfotikRow . '-H' . $diskominfotikRow);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('N' . $diskominfotikRow, $item_dinkes->rencana_fisik);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('O' . $diskominfotikRow, '=N' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('P' . $diskominfotikRow, $item_dinkes->realisasi_fisik);
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('Q' . $diskominfotikRow, '=P' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+
+                if ($item_dinkes->rencana_fisik == 0) {
+                    $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('R' . $diskominfotikRow, '0');
+                } else {
+                    $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('R' . $diskominfotikRow, '=P' . $diskominfotikRow . '/N' . $diskominfotikRow . '*100');
+                }
+                $diskominfotikRow++;
+            }
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('B' . $diskominfotik->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('C' . $diskominfotik->count() + 11, '=SUM(C11:C' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('D' . $diskominfotik->count() + 11, '=SUM(D11:D' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('E' . $diskominfotik->count() + 11, '=SUM(E11:E' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('F' . $diskominfotik->count() + 11, '=SUM(G11:G' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('G' . $diskominfotik->count() + 11, '=SUM(G11:G' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('H' . $diskominfotik->count() + 11, '=SUM(H11:H' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('I' . $diskominfotik->count() + 11, '=SUM(J11:J' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('J' . $diskominfotik->count() + 11, '=SUM(J11:J' . $diskominfotik->count() + 10 . ')');
+            if ($diskominfotik->sum('rencana') == 0) {
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('K' . $diskominfotik->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('K' . $diskominfotik->count() + 11, '=H' . $diskominfotik->count() + 11 . '/E' . $diskominfotik->count() + 11 . '*100');
+            }
+
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('L' . $diskominfotik->count() + 11, '=J' . $diskominfotik->count() + 11 . '-G' .  $diskominfotik->count() + 11);
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('M' . $diskominfotik->count() + 11, '=C' . $diskominfotik->count() + 11 . '-H' .  $diskominfotik->count() + 11);
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('N' . $diskominfotik->count() + 11, '=SUM(O11:O' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('O' . $diskominfotik->count() + 11, '=SUM(O11:O' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('P' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('Q' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
+            if ($diskominfotik->sum('rencana_fisik') == 0) {
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('R' . $diskominfotik->count() + 11, '0');
+            } else {
+                $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('R' . $diskominfotik->count() + 11, '=P' . $diskominfotik->count() + 11 . '/N' . $diskominfotik->count() + 11 . '*100');
+            }
+        }
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
