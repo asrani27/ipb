@@ -810,7 +810,7 @@ class SuperadminController extends Controller
 
         // dppkbpmP
         $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A2', 'DINAS SOSIAL');
+        $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A2', 'Dinas Pengendalian Penduduk, Keluarga Berencana, dan Pemberdayaan Masyarakat');
         $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('DPPKBPM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $dppkbpmRow = 11;
@@ -948,7 +948,7 @@ class SuperadminController extends Controller
 
         // diskominfotikP
         $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A2', 'DINAS PERHUBUNGAN');
+        $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A2', 'Dinas Komunikasi, Informatika dan Statistik');
         $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('DISKOMINFOTIK')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $diskominfotikRow = 11;
