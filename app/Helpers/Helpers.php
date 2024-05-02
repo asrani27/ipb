@@ -307,40 +307,40 @@ function superadminRealisasi($bulan, $uraian)
 function rencanaSKPD($bulan, $item, $jenisrfk)
 {
     $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
-    if ($bulan == 'januari') {
+    if ($bulan == 'januari' || $bulan == '1') {
         $total = $uraian->sum('p_januari_keuangan');
     }
-    if ($bulan == 'februari') {
+    if ($bulan == 'februari' || $bulan == '2') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan');
     }
-    if ($bulan == 'maret') {
+    if ($bulan == 'maret' || $bulan == '3') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan');
     }
-    if ($bulan == 'april') {
+    if ($bulan == 'april' || $bulan == '4') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan');
     }
-    if ($bulan == 'mei') {
+    if ($bulan == 'mei' || $bulan == '5') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan');
     }
-    if ($bulan == 'juni') {
+    if ($bulan == 'juni' || $bulan == '6') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan');
     }
-    if ($bulan == 'juli') {
+    if ($bulan == 'juli' || $bulan == '7') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan');
     }
-    if ($bulan == 'agustus') {
+    if ($bulan == 'agustus' || $bulan == '8') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan');
     }
-    if ($bulan == 'september') {
+    if ($bulan == 'september' || $bulan == '9') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan');
     }
-    if ($bulan == 'oktober') {
+    if ($bulan == 'oktober' || $bulan == '10') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan');
     }
-    if ($bulan == 'november') {
+    if ($bulan == 'november' || $bulan == '11') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan') + $uraian->sum('p_november_keuangan');
     }
-    if ($bulan == 'desember') {
+    if ($bulan == 'desember' || $bulan == '12') {
         $total = $uraian->sum('p_januari_keuangan') + $uraian->sum('p_februari_keuangan') + $uraian->sum('p_maret_keuangan') + $uraian->sum('p_april_keuangan') + $uraian->sum('p_mei_keuangan') + $uraian->sum('p_juni_keuangan') + $uraian->sum('p_juli_keuangan') + $uraian->sum('p_agustus_keuangan') + $uraian->sum('p_september_keuangan') + $uraian->sum('p_oktober_keuangan') + $uraian->sum('p_november_keuangan') + $uraian->sum('p_desember_keuangan');
     }
     return $total;
@@ -358,40 +358,40 @@ function realisasiSKPD($bulan, $item, $jenisrfk)
 {
     $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
 
-    if ($bulan == 'januari' || $bulan == 'Januari') {
+    if ($bulan == 'januari' || $bulan == 'Januari' || $bulan == '1') {
         $total = $uraian->sum('r_januari_keuangan');
     }
-    if ($bulan == 'februari' || $bulan == 'Februari') {
+    if ($bulan == 'februari' || $bulan == 'Februari' || $bulan == '2') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan');
     }
-    if ($bulan == 'maret' || $bulan == 'Maret') {
+    if ($bulan == 'maret' || $bulan == 'Maret' || $bulan == '3') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan');
     }
-    if ($bulan == 'april' || $bulan == 'April') {
+    if ($bulan == 'april' || $bulan == 'April' || $bulan == '4') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan');
     }
-    if ($bulan == 'mei' || $bulan == 'Mei') {
+    if ($bulan == 'mei' || $bulan == 'Mei' || $bulan == '5') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan');
     }
-    if ($bulan == 'juni' || $bulan == 'Juni') {
+    if ($bulan == 'juni' || $bulan == 'Juni' || $bulan == '6') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan');
     }
-    if ($bulan == 'juli' || $bulan == 'Juli') {
+    if ($bulan == 'juli' || $bulan == 'Juli' || $bulan == '7') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan');
     }
-    if ($bulan == 'agustus' || $bulan == 'Agustus') {
+    if ($bulan == 'agustus' || $bulan == 'Agustus' || $bulan == '8') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan');
     }
-    if ($bulan == 'september' || $bulan == 'September') {
+    if ($bulan == 'september' || $bulan == 'September' || $bulan == '9') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan');
     }
-    if ($bulan == 'oktober' || $bulan == 'Oktober') {
+    if ($bulan == 'oktober' || $bulan == 'Oktober' || $bulan == '10') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan');
     }
-    if ($bulan == 'november' || $bulan == 'November') {
+    if ($bulan == 'november' || $bulan == 'November' || $bulan == '11') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan') + $uraian->sum('r_november_keuangan');
     }
-    if ($bulan == 'desember' || $bulan == 'Desember') {
+    if ($bulan == 'desember' || $bulan == 'Desember' || $bulan == '12') {
         $total = $uraian->sum('r_januari_keuangan') + $uraian->sum('r_februari_keuangan') + $uraian->sum('r_maret_keuangan') + $uraian->sum('r_april_keuangan') + $uraian->sum('r_mei_keuangan') + $uraian->sum('r_juni_keuangan') + $uraian->sum('r_juli_keuangan') + $uraian->sum('r_agustus_keuangan') + $uraian->sum('r_september_keuangan') + $uraian->sum('r_oktober_keuangan') + $uraian->sum('r_november_keuangan') + $uraian->sum('r_desember_keuangan');
     }
 
