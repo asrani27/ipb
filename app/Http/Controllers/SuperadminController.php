@@ -322,7 +322,32 @@ class SuperadminController extends Controller
             return $item;
         });
 
+        $bagumum = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 5)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
 
+        $bagpbj = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 4)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+
+        $bagpbg = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 3)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
         //dd($disdik);
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -1432,7 +1457,147 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('Q' . $bagkesra->count() + 11, '=SUM(Q11:Q' . $bagkesra->count() + 10 . ')');
             $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('R' . $bagkesra->count() + 11, '=IF(N' . $bagkesra->count() + 11 . '=0,0,P' . $bagkesra->count() + 11 . '/N' . $bagkesra->count() + 11 . '*100)');
         }
-
+        // bagumum
+        $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A2', 'Setda');
+        $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('26 BAGUMUM')->insertNewRowBefore(12, $bagumum->count() - 1);
+        $bagumumRow = 11;
+        if ($bagumum->count() != 0) {
+            foreach ($bagumum as $key => $item) {
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A' . $bagumumRow, $key + 1);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('B' . $bagumumRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('C' . $bagumumRow, $item->bagumum);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('D' . $bagumumRow, '=C' . $bagumumRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('E' . $bagumumRow, $item->rencana);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('F' . $bagumumRow, '=E' . $bagumumRow . '/C' . $bagumumRow . '*100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('G' . $bagumumRow, '=F' . $bagumumRow . '*D' . $bagumumRow . '/100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('H' . $bagumumRow, $item->realisasi);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('I' . $bagumumRow, '=H' . $bagumumRow . '/C' . $bagumumRow . '*100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('J' . $bagumumRow, '=I' . $bagumumRow . '*D' . $bagumumRow . '/100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('K' . $bagumumRow, '=IF(E' . $bagumumRow . '=0,0,H' . $bagumumRow . '/E' . $bagumumRow . '*100)');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('L' . $bagumumRow, '=J' . $bagumumRow . '-G' . $bagumumRow);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('M' . $bagumumRow, '=C' . $bagumumRow . '-H' . $bagumumRow);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('N' . $bagumumRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('O' . $bagumumRow, '=N' . $bagumumRow . '*D' . $bagumumRow . '/100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('P' . $bagumumRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('Q' . $bagumumRow, '=P' . $bagumumRow . '*D' . $bagumumRow . '/100');
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('R' . $bagumumRow, '=IF(N' . $bagumumRow . '=0,0,P' . $bagumumRow . '/N' . $bagumumRow . '*100)');
+                $bagumumRow++;
+            }
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('B' . $bagumum->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('C' . $bagumum->count() + 11, '=SUM(C11:C' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('D' . $bagumum->count() + 11, '=SUM(D11:D' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('E' . $bagumum->count() + 11, '=SUM(E11:E' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('F' . $bagumum->count() + 11, '=SUM(G11:G' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('G' . $bagumum->count() + 11, '=SUM(G11:G' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('H' . $bagumum->count() + 11, '=SUM(H11:H' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('I' . $bagumum->count() + 11, '=SUM(J11:J' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('J' . $bagumum->count() + 11, '=SUM(J11:J' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('K' . $bagumum->count() + 11, '=IF(E' . $bagumum->count() + 11 . '=0,0,H' . $bagumum->count() + 11 . '/E' . $bagumum->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('L' . $bagumum->count() + 11, '=J' . $bagumum->count() + 11 . '-G' .  $bagumum->count() + 11);
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('M' . $bagumum->count() + 11, '=C' . $bagumum->count() + 11 . '-H' .  $bagumum->count() + 11);
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('N' . $bagumum->count() + 11, '=SUM(O11:O' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('O' . $bagumum->count() + 11, '=SUM(O11:O' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('P' . $bagumum->count() + 11, '=SUM(Q11:Q' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('Q' . $bagumum->count() + 11, '=SUM(Q11:Q' . $bagumum->count() + 10 . ')');
+            $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('R' . $bagumum->count() + 11, '=IF(N' . $bagumum->count() + 11 . '=0,0,P' . $bagumum->count() + 11 . '/N' . $bagumum->count() + 11 . '*100)');
+        }
+        // bagpbj
+        $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A2', 'Setda');
+        $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('27 BAGPBJ')->insertNewRowBefore(12, $bagpbj->count() - 1);
+        $bagpbjRow = 11;
+        if ($bagpbj->count() != 0) {
+            foreach ($bagpbj as $key => $item) {
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A' . $bagpbjRow, $key + 1);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('B' . $bagpbjRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('C' . $bagpbjRow, $item->bagpbj);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('D' . $bagpbjRow, '=C' . $bagpbjRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('E' . $bagpbjRow, $item->rencana);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('F' . $bagpbjRow, '=E' . $bagpbjRow . '/C' . $bagpbjRow . '*100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('G' . $bagpbjRow, '=F' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('H' . $bagpbjRow, $item->realisasi);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('I' . $bagpbjRow, '=H' . $bagpbjRow . '/C' . $bagpbjRow . '*100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('J' . $bagpbjRow, '=I' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('K' . $bagpbjRow, '=IF(E' . $bagpbjRow . '=0,0,H' . $bagpbjRow . '/E' . $bagpbjRow . '*100)');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('L' . $bagpbjRow, '=J' . $bagpbjRow . '-G' . $bagpbjRow);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('M' . $bagpbjRow, '=C' . $bagpbjRow . '-H' . $bagpbjRow);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('N' . $bagpbjRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('O' . $bagpbjRow, '=N' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('P' . $bagpbjRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('Q' . $bagpbjRow, '=P' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('R' . $bagpbjRow, '=IF(N' . $bagpbjRow . '=0,0,P' . $bagpbjRow . '/N' . $bagpbjRow . '*100)');
+                $bagpbjRow++;
+            }
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('B' . $bagpbj->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('C' . $bagpbj->count() + 11, '=SUM(C11:C' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('D' . $bagpbj->count() + 11, '=SUM(D11:D' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('E' . $bagpbj->count() + 11, '=SUM(E11:E' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('F' . $bagpbj->count() + 11, '=SUM(G11:G' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('G' . $bagpbj->count() + 11, '=SUM(G11:G' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('H' . $bagpbj->count() + 11, '=SUM(H11:H' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('I' . $bagpbj->count() + 11, '=SUM(J11:J' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('J' . $bagpbj->count() + 11, '=SUM(J11:J' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('K' . $bagpbj->count() + 11, '=IF(E' . $bagpbj->count() + 11 . '=0,0,H' . $bagpbj->count() + 11 . '/E' . $bagpbj->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('L' . $bagpbj->count() + 11, '=J' . $bagpbj->count() + 11 . '-G' .  $bagpbj->count() + 11);
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('M' . $bagpbj->count() + 11, '=C' . $bagpbj->count() + 11 . '-H' .  $bagpbj->count() + 11);
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('N' . $bagpbj->count() + 11, '=SUM(O11:O' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('O' . $bagpbj->count() + 11, '=SUM(O11:O' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('P' . $bagpbj->count() + 11, '=SUM(Q11:Q' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('Q' . $bagpbj->count() + 11, '=SUM(Q11:Q' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('R' . $bagpbj->count() + 11, '=IF(N' . $bagpbj->count() + 11 . '=0,0,P' . $bagpbj->count() + 11 . '/N' . $bagpbj->count() + 11 . '*100)');
+        }
+        // bagpbj
+        $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A2', 'Setda');
+        $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('28 BAGPBG')->insertNewRowBefore(12, $bagpbj->count() - 1);
+        $bagpbjRow = 11;
+        if ($bagpbj->count() != 0) {
+            foreach ($bagpbj as $key => $item) {
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A' . $bagpbjRow, $key + 1);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('B' . $bagpbjRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('C' . $bagpbjRow, $item->bagpbj);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('D' . $bagpbjRow, '=C' . $bagpbjRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('E' . $bagpbjRow, $item->rencana);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('F' . $bagpbjRow, '=E' . $bagpbjRow . '/C' . $bagpbjRow . '*100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('G' . $bagpbjRow, '=F' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('H' . $bagpbjRow, $item->realisasi);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('I' . $bagpbjRow, '=H' . $bagpbjRow . '/C' . $bagpbjRow . '*100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('J' . $bagpbjRow, '=I' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('K' . $bagpbjRow, '=IF(E' . $bagpbjRow . '=0,0,H' . $bagpbjRow . '/E' . $bagpbjRow . '*100)');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('L' . $bagpbjRow, '=J' . $bagpbjRow . '-G' . $bagpbjRow);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('M' . $bagpbjRow, '=C' . $bagpbjRow . '-H' . $bagpbjRow);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('N' . $bagpbjRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('O' . $bagpbjRow, '=N' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('P' . $bagpbjRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('Q' . $bagpbjRow, '=P' . $bagpbjRow . '*D' . $bagpbjRow . '/100');
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('R' . $bagpbjRow, '=IF(N' . $bagpbjRow . '=0,0,P' . $bagpbjRow . '/N' . $bagpbjRow . '*100)');
+                $bagpbjRow++;
+            }
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('B' . $bagpbj->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('C' . $bagpbj->count() + 11, '=SUM(C11:C' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('D' . $bagpbj->count() + 11, '=SUM(D11:D' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('E' . $bagpbj->count() + 11, '=SUM(E11:E' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('F' . $bagpbj->count() + 11, '=SUM(G11:G' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('G' . $bagpbj->count() + 11, '=SUM(G11:G' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('H' . $bagpbj->count() + 11, '=SUM(H11:H' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('I' . $bagpbj->count() + 11, '=SUM(J11:J' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('J' . $bagpbj->count() + 11, '=SUM(J11:J' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('K' . $bagpbj->count() + 11, '=IF(E' . $bagpbj->count() + 11 . '=0,0,H' . $bagpbj->count() + 11 . '/E' . $bagpbj->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('L' . $bagpbj->count() + 11, '=J' . $bagpbj->count() + 11 . '-G' .  $bagpbj->count() + 11);
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('M' . $bagpbj->count() + 11, '=C' . $bagpbj->count() + 11 . '-H' .  $bagpbj->count() + 11);
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('N' . $bagpbj->count() + 11, '=SUM(O11:O' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('O' . $bagpbj->count() + 11, '=SUM(O11:O' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('P' . $bagpbj->count() + 11, '=SUM(Q11:Q' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('Q' . $bagpbj->count() + 11, '=SUM(Q11:Q' . $bagpbj->count() + 10 . ')');
+            $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('R' . $bagpbj->count() + 11, '=IF(N' . $bagpbj->count() + 11 . '=0,0,P' . $bagpbj->count() + 11 . '/N' . $bagpbj->count() + 11 . '*100)');
+        }
         // bagprokopim
         // $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
         // $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
