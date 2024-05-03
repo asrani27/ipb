@@ -205,7 +205,7 @@ class SuperadminController extends Controller
         });
 
 
-        $bkddiklat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+        $bkddiklat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 25)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
@@ -214,7 +214,7 @@ class SuperadminController extends Controller
             return $item;
         });
 
-        $bpbd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+        $bpbd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 26)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
@@ -223,7 +223,7 @@ class SuperadminController extends Controller
             return $item;
         });
 
-        $damkar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+        $damkar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 36)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
