@@ -4,18 +4,18 @@
 @endpush
 @section('content')
 <section class="content">
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header">
                   <h3 class="box-title"><i class="fa fa-list"></i> Tarik Dari Kayuh Baimbai</h3>
         
                   <div class="box-tools">
-                    {{-- <a href="/admin/bidang/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus"></i> Tambah Bidang</a> --}}
+                    <a href="/admin/bidang/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus"></i> Tambah Bidang</a>
                   </div>
                 </div>
                 <div class="box-body">
-                    {{-- <form class="form-horizontal" action="/admin/datatarik/" method="post">
+                    <form class="form-horizontal" action="/admin/datatarik/" method="post">
                         @csrf
                       <div class="box-body">
                         <div class="form-group">
@@ -33,11 +33,11 @@
                         
                       </div>
                       
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-xs-12">
           <div class="box box-primary">
