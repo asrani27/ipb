@@ -348,6 +348,7 @@ class SuperadminController extends Controller
             $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
             return $item;
         });
+        //dd($bagpbg, $bagpbj);
         //dd($disdik);
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -1551,18 +1552,18 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('Q' . $bagpbj->count() + 11, '=SUM(Q11:Q' . $bagpbj->count() + 10 . ')');
             $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('R' . $bagpbj->count() + 11, '=IF(N' . $bagpbj->count() + 11 . '=0,0,P' . $bagpbj->count() + 11 . '/N' . $bagpbj->count() + 11 . '*100)');
         }
-        // bagpbj
+        // bagpbg
         $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
         $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A2', 'Setda');
         $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        $spreadsheet->getSheetByName('28 BAGPBG')->insertNewRowBefore(12, $bagpbj->count() - 1);
+        $spreadsheet->getSheetByName('28 BAGPBG')->insertNewRowBefore(12, $bagpbg->count() - 1);
         $bagpbgRow = 11;
-        if ($bagpbj->count() != 0) {
-            foreach ($bagpbj as $key => $item) {
+        if ($bagpbg->count() != 0) {
+            foreach ($bagpbg as $key => $item) {
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A' . $bagpbgRow, $key + 1);
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('B' . $bagpbgRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
-                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('C' . $bagpbgRow, $item->bagpbj);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('C' . $bagpbgRow, $item->bagpbg);
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('D' . $bagpbgRow, '=C' . $bagpbgRow . '/$C$' . $disdik->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('E' . $bagpbgRow, $item->rencana);
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('F' . $bagpbgRow, '=E' . $bagpbgRow . '/C' . $bagpbgRow . '*100');
