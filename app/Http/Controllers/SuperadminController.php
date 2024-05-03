@@ -604,7 +604,7 @@ class SuperadminController extends Controller
 
         // dlh
         $spreadsheet->getSheetByName('10 DLH')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A2', 'Dinas Ketahanan Pangan, Pertanian dan Perikanan');
+        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A2', 'Dinas Lingkungan Hidup');
         $spreadsheet->getSheetByName('10 DLH')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('10 DLH')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('10 DLH')->insertNewRowBefore(12, $dlh->count() - 1);
