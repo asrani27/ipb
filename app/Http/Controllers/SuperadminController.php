@@ -62,7 +62,7 @@ class SuperadminController extends Controller
             $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
             return $item;
         });
-        $kesbang = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 6)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+        $kesbangpol = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 6)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
@@ -71,6 +71,14 @@ class SuperadminController extends Controller
             return $item;
         });
         $dinsos = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 7)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+        $dp3a = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 8)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
@@ -498,6 +506,55 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('Q' . $dinsos->count() + 11, '=SUM(Q11:Q' . $dinsos->count() + 10 . ')');
             $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('R' . $dinsos->count() + 11, '=IF(N' . $dinsos->count() + 11 . '=0,0,P' . $dinsos->count() + 11 . '/N' . $dinsos->count() + 11 . '*100)');
         }
+
+        // dp3a
+        $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A2', 'Dinas Pemberdayaan Perempuan dan Perlindungan Anak');
+        $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('8 DP3A')->insertNewRowBefore(12, $dp3a->count() - 1);
+        $dp3aRow = 11;
+        if ($dp3a->count() != 0) {
+            foreach ($dp3a as $key => $item) {
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A' . $dp3aRow, $key + 1);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('B' . $dp3aRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('C' . $dp3aRow, $item->dpa);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('D' . $dp3aRow, '=C' . $dp3aRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('E' . $dp3aRow, $item->rencana);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('F' . $dp3aRow, '=E' . $dp3aRow . '/C' . $dp3aRow . '*100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('G' . $dp3aRow, '=F' . $dp3aRow . '*D' . $dp3aRow . '/100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('H' . $dp3aRow, $item->realisasi);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('I' . $dp3aRow, '=H' . $dp3aRow . '/C' . $dp3aRow . '*100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('J' . $dp3aRow, '=I' . $dp3aRow . '*D' . $dp3aRow . '/100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('K' . $dp3aRow, '=IF(E' . $dp3aRow . '=0,0,H' . $dp3aRow . '/E' . $dp3aRow . '*100)');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('L' . $dp3aRow, '=J' . $dp3aRow . '-G' . $dp3aRow);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('M' . $dp3aRow, '=C' . $dp3aRow . '-H' . $dp3aRow);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('N' . $dp3aRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('O' . $dp3aRow, '=N' . $dp3aRow . '*D' . $dp3aRow . '/100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('P' . $dp3aRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('Q' . $dp3aRow, '=P' . $dp3aRow . '*D' . $dp3aRow . '/100');
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('R' . $dp3aRow, '=IF(N' . $dp3aRow . '=0,0,P' . $dp3aRow . '/N' . $dp3aRow . '*100)');
+                $dp3aRow++;
+            }
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('B' . $dp3a->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('C' . $dp3a->count() + 11, '=SUM(C11:C' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('D' . $dp3a->count() + 11, '=SUM(D11:D' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('E' . $dp3a->count() + 11, '=SUM(E11:E' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('F' . $dp3a->count() + 11, '=SUM(G11:G' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('G' . $dp3a->count() + 11, '=SUM(G11:G' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('H' . $dp3a->count() + 11, '=SUM(H11:H' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('I' . $dp3a->count() + 11, '=SUM(J11:J' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('J' . $dp3a->count() + 11, '=SUM(J11:J' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('K' . $dp3a->count() + 11, '=IF(E' . $dp3a->count() + 11 . '=0,0,H' . $dp3a->count() + 11 . '/E' . $dp3a->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('L' . $dp3a->count() + 11, '=J' . $dp3a->count() + 11 . '-G' .  $dp3a->count() + 11);
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('M' . $dp3a->count() + 11, '=C' . $dp3a->count() + 11 . '-H' .  $dp3a->count() + 11);
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('N' . $dp3a->count() + 11, '=SUM(O11:O' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('O' . $dp3a->count() + 11, '=SUM(O11:O' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('P' . $dp3a->count() + 11, '=SUM(Q11:Q' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('Q' . $dp3a->count() + 11, '=SUM(Q11:Q' . $dp3a->count() + 10 . ')');
+            $spreadsheet->getSheetByName('8 DP3A')->setCellValue('R' . $dp3a->count() + 11, '=IF(N' . $dp3a->count() + 11 . '=0,0,P' . $dp3a->count() + 11 . '/N' . $dp3a->count() + 11 . '*100)');
+        }
+
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
