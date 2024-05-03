@@ -204,6 +204,33 @@ class SuperadminController extends Controller
             return $item;
         });
 
+
+        $bkddiklat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+
+        $bpbd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+
+        $damkar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
         $bagpem = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 7)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
@@ -1071,7 +1098,7 @@ class SuperadminController extends Controller
 
         // dpa
         $spreadsheet->getSheetByName('18 DPA')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A2', 'Dinas Perpustakaan dan Kearsipan');
         $spreadsheet->getSheetByName('18 DPA')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('18 DPA')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('18 DPA')->insertNewRowBefore(12, $dpa->count() - 1);
@@ -1119,7 +1146,7 @@ class SuperadminController extends Controller
 
         // perdagin
         $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A2', 'Dinas Perdagangan dan Perindustrian');
         $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('19 Perdagin')->insertNewRowBefore(12, $perdagin->count() - 1);
@@ -1166,7 +1193,7 @@ class SuperadminController extends Controller
         }
         // bagpem
         $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A2', 'Setda');
         $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('20 BAG PEM')->insertNewRowBefore(12, $bagpem->count() - 1);
@@ -1214,7 +1241,7 @@ class SuperadminController extends Controller
 
         // bagkum
         $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A2', 'Setda');
         $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('21 BAG KUM')->insertNewRowBefore(12, $bagkum->count() - 1);
@@ -1262,7 +1289,7 @@ class SuperadminController extends Controller
 
         // bageko
         $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A2', 'Setda');
         $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('23 BAG EKO')->insertNewRowBefore(12, $bageko->count() - 1);
@@ -1310,7 +1337,7 @@ class SuperadminController extends Controller
 
         // bagkesra
         $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A2', 'Setda');
         $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('24 BAG KESRA')->insertNewRowBefore(12, $bagkesra->count() - 1);
@@ -1406,7 +1433,7 @@ class SuperadminController extends Controller
 
         // setwan
         $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A2', 'Sekretariat Dewan');
         $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('29 SETWAN')->insertNewRowBefore(12, $setwan->count() - 1);
@@ -1453,7 +1480,7 @@ class SuperadminController extends Controller
         }
         // bpkpad
         $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A2', 'Badan Pengelolaan Keuangan Pendapatan dan Aset Daerah');
         $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('30 BPKPAD')->insertNewRowBefore(12, $bpkpad->count() - 1);
@@ -1501,7 +1528,7 @@ class SuperadminController extends Controller
 
         // inspektorat
         $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A2', 'INSPEKTORAT');
         $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('31 INSPEKTORAT')->insertNewRowBefore(12, $inspektorat->count() - 1);
@@ -1545,6 +1572,149 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('P' . $inspektorat->count() + 11, '=SUM(Q11:Q' . $inspektorat->count() + 10 . ')');
             $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('Q' . $inspektorat->count() + 11, '=SUM(Q11:Q' . $inspektorat->count() + 10 . ')');
             $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('R' . $inspektorat->count() + 11, '=IF(N' . $inspektorat->count() + 11 . '=0,0,P' . $inspektorat->count() + 11 . '/N' . $inspektorat->count() + 11 . '*100)');
+        }
+        // bkddiklat
+        $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A2', 'Badan Kepegawaian Daerah, Pendidikan dan Pelatihan');
+        $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('32 BKDDIKLAT')->insertNewRowBefore(12, $bkddiklat->count() - 1);
+        $bkddiklatRow = 11;
+        if ($bkddiklat->count() != 0) {
+            foreach ($bkddiklat as $key => $item) {
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A' . $bkddiklatRow, $key + 1);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('B' . $bkddiklatRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('C' . $bkddiklatRow, $item->bkddiklat);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('D' . $bkddiklatRow, '=C' . $bkddiklatRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('E' . $bkddiklatRow, $item->rencana);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('F' . $bkddiklatRow, '=E' . $bkddiklatRow . '/C' . $bkddiklatRow . '*100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('G' . $bkddiklatRow, '=F' . $bkddiklatRow . '*D' . $bkddiklatRow . '/100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('H' . $bkddiklatRow, $item->realisasi);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('I' . $bkddiklatRow, '=H' . $bkddiklatRow . '/C' . $bkddiklatRow . '*100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('J' . $bkddiklatRow, '=I' . $bkddiklatRow . '*D' . $bkddiklatRow . '/100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('K' . $bkddiklatRow, '=IF(E' . $bkddiklatRow . '=0,0,H' . $bkddiklatRow . '/E' . $bkddiklatRow . '*100)');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('L' . $bkddiklatRow, '=J' . $bkddiklatRow . '-G' . $bkddiklatRow);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('M' . $bkddiklatRow, '=C' . $bkddiklatRow . '-H' . $bkddiklatRow);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('N' . $bkddiklatRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('O' . $bkddiklatRow, '=N' . $bkddiklatRow . '*D' . $bkddiklatRow . '/100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('P' . $bkddiklatRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('Q' . $bkddiklatRow, '=P' . $bkddiklatRow . '*D' . $bkddiklatRow . '/100');
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('R' . $bkddiklatRow, '=IF(N' . $bkddiklatRow . '=0,0,P' . $bkddiklatRow . '/N' . $bkddiklatRow . '*100)');
+                $bkddiklatRow++;
+            }
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('B' . $bkddiklat->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('C' . $bkddiklat->count() + 11, '=SUM(C11:C' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('D' . $bkddiklat->count() + 11, '=SUM(D11:D' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('E' . $bkddiklat->count() + 11, '=SUM(E11:E' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('F' . $bkddiklat->count() + 11, '=SUM(G11:G' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('G' . $bkddiklat->count() + 11, '=SUM(G11:G' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('H' . $bkddiklat->count() + 11, '=SUM(H11:H' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('I' . $bkddiklat->count() + 11, '=SUM(J11:J' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('J' . $bkddiklat->count() + 11, '=SUM(J11:J' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('K' . $bkddiklat->count() + 11, '=IF(E' . $bkddiklat->count() + 11 . '=0,0,H' . $bkddiklat->count() + 11 . '/E' . $bkddiklat->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('L' . $bkddiklat->count() + 11, '=J' . $bkddiklat->count() + 11 . '-G' .  $bkddiklat->count() + 11);
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('M' . $bkddiklat->count() + 11, '=C' . $bkddiklat->count() + 11 . '-H' .  $bkddiklat->count() + 11);
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('N' . $bkddiklat->count() + 11, '=SUM(O11:O' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('O' . $bkddiklat->count() + 11, '=SUM(O11:O' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('P' . $bkddiklat->count() + 11, '=SUM(Q11:Q' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('Q' . $bkddiklat->count() + 11, '=SUM(Q11:Q' . $bkddiklat->count() + 10 . ')');
+            $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('R' . $bkddiklat->count() + 11, '=IF(N' . $bkddiklat->count() + 11 . '=0,0,P' . $bkddiklat->count() + 11 . '/N' . $bkddiklat->count() + 11 . '*100)');
+        }
+
+        // bpbd
+        $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('33 BPBD')->insertNewRowBefore(12, $bpbd->count() - 1);
+        $bpbdRow = 11;
+        if ($bpbd->count() != 0) {
+            foreach ($bpbd as $key => $item) {
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A' . $bpbdRow, $key + 1);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('B' . $bpbdRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('C' . $bpbdRow, $item->bpbd);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('D' . $bpbdRow, '=C' . $bpbdRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('E' . $bpbdRow, $item->rencana);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('F' . $bpbdRow, '=E' . $bpbdRow . '/C' . $bpbdRow . '*100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('G' . $bpbdRow, '=F' . $bpbdRow . '*D' . $bpbdRow . '/100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('H' . $bpbdRow, $item->realisasi);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('I' . $bpbdRow, '=H' . $bpbdRow . '/C' . $bpbdRow . '*100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('J' . $bpbdRow, '=I' . $bpbdRow . '*D' . $bpbdRow . '/100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('K' . $bpbdRow, '=IF(E' . $bpbdRow . '=0,0,H' . $bpbdRow . '/E' . $bpbdRow . '*100)');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('L' . $bpbdRow, '=J' . $bpbdRow . '-G' . $bpbdRow);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('M' . $bpbdRow, '=C' . $bpbdRow . '-H' . $bpbdRow);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('N' . $bpbdRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('O' . $bpbdRow, '=N' . $bpbdRow . '*D' . $bpbdRow . '/100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('P' . $bpbdRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('Q' . $bpbdRow, '=P' . $bpbdRow . '*D' . $bpbdRow . '/100');
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('R' . $bpbdRow, '=IF(N' . $bpbdRow . '=0,0,P' . $bpbdRow . '/N' . $bpbdRow . '*100)');
+                $bpbdRow++;
+            }
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('B' . $bpbd->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('C' . $bpbd->count() + 11, '=SUM(C11:C' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('D' . $bpbd->count() + 11, '=SUM(D11:D' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('E' . $bpbd->count() + 11, '=SUM(E11:E' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('F' . $bpbd->count() + 11, '=SUM(G11:G' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('G' . $bpbd->count() + 11, '=SUM(G11:G' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('H' . $bpbd->count() + 11, '=SUM(H11:H' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('I' . $bpbd->count() + 11, '=SUM(J11:J' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('J' . $bpbd->count() + 11, '=SUM(J11:J' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('K' . $bpbd->count() + 11, '=IF(E' . $bpbd->count() + 11 . '=0,0,H' . $bpbd->count() + 11 . '/E' . $bpbd->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('L' . $bpbd->count() + 11, '=J' . $bpbd->count() + 11 . '-G' .  $bpbd->count() + 11);
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('M' . $bpbd->count() + 11, '=C' . $bpbd->count() + 11 . '-H' .  $bpbd->count() + 11);
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('N' . $bpbd->count() + 11, '=SUM(O11:O' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('O' . $bpbd->count() + 11, '=SUM(O11:O' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('P' . $bpbd->count() + 11, '=SUM(Q11:Q' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('Q' . $bpbd->count() + 11, '=SUM(Q11:Q' . $bpbd->count() + 10 . ')');
+            $spreadsheet->getSheetByName('33 BPBD')->setCellValue('R' . $bpbd->count() + 11, '=IF(N' . $bpbd->count() + 11 . '=0,0,P' . $bpbd->count() + 11 . '/N' . $bpbd->count() + 11 . '*100)');
+        }
+
+        // damkar
+        $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('34 DAMKAR')->insertNewRowBefore(12, $damkar->count() - 1);
+        $damkarRow = 11;
+        if ($damkar->count() != 0) {
+            foreach ($damkar as $key => $item) {
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A' . $damkarRow, $key + 1);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('B' . $damkarRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('C' . $damkarRow, $item->damkar);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('D' . $damkarRow, '=C' . $damkarRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('E' . $damkarRow, $item->rencana);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('F' . $damkarRow, '=E' . $damkarRow . '/C' . $damkarRow . '*100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('G' . $damkarRow, '=F' . $damkarRow . '*D' . $damkarRow . '/100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('H' . $damkarRow, $item->realisasi);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('I' . $damkarRow, '=H' . $damkarRow . '/C' . $damkarRow . '*100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('J' . $damkarRow, '=I' . $damkarRow . '*D' . $damkarRow . '/100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('K' . $damkarRow, '=IF(E' . $damkarRow . '=0,0,H' . $damkarRow . '/E' . $damkarRow . '*100)');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('L' . $damkarRow, '=J' . $damkarRow . '-G' . $damkarRow);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('M' . $damkarRow, '=C' . $damkarRow . '-H' . $damkarRow);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('N' . $damkarRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('O' . $damkarRow, '=N' . $damkarRow . '*D' . $damkarRow . '/100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('P' . $damkarRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('Q' . $damkarRow, '=P' . $damkarRow . '*D' . $damkarRow . '/100');
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('R' . $damkarRow, '=IF(N' . $damkarRow . '=0,0,P' . $damkarRow . '/N' . $damkarRow . '*100)');
+                $damkarRow++;
+            }
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('B' . $damkar->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('C' . $damkar->count() + 11, '=SUM(C11:C' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('D' . $damkar->count() + 11, '=SUM(D11:D' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('E' . $damkar->count() + 11, '=SUM(E11:E' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('F' . $damkar->count() + 11, '=SUM(G11:G' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('G' . $damkar->count() + 11, '=SUM(G11:G' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('H' . $damkar->count() + 11, '=SUM(H11:H' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('I' . $damkar->count() + 11, '=SUM(J11:J' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('J' . $damkar->count() + 11, '=SUM(J11:J' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('K' . $damkar->count() + 11, '=IF(E' . $damkar->count() + 11 . '=0,0,H' . $damkar->count() + 11 . '/E' . $damkar->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('L' . $damkar->count() + 11, '=J' . $damkar->count() + 11 . '-G' .  $damkar->count() + 11);
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('M' . $damkar->count() + 11, '=C' . $damkar->count() + 11 . '-H' .  $damkar->count() + 11);
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('N' . $damkar->count() + 11, '=SUM(O11:O' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('O' . $damkar->count() + 11, '=SUM(O11:O' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('P' . $damkar->count() + 11, '=SUM(Q11:Q' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('Q' . $damkar->count() + 11, '=SUM(Q11:Q' . $damkar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('R' . $damkar->count() + 11, '=IF(N' . $damkar->count() + 11 . '=0,0,P' . $damkar->count() + 11 . '/N' . $damkar->count() + 11 . '*100)');
         }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
