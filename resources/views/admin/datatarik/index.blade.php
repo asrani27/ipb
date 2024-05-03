@@ -15,7 +15,7 @@
                   </div>
                 </div>
                 <div class="box-body">
-                    <form class="form-horizontal" action="/admin/datatarik/" method="post">
+                    {{-- <form class="form-horizontal" action="/admin/datatarik/" method="post">
                         @csrf
                       <div class="box-body">
                         <div class="form-group">
@@ -33,7 +33,7 @@
                         
                       </div>
                       
-                    </form>
+                    </form> --}}
                 </div>
             </div>
         </div>

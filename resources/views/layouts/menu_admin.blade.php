@@ -7,7 +7,7 @@
 @if (Auth::user()->username == "4.01.09." || Auth::user()->username == "4.01.10." || Auth::user()->username == "4.01.11." || Auth::user()->username == "4.01.12."||Auth::user()->username == "4.01.13.")
 <li class="{{ (request()->is('admin/kelurahan*')) ? 'active' : '' }}"><a href="/admin/kelurahan"><i class="fa fa-list"></i> <span>Data kelurahan</span></a></li>
 @endif
-<li class="{{ (request()->is('admin/datatarik*')) ? 'active' : '' }}"><a href="/admin/datatarik"><i class="fa fa-list"></i> <span>Data Tarikan</span></a></li>
+<li class="{{ (request()->is('admin/datatarik*')) ? 'active' : '' }}"><a href="/admin/datatarik"><i class="fa fa-list"></i> <span>Data Subkegiatan</span></a></li>
 {{-- @endif --}}
 {{-- <li class="{{ (request()->is('admin/program*')) ? 'active' : '' }}"><a href="/admin/program"><i class="fa fa-list"></i> <span>Program</span></a></li>
 <li class="{{ (request()->is('admin/kegiatan*')) ? 'active' : '' }}"><a href="/admin/kegiatan"><i class="fa fa-list"></i> <span>Kegiatan</span></a></li>
