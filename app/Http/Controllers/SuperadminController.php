@@ -699,7 +699,7 @@ class SuperadminController extends Controller
         }
         // dppkbpm
         $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A2', 'Dinas Pengendalian Penduduk, Keluarga Berencana, dan Pemberdayaan Masyarakat');
         $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('12 DPPKBPM')->insertNewRowBefore(12, $dppkbpm->count() - 1);
@@ -747,7 +747,7 @@ class SuperadminController extends Controller
 
         // dishub
         $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A2', 'Dinas Perhubungan');
         $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('13 DISHUB')->insertNewRowBefore(12, $dishub->count() - 1);
@@ -794,7 +794,7 @@ class SuperadminController extends Controller
         }
         // diskominfotik
         $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A2', 'Dinas Komunikasi, Informatika dan Statistik');
         $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
         $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->insertNewRowBefore(12, $diskominfotik->count() - 1);
