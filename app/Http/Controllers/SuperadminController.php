@@ -950,6 +950,150 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('Q' . $dpmptsp->count() + 11, '=SUM(Q11:Q' . $dpmptsp->count() + 10 . ')');
             $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('R' . $dpmptsp->count() + 11, '=IF(N' . $dpmptsp->count() + 11 . '=0,0,P' . $dpmptsp->count() + 11 . '/N' . $dpmptsp->count() + 11 . '*100)');
         }
+
+        // disbudporapar
+        $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A2', 'Dinas Kebudayaan, Kepemudaan, Olahraga dan Pariwisata Kota Banjarmasin');
+        $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('17 Disbudporapar')->insertNewRowBefore(12, $disbudporapar->count() - 1);
+        $disbudporaparRow = 11;
+        if ($disbudporapar->count() != 0) {
+            foreach ($disbudporapar as $key => $item) {
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A' . $disbudporaparRow, $key + 1);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('B' . $disbudporaparRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('C' . $disbudporaparRow, $item->dpa);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('D' . $disbudporaparRow, '=C' . $disbudporaparRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('E' . $disbudporaparRow, $item->rencana);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('F' . $disbudporaparRow, '=E' . $disbudporaparRow . '/C' . $disbudporaparRow . '*100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('G' . $disbudporaparRow, '=F' . $disbudporaparRow . '*D' . $disbudporaparRow . '/100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('H' . $disbudporaparRow, $item->realisasi);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('I' . $disbudporaparRow, '=H' . $disbudporaparRow . '/C' . $disbudporaparRow . '*100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('J' . $disbudporaparRow, '=I' . $disbudporaparRow . '*D' . $disbudporaparRow . '/100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('K' . $disbudporaparRow, '=IF(E' . $disbudporaparRow . '=0,0,H' . $disbudporaparRow . '/E' . $disbudporaparRow . '*100)');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('L' . $disbudporaparRow, '=J' . $disbudporaparRow . '-G' . $disbudporaparRow);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('M' . $disbudporaparRow, '=C' . $disbudporaparRow . '-H' . $disbudporaparRow);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('N' . $disbudporaparRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('O' . $disbudporaparRow, '=N' . $disbudporaparRow . '*D' . $disbudporaparRow . '/100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('P' . $disbudporaparRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('Q' . $disbudporaparRow, '=P' . $disbudporaparRow . '*D' . $disbudporaparRow . '/100');
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('R' . $disbudporaparRow, '=IF(N' . $disbudporaparRow . '=0,0,P' . $disbudporaparRow . '/N' . $disbudporaparRow . '*100)');
+                $disbudporaparRow++;
+            }
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('B' . $disbudporapar->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('C' . $disbudporapar->count() + 11, '=SUM(C11:C' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('D' . $disbudporapar->count() + 11, '=SUM(D11:D' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('E' . $disbudporapar->count() + 11, '=SUM(E11:E' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('F' . $disbudporapar->count() + 11, '=SUM(G11:G' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('G' . $disbudporapar->count() + 11, '=SUM(G11:G' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('H' . $disbudporapar->count() + 11, '=SUM(H11:H' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('I' . $disbudporapar->count() + 11, '=SUM(J11:J' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('J' . $disbudporapar->count() + 11, '=SUM(J11:J' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('K' . $disbudporapar->count() + 11, '=IF(E' . $disbudporapar->count() + 11 . '=0,0,H' . $disbudporapar->count() + 11 . '/E' . $disbudporapar->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('L' . $disbudporapar->count() + 11, '=J' . $disbudporapar->count() + 11 . '-G' .  $disbudporapar->count() + 11);
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('M' . $disbudporapar->count() + 11, '=C' . $disbudporapar->count() + 11 . '-H' .  $disbudporapar->count() + 11);
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('N' . $disbudporapar->count() + 11, '=SUM(O11:O' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('O' . $disbudporapar->count() + 11, '=SUM(O11:O' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('P' . $disbudporapar->count() + 11, '=SUM(Q11:Q' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('Q' . $disbudporapar->count() + 11, '=SUM(Q11:Q' . $disbudporapar->count() + 10 . ')');
+            $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('R' . $disbudporapar->count() + 11, '=IF(N' . $disbudporapar->count() + 11 . '=0,0,P' . $disbudporapar->count() + 11 . '/N' . $disbudporapar->count() + 11 . '*100)');
+        }
+
+        // dpa
+        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('18 DPA')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('18 DPA')->insertNewRowBefore(12, $dpa->count() - 1);
+        $dpaRow = 11;
+        if ($dpa->count() != 0) {
+            foreach ($dpa as $key => $item) {
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('A' . $dpaRow, $key + 1);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('B' . $dpaRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('C' . $dpaRow, $item->dpa);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('D' . $dpaRow, '=C' . $dpaRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('E' . $dpaRow, $item->rencana);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('F' . $dpaRow, '=E' . $dpaRow . '/C' . $dpaRow . '*100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('G' . $dpaRow, '=F' . $dpaRow . '*D' . $dpaRow . '/100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('H' . $dpaRow, $item->realisasi);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('I' . $dpaRow, '=H' . $dpaRow . '/C' . $dpaRow . '*100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('J' . $dpaRow, '=I' . $dpaRow . '*D' . $dpaRow . '/100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('K' . $dpaRow, '=IF(E' . $dpaRow . '=0,0,H' . $dpaRow . '/E' . $dpaRow . '*100)');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('L' . $dpaRow, '=J' . $dpaRow . '-G' . $dpaRow);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('M' . $dpaRow, '=C' . $dpaRow . '-H' . $dpaRow);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('N' . $dpaRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('O' . $dpaRow, '=N' . $dpaRow . '*D' . $dpaRow . '/100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('P' . $dpaRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('Q' . $dpaRow, '=P' . $dpaRow . '*D' . $dpaRow . '/100');
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('R' . $dpaRow, '=IF(N' . $dpaRow . '=0,0,P' . $dpaRow . '/N' . $dpaRow . '*100)');
+                $dpaRow++;
+            }
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('B' . $dpa->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('C' . $dpa->count() + 11, '=SUM(C11:C' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('D' . $dpa->count() + 11, '=SUM(D11:D' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('E' . $dpa->count() + 11, '=SUM(E11:E' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('F' . $dpa->count() + 11, '=SUM(G11:G' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('G' . $dpa->count() + 11, '=SUM(G11:G' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('H' . $dpa->count() + 11, '=SUM(H11:H' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('I' . $dpa->count() + 11, '=SUM(J11:J' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('J' . $dpa->count() + 11, '=SUM(J11:J' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('K' . $dpa->count() + 11, '=IF(E' . $dpa->count() + 11 . '=0,0,H' . $dpa->count() + 11 . '/E' . $dpa->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('L' . $dpa->count() + 11, '=J' . $dpa->count() + 11 . '-G' .  $dpa->count() + 11);
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('M' . $dpa->count() + 11, '=C' . $dpa->count() + 11 . '-H' .  $dpa->count() + 11);
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('N' . $dpa->count() + 11, '=SUM(O11:O' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('O' . $dpa->count() + 11, '=SUM(O11:O' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('P' . $dpa->count() + 11, '=SUM(Q11:Q' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('Q' . $dpa->count() + 11, '=SUM(Q11:Q' . $dpa->count() + 10 . ')');
+            $spreadsheet->getSheetByName('18 DPA')->setCellValue('R' . $dpa->count() + 11, '=IF(N' . $dpa->count() + 11 . '=0,0,P' . $dpa->count() + 11 . '/N' . $dpa->count() + 11 . '*100)');
+        }
+
+        // perdagin
+        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('19 Perdagin')->insertNewRowBefore(12, $perdagin->count() - 1);
+        $perdaginRow = 11;
+        if ($perdagin->count() != 0) {
+            foreach ($perdagin as $key => $item) {
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A' . $perdaginRow, $key + 1);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('B' . $perdaginRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('C' . $perdaginRow, $item->perdagin);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('D' . $perdaginRow, '=C' . $perdaginRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('E' . $perdaginRow, $item->rencana);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('F' . $perdaginRow, '=E' . $perdaginRow . '/C' . $perdaginRow . '*100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('G' . $perdaginRow, '=F' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('H' . $perdaginRow, $item->realisasi);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('I' . $perdaginRow, '=H' . $perdaginRow . '/C' . $perdaginRow . '*100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('J' . $perdaginRow, '=I' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('K' . $perdaginRow, '=IF(E' . $perdaginRow . '=0,0,H' . $perdaginRow . '/E' . $perdaginRow . '*100)');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('L' . $perdaginRow, '=J' . $perdaginRow . '-G' . $perdaginRow);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('M' . $perdaginRow, '=C' . $perdaginRow . '-H' . $perdaginRow);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('N' . $perdaginRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('O' . $perdaginRow, '=N' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('P' . $perdaginRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('Q' . $perdaginRow, '=P' . $perdaginRow . '*D' . $perdaginRow . '/100');
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('R' . $perdaginRow, '=IF(N' . $perdaginRow . '=0,0,P' . $perdaginRow . '/N' . $perdaginRow . '*100)');
+                $perdaginRow++;
+            }
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('B' . $perdagin->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('C' . $perdagin->count() + 11, '=SUM(C11:C' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('D' . $perdagin->count() + 11, '=SUM(D11:D' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('E' . $perdagin->count() + 11, '=SUM(E11:E' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('F' . $perdagin->count() + 11, '=SUM(G11:G' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('G' . $perdagin->count() + 11, '=SUM(G11:G' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('H' . $perdagin->count() + 11, '=SUM(H11:H' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('I' . $perdagin->count() + 11, '=SUM(J11:J' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('J' . $perdagin->count() + 11, '=SUM(J11:J' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('K' . $perdagin->count() + 11, '=IF(E' . $perdagin->count() + 11 . '=0,0,H' . $perdagin->count() + 11 . '/E' . $perdagin->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('L' . $perdagin->count() + 11, '=J' . $perdagin->count() + 11 . '-G' .  $perdagin->count() + 11);
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('M' . $perdagin->count() + 11, '=C' . $perdagin->count() + 11 . '-H' .  $perdagin->count() + 11);
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('N' . $perdagin->count() + 11, '=SUM(O11:O' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('O' . $perdagin->count() + 11, '=SUM(O11:O' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('P' . $perdagin->count() + 11, '=SUM(Q11:Q' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('Q' . $perdagin->count() + 11, '=SUM(Q11:Q' . $perdagin->count() + 10 . ')');
+            $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('R' . $perdagin->count() + 11, '=IF(N' . $perdagin->count() + 11 . '=0,0,P' . $perdagin->count() + 11 . '/N' . $perdagin->count() + 11 . '*100)');
+        }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
