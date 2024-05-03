@@ -601,6 +601,54 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('9 DKP3')->setCellValue('Q' . $dkp3->count() + 11, '=SUM(Q11:Q' . $dkp3->count() + 10 . ')');
             $spreadsheet->getSheetByName('9 DKP3')->setCellValue('R' . $dkp3->count() + 11, '=IF(N' . $dkp3->count() + 11 . '=0,0,P' . $dkp3->count() + 11 . '/N' . $dkp3->count() + 11 . '*100)');
         }
+
+        // dlh
+        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A2', 'Dinas Ketahanan Pangan, Pertanian dan Perikanan');
+        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('10 DLH')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('10 DLH')->insertNewRowBefore(12, $dlh->count() - 1);
+        $dlhRow = 11;
+        if ($dlh->count() != 0) {
+            foreach ($dlh as $key => $item) {
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('A' . $dlhRow, $key + 1);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('B' . $dlhRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('C' . $dlhRow, $item->dpa);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('D' . $dlhRow, '=C' . $dlhRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('E' . $dlhRow, $item->rencana);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('F' . $dlhRow, '=E' . $dlhRow . '/C' . $dlhRow . '*100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('G' . $dlhRow, '=F' . $dlhRow . '*D' . $dlhRow . '/100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('H' . $dlhRow, $item->realisasi);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('I' . $dlhRow, '=H' . $dlhRow . '/C' . $dlhRow . '*100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('J' . $dlhRow, '=I' . $dlhRow . '*D' . $dlhRow . '/100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('K' . $dlhRow, '=IF(E' . $dlhRow . '=0,0,H' . $dlhRow . '/E' . $dlhRow . '*100)');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('L' . $dlhRow, '=J' . $dlhRow . '-G' . $dlhRow);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('M' . $dlhRow, '=C' . $dlhRow . '-H' . $dlhRow);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('N' . $dlhRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('O' . $dlhRow, '=N' . $dlhRow . '*D' . $dlhRow . '/100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('P' . $dlhRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('Q' . $dlhRow, '=P' . $dlhRow . '*D' . $dlhRow . '/100');
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('R' . $dlhRow, '=IF(N' . $dlhRow . '=0,0,P' . $dlhRow . '/N' . $dlhRow . '*100)');
+                $dlhRow++;
+            }
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('B' . $dlh->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('C' . $dlh->count() + 11, '=SUM(C11:C' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('D' . $dlh->count() + 11, '=SUM(D11:D' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('E' . $dlh->count() + 11, '=SUM(E11:E' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('F' . $dlh->count() + 11, '=SUM(G11:G' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('G' . $dlh->count() + 11, '=SUM(G11:G' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('H' . $dlh->count() + 11, '=SUM(H11:H' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('I' . $dlh->count() + 11, '=SUM(J11:J' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('J' . $dlh->count() + 11, '=SUM(J11:J' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('K' . $dlh->count() + 11, '=IF(E' . $dlh->count() + 11 . '=0,0,H' . $dlh->count() + 11 . '/E' . $dlh->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('L' . $dlh->count() + 11, '=J' . $dlh->count() + 11 . '-G' .  $dlh->count() + 11);
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('M' . $dlh->count() + 11, '=C' . $dlh->count() + 11 . '-H' .  $dlh->count() + 11);
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('N' . $dlh->count() + 11, '=SUM(O11:O' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('O' . $dlh->count() + 11, '=SUM(O11:O' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('P' . $dlh->count() + 11, '=SUM(Q11:Q' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('Q' . $dlh->count() + 11, '=SUM(Q11:Q' . $dlh->count() + 10 . ')');
+            $spreadsheet->getSheetByName('10 DLH')->setCellValue('R' . $dlh->count() + 11, '=IF(N' . $dlh->count() + 11 . '=0,0,P' . $dlh->count() + 11 . '/N' . $dlh->count() + 11 . '*100)');
+        }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
