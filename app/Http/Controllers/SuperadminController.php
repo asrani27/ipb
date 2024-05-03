@@ -144,6 +144,22 @@ class SuperadminController extends Controller
             $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
             return $item;
         });
+        $dpmptsp = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 16)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+        $disbudporapar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 37)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
         $dpa = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 19)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
@@ -838,6 +854,101 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('P' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
             $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('Q' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
             $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('R' . $diskominfotik->count() + 11, '=IF(N' . $diskominfotik->count() + 11 . '=0,0,P' . $diskominfotik->count() + 11 . '/N' . $diskominfotik->count() + 11 . '*100)');
+        }
+        // diskopumker
+        $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A2', 'Dinas Koperasi, Usaha Mikro dan Tenaga Kerja');
+        $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('15 DISKOPUMKER')->insertNewRowBefore(12, $diskopumker->count() - 1);
+        $diskopumkerRow = 11;
+        if ($diskopumker->count() != 0) {
+            foreach ($diskopumker as $key => $item) {
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A' . $diskopumkerRow, $key + 1);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('B' . $diskopumkerRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('C' . $diskopumkerRow, $item->dpa);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('D' . $diskopumkerRow, '=C' . $diskopumkerRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('E' . $diskopumkerRow, $item->rencana);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('F' . $diskopumkerRow, '=E' . $diskopumkerRow . '/C' . $diskopumkerRow . '*100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('G' . $diskopumkerRow, '=F' . $diskopumkerRow . '*D' . $diskopumkerRow . '/100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('H' . $diskopumkerRow, $item->realisasi);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('I' . $diskopumkerRow, '=H' . $diskopumkerRow . '/C' . $diskopumkerRow . '*100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('J' . $diskopumkerRow, '=I' . $diskopumkerRow . '*D' . $diskopumkerRow . '/100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('K' . $diskopumkerRow, '=IF(E' . $diskopumkerRow . '=0,0,H' . $diskopumkerRow . '/E' . $diskopumkerRow . '*100)');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('L' . $diskopumkerRow, '=J' . $diskopumkerRow . '-G' . $diskopumkerRow);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('M' . $diskopumkerRow, '=C' . $diskopumkerRow . '-H' . $diskopumkerRow);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('N' . $diskopumkerRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('O' . $diskopumkerRow, '=N' . $diskopumkerRow . '*D' . $diskopumkerRow . '/100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('P' . $diskopumkerRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('Q' . $diskopumkerRow, '=P' . $diskopumkerRow . '*D' . $diskopumkerRow . '/100');
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('R' . $diskopumkerRow, '=IF(N' . $diskopumkerRow . '=0,0,P' . $diskopumkerRow . '/N' . $diskopumkerRow . '*100)');
+                $diskopumkerRow++;
+            }
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('B' . $diskopumker->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('C' . $diskopumker->count() + 11, '=SUM(C11:C' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('D' . $diskopumker->count() + 11, '=SUM(D11:D' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('E' . $diskopumker->count() + 11, '=SUM(E11:E' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('F' . $diskopumker->count() + 11, '=SUM(G11:G' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('G' . $diskopumker->count() + 11, '=SUM(G11:G' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('H' . $diskopumker->count() + 11, '=SUM(H11:H' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('I' . $diskopumker->count() + 11, '=SUM(J11:J' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('J' . $diskopumker->count() + 11, '=SUM(J11:J' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('K' . $diskopumker->count() + 11, '=IF(E' . $diskopumker->count() + 11 . '=0,0,H' . $diskopumker->count() + 11 . '/E' . $diskopumker->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('L' . $diskopumker->count() + 11, '=J' . $diskopumker->count() + 11 . '-G' .  $diskopumker->count() + 11);
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('M' . $diskopumker->count() + 11, '=C' . $diskopumker->count() + 11 . '-H' .  $diskopumker->count() + 11);
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('N' . $diskopumker->count() + 11, '=SUM(O11:O' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('O' . $diskopumker->count() + 11, '=SUM(O11:O' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('P' . $diskopumker->count() + 11, '=SUM(Q11:Q' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('Q' . $diskopumker->count() + 11, '=SUM(Q11:Q' . $diskopumker->count() + 10 . ')');
+            $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('R' . $diskopumker->count() + 11, '=IF(N' . $diskopumker->count() + 11 . '=0,0,P' . $diskopumker->count() + 11 . '/N' . $diskopumker->count() + 11 . '*100)');
+        }
+
+        // dpmptsp
+        $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A2', 'Dinas Penamaan Modal dan Pelayanan Terpadu Satu Pintu');
+        $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('16 DPMPTSP')->insertNewRowBefore(12, $dpmptsp->count() - 1);
+        $dpmptspRow = 11;
+        if ($dpmptsp->count() != 0) {
+            foreach ($dpmptsp as $key => $item) {
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A' . $dpmptspRow, $key + 1);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('B' . $dpmptspRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('C' . $dpmptspRow, $item->dpa);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('D' . $dpmptspRow, '=C' . $dpmptspRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('E' . $dpmptspRow, $item->rencana);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('F' . $dpmptspRow, '=E' . $dpmptspRow . '/C' . $dpmptspRow . '*100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('G' . $dpmptspRow, '=F' . $dpmptspRow . '*D' . $dpmptspRow . '/100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('H' . $dpmptspRow, $item->realisasi);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('I' . $dpmptspRow, '=H' . $dpmptspRow . '/C' . $dpmptspRow . '*100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('J' . $dpmptspRow, '=I' . $dpmptspRow . '*D' . $dpmptspRow . '/100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('K' . $dpmptspRow, '=IF(E' . $dpmptspRow . '=0,0,H' . $dpmptspRow . '/E' . $dpmptspRow . '*100)');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('L' . $dpmptspRow, '=J' . $dpmptspRow . '-G' . $dpmptspRow);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('M' . $dpmptspRow, '=C' . $dpmptspRow . '-H' . $dpmptspRow);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('N' . $dpmptspRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('O' . $dpmptspRow, '=N' . $dpmptspRow . '*D' . $dpmptspRow . '/100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('P' . $dpmptspRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('Q' . $dpmptspRow, '=P' . $dpmptspRow . '*D' . $dpmptspRow . '/100');
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('R' . $dpmptspRow, '=IF(N' . $dpmptspRow . '=0,0,P' . $dpmptspRow . '/N' . $dpmptspRow . '*100)');
+                $dpmptspRow++;
+            }
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('B' . $dpmptsp->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('C' . $dpmptsp->count() + 11, '=SUM(C11:C' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('D' . $dpmptsp->count() + 11, '=SUM(D11:D' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('E' . $dpmptsp->count() + 11, '=SUM(E11:E' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('F' . $dpmptsp->count() + 11, '=SUM(G11:G' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('G' . $dpmptsp->count() + 11, '=SUM(G11:G' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('H' . $dpmptsp->count() + 11, '=SUM(H11:H' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('I' . $dpmptsp->count() + 11, '=SUM(J11:J' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('J' . $dpmptsp->count() + 11, '=SUM(J11:J' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('K' . $dpmptsp->count() + 11, '=IF(E' . $dpmptsp->count() + 11 . '=0,0,H' . $dpmptsp->count() + 11 . '/E' . $dpmptsp->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('L' . $dpmptsp->count() + 11, '=J' . $dpmptsp->count() + 11 . '-G' .  $dpmptsp->count() + 11);
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('M' . $dpmptsp->count() + 11, '=C' . $dpmptsp->count() + 11 . '-H' .  $dpmptsp->count() + 11);
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('N' . $dpmptsp->count() + 11, '=SUM(O11:O' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('O' . $dpmptsp->count() + 11, '=SUM(O11:O' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('P' . $dpmptsp->count() + 11, '=SUM(Q11:Q' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('Q' . $dpmptsp->count() + 11, '=SUM(Q11:Q' . $dpmptsp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('R' . $dpmptsp->count() + 11, '=IF(N' . $dpmptsp->count() + 11 . '=0,0,P' . $dpmptsp->count() + 11 . '/N' . $dpmptsp->count() + 11 . '*100)');
         }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
