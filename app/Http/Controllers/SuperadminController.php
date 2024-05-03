@@ -649,6 +649,101 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('10 DLH')->setCellValue('Q' . $dlh->count() + 11, '=SUM(Q11:Q' . $dlh->count() + 10 . ')');
             $spreadsheet->getSheetByName('10 DLH')->setCellValue('R' . $dlh->count() + 11, '=IF(N' . $dlh->count() + 11 . '=0,0,P' . $dlh->count() + 11 . '/N' . $dlh->count() + 11 . '*100)');
         }
+
+        // capil
+        $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('11 CAPIL')->insertNewRowBefore(12, $capil->count() - 1);
+        $capilRow = 11;
+        if ($capil->count() != 0) {
+            foreach ($capil as $key => $item) {
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A' . $capilRow, $key + 1);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('B' . $capilRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('C' . $capilRow, $item->dpa);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('D' . $capilRow, '=C' . $capilRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('E' . $capilRow, $item->rencana);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('F' . $capilRow, '=E' . $capilRow . '/C' . $capilRow . '*100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('G' . $capilRow, '=F' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('H' . $capilRow, $item->realisasi);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('I' . $capilRow, '=H' . $capilRow . '/C' . $capilRow . '*100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('J' . $capilRow, '=I' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('K' . $capilRow, '=IF(E' . $capilRow . '=0,0,H' . $capilRow . '/E' . $capilRow . '*100)');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('L' . $capilRow, '=J' . $capilRow . '-G' . $capilRow);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('M' . $capilRow, '=C' . $capilRow . '-H' . $capilRow);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('N' . $capilRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('O' . $capilRow, '=N' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('P' . $capilRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('Q' . $capilRow, '=P' . $capilRow . '*D' . $capilRow . '/100');
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('R' . $capilRow, '=IF(N' . $capilRow . '=0,0,P' . $capilRow . '/N' . $capilRow . '*100)');
+                $capilRow++;
+            }
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('B' . $capil->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('C' . $capil->count() + 11, '=SUM(C11:C' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('D' . $capil->count() + 11, '=SUM(D11:D' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('E' . $capil->count() + 11, '=SUM(E11:E' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('F' . $capil->count() + 11, '=SUM(G11:G' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('G' . $capil->count() + 11, '=SUM(G11:G' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('H' . $capil->count() + 11, '=SUM(H11:H' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('I' . $capil->count() + 11, '=SUM(J11:J' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('J' . $capil->count() + 11, '=SUM(J11:J' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('K' . $capil->count() + 11, '=IF(E' . $capil->count() + 11 . '=0,0,H' . $capil->count() + 11 . '/E' . $capil->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('L' . $capil->count() + 11, '=J' . $capil->count() + 11 . '-G' .  $capil->count() + 11);
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('M' . $capil->count() + 11, '=C' . $capil->count() + 11 . '-H' .  $capil->count() + 11);
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('N' . $capil->count() + 11, '=SUM(O11:O' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('O' . $capil->count() + 11, '=SUM(O11:O' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('P' . $capil->count() + 11, '=SUM(Q11:Q' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('Q' . $capil->count() + 11, '=SUM(Q11:Q' . $capil->count() + 10 . ')');
+            $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('R' . $capil->count() + 11, '=IF(N' . $capil->count() + 11 . '=0,0,P' . $capil->count() + 11 . '/N' . $capil->count() + 11 . '*100)');
+        }
+        // dppkbpm
+        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('12 DPPKBPM')->insertNewRowBefore(12, $dppkbpm->count() - 1);
+        $dppkbpmRow = 11;
+        if ($dppkbpm->count() != 0) {
+            foreach ($dppkbpm as $key => $item) {
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A' . $dppkbpmRow, $key + 1);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('B' . $dppkbpmRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('C' . $dppkbpmRow, $item->dpa);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('D' . $dppkbpmRow, '=C' . $dppkbpmRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('E' . $dppkbpmRow, $item->rencana);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('F' . $dppkbpmRow, '=E' . $dppkbpmRow . '/C' . $dppkbpmRow . '*100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('G' . $dppkbpmRow, '=F' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('H' . $dppkbpmRow, $item->realisasi);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('I' . $dppkbpmRow, '=H' . $dppkbpmRow . '/C' . $dppkbpmRow . '*100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('J' . $dppkbpmRow, '=I' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('K' . $dppkbpmRow, '=IF(E' . $dppkbpmRow . '=0,0,H' . $dppkbpmRow . '/E' . $dppkbpmRow . '*100)');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('L' . $dppkbpmRow, '=J' . $dppkbpmRow . '-G' . $dppkbpmRow);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('M' . $dppkbpmRow, '=C' . $dppkbpmRow . '-H' . $dppkbpmRow);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('N' . $dppkbpmRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('O' . $dppkbpmRow, '=N' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('P' . $dppkbpmRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('Q' . $dppkbpmRow, '=P' . $dppkbpmRow . '*D' . $dppkbpmRow . '/100');
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('R' . $dppkbpmRow, '=IF(N' . $dppkbpmRow . '=0,0,P' . $dppkbpmRow . '/N' . $dppkbpmRow . '*100)');
+                $dppkbpmRow++;
+            }
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('B' . $dppkbpm->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('C' . $dppkbpm->count() + 11, '=SUM(C11:C' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('D' . $dppkbpm->count() + 11, '=SUM(D11:D' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('E' . $dppkbpm->count() + 11, '=SUM(E11:E' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('F' . $dppkbpm->count() + 11, '=SUM(G11:G' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('G' . $dppkbpm->count() + 11, '=SUM(G11:G' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('H' . $dppkbpm->count() + 11, '=SUM(H11:H' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('I' . $dppkbpm->count() + 11, '=SUM(J11:J' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('J' . $dppkbpm->count() + 11, '=SUM(J11:J' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('K' . $dppkbpm->count() + 11, '=IF(E' . $dppkbpm->count() + 11 . '=0,0,H' . $dppkbpm->count() + 11 . '/E' . $dppkbpm->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('L' . $dppkbpm->count() + 11, '=J' . $dppkbpm->count() + 11 . '-G' .  $dppkbpm->count() + 11);
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('M' . $dppkbpm->count() + 11, '=C' . $dppkbpm->count() + 11 . '-H' .  $dppkbpm->count() + 11);
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('N' . $dppkbpm->count() + 11, '=SUM(O11:O' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('O' . $dppkbpm->count() + 11, '=SUM(O11:O' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('P' . $dppkbpm->count() + 11, '=SUM(Q11:Q' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('Q' . $dppkbpm->count() + 11, '=SUM(Q11:Q' . $dppkbpm->count() + 10 . ')');
+            $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('R' . $dppkbpm->count() + 11, '=IF(N' . $dppkbpm->count() + 11 . '=0,0,P' . $dppkbpm->count() + 11 . '/N' . $dppkbpm->count() + 11 . '*100)');
+        }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
