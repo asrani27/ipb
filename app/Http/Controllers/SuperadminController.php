@@ -266,7 +266,7 @@ class SuperadminController extends Controller
         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A2', 'Dinas Pekerjaan Umum dan Penataan Ruang');
         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        $spreadsheet->getSheetByName('3 DPUPR')->insertNewRowBefore(12, $dinkes->count() - 1);
+        $spreadsheet->getSheetByName('3 DPUPR')->insertNewRowBefore(12, $dpupr->count() - 1);
         $dpuprRow = 11;
         if ($dpupr->count() != 0) {
             foreach ($dpupr as $key => $item) {
