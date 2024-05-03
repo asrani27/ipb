@@ -308,8 +308,196 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('Q' . $dpupr->count() + 11, '=SUM(Q11:Q' . $dpupr->count() + 10 . ')');
             $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('R' . $dpupr->count() + 11, '=IF(N' . $dpupr->count() + 11 . '=0,0,P' . $dpupr->count() + 11 . '/N' . $dpupr->count() + 11 . '*100)');
         }
+        // dprkp
+        $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A2', 'Dinas Perumahan Rakyat dan Kawasan Permukiman');
+        $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('4 DPRKP')->insertNewRowBefore(12, $dprkp->count() - 1);
+        $dprkpRow = 11;
+        if ($dprkp->count() != 0) {
+            foreach ($dprkp as $key => $item) {
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A' . $dprkpRow, $key + 1);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkpRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkpRow, $item->dpa);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkpRow, '=C' . $dprkpRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkpRow, $item->rencana);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkpRow, '=E' . $dprkpRow . '/C' . $dprkpRow . '*100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkpRow, '=F' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkpRow, $item->realisasi);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkpRow, '=H' . $dprkpRow . '/C' . $dprkpRow . '*100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkpRow, '=I' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkpRow, '=IF(E' . $dprkpRow . '=0,0,H' . $dprkpRow . '/E' . $dprkpRow . '*100)');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkpRow, '=J' . $dprkpRow . '-G' . $dprkpRow);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkpRow, '=C' . $dprkpRow . '-H' . $dprkpRow);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkpRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkpRow, '=N' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkpRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkpRow, '=P' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkpRow, '=IF(N' . $dprkpRow . '=0,0,P' . $dprkpRow . '/N' . $dprkpRow . '*100)');
+                $dprkpRow++;
+            }
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkp->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkp->count() + 11, '=SUM(C11:C' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkp->count() + 11, '=SUM(D11:D' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkp->count() + 11, '=SUM(E11:E' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkp->count() + 11, '=SUM(H11:H' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkp->count() + 11, '=IF(E' . $dprkp->count() + 11 . '=0,0,H' . $dprkp->count() + 11 . '/E' . $dprkp->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkp->count() + 11, '=J' . $dprkp->count() + 11 . '-G' .  $dprkp->count() + 11);
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkp->count() + 11, '=C' . $dprkp->count() + 11 . '-H' .  $dprkp->count() + 11);
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkp->count() + 11, '=IF(N' . $dprkp->count() + 11 . '=0,0,P' . $dprkp->count() + 11 . '/N' . $dprkp->count() + 11 . '*100)');
+        }
 
+        // satpolpp
+        $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A2', 'Satuan Polisi Pamong Praja');
+        $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('5 SATPOLPP')->insertNewRowBefore(12, $satpolpp->count() - 1);
+        $satpolppRow = 11;
+        if ($satpolpp->count() != 0) {
+            foreach ($satpolpp as $key => $item) {
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A' . $satpolppRow, $key + 1);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('B' . $satpolppRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('C' . $satpolppRow, $item->dpa);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('D' . $satpolppRow, '=C' . $satpolppRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('E' . $satpolppRow, $item->rencana);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('F' . $satpolppRow, '=E' . $satpolppRow . '/C' . $satpolppRow . '*100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('G' . $satpolppRow, '=F' . $satpolppRow . '*D' . $satpolppRow . '/100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('H' . $satpolppRow, $item->realisasi);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('I' . $satpolppRow, '=H' . $satpolppRow . '/C' . $satpolppRow . '*100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('J' . $satpolppRow, '=I' . $satpolppRow . '*D' . $satpolppRow . '/100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('K' . $satpolppRow, '=IF(E' . $satpolppRow . '=0,0,H' . $satpolppRow . '/E' . $satpolppRow . '*100)');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('L' . $satpolppRow, '=J' . $satpolppRow . '-G' . $satpolppRow);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('M' . $satpolppRow, '=C' . $satpolppRow . '-H' . $satpolppRow);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('N' . $satpolppRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('O' . $satpolppRow, '=N' . $satpolppRow . '*D' . $satpolppRow . '/100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('P' . $satpolppRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('Q' . $satpolppRow, '=P' . $satpolppRow . '*D' . $satpolppRow . '/100');
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('R' . $satpolppRow, '=IF(N' . $satpolppRow . '=0,0,P' . $satpolppRow . '/N' . $satpolppRow . '*100)');
+                $satpolppRow++;
+            }
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('B' . $satpolpp->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('C' . $satpolpp->count() + 11, '=SUM(C11:C' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('D' . $satpolpp->count() + 11, '=SUM(D11:D' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('E' . $satpolpp->count() + 11, '=SUM(E11:E' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('F' . $satpolpp->count() + 11, '=SUM(G11:G' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('G' . $satpolpp->count() + 11, '=SUM(G11:G' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('H' . $satpolpp->count() + 11, '=SUM(H11:H' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('I' . $satpolpp->count() + 11, '=SUM(J11:J' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('J' . $satpolpp->count() + 11, '=SUM(J11:J' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('K' . $satpolpp->count() + 11, '=IF(E' . $satpolpp->count() + 11 . '=0,0,H' . $satpolpp->count() + 11 . '/E' . $satpolpp->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('L' . $satpolpp->count() + 11, '=J' . $satpolpp->count() + 11 . '-G' .  $satpolpp->count() + 11);
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('M' . $satpolpp->count() + 11, '=C' . $satpolpp->count() + 11 . '-H' .  $satpolpp->count() + 11);
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('N' . $satpolpp->count() + 11, '=SUM(O11:O' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('O' . $satpolpp->count() + 11, '=SUM(O11:O' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('P' . $satpolpp->count() + 11, '=SUM(Q11:Q' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('Q' . $satpolpp->count() + 11, '=SUM(Q11:Q' . $satpolpp->count() + 10 . ')');
+            $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('R' . $satpolpp->count() + 11, '=IF(N' . $satpolpp->count() + 11 . '=0,0,P' . $satpolpp->count() + 11 . '/N' . $satpolpp->count() + 11 . '*100)');
+        }
+        // kesbangpol
+        $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A2', 'Badan Kesatuan Bangsa dan Politik');
+        $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('6 KESBANGPOL')->insertNewRowBefore(12, $kesbangpol->count() - 1);
+        $kesbangpolRow = 11;
+        if ($kesbangpol->count() != 0) {
+            foreach ($kesbangpol as $key => $item) {
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A' . $kesbangpolRow, $key + 1);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('B' . $kesbangpolRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('C' . $kesbangpolRow, $item->dpa);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('D' . $kesbangpolRow, '=C' . $kesbangpolRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('E' . $kesbangpolRow, $item->rencana);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('F' . $kesbangpolRow, '=E' . $kesbangpolRow . '/C' . $kesbangpolRow . '*100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('G' . $kesbangpolRow, '=F' . $kesbangpolRow . '*D' . $kesbangpolRow . '/100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('H' . $kesbangpolRow, $item->realisasi);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('I' . $kesbangpolRow, '=H' . $kesbangpolRow . '/C' . $kesbangpolRow . '*100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('J' . $kesbangpolRow, '=I' . $kesbangpolRow . '*D' . $kesbangpolRow . '/100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('K' . $kesbangpolRow, '=IF(E' . $kesbangpolRow . '=0,0,H' . $kesbangpolRow . '/E' . $kesbangpolRow . '*100)');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('L' . $kesbangpolRow, '=J' . $kesbangpolRow . '-G' . $kesbangpolRow);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('M' . $kesbangpolRow, '=C' . $kesbangpolRow . '-H' . $kesbangpolRow);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('N' . $kesbangpolRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('O' . $kesbangpolRow, '=N' . $kesbangpolRow . '*D' . $kesbangpolRow . '/100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('P' . $kesbangpolRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('Q' . $kesbangpolRow, '=P' . $kesbangpolRow . '*D' . $kesbangpolRow . '/100');
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('R' . $kesbangpolRow, '=IF(N' . $kesbangpolRow . '=0,0,P' . $kesbangpolRow . '/N' . $kesbangpolRow . '*100)');
+                $kesbangpolRow++;
+            }
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('B' . $kesbangpol->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('C' . $kesbangpol->count() + 11, '=SUM(C11:C' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('D' . $kesbangpol->count() + 11, '=SUM(D11:D' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('E' . $kesbangpol->count() + 11, '=SUM(E11:E' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('F' . $kesbangpol->count() + 11, '=SUM(G11:G' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('G' . $kesbangpol->count() + 11, '=SUM(G11:G' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('H' . $kesbangpol->count() + 11, '=SUM(H11:H' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('I' . $kesbangpol->count() + 11, '=SUM(J11:J' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('J' . $kesbangpol->count() + 11, '=SUM(J11:J' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('K' . $kesbangpol->count() + 11, '=IF(E' . $kesbangpol->count() + 11 . '=0,0,H' . $kesbangpol->count() + 11 . '/E' . $kesbangpol->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('L' . $kesbangpol->count() + 11, '=J' . $kesbangpol->count() + 11 . '-G' .  $kesbangpol->count() + 11);
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('M' . $kesbangpol->count() + 11, '=C' . $kesbangpol->count() + 11 . '-H' .  $kesbangpol->count() + 11);
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('N' . $kesbangpol->count() + 11, '=SUM(O11:O' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('O' . $kesbangpol->count() + 11, '=SUM(O11:O' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('P' . $kesbangpol->count() + 11, '=SUM(Q11:Q' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('Q' . $kesbangpol->count() + 11, '=SUM(Q11:Q' . $kesbangpol->count() + 10 . ')');
+            $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('R' . $kesbangpol->count() + 11, '=IF(N' . $kesbangpol->count() + 11 . '=0,0,P' . $kesbangpol->count() + 11 . '/N' . $kesbangpol->count() + 11 . '*100)');
+        }
 
+        // dinsos
+        $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A2', 'Dinas Sosial');
+        $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('7 DINSOS')->insertNewRowBefore(12, $dinsos->count() - 1);
+        $dinsosRow = 11;
+        if ($dinsos->count() != 0) {
+            foreach ($dinsos as $key => $item) {
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A' . $dinsosRow, $key + 1);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('B' . $dinsosRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('C' . $dinsosRow, $item->dpa);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('D' . $dinsosRow, '=C' . $dinsosRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('E' . $dinsosRow, $item->rencana);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('F' . $dinsosRow, '=E' . $dinsosRow . '/C' . $dinsosRow . '*100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('G' . $dinsosRow, '=F' . $dinsosRow . '*D' . $dinsosRow . '/100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('H' . $dinsosRow, $item->realisasi);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('I' . $dinsosRow, '=H' . $dinsosRow . '/C' . $dinsosRow . '*100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('J' . $dinsosRow, '=I' . $dinsosRow . '*D' . $dinsosRow . '/100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('K' . $dinsosRow, '=IF(E' . $dinsosRow . '=0,0,H' . $dinsosRow . '/E' . $dinsosRow . '*100)');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('L' . $dinsosRow, '=J' . $dinsosRow . '-G' . $dinsosRow);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('M' . $dinsosRow, '=C' . $dinsosRow . '-H' . $dinsosRow);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('N' . $dinsosRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('O' . $dinsosRow, '=N' . $dinsosRow . '*D' . $dinsosRow . '/100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('P' . $dinsosRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('Q' . $dinsosRow, '=P' . $dinsosRow . '*D' . $dinsosRow . '/100');
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('R' . $dinsosRow, '=IF(N' . $dinsosRow . '=0,0,P' . $dinsosRow . '/N' . $dinsosRow . '*100)');
+                $dinsosRow++;
+            }
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('B' . $dinsos->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('C' . $dinsos->count() + 11, '=SUM(C11:C' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('D' . $dinsos->count() + 11, '=SUM(D11:D' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('E' . $dinsos->count() + 11, '=SUM(E11:E' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('F' . $dinsos->count() + 11, '=SUM(G11:G' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('G' . $dinsos->count() + 11, '=SUM(G11:G' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('H' . $dinsos->count() + 11, '=SUM(H11:H' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('I' . $dinsos->count() + 11, '=SUM(J11:J' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('J' . $dinsos->count() + 11, '=SUM(J11:J' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('K' . $dinsos->count() + 11, '=IF(E' . $dinsos->count() + 11 . '=0,0,H' . $dinsos->count() + 11 . '/E' . $dinsos->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('L' . $dinsos->count() + 11, '=J' . $dinsos->count() + 11 . '-G' .  $dinsos->count() + 11);
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('M' . $dinsos->count() + 11, '=C' . $dinsos->count() + 11 . '-H' .  $dinsos->count() + 11);
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('N' . $dinsos->count() + 11, '=SUM(O11:O' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('O' . $dinsos->count() + 11, '=SUM(O11:O' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('P' . $dinsos->count() + 11, '=SUM(Q11:Q' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('Q' . $dinsos->count() + 11, '=SUM(Q11:Q' . $dinsos->count() + 10 . ')');
+            $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('R' . $dinsos->count() + 11, '=IF(N' . $dinsos->count() + 11 . '=0,0,P' . $dinsos->count() + 11 . '/N' . $dinsos->count() + 11 . '*100)');
+        }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
