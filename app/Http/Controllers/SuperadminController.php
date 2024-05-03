@@ -744,6 +744,101 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('Q' . $dppkbpm->count() + 11, '=SUM(Q11:Q' . $dppkbpm->count() + 10 . ')');
             $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('R' . $dppkbpm->count() + 11, '=IF(N' . $dppkbpm->count() + 11 . '=0,0,P' . $dppkbpm->count() + 11 . '/N' . $dppkbpm->count() + 11 . '*100)');
         }
+
+        // dishub
+        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('13 DISHUB')->insertNewRowBefore(12, $dishub->count() - 1);
+        $dishubRow = 11;
+        if ($dishub->count() != 0) {
+            foreach ($dishub as $key => $item) {
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A' . $dishubRow, $key + 1);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('B' . $dishubRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('C' . $dishubRow, $item->dpa);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('D' . $dishubRow, '=C' . $dishubRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('E' . $dishubRow, $item->rencana);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('F' . $dishubRow, '=E' . $dishubRow . '/C' . $dishubRow . '*100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('G' . $dishubRow, '=F' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('H' . $dishubRow, $item->realisasi);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('I' . $dishubRow, '=H' . $dishubRow . '/C' . $dishubRow . '*100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('J' . $dishubRow, '=I' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('K' . $dishubRow, '=IF(E' . $dishubRow . '=0,0,H' . $dishubRow . '/E' . $dishubRow . '*100)');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('L' . $dishubRow, '=J' . $dishubRow . '-G' . $dishubRow);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('M' . $dishubRow, '=C' . $dishubRow . '-H' . $dishubRow);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('N' . $dishubRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('O' . $dishubRow, '=N' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('P' . $dishubRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('Q' . $dishubRow, '=P' . $dishubRow . '*D' . $dishubRow . '/100');
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('R' . $dishubRow, '=IF(N' . $dishubRow . '=0,0,P' . $dishubRow . '/N' . $dishubRow . '*100)');
+                $dishubRow++;
+            }
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('B' . $dishub->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('C' . $dishub->count() + 11, '=SUM(C11:C' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('D' . $dishub->count() + 11, '=SUM(D11:D' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('E' . $dishub->count() + 11, '=SUM(E11:E' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('F' . $dishub->count() + 11, '=SUM(G11:G' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('G' . $dishub->count() + 11, '=SUM(G11:G' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('H' . $dishub->count() + 11, '=SUM(H11:H' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('I' . $dishub->count() + 11, '=SUM(J11:J' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('J' . $dishub->count() + 11, '=SUM(J11:J' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('K' . $dishub->count() + 11, '=IF(E' . $dishub->count() + 11 . '=0,0,H' . $dishub->count() + 11 . '/E' . $dishub->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('L' . $dishub->count() + 11, '=J' . $dishub->count() + 11 . '-G' .  $dishub->count() + 11);
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('M' . $dishub->count() + 11, '=C' . $dishub->count() + 11 . '-H' .  $dishub->count() + 11);
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('N' . $dishub->count() + 11, '=SUM(O11:O' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('O' . $dishub->count() + 11, '=SUM(O11:O' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('P' . $dishub->count() + 11, '=SUM(Q11:Q' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('Q' . $dishub->count() + 11, '=SUM(Q11:Q' . $dishub->count() + 10 . ')');
+            $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('R' . $dishub->count() + 11, '=IF(N' . $dishub->count() + 11 . '=0,0,P' . $dishub->count() + 11 . '/N' . $dishub->count() + 11 . '*100)');
+        }
+        // diskominfotik
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A2', 'Dinas Pencatatan Sipil');
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+        $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->insertNewRowBefore(12, $diskominfotik->count() - 1);
+        $diskominfotikRow = 11;
+        if ($diskominfotik->count() != 0) {
+            foreach ($diskominfotik as $key => $item) {
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A' . $diskominfotikRow, $key + 1);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('B' . $diskominfotikRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('C' . $diskominfotikRow, $item->dpa);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('D' . $diskominfotikRow, '=C' . $diskominfotikRow . '/$C$' . $disdik->count() + 11 . '*100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('E' . $diskominfotikRow, $item->rencana);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('F' . $diskominfotikRow, '=E' . $diskominfotikRow . '/C' . $diskominfotikRow . '*100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('G' . $diskominfotikRow, '=F' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('H' . $diskominfotikRow, $item->realisasi);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('I' . $diskominfotikRow, '=H' . $diskominfotikRow . '/C' . $diskominfotikRow . '*100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('J' . $diskominfotikRow, '=I' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('K' . $diskominfotikRow, '=IF(E' . $diskominfotikRow . '=0,0,H' . $diskominfotikRow . '/E' . $diskominfotikRow . '*100)');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('L' . $diskominfotikRow, '=J' . $diskominfotikRow . '-G' . $diskominfotikRow);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('M' . $diskominfotikRow, '=C' . $diskominfotikRow . '-H' . $diskominfotikRow);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('N' . $diskominfotikRow, $item->rencana_fisik);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('O' . $diskominfotikRow, '=N' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('P' . $diskominfotikRow, $item->realisasi_fisik);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('Q' . $diskominfotikRow, '=P' . $diskominfotikRow . '*D' . $diskominfotikRow . '/100');
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('R' . $diskominfotikRow, '=IF(N' . $diskominfotikRow . '=0,0,P' . $diskominfotikRow . '/N' . $diskominfotikRow . '*100)');
+                $diskominfotikRow++;
+            }
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('B' . $diskominfotik->count() + 11, 'TOTALNYA');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('C' . $diskominfotik->count() + 11, '=SUM(C11:C' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('D' . $diskominfotik->count() + 11, '=SUM(D11:D' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('E' . $diskominfotik->count() + 11, '=SUM(E11:E' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('F' . $diskominfotik->count() + 11, '=SUM(G11:G' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('G' . $diskominfotik->count() + 11, '=SUM(G11:G' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('H' . $diskominfotik->count() + 11, '=SUM(H11:H' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('I' . $diskominfotik->count() + 11, '=SUM(J11:J' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('J' . $diskominfotik->count() + 11, '=SUM(J11:J' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('K' . $diskominfotik->count() + 11, '=IF(E' . $diskominfotik->count() + 11 . '=0,0,H' . $diskominfotik->count() + 11 . '/E' . $diskominfotik->count() + 11 . '*100)');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('L' . $diskominfotik->count() + 11, '=J' . $diskominfotik->count() + 11 . '-G' .  $diskominfotik->count() + 11);
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('M' . $diskominfotik->count() + 11, '=C' . $diskominfotik->count() + 11 . '-H' .  $diskominfotik->count() + 11);
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('N' . $diskominfotik->count() + 11, '=SUM(O11:O' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('O' . $diskominfotik->count() + 11, '=SUM(O11:O' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('P' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('Q' . $diskominfotik->count() + 11, '=SUM(Q11:Q' . $diskominfotik->count() + 10 . ')');
+            $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('R' . $diskominfotik->count() + 11, '=IF(N' . $diskominfotik->count() + 11 . '=0,0,P' . $diskominfotik->count() + 11 . '/N' . $diskominfotik->count() + 11 . '*100)');
+        }
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
     }
