@@ -21,7 +21,6 @@
                     <tr>
                       <th class="text-center">No</th>
                       <th>Tahun</th>
-                      <th>Jenis</th>
                       <th>Subkegiatan</th>
                       <th>Bulan</th>
                     </tr>
@@ -30,7 +29,6 @@
                     <tr>
                         <td class="text-center">{{1 + $key}}</td>
                         <td>{{$item->tahun}}</td>
-                        <td>{{$item->jenis_rfk}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
                             <a href="/pptk/laporanrfk/{{$item->id}}/{{$item->tahun}}/01" class="btn btn-xs btn-flat {{$item->kirim_rfk_januari != null ? 'btn-success':'btn-primary'}}"><strong> Jan</strong></a>

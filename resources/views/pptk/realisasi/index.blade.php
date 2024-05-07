@@ -30,7 +30,7 @@
                     <tr>
                         <td class="text-center">{{1 + $key}}</td>
                         <td>{{$item->tahun}}</td>
-                        <td>{{$item->jenis_rfk}}</td>
+                        <td>{{$status}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
                             <a href="/pptk/realisasi/{{$item->id}}"
