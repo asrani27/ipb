@@ -34,7 +34,21 @@ class PPTK2Controller extends Controller
 
     public function uraian($subkegiatan_id)
     {
-        $data = Subkegiatan::find($subkegiatan_id)->uraian;
+        if (Auth::user()->pptk->skpd->murni == 1) {
+            $status = 'murni';
+        }
+        if (Auth::user()->pptk->skpd->pergeseran == 1) {
+            $status = 'pergeseran';
+        }
+        if (Auth::user()->pptk->skpd->perubahan == 1) {
+            $status = 'perubahan';
+        }
+        if ($status == 'pergeseran') {
+            $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
+        } else {
+            $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status);
+        }
+
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
         return view('pptk.uraian.index', compact('data', 'subkegiatan'));
     }
@@ -228,8 +242,18 @@ class PPTK2Controller extends Controller
 
     public function realisasi()
     {
+        //dd(auth::user()->pptk);
+        if (Auth::user()->pptk->skpd->murni == 1) {
+            $status = 'murni';
+        }
+        if (Auth::user()->pptk->skpd->pergeseran == 1) {
+            $status = 'pergeseran';
+        }
+        if (Auth::user()->pptk->skpd->perubahan == 1) {
+            $status = 'perubahan';
+        }
         $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
-        return view('pptk.realisasi.index', compact('data'));
+        return view('pptk.realisasi.index', compact('data', 'status'));
     }
 
     public function detailRealisasi($id)

@@ -16,7 +16,7 @@
             <div class="box-body text-sm">
                 <dl>
                 <dt>Tahun</dt>
-                <dd>{{$subkegiatan->tahun}} - {{$subkegiatan->jenis_rfk}}</dd><br/>
+                <dd>{{$subkegiatan->tahun}}</dd><br/>
                 <dt>Program</dt>
                 <dd>{{$subkegiatan->kegiatan->program->nama}}</dd><br/>
                 <dt>Kegiatan</dt>
