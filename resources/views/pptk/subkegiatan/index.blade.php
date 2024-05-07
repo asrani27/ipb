@@ -30,17 +30,13 @@
                     <tr>
                         <td class="text-center">{{1 + $key}}</td>
                         <td>{{$item->tahun}}</td>
-                        <td>{{$item->jenis_rfk}}</td>
+                        <td>{{$status}}</td>
                         <td>{{$item->nama}}</td>
                         <td>
-                          @if ($item->kirim_angkas != null)
-                              Telah dikirimx
-                          @else
-                              
                             <a href="/pptk/subkegiatan/uraian/{{$item->id}}"
-                              class="btn btn-xs btn-flat btn-primary"><strong>{{$item->uraianmurni->count()}} Uraian</strong></a>
-                          <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
-                              class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a>
+                              class="btn btn-xs btn-flat btn-primary"><strong>Uraian</strong></a>
+                          {{-- <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
+                              class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a> --}}
                           @endif
                         
                         </td>

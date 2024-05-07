@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('laporan', [SuperadminController::class, 'laporan']);
         Route::get('laporan/rfk', [SuperadminController::class, 'export']);
         Route::get('pengajuan', [PengajuanController::class, 'index']);
+        Route::get('pengajuan/verifikasi/{id_skpd}/{id_pengajuan}', [PengajuanController::class, 'verifikasi']);
     });
 });
 

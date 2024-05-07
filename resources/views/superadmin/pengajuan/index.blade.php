@@ -41,7 +41,7 @@
                   @if ($item->pengajuan == null)
                       
                   @else
-                    <a href="/superadmin/skpd/createakun/{{$item->id}}" class="btn btn-xs btn-success" onclick="return confirm('Yakin ingin di setujui');"><i
+                    <a href="/superadmin/pengajuan/verifikasi/{{$item->id}}/{{$item->pengajuan->id}}" class="btn btn-xs btn-success" onclick="return confirm('Yakin ingin di setujui');"><i
                             class="fa fa-check"></i> Verifikasi / Setujui</a>
                   @endif
                 </td>

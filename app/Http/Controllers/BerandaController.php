@@ -234,21 +234,39 @@ class BerandaController extends Controller
         // }
 
         $tahun = Carbon::now()->format('Y');
-        $status = BatasInput::where('is_aktif', 1)->first()->nama;
+        //$status = BatasInput::where('is_aktif', 1)->first()->nama;
+        if (Auth::user()->pptk->skpd->murni == 1) {
+            $status = 'murni';
+        }
+        if (Auth::user()->pptk->skpd->pergeseran == 1) {
+            $status = 'pergeseran';
+        }
+        if (Auth::user()->pptk->skpd->perubahan == 1) {
+            $status = 'perubahan';
+        }
+        //dd($status);
         // $result = $status;
         // $data = null;
 
         // $t_subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2023')->count();
         // $t_uraian = Uraian::where('pptk_id', Auth::user()->pptk->id)->where('jenis_rfk', $result)->where('tahun', '2023')->count();
 
-        $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', $tahun)->get();
+        if ($status == 'pergeseran') {
+            $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', $tahun)->get();
 
-        $subkegiatan->map(function ($item) use ($status) {
-            $item->uraian = $item->uraian->where('jenis_rfk', $status);
-            $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $status)->sum('dpa');
-            return $item;
-        });
-
+            $subkegiatan->map(function ($item) use ($status) {
+                $item->uraian = $item->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke);
+                $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->sum('dpa');
+                return $item;
+            });
+        } else {
+            $subkegiatan = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', $tahun)->get();
+            $subkegiatan->map(function ($item) use ($status) {
+                $item->uraian = $item->uraian->where('jenis_rfk', $status);
+                $item->totalsubkegiatan = $item->uraian->where('jenis_rfk', $status)->sum('dpa');
+                return $item;
+            });
+        }
         return view('pptk.home', compact('tahun', 'subkegiatan', 'status'));
     }
     public function uraian()
