@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminBagianController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -14,8 +13,11 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminKrkController;
 use App\Http\Controllers\AdminPptkController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PPTKMurniController;
 use App\Http\Controllers\TarikDataController;
+use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\AdminBagianController;
 use App\Http\Controllers\AdminBidangController;
 use App\Http\Controllers\BidangKirimController;
 use App\Http\Controllers\BidangMurniController;
@@ -33,10 +35,11 @@ use App\Http\Controllers\AdminValidasiController;
 use App\Http\Controllers\BidangBerandaController;
 use App\Http\Controllers\BidangProgramController;
 use App\Http\Controllers\DaftarLayananController;
+use App\Http\Controllers\AdminKelurahanController;
+use App\Http\Controllers\AdminPengajuanController;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\SuperadminSkpdController;
 use App\Http\Controllers\AdminBatasInputController;
-use App\Http\Controllers\AdminKelurahanController;
 use App\Http\Controllers\AdminPermohonanController;
 use App\Http\Controllers\BidangPerubahanController;
 use App\Http\Controllers\BidangRealisasiController;
@@ -45,7 +48,6 @@ use App\Http\Controllers\BidangLaporanRFKController;
 use App\Http\Controllers\BidangPergeseranController;
 use App\Http\Controllers\BidangSubkegiatanController;
 use App\Http\Controllers\SuperadminBerandaController;
-use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\SuperadminJenisrfkController;
 
 Route::get('/', [DashboardController::class, 'index']);
@@ -69,6 +71,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('skpd/resetakun/{id}', [SuperadminSkpdController::class, 'resetakun']);
         Route::get('laporan', [SuperadminController::class, 'laporan']);
         Route::get('laporan/rfk', [SuperadminController::class, 'export']);
+        Route::get('pengajuan', [PengajuanController::class, 'index']);
     });
 });
 
@@ -141,6 +144,13 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('bidang/edit/{id}', [AdminBidangController::class, 'edit']);
         Route::post('bidang/edit/{id}', [AdminBidangController::class, 'update']);
         Route::get('bidang/delete/{id}', [AdminBidangController::class, 'delete']);
+
+        Route::get('pengajuan', [AdminPengajuanController::class, 'index']);
+        Route::get('pengajuan/add', [AdminPengajuanController::class, 'create']);
+        Route::post('pengajuan/add', [AdminPengajuanController::class, 'store']);
+        Route::get('pengajuan/edit/{id}', [AdminPengajuanController::class, 'edit']);
+        Route::post('pengajuan/edit/{id}', [AdminPengajuanController::class, 'update']);
+        Route::get('pengajuan/delete/{id}', [AdminPengajuanController::class, 'delete']);
 
         Route::get('bagian', [AdminBagianController::class, 'index']);
         Route::get('bagian/add', [AdminBagianController::class, 'create']);
