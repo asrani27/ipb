@@ -35,8 +35,8 @@
                         <td>
                             <a href="/pptk/subkegiatan/uraian/{{$item->id}}"
                               class="btn btn-xs btn-flat btn-primary"><strong>Uraian</strong></a>
-                          {{-- <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
-                              class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a> --}}
+                          <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
+                              class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a>
                       
                         </td>
                         
