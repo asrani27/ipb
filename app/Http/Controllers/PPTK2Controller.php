@@ -695,7 +695,7 @@ class PPTK2Controller extends Controller
         $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $id)->first();
         //dd($biodata);
         if ($biodata == null) {
-            Session::flash('error', 'Data Di menu Input kosong');
+            Session::flash('error', 'Data Di Menu Input kosong');
             return back();
         }
 
