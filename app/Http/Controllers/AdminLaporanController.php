@@ -441,7 +441,13 @@ class AdminLaporanController extends Controller
             $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $row, '=M' . $row . '*D' . $row . '/100');
             $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $row, $item->realisasi_fisik);
             $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $row, '=O' . $row . '*D' . $row . '/100');
-            $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '=O' . $row . '/M' . $row . '*100)');
+
+            if ($item->realisasi_fisik == 0) {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '0');
+            } else {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '=O' . $row . '/M' . $row . '*100)');
+            }
+
             $row++;
         }
 
