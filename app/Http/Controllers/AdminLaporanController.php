@@ -297,101 +297,103 @@ class AdminLaporanController extends Controller
     public function excel($tahun, $bulan)
     {
 
-        Session::flash('info', 'Export Excel Dalam Pengembangan');
-        return back();
-        $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
-
-        if ($statusRFK[$bulan] == 'murni') {
-            $result = null;
-        } elseif ($statusRFK[$bulan] == 'perubahan') {
-            $result = 99;
-        }
-
+        $result = null;
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
-        $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        // $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
-        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        // $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
 
-        $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
-            $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
-            return $item;
-        })->sum('kolom3');
+        // $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
+        //     $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
+        //     return $item;
+        // })->sum('kolom3');
 
-        $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
-            $status_kirim = 'kirim_rfk_' . $bulan;
-            $item->status_kirim = $item[$status_kirim];
-            if ($item->status_kirim == null) {
-                $item->kolom3 = 0;
-                $item->kolom4 = 0;
-                $item->kolom5 = 0;
-                $item->kolom6 = 0;
-                $item->kolom7 = 0;
-                $item->kolom8 = 0;
-                $item->kolom9 = 0;
-                $item->kolom10 = 0;
-                $item->kolom11 = 0;
-                $item->kolom12 = 0;
-                $item->kolom13 = 0;
-                $item->kolom14 = 0;
-                $item->kolom15 = 0;
-                $item->kolom16 = 0;
-                $item->kolom17 = 0;
-            } else {
-                if ($totalsubkegiatan == 0) {
-                    $item->kolom3 = 0;
-                    $item->kolom4 = 0;
-                    $item->kolom5 = 0;
-                    $item->kolom6 = 0;
-                    $item->kolom7 = 0;
-                    $item->kolom8 = 0;
-                    $item->kolom9 = 0;
-                    $item->kolom10 = 0;
-                    $item->kolom11 = 0;
-                    $item->kolom12 = 0;
-                    $item->kolom13 = 0;
-                    $item->kolom14 = 0;
-                    $item->kolom15 = 0;
-                    $item->kolom16 = 0;
-                    $item->kolom17 = 0;
-                } else {
-                    $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
-                    $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
+        $jenis = 'murni';
 
-                    $item->kolom5 = rencanaSKPD($bulan, $item, $result);
-
-                    $item->kolom6 = ($item->kolom5 / $item->kolom3) * 100;
-                    $item->kolom7 = ($item->kolom6 * $item->kolom4) / 100;
-
-                    $item->kolom8 = realisasiSKPD($bulan, $item, $result);
-
-                    $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
-                    $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
-                    if ($item->kolom8 == 0 && $item->kolom5 == 0) {
-                        $item->kolom11 = 0;
-                    } else {
-                        $item->kolom11 = ($item->kolom8 / $item->kolom5) * 100;
-                    }
-                    $item->kolom12 = $item->kolom3 - $item->kolom8;
-
-                    $item->kolom13 = fisikRencanaSKPD($bulan, $item, $result);
-                    $item->kolom14 = ($item->kolom13 * $item->kolom4) / 100;
-                    $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
-                    $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
-
-                    //if ($item->kolom15 == 0 && $item->kolom13 == 0) {
-                    if ($item->kolom13 == 0) {
-                        $item->kolom17 = 0;
-                    } else {
-                        $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
-                    }
-                }
-            }
+        $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
             return $item;
         });
+
+        // $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
+        //     $status_kirim = 'kirim_rfk_' . $bulan;
+        //     $item->status_kirim = $item[$status_kirim];
+        //     if ($item->status_kirim == null) {
+        //         $item->kolom3 = 0;
+        //         $item->kolom4 = 0;
+        //         $item->kolom5 = 0;
+        //         $item->kolom6 = 0;
+        //         $item->kolom7 = 0;
+        //         $item->kolom8 = 0;
+        //         $item->kolom9 = 0;
+        //         $item->kolom10 = 0;
+        //         $item->kolom11 = 0;
+        //         $item->kolom12 = 0;
+        //         $item->kolom13 = 0;
+        //         $item->kolom14 = 0;
+        //         $item->kolom15 = 0;
+        //         $item->kolom16 = 0;
+        //         $item->kolom17 = 0;
+        //     } else {
+        //         if ($totalsubkegiatan == 0) {
+        //             $item->kolom3 = 0;
+        //             $item->kolom4 = 0;
+        //             $item->kolom5 = 0;
+        //             $item->kolom6 = 0;
+        //             $item->kolom7 = 0;
+        //             $item->kolom8 = 0;
+        //             $item->kolom9 = 0;
+        //             $item->kolom10 = 0;
+        //             $item->kolom11 = 0;
+        //             $item->kolom12 = 0;
+        //             $item->kolom13 = 0;
+        //             $item->kolom14 = 0;
+        //             $item->kolom15 = 0;
+        //             $item->kolom16 = 0;
+        //             $item->kolom17 = 0;
+        //         } else {
+        //             $item->kolom3 = $item->uraian->where('status', $result)->sum('dpa');
+        //             $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
+
+        //             $item->kolom5 = rencanaSKPD($bulan, $item, $result);
+
+        //             $item->kolom6 = ($item->kolom5 / $item->kolom3) * 100;
+        //             $item->kolom7 = ($item->kolom6 * $item->kolom4) / 100;
+
+        //             $item->kolom8 = realisasiSKPD($bulan, $item, $result);
+
+        //             $item->kolom9 = ($item->kolom8 / $item->kolom3) * 100;
+        //             $item->kolom10 = ($item->kolom9 * $item->kolom4) / 100;
+        //             if ($item->kolom8 == 0 && $item->kolom5 == 0) {
+        //                 $item->kolom11 = 0;
+        //             } else {
+        //                 $item->kolom11 = ($item->kolom8 / $item->kolom5) * 100;
+        //             }
+        //             $item->kolom12 = $item->kolom3 - $item->kolom8;
+
+        //             $item->kolom13 = fisikRencanaSKPD($bulan, $item, $result);
+        //             $item->kolom14 = ($item->kolom13 * $item->kolom4) / 100;
+        //             $item->kolom15 = fisikRealisasiSKPD($bulan, $item, $result);
+        //             $item->kolom16 = ($item->kolom15 * $item->kolom4) / 100;
+
+        //             //if ($item->kolom15 == 0 && $item->kolom13 == 0) {
+        //             if ($item->kolom13 == 0) {
+        //                 $item->kolom17 = 0;
+        //             } else {
+        //                 $item->kolom17 = ($item->kolom15 / $item->kolom13) * 100;
+        //             }
+        //         }
+        //     }
+        //     return $item;
+        // });
 
         //dd($datasubkegiatan->take(2));
         $filename = 'RFK_DINAS.xlsx';
@@ -400,38 +402,96 @@ class AdminLaporanController extends Controller
         header("Content-Disposition: attachment;filename=$filename");
         header('Cache-Control: max-age=0');
 
-        $path = public_path('/excel/rfk_skpd.xlsx');
+        $path = public_path('/excel/RFK_SKPD3.xlsx');
         $reader = IOFactory::createReader('Xlsx');
         $spreadsheet = $reader->load($path);
 
         //looping program dlu
         $row = 10;
         $no = 1;
-        foreach ($data as $key => $item) {
-            $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item->nama);
-            $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
-                ->getFill()
-                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                ->getStartColor()
-                ->setARGB('abc5f2');
 
-            $row++;
-            foreach ($item->kegiatan as $item2) {
-                $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item2->nama);
-                $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
-                    ->getFill()
-                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                    ->getStartColor()
-                    ->setARGB('d9ead3');
-                $row++;
-                foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3) {
-                    $spreadsheet->getSheetByName('RFK')->setCellValue('A' . $row, $no++);
-                    $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item3->nama);
-                    $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $row, $item3->kolom3);
-                    $row++;
-                }
+        $spreadsheet->getSheetByName('RFK')->insertNewRowBefore(11, $dataskpd->count());
+
+        foreach ($dataskpd as $key => $item) {
+            $spreadsheet->getSheetByName('RFK')->setCellValue('A' . $row, $key + 1);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item->nama);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('C' . $row, $item->dpa);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $row, '=C' . $row . '/$C$' . ($dataskpd->count() + 11) . '*100');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('E' . $row, $item->rencana);
+            if ($item->dpa == 0) {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $row, '0');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $row, '0');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $row, '0');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $row, '0');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $row, '0');
+            } else {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('F' . $row, '=E' . $row . '/C' . $row . '*100');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('G' . $row, '=F' . $row . '*D' . $row . '/100');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('H' . $row, $item->realisasi);
+                $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $row, '=H' . $row . '/C' . $row . '*100');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $row, '=I' . $row . '*D' . $row . '/100');
             }
+            if ($item->rencana == 0) {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, '0');
+            } else {
+                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, '=H' . $row . '/E' . $row . '*100)');
+            }
+            $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $row, '=C' . $row . '-H' . $row);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $row, $item->rencana_fisik);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('N' . $row, '=M' . $row . '*D' . $row . '/100');
+            $spreadsheet->getSheetByName('RFK')->setCellValue('O' . $row, $item->realisasi_fisik);
+            $spreadsheet->getSheetByName('RFK')->setCellValue('P' . $row, '=O' . $row . '*D' . $row . '/100');
+            // $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '=IF(N' . $row . '=0,0,P' . $row . '/N' . $row . '*100)');
+            $row++;
         }
+
+        //rumus jumlah
+        $kolom_c = "=SUM(C10:C" . ($dataskpd->count() + 10) . ")";
+        $kolom_d = "=SUM(D10:D" . ($dataskpd->count() + 10) . ")";
+        $kolom_e = "=SUM(E10:E" . ($dataskpd->count() + 10) . ")";
+        $kolom_g = "=SUM(G10:G" . ($dataskpd->count() + 10) . ")";
+        $kolom_h = "=SUM(H10:H" . ($dataskpd->count() + 10) . ")";
+        $kolom_j = "=SUM(J10:J" . ($dataskpd->count() + 10) . ")";
+        $kolom_l = "=SUM(L10:L" . ($dataskpd->count() + 10) . ")";
+        $kolom_n = "=SUM(N10:N" . ($dataskpd->count() + 10) . ")";
+        $kolom_p = "=SUM(P10:P" . ($dataskpd->count() + 10) . ")";
+
+
+        $spreadsheet->getSheetByName('RFK')->setCellValue('C' . ($dataskpd->count() + 11), $kolom_c);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('D' . ($dataskpd->count() + 11), $kolom_d);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('E' . ($dataskpd->count() + 11), $kolom_e);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('G' . ($dataskpd->count() + 11), $kolom_g);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('H' . ($dataskpd->count() + 11), $kolom_h);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('J' . ($dataskpd->count() + 11), $kolom_j);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('L' . ($dataskpd->count() + 11), $kolom_l);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('N' . ($dataskpd->count() + 11), $kolom_n);
+        $spreadsheet->getSheetByName('RFK')->setCellValue('P' . ($dataskpd->count() + 11), $kolom_p);
+        // foreach ($data as $key => $item) {
+        //     $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item->nama);
+        //     $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
+        //         ->getFill()
+        //         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        //         ->getStartColor()
+        //         ->setARGB('abc5f2');
+
+        //     $row++;
+        //     foreach ($item->kegiatan as $item2) {
+        //         $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item2->nama);
+        //         $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
+        //             ->getFill()
+        //             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        //             ->getStartColor()
+        //             ->setARGB('d9ead3');
+        //         $row++;
+        //         foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3) {
+        //             $spreadsheet->getSheetByName('RFK')->setCellValue('A' . $row, $no++);
+        //             $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item3->nama);
+        //             $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $row, $item3->kolom3);
+        //             $row++;
+        //         }
+        //     }
+        // }
+
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
         exit;

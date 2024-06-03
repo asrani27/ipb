@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subkegiatan;
+use App\Models\T_m;
 use App\Models\Uraian;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -351,6 +352,7 @@ class SuperadminController extends Controller
         //dd($bagpbg, $bagpbj);
         //dd($disdik);
 
+
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -363,6 +365,64 @@ class SuperadminController extends Controller
         $spreadsheet = $reader->load($path);
 
         // DISDIK
+
+        //rekap
+        $spreadsheet->getSheetByName('Rekap')->setCellValue('A10', '1');
+        $spreadsheet->getSheetByName('Rekap')->setCellValue('B10', 'Dinas Pendidikan');
+
+        $permasalahan_disdik    = T_m::whereIn('subkegiatan_id', $disdik->pluck('id')->toArray())->get();
+        $permasalahan_dinkes    = T_m::whereIn('subkegiatan_id', $dinkes->pluck('id')->toArray())->get();
+        $permasalahan_dpupr     = T_m::whereIn('subkegiatan_id', $dpupr->pluck('id')->toArray())->get();
+        $permasalahan_dprkp     = T_m::whereIn('subkegiatan_id', $dprkp->pluck('id')->toArray())->get();
+        $permasalahan_satpolpp  = T_m::whereIn('subkegiatan_id', $satpolpp->pluck('id')->toArray())->get();
+        $permasalahan_kesbangpol = T_m::whereIn('subkegiatan_id', $kesbangpol->pluck('id')->toArray())->get();
+        $permasalahan_dinsos    = T_m::whereIn('subkegiatan_id', $dinsos->pluck('id')->toArray())->get();
+        $permasalahan_dp3a      = T_m::whereIn('subkegiatan_id', $dp3a->pluck('id')->toArray())->get();
+        $permasalahan_dkp3      = T_m::whereIn('subkegiatan_id', $dkp3->pluck('id')->toArray())->get();
+        $permasalahan_dlh       = T_m::whereIn('subkegiatan_id', $dlh->pluck('id')->toArray())->get();
+        $permasalahan_capil     = T_m::whereIn('subkegiatan_id', $capil->pluck('id')->toArray())->get();
+        $permasalahan_dppkbpm   = T_m::whereIn('subkegiatan_id', $dppkbpm->pluck('id')->toArray())->get();
+        $permasalahan_dishub    = T_m::whereIn('subkegiatan_id', $dishub->pluck('id')->toArray())->get();
+        $permasalahan_diskominfotik = T_m::whereIn('subkegiatan_id', $diskominfotik->pluck('id')->toArray())->get();
+        $permasalahan_diskopumker   = T_m::whereIn('subkegiatan_id', $diskopumker->pluck('id')->toArray())->get();
+        $permasalahan_dpmptsp       = T_m::whereIn('subkegiatan_id', $dpmptsp->pluck('id')->toArray())->get();
+        $permasalahan_disbudporapar = T_m::whereIn('subkegiatan_id', $disbudporapar->pluck('id')->toArray())->get();
+
+
+        $mulai = 9;
+
+        foreach ($permasalahan_disdik as $key => $p) {
+            // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Pendidikan');
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
+        }
+        $mulai = $mulai + $permasalahan_disdik->count() + 1;
+
+        foreach ($permasalahan_dinkes as $key => $p) {
+            // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Kesehatan');
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
+        }
+
+        $mulai = $mulai + $permasalahan_dinkes->count() + 1;
+
+        foreach ($permasalahan_dpupr as $key => $p) {
+            // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Pekerjaan Umum dan Penataan Ruang');
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
+        }
+
+        $mulai = $mulai + $permasalahan_dpupr->count() + 1;
+
         $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
         $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A2', 'DINAS PENDIDIKAN');
         $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
@@ -373,7 +433,7 @@ class SuperadminController extends Controller
         if ($disdik->count() != 0) {
             foreach ($disdik as $key => $item_disdik) {
                 $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A' . $disdikRow, $key + 1);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('1 Disdik')->setCellValue('C' . $disdikRow, $item_disdik->dpa);
                 $spreadsheet->getSheetByName('1 Disdik')->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $disdik->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('1 Disdik')->setCellValue('E' . $disdikRow, $item_disdik->rencana);
@@ -421,7 +481,7 @@ class SuperadminController extends Controller
         if ($dinkes->count() != 0) {
             foreach ($dinkes as $key => $item) {
                 $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A' . $dinkesRow, $key + 1);
-                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkesRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkesRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('C' . $dinkesRow, $item->dpa);
                 $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('D' . $dinkesRow, '=C' . $dinkesRow . '/$C$' . $dinkes->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('E' . $dinkesRow, $item->rencana);
@@ -468,7 +528,7 @@ class SuperadminController extends Controller
         if ($dpupr->count() != 0) {
             foreach ($dpupr as $key => $item) {
                 $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A' . $dpuprRow, $key + 1);
-                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpuprRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpuprRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('C' . $dpuprRow, $item->dpa);
                 $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('D' . $dpuprRow, '=C' . $dpuprRow . '/$C$' . $dpupr->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('E' . $dpuprRow, $item->rencana);
@@ -515,7 +575,7 @@ class SuperadminController extends Controller
         if ($dprkp->count() != 0) {
             foreach ($dprkp as $key => $item) {
                 $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A' . $dprkpRow, $key + 1);
-                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkpRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkpRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkpRow, $item->dpa);
                 $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkpRow, '=C' . $dprkpRow . '/$C$' . $dprkp->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkpRow, $item->rencana);
@@ -563,7 +623,7 @@ class SuperadminController extends Controller
         if ($satpolpp->count() != 0) {
             foreach ($satpolpp as $key => $item) {
                 $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A' . $satpolppRow, $key + 1);
-                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('B' . $satpolppRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('B' . $satpolppRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('C' . $satpolppRow, $item->dpa);
                 $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('D' . $satpolppRow, '=C' . $satpolppRow . '/$C$' . $satpolpp->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('E' . $satpolppRow, $item->rencana);
@@ -610,7 +670,7 @@ class SuperadminController extends Controller
         if ($kesbangpol->count() != 0) {
             foreach ($kesbangpol as $key => $item) {
                 $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('A' . $kesbangpolRow, $key + 1);
-                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('B' . $kesbangpolRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('B' . $kesbangpolRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('C' . $kesbangpolRow, $item->dpa);
                 $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('D' . $kesbangpolRow, '=C' . $kesbangpolRow . '/$C$' . $kesbangpol->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('6 KESBANGPOL')->setCellValue('E' . $kesbangpolRow, $item->rencana);
@@ -658,7 +718,7 @@ class SuperadminController extends Controller
         if ($dinsos->count() != 0) {
             foreach ($dinsos as $key => $item) {
                 $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('A' . $dinsosRow, $key + 1);
-                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('B' . $dinsosRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('B' . $dinsosRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('C' . $dinsosRow, $item->dpa);
                 $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('D' . $dinsosRow, '=C' . $dinsosRow . '/$C$' . $dinsos->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('7 DINSOS')->setCellValue('E' . $dinsosRow, $item->rencana);
@@ -706,7 +766,7 @@ class SuperadminController extends Controller
         if ($dp3a->count() != 0) {
             foreach ($dp3a as $key => $item) {
                 $spreadsheet->getSheetByName('8 DP3A')->setCellValue('A' . $dp3aRow, $key + 1);
-                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('B' . $dp3aRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('8 DP3A')->setCellValue('B' . $dp3aRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('8 DP3A')->setCellValue('C' . $dp3aRow, $item->dpa);
                 $spreadsheet->getSheetByName('8 DP3A')->setCellValue('D' . $dp3aRow, '=C' . $dp3aRow . '/$C$' . $dp3a->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('8 DP3A')->setCellValue('E' . $dp3aRow, $item->rencana);
@@ -753,7 +813,7 @@ class SuperadminController extends Controller
         if ($dkp3->count() != 0) {
             foreach ($dkp3 as $key => $item) {
                 $spreadsheet->getSheetByName('9 DKP3')->setCellValue('A' . $dkp3Row, $key + 1);
-                $spreadsheet->getSheetByName('9 DKP3')->setCellValue('B' . $dkp3Row, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('9 DKP3')->setCellValue('B' . $dkp3Row, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('9 DKP3')->setCellValue('C' . $dkp3Row, $item->dpa);
                 $spreadsheet->getSheetByName('9 DKP3')->setCellValue('D' . $dkp3Row, '=C' . $dkp3Row . '/$C$' . $dkp3->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('9 DKP3')->setCellValue('E' . $dkp3Row, $item->rencana);
@@ -801,7 +861,7 @@ class SuperadminController extends Controller
         if ($dlh->count() != 0) {
             foreach ($dlh as $key => $item) {
                 $spreadsheet->getSheetByName('10 DLH')->setCellValue('A' . $dlhRow, $key + 1);
-                $spreadsheet->getSheetByName('10 DLH')->setCellValue('B' . $dlhRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('10 DLH')->setCellValue('B' . $dlhRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('10 DLH')->setCellValue('C' . $dlhRow, $item->dpa);
                 $spreadsheet->getSheetByName('10 DLH')->setCellValue('D' . $dlhRow, '=C' . $dlhRow . '/$C$' . $dlh->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('10 DLH')->setCellValue('E' . $dlhRow, $item->rencana);
@@ -849,7 +909,7 @@ class SuperadminController extends Controller
         if ($capil->count() != 0) {
             foreach ($capil as $key => $item) {
                 $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('A' . $capilRow, $key + 1);
-                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('B' . $capilRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('B' . $capilRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('C' . $capilRow, $item->dpa);
                 $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('D' . $capilRow, '=C' . $capilRow . '/$C$' . $capil->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('11 CAPIL')->setCellValue('E' . $capilRow, $item->rencana);
@@ -896,7 +956,7 @@ class SuperadminController extends Controller
         if ($dppkbpm->count() != 0) {
             foreach ($dppkbpm as $key => $item) {
                 $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('A' . $dppkbpmRow, $key + 1);
-                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('B' . $dppkbpmRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('B' . $dppkbpmRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('C' . $dppkbpmRow, $item->dpa);
                 $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('D' . $dppkbpmRow, '=C' . $dppkbpmRow . '/$C$' . $dppkbpm->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('12 DPPKBPM')->setCellValue('E' . $dppkbpmRow, $item->rencana);
@@ -944,7 +1004,7 @@ class SuperadminController extends Controller
         if ($dishub->count() != 0) {
             foreach ($dishub as $key => $item) {
                 $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('A' . $dishubRow, $key + 1);
-                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('B' . $dishubRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('B' . $dishubRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('C' . $dishubRow, $item->dpa);
                 $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('D' . $dishubRow, '=C' . $dishubRow . '/$C$' . $dishub->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('13 DISHUB')->setCellValue('E' . $dishubRow, $item->rencana);
@@ -991,7 +1051,7 @@ class SuperadminController extends Controller
         if ($diskominfotik->count() != 0) {
             foreach ($diskominfotik as $key => $item) {
                 $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('A' . $diskominfotikRow, $key + 1);
-                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('B' . $diskominfotikRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('B' . $diskominfotikRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('C' . $diskominfotikRow, $item->dpa);
                 $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('D' . $diskominfotikRow, '=C' . $diskominfotikRow . '/$C$' . $diskominfotik->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('14 DISKOMINFOTIK')->setCellValue('E' . $diskominfotikRow, $item->rencana);
@@ -1038,7 +1098,7 @@ class SuperadminController extends Controller
         if ($diskopumker->count() != 0) {
             foreach ($diskopumker as $key => $item) {
                 $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('A' . $diskopumkerRow, $key + 1);
-                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('B' . $diskopumkerRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('B' . $diskopumkerRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('C' . $diskopumkerRow, $item->dpa);
                 $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('D' . $diskopumkerRow, '=C' . $diskopumkerRow . '/$C$' . $diskopumker->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('15 DISKOPUMKER')->setCellValue('E' . $diskopumkerRow, $item->rencana);
@@ -1086,7 +1146,7 @@ class SuperadminController extends Controller
         if ($dpmptsp->count() != 0) {
             foreach ($dpmptsp as $key => $item) {
                 $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('A' . $dpmptspRow, $key + 1);
-                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('B' . $dpmptspRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('B' . $dpmptspRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('C' . $dpmptspRow, $item->dpa);
                 $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('D' . $dpmptspRow, '=C' . $dpmptspRow . '/$C$' . $dpmptsp->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('16 DPMPTSP')->setCellValue('E' . $dpmptspRow, $item->rencana);
@@ -1134,7 +1194,7 @@ class SuperadminController extends Controller
             $spreadsheet->getSheetByName('17 Disbudporapar')->insertNewRowBefore(12, $disbudporapar->count() - 1);
             foreach ($disbudporapar as $key => $item) {
                 $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('A' . $disbudporaparRow, $key + 1);
-                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('B' . $disbudporaparRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('B' . $disbudporaparRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('C' . $disbudporaparRow, $item->dpa);
                 $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('D' . $disbudporaparRow, '=C' . $disbudporaparRow . '/$C$' . $disbudporapar->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('17 Disbudporapar')->setCellValue('E' . $disbudporaparRow, $item->rencana);
@@ -1182,7 +1242,7 @@ class SuperadminController extends Controller
         if ($dpa->count() != 0) {
             foreach ($dpa as $key => $item) {
                 $spreadsheet->getSheetByName('18 DPA')->setCellValue('A' . $dpaRow, $key + 1);
-                $spreadsheet->getSheetByName('18 DPA')->setCellValue('B' . $dpaRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('18 DPA')->setCellValue('B' . $dpaRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('18 DPA')->setCellValue('C' . $dpaRow, $item->dpa);
                 $spreadsheet->getSheetByName('18 DPA')->setCellValue('D' . $dpaRow, '=C' . $dpaRow . '/$C$' . $dpa->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('18 DPA')->setCellValue('E' . $dpaRow, $item->rencana);
@@ -1230,7 +1290,7 @@ class SuperadminController extends Controller
         if ($perdagin->count() != 0) {
             foreach ($perdagin as $key => $item) {
                 $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('A' . $perdaginRow, $key + 1);
-                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('B' . $perdaginRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('B' . $perdaginRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('C' . $perdaginRow, $item->perdagin);
                 $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('D' . $perdaginRow, '=C' . $perdaginRow . '/$C$' . $perdagin->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('19 Perdagin')->setCellValue('E' . $perdaginRow, $item->rencana);
@@ -1277,7 +1337,7 @@ class SuperadminController extends Controller
         if ($bagpem->count() != 0) {
             foreach ($bagpem as $key => $item) {
                 $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('A' . $bagpemRow, $key + 1);
-                $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('B' . $bagpemRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('B' . $bagpemRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('C' . $bagpemRow, $item->bagpem);
                 $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('D' . $bagpemRow, '=C' . $bagpemRow . '/$C$' . $bagpem->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('20 BAG PEM')->setCellValue('E' . $bagpemRow, $item->rencana);
@@ -1325,7 +1385,7 @@ class SuperadminController extends Controller
         if ($bagkum->count() != 0) {
             foreach ($bagkum as $key => $item) {
                 $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('A' . $bagkumRow, $key + 1);
-                $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('B' . $bagkumRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('B' . $bagkumRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('C' . $bagkumRow, $item->bagkum);
                 $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('D' . $bagkumRow, '=C' . $bagkumRow . '/$C$' . $bagkum->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('21 BAG KUM')->setCellValue('E' . $bagkumRow, $item->rencana);
@@ -1373,7 +1433,7 @@ class SuperadminController extends Controller
         if ($bageko->count() != 0) {
             foreach ($bageko as $key => $item) {
                 $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('A' . $bagekoRow, $key + 1);
-                $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('B' . $bagekoRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('B' . $bagekoRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('C' . $bagekoRow, $item->bageko);
                 $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('D' . $bagekoRow, '=C' . $bagekoRow . '/$C$' . $bageko->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('23 BAG EKO')->setCellValue('E' . $bagekoRow, $item->rencana);
@@ -1421,7 +1481,7 @@ class SuperadminController extends Controller
         if ($bagkesra->count() != 0) {
             foreach ($bagkesra as $key => $item) {
                 $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('A' . $bagkesraRow, $key + 1);
-                $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('B' . $bagkesraRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('B' . $bagkesraRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('C' . $bagkesraRow, $item->bagkesra);
                 $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('D' . $bagkesraRow, '=C' . $bagkesraRow . '/$C$' . $disdik->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('24 BAG KESRA')->setCellValue('E' . $bagkesraRow, $item->rencana);
@@ -1468,7 +1528,7 @@ class SuperadminController extends Controller
         if ($bagumum->count() != 0) {
             foreach ($bagumum as $key => $item) {
                 $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('A' . $bagumumRow, $key + 1);
-                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('B' . $bagumumRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('B' . $bagumumRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('C' . $bagumumRow, $item->bagumum);
                 $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('D' . $bagumumRow, '=C' . $bagumumRow . '/$C$' . $bagumum->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('26 BAGUMUM')->setCellValue('E' . $bagumumRow, $item->rencana);
@@ -1515,7 +1575,7 @@ class SuperadminController extends Controller
         if ($bagpbj->count() != 0) {
             foreach ($bagpbj as $key => $item) {
                 $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('A' . $bagpbjRow, $key + 1);
-                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('B' . $bagpbjRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('B' . $bagpbjRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('C' . $bagpbjRow, $item->bagpbj);
                 $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('D' . $bagpbjRow, '=C' . $bagpbjRow . '/$C$' . $bagpbj->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('27 BAGPBJ')->setCellValue('E' . $bagpbjRow, $item->rencana);
@@ -1562,7 +1622,7 @@ class SuperadminController extends Controller
         if ($bagpbg->count() != 0) {
             foreach ($bagpbg as $key => $item) {
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('A' . $bagpbgRow, $key + 1);
-                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('B' . $bagpbgRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('B' . $bagpbgRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('C' . $bagpbgRow, $item->bagpbg);
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('D' . $bagpbgRow, '=C' . $bagpbgRow . '/$C$' . $bagpbg->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('28 BAGPBG')->setCellValue('E' . $bagpbgRow, $item->rencana);
@@ -1609,7 +1669,7 @@ class SuperadminController extends Controller
         // if ($bagprokopim->count() != 0) {
         //     foreach ($bagprokopim as $key => $item) {
         //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('A' . $bagprokopimRow, $key + 1);
-        //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('B' . $bagprokopimRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+        //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('B' . $bagprokopimRow, $item->nama)->getColumnDimension('B')->setWidth('100');
         //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('C' . $bagprokopimRow, $item->bagprokopim);
         //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('D' . $bagprokopimRow, '=C' . $bagprokopimRow . '/$C$' . $disdik->count() + 11 . '*100');
         //         $spreadsheet->getSheetByName('25 BAGPROKOPIM')->setCellValue('E' . $bagprokopimRow, $item->rencana);
@@ -1657,7 +1717,7 @@ class SuperadminController extends Controller
         if ($setwan->count() != 0) {
             foreach ($setwan as $key => $item) {
                 $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('A' . $setwanRow, $key + 1);
-                $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('B' . $setwanRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('B' . $setwanRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('C' . $setwanRow, $item->setwan);
                 $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('D' . $setwanRow, '=C' . $setwanRow . '/$C$' . $setwan->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('29 SETWAN')->setCellValue('E' . $setwanRow, $item->rencana);
@@ -1704,7 +1764,7 @@ class SuperadminController extends Controller
         if ($bpkpad->count() != 0) {
             foreach ($bpkpad as $key => $item) {
                 $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('A' . $bpkpadRow, $key + 1);
-                $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('B' . $bpkpadRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('B' . $bpkpadRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('C' . $bpkpadRow, $item->bpkpad);
                 $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('D' . $bpkpadRow, '=C' . $bpkpadRow . '/$C$' . $bpkpad->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('30 BPKPAD')->setCellValue('E' . $bpkpadRow, $item->rencana);
@@ -1752,7 +1812,7 @@ class SuperadminController extends Controller
         if ($inspektorat->count() != 0) {
             foreach ($inspektorat as $key => $item) {
                 $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('A' . $inspektoratRow, $key + 1);
-                $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('B' . $inspektoratRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('B' . $inspektoratRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('C' . $inspektoratRow, $item->inspektorat);
                 $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('D' . $inspektoratRow, '=C' . $inspektoratRow . '/$C$' . $inspektorat->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('31 INSPEKTORAT')->setCellValue('E' . $inspektoratRow, $item->rencana);
@@ -1799,7 +1859,7 @@ class SuperadminController extends Controller
         if ($bkddiklat->count() != 0) {
             foreach ($bkddiklat as $key => $item) {
                 $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('A' . $bkddiklatRow, $key + 1);
-                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('B' . $bkddiklatRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('B' . $bkddiklatRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('C' . $bkddiklatRow, $item->bkddiklat);
                 $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('D' . $bkddiklatRow, '=C' . $bkddiklatRow . '/$C$' . $bkddiklat->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('32 BKDDIKLAT')->setCellValue('E' . $bkddiklatRow, $item->rencana);
@@ -1847,7 +1907,7 @@ class SuperadminController extends Controller
         if ($bpbd->count() != 0) {
             foreach ($bpbd as $key => $item) {
                 $spreadsheet->getSheetByName('33 BPBD')->setCellValue('A' . $bpbdRow, $key + 1);
-                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('B' . $bpbdRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('33 BPBD')->setCellValue('B' . $bpbdRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('33 BPBD')->setCellValue('C' . $bpbdRow, $item->bpbd);
                 $spreadsheet->getSheetByName('33 BPBD')->setCellValue('D' . $bpbdRow, '=C' . $bpbdRow . '/$C$' . $bpbd->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('33 BPBD')->setCellValue('E' . $bpbdRow, $item->rencana);
@@ -1895,7 +1955,7 @@ class SuperadminController extends Controller
         if ($damkar->count() != 0) {
             foreach ($damkar as $key => $item) {
                 $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('A' . $damkarRow, $key + 1);
-                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('B' . $damkarRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('B' . $damkarRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('C' . $damkarRow, $item->damkar);
                 $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('D' . $damkarRow, '=C' . $damkarRow . '/$C$' . $damkar->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('34 DAMKAR')->setCellValue('E' . $damkarRow, $item->rencana);
@@ -1942,7 +2002,7 @@ class SuperadminController extends Controller
         if ($timur->count() != 0) {
             foreach ($timur as $key => $item) {
                 $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('A' . $timurRow, $key + 1);
-                $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('B' . $timurRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('B' . $timurRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('C' . $timurRow, $item->timur);
                 $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('D' . $timurRow, '=C' . $timurRow . '/$C$' . $timur->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('35 TIMUR')->setCellValue('E' . $timurRow, $item->rencana);
@@ -1990,7 +2050,7 @@ class SuperadminController extends Controller
         if ($utara->count() != 0) {
             foreach ($utara as $key => $item) {
                 $spreadsheet->getSheetByName('36 UTARA')->setCellValue('A' . $utaraRow, $key + 1);
-                $spreadsheet->getSheetByName('36 UTARA')->setCellValue('B' . $utaraRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('36 UTARA')->setCellValue('B' . $utaraRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('36 UTARA')->setCellValue('C' . $utaraRow, $item->utara);
                 $spreadsheet->getSheetByName('36 UTARA')->setCellValue('D' . $utaraRow, '=C' . $utaraRow . '/$C$' . $utara->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('36 UTARA')->setCellValue('E' . $utaraRow, $item->rencana);
@@ -2038,7 +2098,7 @@ class SuperadminController extends Controller
         if ($tengah->count() != 0) {
             foreach ($tengah as $key => $item) {
                 $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('A' . $tengahRow, $key + 1);
-                $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('B' . $tengahRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('B' . $tengahRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('C' . $tengahRow, $item->tengah);
                 $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('D' . $tengahRow, '=C' . $tengahRow . '/$C$' . $tengah->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('37 TENGAH')->setCellValue('E' . $tengahRow, $item->rencana);
@@ -2086,7 +2146,7 @@ class SuperadminController extends Controller
         if ($barat->count() != 0) {
             foreach ($barat as $key => $item) {
                 $spreadsheet->getSheetByName('38 BARAT')->setCellValue('A' . $baratRow, $key + 1);
-                $spreadsheet->getSheetByName('38 BARAT')->setCellValue('B' . $baratRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('38 BARAT')->setCellValue('B' . $baratRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('38 BARAT')->setCellValue('C' . $baratRow, $item->barat);
                 $spreadsheet->getSheetByName('38 BARAT')->setCellValue('D' . $baratRow, '=C' . $baratRow . '/$C$' . $barat->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('38 BARAT')->setCellValue('E' . $baratRow, $item->rencana);
@@ -2134,7 +2194,7 @@ class SuperadminController extends Controller
         if ($selatan->count() != 0) {
             foreach ($selatan as $key => $item) {
                 $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('A' . $selatanRow, $key + 1);
-                $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('B' . $selatanRow, $item->nama)->getColumnDimension('B')->setAutoSize(TRUE);
+                $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('B' . $selatanRow, $item->nama)->getColumnDimension('B')->setWidth('100');
                 $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('C' . $selatanRow, $item->selatan);
                 $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('D' . $selatanRow, '=C' . $selatanRow . '/$C$' . $selatan->count() + 11 . '*100');
                 $spreadsheet->getSheetByName('39 SELATAN')->setCellValue('E' . $selatanRow, $item->rencana);
