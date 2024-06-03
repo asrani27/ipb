@@ -35,8 +35,14 @@
                         <td>
                             <a href="/pptk/subkegiatan/uraian/{{$item->id}}"
                               class="btn btn-xs btn-flat btn-primary"><strong>Uraian</strong></a>
-                          <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
+                              
+                              @if ($item->kirim_angkas == 1)
+                                  <i class="fa fa-check-circle"></i> Terkirim
+                              @else
+                                  
+                            <a href="/pptk/subkegiatan/kirim/{{$item->id}}"
                               class="btn btn-xs btn-flat btn-success"><strong> Kirim</strong></a>
+                              @endif
                       
                         </td>
                         
