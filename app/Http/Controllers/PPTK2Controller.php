@@ -304,7 +304,7 @@ class PPTK2Controller extends Controller
     {
         $bulanIni = Carbon::now()->format('m');
         if (nomorBulan(ucfirst($req->bulan)) >= $bulanIni) {
-            Session::flash('info', 'Tidak bisa input bulan setelahnya');
+            Session::flash('info', 'Tidak bisa input bulan ' . Carbon::now()->format('M') . ' atau setelahnya');
             return back();
         } else {
 
@@ -324,12 +324,19 @@ class PPTK2Controller extends Controller
 
     public function updateRealisasiFisik(Request $req)
     {
-        Uraian::find($req->uraian_id)->update([
-            'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
-        ]);
+        $bulanIni = Carbon::now()->format('m');
+        if (nomorBulan(ucfirst($req->bulan)) >= $bulanIni) {
+            Session::flash('info', 'Tidak bisa input bulan' . Carbon::now()->format('M') . '/ setelahnya');
+            return back();
+        } else {
 
-        Session::flash('success', 'Berhasil Di Simpan');
-        return back();
+            Uraian::find($req->uraian_id)->update([
+                'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
+            ]);
+
+            Session::flash('success', 'Berhasil Di Simpan');
+            return back();
+        }
     }
 
     public function laporanrfk()
