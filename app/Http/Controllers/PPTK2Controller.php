@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\T_m;
 use App\Models\M_akun;
 use App\Models\T_pptk;
@@ -301,17 +302,24 @@ class PPTK2Controller extends Controller
 
     public function updateRealisasiKeuangan(Request $req)
     {
-        $data = Uraian::find($req->uraian_id);
+        $bulanIni = Carbon::now()->format('m');
+        if (nomorBulan(ucfirst($req->bulan)) >= $bulanIni) {
+            Session::flash('info', 'Tidak bisa input bulan setelahnya');
+            return back();
+        } else {
 
-        $persen = ($req->real_realisasi / $data->dpa) * 100;
+            $data = Uraian::find($req->uraian_id);
 
-        Uraian::find($req->uraian_id)->update([
-            'r_' . $req->bulan . '_keuangan' => $req->real_realisasi,
-            'r_' . $req->bulan . '_fisik' => $persen,
-        ]);
+            $persen = ($req->real_realisasi / $data->dpa) * 100;
 
-        Session::flash('success', 'Berhasil Di Simpan');
-        return back();
+            Uraian::find($req->uraian_id)->update([
+                'r_' . $req->bulan . '_keuangan' => $req->real_realisasi,
+                'r_' . $req->bulan . '_fisik' => $persen,
+            ]);
+
+            Session::flash('success', 'Berhasil Di Simpan');
+            return back();
+        }
     }
 
     public function updateRealisasiFisik(Request $req)

@@ -141,6 +141,48 @@ function namaBulan($bulan)
     }
     return $nama_bulan;
 }
+
+
+function nomorBulan($bulan)
+{
+    if ($bulan == 'Januari') {
+        $nama_bulan = '01';
+    }
+    if ($bulan == 'Februari') {
+        $nama_bulan = '02';
+    }
+    if ($bulan == 'Maret') {
+        $nama_bulan = '03';
+    }
+    if ($bulan == 'April') {
+        $nama_bulan = '04';
+    }
+    if ($bulan == 'Mei') {
+        $nama_bulan = '05';
+    }
+    if ($bulan == 'Juni') {
+        $nama_bulan = '06';
+    }
+    if ($bulan == 'Juli') {
+        $nama_bulan = '07';
+    }
+    if ($bulan == 'Agustus') {
+        $nama_bulan = '08';
+    }
+    if ($bulan == 'September') {
+        $nama_bulan = '09';
+    }
+    if ($bulan == 'Oktober') {
+        $nama_bulan = '10';
+    }
+    if ($bulan == 'November') {
+        $nama_bulan = '11';
+    }
+    if ($bulan == 'Desember') {
+        $nama_bulan = '12';
+    }
+    return $nama_bulan;
+}
 function superadminRencanaFisik($bulan, $uraian)
 {
     if ($bulan == '1') {
