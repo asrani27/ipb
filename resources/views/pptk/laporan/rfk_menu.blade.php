@@ -13,4 +13,5 @@
 {{-- <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/v" class="btn btn-warning btn-sm btn-flat"><strong>V</strong></a>  --}}
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/fiskeu" class="btn btn-success btn-sm btn-flat"><strong>Fis Keu</strong></a>  
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/input" class="btn btn-success btn-sm btn-flat"><strong>Input</strong></a>  
-{{-- <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/export" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-file-excel-o"></i> Export</strong></a>  --}}
+
+<a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/export" class="btn btn-primary btn-sm btn-flat"><strong><i class="fa fa-file-excel-o"></i> Export</strong></a> 
