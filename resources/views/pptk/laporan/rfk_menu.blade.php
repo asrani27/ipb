@@ -4,10 +4,10 @@
 
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/srp" class="btn btn-danger btn-sm btn-flat"><strong>Sr Pengantar</strong></a> 
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/rfk" class="btn btn-danger btn-sm btn-flat"><strong>RFK</strong></a> 
-<a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/pbj" class="btn btn-warning btn-sm btn-flat"><strong>PBJ</strong></a> 
-<a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/st" class="btn btn-warning btn-sm btn-flat"><strong>ST</strong></a> 
+{{-- <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/pbj" class="btn btn-warning btn-sm btn-flat"><strong>PBJ</strong></a> 
+<a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/st" class="btn btn-warning btn-sm btn-flat"><strong>ST</strong></a>  --}}
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/m" class="btn btn-warning btn-sm btn-flat"><strong>M</strong></a> 
-<a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/v" class="btn btn-warning btn-sm btn-flat"><strong>V</strong></a> 
+{{-- <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/v" class="btn btn-warning btn-sm btn-flat"><strong>V</strong></a>  --}}
 <a href="/pptk/laporanrfk/{{$subkegiatan->id}}/{{$tahun}}/{{$bulan}}/fiskeu" class="btn btn-success btn-sm btn-flat"><strong>Fis Keu</strong></a>  
 @if ($status_kirim == null)
 @else
