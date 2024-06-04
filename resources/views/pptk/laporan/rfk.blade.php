@@ -23,6 +23,12 @@
                 <dd><strong>KEGIATAN :</strong> {{$subkegiatan->kegiatan->nama}}</dd>
                 <dd><strong>SUB KEGIATAN :</strong> {{$subkegiatan->nama}}</dd>
                 {{-- <dd><strong>JENIS RFK :</strong> {{$jenisrfk}}</dd> --}}
+                <dd><strong>STATUS :</strong> 
+                @if ($status_kirim != null)
+                    
+                <i class="fa fa-check-circle"></i> Terkirim
+                @endif  
+                </dd>
                 </dl>
             </div>
             <!-- /.box-body -->
