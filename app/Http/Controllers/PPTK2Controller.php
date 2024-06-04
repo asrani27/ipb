@@ -1062,19 +1062,24 @@ class PPTK2Controller extends Controller
     }
     public function kirimData($bulan, $subkegiatan_id)
     {
-        $tahun = Subkegiatan::find($subkegiatan_id)->tahun;
-        $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
-        //dd($biodata);
-        if ($biodata == null) {
-            Session::flash('error', 'Data Di menu Input kosong');
+        if (Subkegiatan::find($subkegiatan_id)->masalah->count() == 0) {
+            Session::flash('info', 'Harap Isi Kolom Masalah (M)');
+            return back();
+        } else {
+            $tahun = Subkegiatan::find($subkegiatan_id)->tahun;
+            $biodata = T_pptk::where('tahun', $tahun)->where('bulan', $bulan)->where('subkegiatan_id', $subkegiatan_id)->first();
+            //dd($biodata);
+            // if ($biodata == null) {
+            //     Session::flash('error', 'Data Di menu Input kosong');
+            //     return back();
+            // }
+
+            $field = 'kirim_rfk_' . strtolower(namaBulan($bulan));
+            Subkegiatan::find($subkegiatan_id)->update([
+                $field => 1,
+            ]);
+            Session::flash('success', 'berhasil Di Kirim Ke Admin SKPD');
             return back();
         }
-
-        $field = 'kirim_rfk_' . strtolower(namaBulan($bulan));
-        Subkegiatan::find($subkegiatan_id)->update([
-            $field => 1,
-        ]);
-        Session::flash('success', 'berhasil Di Kirim Ke Admin SKPD');
-        return back();
     }
 }
