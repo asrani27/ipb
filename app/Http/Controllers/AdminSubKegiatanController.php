@@ -120,31 +120,62 @@ class AdminSubKegiatanController extends Controller
         }
         $checkKegiatan = Kegiatan::where('tahun', $req->tahun)->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 12))->first();
         if ($checkKegiatan == null) {
-            $k = new Kegiatan();
-            $k->skpd_id = Auth::user()->skpd->id;
-            $k->tahun = '2024';
-            $k->program_id = Program::where('kode', $subkegiatan->kode_program)->where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->first()->id;
-            $k->nama = MasterKegiatan::where('kode', $subkegiatan->kode_kegiatan)->first()->nama;
-            $k->kode = $subkegiatan->kode_kegiatan;
-            $k->jenis_rfk = 'murni';
-            $k->save();
-            Subkegiatan::find($id)->update([
-                'kegiatan_id' => $k->id,
-                'kode' => $subkegiatan->kode,
-            ]);
+            if ($req->kode == null) {
+                $k = new Kegiatan();
+                $k->skpd_id = Auth::user()->skpd->id;
+                $k->tahun = '2024';
+                $k->program_id = Program::where('kode', $subkegiatan->kode_program)->where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->first()->id;
+                $k->nama = MasterKegiatan::where('kode', $subkegiatan->kode_kegiatan)->first()->nama;
+                $k->kode = $subkegiatan->kode_kegiatan;
+                $k->jenis_rfk = 'murni';
+                $k->save();
+                Subkegiatan::find($id)->update([
+                    'kegiatan_id' => $k->id,
+                    'kode' => $subkegiatan->kode,
+                ]);
+            } else {
+                $k = new Kegiatan();
+                $k->skpd_id = Auth::user()->skpd->id;
+                $k->tahun = '2024';
+                $k->program_id = Program::where('kode', $subkegiatan->kode_program)->where('skpd_id', Auth::user()->skpd->id)->where('tahun', $req->tahun)->first()->id;
+                $k->nama = MasterKegiatan::where('kode', $subkegiatan->kode_kegiatan)->first()->nama;
+                $k->kode = $subkegiatan->kode_kegiatan;
+                $k->jenis_rfk = 'murni';
+                $k->save();
+                Subkegiatan::find($id)->update([
+                    'kegiatan_id' => $k->id,
+                    'kode' => $req->kode,
+                ]);
+            }
         } else {
-            Subkegiatan::find($id)->update([
-                'kegiatan_id' => $checkKegiatan->id,
-                'kode' => $subkegiatan->kode,
-            ]);
+            if ($req->kode == null) {
+                Subkegiatan::find($id)->update([
+                    'kegiatan_id' => $checkKegiatan->id,
+                    'kode' => $subkegiatan->kode,
+                ]);
+            } else {
+                Subkegiatan::find($id)->update([
+                    'kegiatan_id' => $checkKegiatan->id,
+                    'kode' => $req->kode,
+                ]);
+            }
         }
 
-        $n = Subkegiatan::find($id)->update([
-            'kode' => $subkegiatan->kode,
-            'kode_program' => substr($subkegiatan->kode, 0, 7),
-            'kode_kegiatan' => substr($subkegiatan->kode, 0, 12),
-            'nama' => MasterSubKegiatan::find($req->subkegiatan_id)->nama,
-        ]);
+        if ($req->kode == null) {
+            $n = Subkegiatan::find($id)->update([
+                'kode' => $subkegiatan->kode,
+                'kode_program' => substr($subkegiatan->kode, 0, 7),
+                'kode_kegiatan' => substr($subkegiatan->kode, 0, 12),
+                'nama' => MasterSubKegiatan::find($req->subkegiatan_id)->nama,
+            ]);
+        } else {
+            $n = Subkegiatan::find($id)->update([
+                'kode' => $req->kode,
+                'kode_program' => substr($req->kode, 0, 7),
+                'kode_kegiatan' => substr($req->kode, 0, 12),
+                'nama' => MasterSubKegiatan::find($req->req_id)->nama,
+            ]);
+        }
 
         Session::flash('success', 'Berhasil Di Update');
         return redirect('admin/datatarik/subkegiatan/' . $req->tahun);

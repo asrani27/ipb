@@ -24,7 +24,10 @@
                 </div>
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Subkegiatan Lama</label>
-                  <div class="col-sm-10">
+                  <div class="col-sm-2">
+                    <input type="text" name="kode" class="form-control" value="">
+                  </div>
+                  <div class="col-sm-8">
                     <input type="text" name="nama" class="form-control" value="{{$data->kode}} - {{$data->nama}}" readonly>
                   </div>
                 </div>
