@@ -30,7 +30,7 @@
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-2 control-label">Ke</label>
                   <div class="col-sm-8">
-                    <input type="text" name="ke" class="form-control" placeholder="1" required onkeypress="return hanyaAngka(event)"/>
+                    <input type="text" name="ke" class="form-control" placeholder="1, 2, 3, 4" required onkeypress="return hanyaAngka(event)"/>
                   </div>
                 </div>
                 <div class="form-group">
