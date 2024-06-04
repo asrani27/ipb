@@ -36,7 +36,11 @@
         
                   <div class="box-tools">
                     <a href="/pptk/subkegiatan" class="btn btn-sm bg-gray btn-flat"><i class="fa fa-arrow-left"></i> Kembali</a>
+
+                    @if ($subkegiatan->kirim_angkas != 1)
                     <a href="/pptk/subkegiatan/uraian/{{$subkegiatan->id}}/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Uraian</a>
+                    @endif
+
                   </div>
                 </div>
                 <!-- /.box-header -->
@@ -62,10 +66,14 @@
                         </td>
                         <td>
                               
+                        @if ($subkegiatan->kirim_angkas != 1)
                           <a href="/pptk/edituraian/{{$item->id}}" class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
                           <a href="/pptk/deleteuraian/{{$item->id}}"
                             onclick="return confirm('Yakin ingin di hapus');"
                             class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i></a>
+                        @else
+                            <i class="fa fa-check-circle"></i> Terkirim
+                        @endif
                           
                         </td>
                     </tr>
