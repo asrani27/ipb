@@ -303,7 +303,7 @@ class PPTK2Controller extends Controller
     public function updateRealisasiKeuangan(Request $req)
     {
         $bulanIni = Carbon::now()->format('m');
-        if (nomorBulan(ucfirst($req->bulan)) >= $bulanIni) {
+        if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
             Session::flash('info', 'Tidak bisa input bulan ' . Carbon::now()->format('M') . ' atau setelahnya');
             return back();
         } else {
@@ -325,7 +325,7 @@ class PPTK2Controller extends Controller
     public function updateRealisasiFisik(Request $req)
     {
         $bulanIni = Carbon::now()->format('m');
-        if (nomorBulan(ucfirst($req->bulan)) >= $bulanIni) {
+        if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
             Session::flash('info', 'Tidak bisa input bulan' . Carbon::now()->format('M') . '/ setelahnya');
             return back();
         } else {
