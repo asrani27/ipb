@@ -72,7 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      DISDIK
+      
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2022 <a href="#">Kota Banjarmasin</a>.</strong>
