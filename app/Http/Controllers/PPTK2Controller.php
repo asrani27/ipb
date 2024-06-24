@@ -7,6 +7,7 @@ use App\Models\T_m;
 use App\Models\M_akun;
 use App\Models\T_pptk;
 use App\Models\Uraian;
+use App\Models\Pengajuan;
 use App\Models\BatasInput;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class PPTK2Controller extends Controller
         if (Auth::user()->pptk->skpd->perubahan == 1) {
             $status = 'perubahan';
         }
+
         if ($status == 'pergeseran') {
             $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
@@ -51,6 +53,7 @@ class PPTK2Controller extends Controller
         }
 
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
+
         if ($subkegiatan->kode == null) {
             Session::flash('info', 'kode subkegiatan tidak ada, Harap perbaharui kode subkegiatan di admin skpd');
             return back();
@@ -75,9 +78,29 @@ class PPTK2Controller extends Controller
         $akun = M_akun::get();
         return view('pptk.uraian.edit', compact('subkegiatan', 'data', 'akun'));
     }
-
+    public function kirimUraian($id)
+    {
+        $data = Uraian::find($id)->update(['status_kirim' => 1]);
+        return back();
+    }
     public function storeuraian(Request $req, $subkegiatan_id)
     {
+
+        if (Auth::user()->pptk->skpd->murni == 1) {
+            $status = 'murni';
+        }
+        if (Auth::user()->pptk->skpd->pergeseran == 1) {
+            $status = 'pergeseran';
+        }
+        if (Auth::user()->pptk->skpd->perubahan == 1) {
+            $status = 'perubahan';
+        }
+
+        $ke = Pengajuan::where('skpd_id', Auth::user()->pptk->skpd->id)->where('status', 1)->orderBy('id', 'DESC')->get();
+        if (count($ke) != 0) {
+            $hasil = $ke->first()->ke;
+        }
+
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
         $rekening_belanja   = M_akun::find($req->kode_akun);
         $n                  = new Uraian;
@@ -92,7 +115,10 @@ class PPTK2Controller extends Controller
         $n->nama            = $rekening_belanja->nama_akun;
         $n->keterangan      = $req->keterangan;
         $n->dpa             = (int)str_replace(str_split('Rp.'), '', $req->dpa);
-        $n->jenis_rfk       = $subkegiatan->jenis_rfk;
+        if (count($ke) != 0) {
+            $n->ke      = $hasil;
+        }
+        $n->jenis_rfk       = $status;
         $n->save();
         Session::flash('success', 'Berhasil Di Simpan');
         return redirect('/pptk/subkegiatan/uraian/' . $subkegiatan_id);
@@ -100,6 +126,7 @@ class PPTK2Controller extends Controller
 
     public function updateUraian(Request $req, $id)
     {
+
         $newdpa = (int)str_replace(str_split('Rp.'), '', $req->dpa);
         $subkegiatan_id = Uraian::find($id)->subkegiatan->id;
         $n = Uraian::find($id);
@@ -108,6 +135,7 @@ class PPTK2Controller extends Controller
             $n->kode_rekening = $req->kode_rekening;
             $n->nama = $req->nama;
             $n->dpa = $newdpa;
+            $n->keterangan = $req->keterangan;
             $n->p_januari_keuangan     = 0;
             $n->p_februari_keuangan    = 0;
             $n->p_maret_keuangan       = 0;
@@ -140,18 +168,20 @@ class PPTK2Controller extends Controller
             $n->kode_rekening = $req->kode_rekening;
             $n->nama = $req->nama;
             $n->dpa = $newdpa;
-            $n->p_januari_fisik     = ($n->p_januari_keuangan / $newdpa) * 100;
-            $n->p_februari_fisik    = ($n->p_februari_keuangan / $newdpa) * 100;
-            $n->p_maret_fisik       = ($n->p_maret_keuangan / $newdpa) * 100;
-            $n->p_april_fisik       = ($n->p_april_keuangan / $newdpa) * 100;
-            $n->p_mei_fisik         = ($n->p_mei_keuangan / $newdpa) * 100;
-            $n->p_juni_fisik        = ($n->p_juni_keuangan / $newdpa) * 100;
-            $n->p_juli_fisik        = ($n->p_juli_keuangan / $newdpa) * 100;
-            $n->p_agustus_fisik     = ($n->p_agustus_keuangan / $newdpa) * 100;
-            $n->p_september_fisik   = ($n->p_september_keuangan / $newdpa) * 100;
-            $n->p_oktober_fisik     = ($n->p_oktober_keuangan / $newdpa) * 100;
-            $n->p_november_fisik    = ($n->p_november_keuangan / $newdpa) * 100;
-            $n->p_desember_fisik    = ($n->p_desember_keuangan / $newdpa) * 100;
+            $n->keterangan = $req->keterangan;
+
+            // $n->p_januari_fisik     = ($n->p_januari_keuangan / $newdpa) * 100;
+            // $n->p_februari_fisik    = ($n->p_februari_keuangan / $newdpa) * 100;
+            // $n->p_maret_fisik       = ($n->p_maret_keuangan / $newdpa) * 100;
+            // $n->p_april_fisik       = ($n->p_april_keuangan / $newdpa) * 100;
+            // $n->p_mei_fisik         = ($n->p_mei_keuangan / $newdpa) * 100;
+            // $n->p_juni_fisik        = ($n->p_juni_keuangan / $newdpa) * 100;
+            // $n->p_juli_fisik        = ($n->p_juli_keuangan / $newdpa) * 100;
+            // $n->p_agustus_fisik     = ($n->p_agustus_keuangan / $newdpa) * 100;
+            // $n->p_september_fisik   = ($n->p_september_keuangan / $newdpa) * 100;
+            // $n->p_oktober_fisik     = ($n->p_oktober_keuangan / $newdpa) * 100;
+            // $n->p_november_fisik    = ($n->p_november_keuangan / $newdpa) * 100;
+            // $n->p_desember_fisik    = ($n->p_desember_keuangan / $newdpa) * 100;
 
             $n->save();
             Session::flash('success', 'Berhasil Di Update, harap sesuaikan kembali angkas anda jika merubah DPA');
@@ -601,9 +631,6 @@ class PPTK2Controller extends Controller
 
         $subkegiatan = Subkegiatan::find($id);
 
-        // $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
-
-        // $data = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
         if (Auth::user()->pptk->skpd->murni == 1) {
             $status = 'murni';
         }

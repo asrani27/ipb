@@ -65,7 +65,7 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>{{$subkegiatan->count()}}</h3>
+          <h3>{{$uraian}}</h3>
 
           <p>TOTAL URAIAN KEGIATAN</p>
         </div>

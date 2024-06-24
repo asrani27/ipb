@@ -31,7 +31,7 @@
         <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><i class="fa fa-clipboard"></i> Edit Uraian Kegiatan</h3>
+                  <h3 class="box-title"><i class="fa fa-clipboard"></i> Edit Uraian Kegiatan.</h3>
         
                   <div class="box-tools">
                     

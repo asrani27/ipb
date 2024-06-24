@@ -46,6 +46,6 @@ class SuperadminJenisrfkController extends Controller
     public function delete($id)
     {
         $data = JenisRfk::find($id)->delete();
-        return view('superadmin.jenis.edit', compact('data'));
+        return back();
     }
 }
