@@ -97,8 +97,45 @@ function statusRFK()
 function jenisRFK($bulan, $tahun)
 {
 
-    $result = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->first()[$bulan];
-    return $result;
+    if ($bulan == '01') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->januari;
+    }
+    if ($bulan == '02') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->februari;
+    }
+    if ($bulan == '03') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->maret;
+    }
+    if ($bulan == '04') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->april;
+    }
+    if ($bulan == '05') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->mei;
+    }
+    if ($bulan == '06') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->juni;
+    }
+    if ($bulan == '07') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->juli;
+    }
+    if ($bulan == '08') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->agustus;
+    }
+    if ($bulan == '09') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->september;
+    }
+    if ($bulan == '10') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->oktober;
+    }
+    if ($bulan == '11') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->november;
+    }
+    if ($bulan == '12') {
+        $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->desember;
+    }
+
+    // $result = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->first()[$bulan];
+    return $jenisrfk;
 }
 
 function namaBulan($bulan)

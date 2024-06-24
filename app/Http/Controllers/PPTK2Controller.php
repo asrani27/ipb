@@ -7,6 +7,7 @@ use App\Models\T_m;
 use App\Models\M_akun;
 use App\Models\T_pptk;
 use App\Models\Uraian;
+use App\Models\JenisRfk;
 use App\Models\Pengajuan;
 use App\Models\BatasInput;
 use App\Models\Subkegiatan;
@@ -402,19 +403,20 @@ class PPTK2Controller extends Controller
     {
         $nama_bulan = namaBulan($bulan);
 
-        // $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
+        $status = jenisRFK($bulan, $tahun);
+
 
         // $data = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
 
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
         if ($status == 'pergeseran') {
             $data = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
@@ -456,19 +458,19 @@ class PPTK2Controller extends Controller
 
         $nama_bulan = namaBulan($bulan);
 
-        // $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
+        $status = jenisRFK($bulan, $tahun);
 
-        // $data = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
 
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
+
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
         if ($status == 'pergeseran') {
             $data = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
@@ -525,7 +527,7 @@ class PPTK2Controller extends Controller
     {
         $nama_bulan = namaBulan($bulan);
         $subkegiatan = Subkegiatan::find($id);
-        $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
+        $jenisrfk = jenisRFK($bulan, $tahun);
 
         $m = T_m::where('subkegiatan_id', $id)->where('tahun', $tahun)->where('bulan', $bulan)->get();
 
@@ -540,18 +542,18 @@ class PPTK2Controller extends Controller
             $nama_bulan = namaBulan($bulan);
             $subkegiatan = Subkegiatan::find($id);
 
-            // $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
+            $status = jenisRFK($bulan, $tahun);
 
             // $data = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
-            if (Auth::user()->pptk->skpd->murni == 1) {
-                $status = 'murni';
-            }
-            if (Auth::user()->pptk->skpd->pergeseran == 1) {
-                $status = 'pergeseran';
-            }
-            if (Auth::user()->pptk->skpd->perubahan == 1) {
-                $status = 'perubahan';
-            }
+            // if (Auth::user()->pptk->skpd->murni == 1) {
+            //     $status = 'murni';
+            // }
+            // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+            //     $status = 'pergeseran';
+            // }
+            // if (Auth::user()->pptk->skpd->perubahan == 1) {
+            //     $status = 'perubahan';
+            // }
             if ($status == 'pergeseran') {
                 $data = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
             } else {
@@ -631,15 +633,17 @@ class PPTK2Controller extends Controller
 
         $subkegiatan = Subkegiatan::find($id);
 
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
+
+        $status = jenisRFK($bulan, $tahun);
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
         if ($status == 'pergeseran') {
             $data = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
@@ -716,15 +720,17 @@ class PPTK2Controller extends Controller
         // $jenisrfk = BatasInput::where('is_aktif', 1)->first()->nama;
 
         // $datainput = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
+
+        $status = jenisRFK($bulan, $tahun);
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
         if ($status == 'pergeseran') {
             $datainput = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
