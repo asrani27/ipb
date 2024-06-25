@@ -96,7 +96,6 @@ function statusRFK()
 
 function jenisRFK($bulan, $tahun)
 {
-
     if ($bulan == '01') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->januari;
     }

@@ -123,34 +123,25 @@ class AdminLaporanController extends Controller
 
     public function laporanRfk($tahun, $bulan)
     {
+        $result = JenisRFK(nomorBulan(ucfirst($bulan)), $tahun);
 
-        // $statusRFK = JenisRfk::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $tahun)->first();
-        // if ($statusRFK == null) {
-        //     Session::flash('error', 'Periode RFK Tahun ' . $tahun . ' Belum Di isi');
-        //     return back();
-        // }
-
-        $result = 'murni';
-        //dd($result);
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
         $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
-        //dd($data, $result, $tahun);
+
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
-        //dd($subkeg);
-        //dd($subkeg, $tahun, $result, $bulan, $statusRFK);
+
+
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
-            //dd($item->uraian);
             $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
             return $item;
         })->sum('kolom3');
 
 
         $datasubkegiatan = $subkeg->map(function ($item) use ($result, $totalsubkegiatan, $bulan) {
-            //dd();
             $status_kirim = 'kirim_rfk_' . $bulan;
             $item->status_kirim = $item[$status_kirim];
 
