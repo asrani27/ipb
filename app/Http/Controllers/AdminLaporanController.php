@@ -126,9 +126,9 @@ class AdminLaporanController extends Controller
         $result = JenisRFK(nomorBulan(ucfirst($bulan)), $tahun);
 
         $bidang = Bidang::count();
-        $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
-        $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
-        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->count();
+        $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
