@@ -132,7 +132,7 @@ class AdminLaporanController extends Controller
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
-        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', $result)->get();
+        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
 
 
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
