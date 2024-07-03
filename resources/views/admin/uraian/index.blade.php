@@ -35,7 +35,7 @@
                 <td width="200px"style="text-align: center"> {{$item->pptk == null ? '' : $item->pptk->nama_pptk}}<br/> {{$item->pptk == null ? '': $item->pptk->nip_pptk}} </td>
                 <td style="text-align: center"> 
                     @if ($item->status_kirim == 1)
-                    <a href="/admin/uraian/{{$item->id}}/kembalikan" class="btn btn-xs btn-danger" onclick="return confirm('Kembalikan?');> <i class="fa fa-close"></i> Kembalikan</a> 
+                    <a href="/admin/uraian/{{$item->id}}/kembalikan" class="btn btn-xs btn-danger" onclick="return confirm('Kembalikan?');"> <i class="fa fa-close"></i> Kembalikan</a> 
                     @endif
                 </td>
               </tr>
