@@ -19,7 +19,8 @@
                 <th  style="text-align: center">Kode Rekening</th>
                 <th  style="text-align: center">Uraian Kegiatan</th>
                 <th style="text-align: center">DPA</th>
-                <th></th>
+                <th style="text-align: center">PPTK</th>
+                <th>Aksi</th>
               </tr>
               
 
@@ -31,6 +32,7 @@
                 <td width="100px"> {{$item->kode_rekening}} </td>
                 <td width="400px"> {{$item->nama}} </td>
                 <td width="100px" style="text-align: right"> {{number_format($item->dpa)}} </td>
+                <td width="200px"style="text-align: center"> {{$item->pptk == null ? '' : $item->pptk->nama_pptk}}<br/> {{$item->pptk == null ? '': $item->pptk->nip_pptk}} </td>
                 <td style="text-align: center"> 
                     @if ($item->status_kirim == 1)
                     <a href="/admin/uraian/{{$item->id}}/kembalikan" class="btn btn-xs btn-danger" onclick="return confirm('Kembalikan?');> <i class="fa fa-close"></i> Kembalikan</a> 

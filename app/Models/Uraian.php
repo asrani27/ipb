@@ -14,4 +14,8 @@ class Uraian extends Model
     {
         return $this->belongsTo(Subkegiatan::class, 'subkegiatan_id');
     }
+    public function pptk()
+    {
+        return $this->belongsTo(PPTK::class, 'pptk_id');
+    }
 }
