@@ -96,6 +96,8 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::post('capaian/program', [AdminCapaianController::class, 'capaianProgram']);
         Route::post('capaian/kegiatan', [AdminCapaianController::class, 'capaianKegiatan']);
         Route::post('capaian/subkegiatan', [AdminCapaianController::class, 'capaianSubkegiatan']);
+        Route::get('uraian', [AdminLaporanController::class, 'uraian']);
+        Route::get('uraian/{id}/kembalikan', [AdminLaporanController::class, 'kembalikan_uraian']);
         Route::get('laporan', [AdminLaporanController::class, 'index']);
         Route::get('laptriwulan', [AdminLaporanController::class, 'triwulan']);
         Route::post('laptriwulan', [AdminLaporanController::class, 'exporttriwulan']);

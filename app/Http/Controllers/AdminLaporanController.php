@@ -233,6 +233,37 @@ class AdminLaporanController extends Controller
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun'));
     }
 
+    public function uraian()
+    {
+
+        if (Auth::user()->skpd->murni == 1) {
+            $result = 'murni';
+            $data = Uraian::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $result)->get();
+        } elseif (Auth::user()->skpd->pergeseran == 1) {
+            $result = 'pergeseran';
+            $data = Uraian::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $result)->where('ke', Auth::user()->skpd->ke)->get();
+        } else {
+            $result = 'perubahan';
+            $data = Uraian::where('tahun', '2024')->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $result)->get();
+        }
+
+        return view('admin.uraian.index', compact('data'));
+    }
+
+    public function kembalikan_uraian($id)
+    {
+        $skpd_id = Uraian::find($id)->skpd_id;
+        if (Auth::user()->skpd->id != $skpd_id) {
+            Session::flash('error', 'Uraian bukan milik skpd anda');
+            return back();
+        } else {
+            Uraian::find($id)->update([
+                'status_kirim' => 0,
+            ]);
+            Session::flash('success', 'Dikembalikan');
+            return back();
+        }
+    }
     public function rencana($tahun)
     {
 
