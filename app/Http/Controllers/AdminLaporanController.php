@@ -275,7 +275,6 @@ class AdminLaporanController extends Controller
             if ($item->kirim_angkas == null) {
                 $item->kolom3 = 0;
             } else {
-
                 if ($result == 'murni') {
                     $item->kolom3 = $item->uraian->where('jenis_rfk', 'murni')->sum('dpa');
                 }
