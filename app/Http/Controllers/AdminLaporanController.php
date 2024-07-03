@@ -236,7 +236,14 @@ class AdminLaporanController extends Controller
     public function rencana($tahun)
     {
 
-        $statusRFK = BatasInput::where('is_aktif', 1)->first()->nama;
+        if (Auth::user()->skpd->murni == 1) {
+            $result = 'murni';
+        } elseif (Auth::user()->skpd->pergeseran == 1) {
+            $result = 'pergeseran';
+        } else {
+            $result = 'perubahan';
+        }
+
 
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
@@ -248,27 +255,42 @@ class AdminLaporanController extends Controller
         $datakegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
-        //dd($subkeg);
-        $totalsubkegiatan = $subkeg->map(function ($item) {
 
-            $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
+        $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
+
+            if ($result == 'murni') {
+                $item->kolom3 = $item->uraian->where('jenis_rfk', 'murni')->sum('dpa');
+            }
+            if ($result == 'pergeseran') {
+                $item->kolom3 = $item->uraian->where('jenis_rfk', 'pergeseran')->where('ke', Auth::user()->skpd->ke)->sum('dpa');
+            }
+            if ($result == 'perubahan') {
+                $item->kolom3 = $item->uraian->where('jenis_rfk', 'perubahan')->sum('dpa');
+            }
             return $item;
         })->sum('kolom3');
 
-        $datasubkegiatan = $subkeg->map(function ($item) {
+
+        $datasubkegiatan = $subkeg->map(function ($item) use ($result) {
             if ($item->kirim_angkas == null) {
                 $item->kolom3 = 0;
             } else {
-                $item->kolom3 = $item->uraian->where('status', null)->sum('dpa');
+
+                if ($result == 'murni') {
+                    $item->kolom3 = $item->uraian->where('jenis_rfk', 'murni')->sum('dpa');
+                }
+                if ($result == 'pergeseran') {
+                    $item->kolom3 = $item->uraian->where('jenis_rfk', 'pergeseran')->where('ke', Auth::user()->skpd->ke)->sum('dpa');
+                }
+                if ($result == 'perubahan') {
+                    $item->kolom3 = $item->uraian->where('jenis_rfk', 'perubahan')->sum('dpa');
+                }
             }
             if ($item->kelurahan != null) {
                 $item->kelurahan = $item->kelurahan->nama;
             } else {
                 $item->kelurahan = null;
             }
-            // $format['nama'] = $item->nama;
-
-            // $format['status_kirim'] = $item->kirim_angkas;
             return $item;
         });
 
