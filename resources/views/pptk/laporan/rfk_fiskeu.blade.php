@@ -159,7 +159,7 @@
                 <td style="text-align: right">
                   {{number_format($item->jumlah_renc_keuangan)}} <br/>
                   {{number_format($item->jumlah_real_keuangan)}} <br/>
-                  @if ($item->jumlah_renc_fisik > 100 || $item->jumlah_renc_fisik >= 99)
+                  @if ( $item->jumlah_renc_fisik >= 99 && $item->jumlah_renc_fisik <= 100)
                       100 %<br/>
                       100 %
                   @else
