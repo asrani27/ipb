@@ -158,9 +158,14 @@
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->jumlah_renc_keuangan)}} <br/>
-                 {{number_format($item->jumlah_real_keuangan)}} <br/>
+                  {{number_format($item->jumlah_real_keuangan)}} <br/>
+                  @if ($item->jumlah_renc_fisik > 100 || $item->jumlah_renc_fisik >= 99)
+                      100 %<br/>
+                      100 %
+                  @else
                   {{round($item->jumlah_renc_fisik,2)}}% <br/>
                   {{round($item->jumlah_real_fisik,2)}}%
+                  @endif
                 </td>
               </tr>
               <tr style="background-color: rgb(249, 243, 185); font-size:9px">
