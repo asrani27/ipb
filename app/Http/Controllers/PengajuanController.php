@@ -42,7 +42,7 @@ class PengajuanController extends Controller
         //duplikat untuk menjadi pergeseran
         DB::beginTransaction();
         try {
-            $check = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('ke', $pengajuan->ke)->first();
+            $check = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', $pengajuan->ke)->first();
             if ($check == null) {
                 $skpd->update([
                     'murni' => 0,
