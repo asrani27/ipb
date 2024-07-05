@@ -178,10 +178,10 @@
                   <!-- /.box-body -->
                   <div class="box-footer">
 
-                    @if ($uraian->status_kirim != 1)
+                    {{-- @if ($uraian->status_kirim != 1) --}}
                               
                     <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-send"></i>  SIMPAN</button>
-                    @endif
+                    {{-- @endif --}}
                   </div>
                   <!-- /.box-footer -->
                 </form>
