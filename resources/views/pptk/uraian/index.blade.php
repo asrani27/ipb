@@ -65,16 +65,16 @@
                         </td>
                         <td>
                               
-                        @if ($item->status_kirim != 1)
-                        <a href="/pptk/kirimuraian/{{$item->id}}" class="btn btn-xs btn-flat btn-success" onclick="return confirm('Yakin dikirim?');"><i class="fa fa-send"></i>Kirim</a>
+                        {{-- @if ($item->status_kirim != 1)
+                        <a href="/pptk/kirimuraian/{{$item->id}}" class="btn btn-xs btn-flat btn-success" onclick="return confirm('Yakin dikirim?');"><i class="fa fa-send"></i>Kirim</a> --}}
                           <a href="/pptk/edituraian/{{$item->id}}" class="btn btn-xs btn-flat btn-success"><i class="fa fa-edit"></i></a>
                           <a href="/pptk/deleteuraian/{{$item->id}}"
                             onclick="return confirm('Yakin ingin di hapus');"
                             class="btn btn-xs btn-flat btn-danger"><i class="fa fa-trash"></i></a>
-                        @else
+                        {{-- @else
                             <i class="fa fa-check-circle"></i> Terkirim
                         @endif
-                          
+                           --}}
                         </td>
                     </tr>
                     @endforeach
