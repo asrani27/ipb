@@ -60,7 +60,7 @@
               </tr>
               @foreach ($data as $key => $item)
                   
-              <tr style="font-size:10px;">
+              <tr style="font-size:10px;" id="{{$key+1}}">
                 <td style="width: 10px">{{$key + 1}}</td>
                 <td width="200px">{{$item->nama}}<br/>
                 {{$item->keterangan}}
@@ -74,86 +74,86 @@
                 </td>
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
                   {{round($item->p_januari_fisik,2)}}% <br/>
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_fisik}}">{{round($item->r_januari_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_fisik}}">{{round($item->r_januari_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_februari_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_keuangan}}">{{number_format($item->r_februari_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_keuangan}}">{{number_format($item->r_februari_keuangan)}} </a><br/>
                   {{round($item->p_februari_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_fisik}}">{{round($item->r_februari_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="februari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_februari_fisik}}">{{round($item->r_februari_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_maret_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_keuangan}}">{{number_format($item->r_maret_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_keuangan}}">{{number_format($item->r_maret_keuangan)}} </a><br/>
                   {{round($item->p_maret_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_fisik}}">{{round($item->r_maret_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="maret"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_maret_fisik}}">{{round($item->r_maret_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_april_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_keuangan}}">{{number_format($item->r_april_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_keuangan}}">{{number_format($item->r_april_keuangan)}} </a><br/>
                   {{round($item->p_april_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_fisik}}">{{round($item->r_april_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="april"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_april_fisik}}">{{round($item->r_april_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_mei_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_keuangan}}">{{number_format($item->r_mei_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_keuangan}}">{{number_format($item->r_mei_keuangan)}} </a><br/>
                   {{round($item->p_mei_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_fisik}}">{{round($item->r_mei_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="mei"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_mei_fisik}}">{{round($item->r_mei_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juni_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_keuangan}}">{{number_format($item->r_juni_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_keuangan}}">{{number_format($item->r_juni_keuangan)}} </a><br/>
                   {{round($item->p_juni_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_fisik}}">{{round($item->r_juni_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juni"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juni_fisik}}">{{round($item->r_juni_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_juli_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_keuangan}}">{{number_format($item->r_juli_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_keuangan}}">{{number_format($item->r_juli_keuangan)}} </a><br/>
                   {{round($item->p_juli_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_fisik}}">{{round($item->r_juli_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="juli"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_juli_fisik}}">{{round($item->r_juli_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_agustus_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_keuangan}}">{{number_format($item->r_agustus_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_keuangan}}">{{number_format($item->r_agustus_keuangan)}} </a><br/>
                   {{round($item->p_agustus_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_fisik}}">{{round($item->r_agustus_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="agustus"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_agustus_fisik}}">{{round($item->r_agustus_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_september_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_keuangan}}">{{number_format($item->r_september_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_keuangan}}">{{number_format($item->r_september_keuangan)}} </a><br/>
                   {{round($item->p_september_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_fisik}}">{{round($item->r_september_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="september"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_september_fisik}}">{{round($item->r_september_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_oktober_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_keuangan}}">{{number_format($item->r_oktober_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_keuangan}}">{{number_format($item->r_oktober_keuangan)}} </a><br/>
                   {{round($item->p_oktober_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_fisik}}">{{round($item->r_oktober_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="oktober"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_oktober_fisik}}">{{round($item->r_oktober_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_november_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_keuangan}}">{{number_format($item->r_november_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_keuangan}}">{{number_format($item->r_november_keuangan)}} </a><br/>
                   {{round($item->p_november_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_fisik}}">{{round($item->r_november_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="november"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_november_fisik}}">{{round($item->r_november_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->p_desember_keuangan)}} <br/>
-                  <a href="#" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_keuangan}}">{{number_format($item->r_desember_keuangan)}} </a><br/>
+                  <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_keuangan}}">{{number_format($item->r_desember_keuangan)}} </a><br/>
                   {{round($item->p_desember_fisik,2)}}% <br/>
                   
-                  <a href="#" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_fisik}}">{{round($item->r_desember_fisik,2)}}% </a>
+                  <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="desember"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_desember_fisik}}">{{round($item->r_desember_fisik,2)}}% </a>
                 </td>
                 <td style="text-align: right">
                   {{number_format($item->jumlah_renc_keuangan)}} <br/>
@@ -289,20 +289,20 @@
 </script>
 <script>
   $(document).on('click', '.edit-realisasi', function() {
-  $('#uraian_id').val($(this).data('id'));
-  $('#bulan').val($(this).data('bulan'));
-  $('#uraian').val($(this).data('uraian'));
-  $('#renc_realisasi').val($(this).data('rencrealisasi'));
-  $("#modal-edit").modal();
+    $('#uraian_id').val($(this).data('id'));
+    $('#bulan').val($(this).data('bulan'));
+    $('#uraian').val($(this).data('uraian'));
+    $('#renc_realisasi').val($(this).data('rencrealisasi'));
+    $("#modal-edit").modal();
 });
 </script>
 <script>
   $(document).on('click', '.edit-realisasifisik', function() {
-  $('#uraian_idfisik').val($(this).data('id'));
-  $('#bulanfisik').val($(this).data('bulan'));
-  $('#uraianfisik').val($(this).data('uraian'));
-  $('#renc_realisasifisik').val($(this).data('rencrealisasi'));
-  $("#modal-editfisik").modal();
+    $('#uraian_idfisik').val($(this).data('id'));
+    $('#bulanfisik').val($(this).data('bulan'));
+    $('#uraianfisik').val($(this).data('uraian'));
+    $('#renc_realisasifisik').val($(this).data('rencrealisasi'));
+    $("#modal-editfisik").modal();
 });
 </script>
 @endpush
