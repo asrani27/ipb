@@ -53,6 +53,7 @@ class PPTK2Controller extends Controller
             $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status);
         }
 
+        // dd($status, Auth::user()->pptk->skpd->ke, Subkegiatan::find($subkegiatan_id)->uraian);
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
 
         if ($subkegiatan->kode == null) {
