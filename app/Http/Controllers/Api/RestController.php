@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\PPTK;
+use App\Models\Skpd;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\M_program;
@@ -15,12 +16,13 @@ class RestController extends Controller
 {
     public function realisasi($skpd_id, $nip, $tahun)
     {
+        $skpd = Skpd::where('kode_skpd', $skpd_id)->first()->id;
         $pptk = PPTK::where('nip_pptk', $nip)->first();
         if ($pptk == null) {
             $resp['message'] = 'pptk tidak di temukan';
             $resp['data'] = [];
         } else {
-            $uraian = Uraian::where('pptk_id', $pptk->id)->where('tahun', $tahun)->where('skpd_id', $skpd_id)->get();
+            $uraian = Uraian::where('pptk_id', $pptk->id)->where('tahun', $tahun)->where('skpd_id', $skpd)->get();
 
             $resp['message'] = 'success';
             $resp['data'] = $uraian;
