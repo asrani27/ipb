@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Dashboard Salajurakan</title>
+  <title>Dashboard Kenangan</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -54,9 +54,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>S</b>LR</span>
+      <span class="logo-mini"><b>K</b>NA</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Salajurakan</b></span>
+      <span class="logo-lg"><b>Kenangan</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -98,7 +98,7 @@ desired effect
         <div class="pull-left info">
           <p>Dashboard</p>
           <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Salajurakan</a>
+          <a href="#"><i class="fa fa-circle text-success"></i> Kenangan</a>
         </div>
       </div>
 
