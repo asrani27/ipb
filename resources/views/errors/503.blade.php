@@ -26,6 +26,7 @@
 	  background-image: url("/logo/mt.png");
 	  background-size;
 	}
+	
 	</style>
 </head>
 <body>
