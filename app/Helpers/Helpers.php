@@ -96,44 +96,42 @@ function statusRFK()
 
 function jenisRFK($bulan, $tahun)
 {
-    if ($bulan == '01') {
+    if ($bulan == '01' || $bulan == 'januari') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->januari;
     }
-    if ($bulan == '02') {
+    if ($bulan == '02' || $bulan == 'februari') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->februari;
     }
-    if ($bulan == '03') {
+    if ($bulan == '03' || $bulan == 'maret') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->maret;
     }
-    if ($bulan == '04') {
+    if ($bulan == '04' || $bulan == 'april') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->april;
     }
-    if ($bulan == '05') {
+    if ($bulan == '05' || $bulan == 'mei') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->mei;
     }
-    if ($bulan == '06') {
+    if ($bulan == '06' || $bulan == 'juni') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->juni;
     }
-    if ($bulan == '07') {
+    if ($bulan == '07' || $bulan == 'juli') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->juli;
     }
-    if ($bulan == '08') {
+    if ($bulan == '08' || $bulan == 'agustus') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->agustus;
     }
-    if ($bulan == '09') {
+    if ($bulan == '09' || $bulan == 'september') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->september;
     }
-    if ($bulan == '10') {
+    if ($bulan == '10' || $bulan == 'oktober') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->oktober;
     }
-    if ($bulan == '11') {
+    if ($bulan == '11' || $bulan == 'november') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->november;
     }
-    if ($bulan == '12') {
+    if ($bulan == '12' || $bulan == 'desember') {
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->desember;
     }
-
-    // $result = JenisRfk::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->first()[$bulan];
     return $jenisrfk;
 }
 

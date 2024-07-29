@@ -68,11 +68,26 @@
   </div>
 
   <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/excel" class="btn bg-purple btn-flat"><i class="fa fa-file-excel-o"></i> Export Excel</a>
+  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/kirim" class="btn btn-success btn-flat" onclick="return confirm('Yakin ingin di kirim?');"><i class="fa fa-send"></i> Kirim Ke Admin Pembangunan</a>
+  <br/></br>
   
   <div class="row">
     <div class="col-md-12">
       <!-- Block buttons -->
       <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"><i class="fa fa-list"></i> Riwayat Pengiriman Laporan RFK</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Block buttons -->
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"><i class="fa fa-list"></i> Data</h3>
+        </div>
         <div class="box-body table-responsive">
           <table class="table table-bordered table-condensed">
             <tbody>

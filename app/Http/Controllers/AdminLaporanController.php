@@ -357,7 +357,7 @@ class AdminLaporanController extends Controller
         //     return $item;
         // })->sum('kolom3');
 
-        $jenis = 'murni';
+        $jenis = jenisRfk($bulan, $tahun);
 
         $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
@@ -476,10 +476,11 @@ class AdminLaporanController extends Controller
                 $spreadsheet->getSheetByName('RFK')->setCellValue('I' . $row, '=H' . $row . '/C' . $row . '*100');
                 $spreadsheet->getSheetByName('RFK')->setCellValue('J' . $row, '=I' . $row . '*D' . $row . '/100');
             }
+            //dd($item->rencana);
             if ($item->rencana == 0) {
-                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, '0');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, 0);
             } else {
-                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, '=H' . $row . '/E' . $row . '*100)');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('K' . $row, '=H' . $row . '/E' . $row . '*100');
             }
             $spreadsheet->getSheetByName('RFK')->setCellValue('L' . $row, '=C' . $row . '-H' . $row);
             $spreadsheet->getSheetByName('RFK')->setCellValue('M' . $row, $item->rencana_fisik);
@@ -490,7 +491,7 @@ class AdminLaporanController extends Controller
             if ($item->realisasi_fisik == 0) {
                 $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '0');
             } else {
-                $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '=O' . $row . '/M' . $row . '*100)');
+                $spreadsheet->getSheetByName('RFK')->setCellValue('Q' . $row, '=O' . $row . '/M' . $row . '*100');
             }
 
             $row++;
@@ -517,34 +518,34 @@ class AdminLaporanController extends Controller
         $spreadsheet->getSheetByName('RFK')->setCellValue('L' . ($dataskpd->count() + 11), $kolom_l);
         $spreadsheet->getSheetByName('RFK')->setCellValue('N' . ($dataskpd->count() + 11), $kolom_n);
         $spreadsheet->getSheetByName('RFK')->setCellValue('P' . ($dataskpd->count() + 11), $kolom_p);
-        // foreach ($data as $key => $item) {
-        //     $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item->nama);
-        //     $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
-        //         ->getFill()
-        //         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-        //         ->getStartColor()
-        //         ->setARGB('abc5f2');
-
-        //     $row++;
-        //     foreach ($item->kegiatan as $item2) {
-        //         $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item2->nama);
-        //         $spreadsheet->getSheetByName('RFK')->getStyle('B' . $row)
-        //             ->getFill()
-        //             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-        //             ->getStartColor()
-        //             ->setARGB('d9ead3');
-        //         $row++;
-        //         foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3) {
-        //             $spreadsheet->getSheetByName('RFK')->setCellValue('A' . $row, $no++);
-        //             $spreadsheet->getSheetByName('RFK')->setCellValue('B' . $row, $item3->nama);
-        //             $spreadsheet->getSheetByName('RFK')->setCellValue('D' . $row, $item3->kolom3);
-        //             $row++;
-        //         }
-        //     }
-        // }
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
         exit;
+    }
+
+    public function kirimKeAdmin($tahun, $bulan)
+    {
+        $jenis = jenisRfk($bulan, $tahun);
+        $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+            return $item;
+        });
+        $data = json_encode($dataskpd);
+
+        $param['bulan'] = nomorBulan(ucfirst($bulan));
+        $param['tahun'] = $tahun;
+        $param['jenis'] = $jenis;
+        $param['skpd_id'] = Auth::user()->skpd->id;
+        $param['data'] = $data;
+        $param['status'] = null;
+
+        Session::flash('success', 'Berhasil Dikirim');
+
+        return back();
     }
 }

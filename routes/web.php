@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('laporan/batal/{id}/{bulan}', [AdminLaporanController::class, 'batal']);
         Route::get('laporan/{tahun}/{bulan}', [AdminLaporanController::class, 'laporanRfk']);
         Route::get('laporan/{tahun}/{bulan}/excel', [AdminLaporanController::class, 'excel']);
+        Route::get('laporan/{tahun}/{bulan}/kirim', [AdminLaporanController::class, 'kirimKeAdmin']);
 
         Route::get('subkegiatan/angkas/{id}', [AdminLaporanController::class, 'angkas']);
 

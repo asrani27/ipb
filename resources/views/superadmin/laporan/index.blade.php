@@ -63,6 +63,36 @@
                   <button type="submit" class="btn btn-primary btn-block">Export Excel</button>
                 </div>
               </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-block">Export Cetak</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-block">Export Permasalahan</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-block">Export Sheet 1 - 10</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-block">Export Sheet 11 - 20</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary btn-block">Export Sheet 21 - 30</button>
+                </div>
+              </div>
             </div>
           </form>
           <!-- /.box-body -->
