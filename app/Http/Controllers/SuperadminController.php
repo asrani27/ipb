@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\T_m;
+use App\Models\Skpd;
 use App\Models\Uraian;
 use App\Models\LaporanRFK;
 use App\Models\Subkegiatan;
@@ -14,6 +15,19 @@ class SuperadminController extends Controller
     public function laporan()
     {
         return view('superadmin.laporan.index');
+    }
+    public function laporanskpd($tahun, $bulan)
+    {
+        $skpd = Skpd::where('is_aktif', 1)->get()->map(function ($item) use ($tahun, $bulan) {
+            $check = LaporanRFK::where('tahun', $tahun)->where('bulan', $bulan)->where('skpd_id', $item->id)->first();
+            if ($check == null) {
+                $item->laporan = null;
+            } else {
+                $item->laporan = $check;
+            }
+            return $item;
+        });
+        return view('superadmin.laporan.skpd', compact('skpd'));
     }
 
     public function export()
