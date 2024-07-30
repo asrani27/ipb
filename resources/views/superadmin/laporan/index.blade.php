@@ -21,15 +21,15 @@
                 <div class="col-sm-10">
                       <select name="bulan" class="form-control" required>
                           <option value="">-pilih-</option>
-                          <option value="1">Januari</option>
-                          <option value="2">Februari</option>
-                          <option value="3">Maret</option>
-                          <option value="4">April</option>
-                          <option value="5">Mei</option>
-                          <option value="6">Juni</option>
-                          <option value="7">Juli</option>
-                          <option value="8">Agustus</option>
-                          <option value="9">September</option>
+                          <option value="01">Januari</option>
+                          <option value="02">Februari</option>
+                          <option value="03">Maret</option>
+                          <option value="04">April</option>
+                          <option value="05">Mei</option>
+                          <option value="06">Juni</option>
+                          <option value="07">Juli</option>
+                          <option value="08">Agustus</option>
+                          <option value="09">September</option>
                           <option value="10">Oktober</option>
                           <option value="11">November</option>
                           <option value="12">Desember</option>
@@ -46,7 +46,7 @@
                       </select>
                 </div>
               </div>
-              <div class="form-group">
+              {{-- <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">Jenis</label>
                 <div class="col-sm-10">
                       <select name="jenis" class="form-control" required>
@@ -56,14 +56,14 @@
                           <option value="perubahan">Perubahan</option>
                       </select>
                 </div>
-              </div>
+              </div> --}}
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
                   <button type="submit" class="btn btn-primary btn-block">Export Excel</button>
                 </div>
               </div>
-              <div class="form-group">
+              {{-- <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
                   <button type="submit" class="btn btn-primary btn-block">Export Cetak</button>
@@ -92,7 +92,7 @@
                 <div class="col-sm-10">
                   <button type="submit" class="btn btn-primary btn-block">Export Sheet 21 - 30</button>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </form>
           <!-- /.box-body -->

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BatasInput;
 use App\Models\Bidang;
 use App\Models\Uraian;
 use App\Models\Program;
 use App\Models\JenisRfk;
 use App\Models\Kegiatan;
+use App\Models\BatasInput;
+use App\Models\LaporanRFK;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -227,10 +228,10 @@ class AdminLaporanController extends Controller
             }
             return $item;
         });
-        //dd($datasubkegiatan);
-        //dd($datasubkegiatan->take(10));
 
-        return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun'));
+        $laporan = LaporanRFK::where('tahun', $tahun)->where('bulan', nomorBulan(ucfirst($bulan)))->where('skpd_id', Auth::user()->skpd->id)->get();
+
+        return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun', 'laporan'));
     }
 
     public function uraian()
@@ -527,25 +528,34 @@ class AdminLaporanController extends Controller
     public function kirimKeAdmin($tahun, $bulan)
     {
         $jenis = jenisRfk($bulan, $tahun);
-        $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-            return $item;
-        });
-        $data = json_encode($dataskpd);
+        $check = LaporanRFK::where('tahun', $tahun)->where('bulan', nomorBulan(ucfirst($bulan)))->where('skpd_id', Auth::user()->skpd->id)->first();
+        if ($check == null) {
+            $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+                $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+                $item->rencana = rencanaSKPD($bulan, $item, $jenis);
+                $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
+                $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
+                $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+                return $item;
+            });
+            $data = json_encode($dataskpd);
 
-        $param['bulan'] = nomorBulan(ucfirst($bulan));
-        $param['tahun'] = $tahun;
-        $param['jenis'] = $jenis;
-        $param['skpd_id'] = Auth::user()->skpd->id;
-        $param['data'] = $data;
-        $param['status'] = null;
+            $param['bulan'] = nomorBulan(ucfirst($bulan));
+            $param['tahun'] = $tahun;
+            $param['jenis'] = $jenis;
+            $param['skpd_id'] = Auth::user()->skpd->id;
+            $param['data'] = $data;
+            $param['status'] = null;
 
-        Session::flash('success', 'Berhasil Dikirim');
+            LaporanRFK::create($param);
 
-        return back();
+            Session::flash('success', 'Berhasil Dikirim');
+
+            return back();
+        } else {
+            Session::flash('info', 'anda sudah mengirim laporan rfk, jika ingin memperbaharui laporan rfk, harap hubungi admin pembangunan untuk menghapus laporan yg lama');
+
+            return back();
+        }
     }
 }

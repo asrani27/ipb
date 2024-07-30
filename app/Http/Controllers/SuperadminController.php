@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subkegiatan;
 use App\Models\T_m;
 use App\Models\Uraian;
+use App\Models\LaporanRFK;
+use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -21,344 +22,58 @@ class SuperadminController extends Controller
         $tahun = request()->get('tahun');
         $jenis = request()->get('jenis');
 
-        $disdik = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 1)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-            $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-            $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-            $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-            $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-            $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-            return $item;
-        });
+        $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->get();
 
-        // $dinkes = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 34)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
+        if ($check->count() > 0) {
+            $check->map(function ($item) {
+                $item->data = collect(json_decode($item->data));
+                return $item;
+            });
+        } else {
+            $check = [];
+        }
 
-        // $dpupr = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 3)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dprkp = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 4)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $satpolpp = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 5)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $kesbangpol = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 6)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dinsos = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 7)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
+        $disdik = $check->where('skpd_id', 1)->first() == null ? null : $check->where('skpd_id', 1)->first()->data;
+        $dinkes = $check->where('skpd_id', 34)->first() == null ? null : $check->where('skpd_id', 34)->first()->data;
+        $dpupr  = $check->where('skpd_id', 3)->first() == null ? null : $check->where('skpd_id', 3)->first()->data;
+        $dprkp = $check->where('skpd_id', 4)->first() == null ? null : $check->where('skpd_id', 4)->first()->data;
+        $satpolpp = $check->where('skpd_id', 5)->first() == null ? null : $check->where('skpd_id', 5)->first()->data;
+        $kesbangpol = $check->where('skpd_id', 6)->first() == null ? null : $check->where('skpd_id', 6)->first()->data;
+        $dinsos = $check->where('skpd_id', 7)->first() == null ? null : $check->where('skpd_id', 7)->first()->data;
+        $dp3a = $check->where('skpd_id', 8)->first() == null ? null : $check->where('skpd_id', 8)->first()->data;
+        $dkp3 = $check->where('skpd_id', 9)->first() == null ? null : $check->where('skpd_id', 9)->first()->data;
+        $dlh = $check->where('skpd_id', 10)->first() == null ? null : $check->where('skpd_id', 10)->first()->data;
+        $capil = $check->where('skpd_id', 11)->first() == null ? null : $check->where('skpd_id', 11)->first()->data;
+        $dppkbpm = $check->where('skpd_id', 12)->first() == null ? null : $check->where('skpd_id', 12)->first()->data;
+        $dishub = $check->where('skpd_id', 13)->first() == null ? null : $check->where('skpd_id', 13)->first()->data;
+        $diskominfotik = $check->where('skpd_id', 14)->first() == null ? null : $check->where('skpd_id', 14)->first()->data;
+        $diskopumker = $check->where('skpd_id', 15)->first() == null ? null : $check->where('skpd_id', 15)->first()->data;
+        $dpmptsp = $check->where('skpd_id', 16)->first() == null ? null : $check->where('skpd_id', 16)->first()->data;
+        $disbudporapar = $check->where('skpd_id', 37)->first() == null ? null : $check->where('skpd_id', 37)->first()->data;
+        $dpa = $check->where('skpd_id', 19)->first() == null ? null : $check->where('skpd_id', 19)->first()->data;
+        $perdagin = $check->where('skpd_id', 20)->first() == null ? null : $check->where('skpd_id', 20)->first()->data;
+        $setwan = $check->where('skpd_id', 22)->first() == null ? null : $check->where('skpd_id', 22)->first()->data;
+        $bpkpad = $check->where('skpd_id', 23)->first() == null ? null : $check->where('skpd_id', 23)->first()->data;
+        $inspektorat = $check->where('skpd_id', 24)->first() == null ? null : $check->where('skpd_id', 24)->first()->data;
+        $bkddiklat = $check->where('skpd_id', 25)->first() == null ? null : $check->where('skpd_id', 25)->first()->data;
+        $bpbd = $check->where('skpd_id', 26)->first() == null ? null : $check->where('skpd_id', 26)->first()->data;
+        $damkar = $check->where('skpd_id', 36)->first() == null ? null : $check->where('skpd_id', 36)->first()->data;
+        $timur = $check->where('skpd_id', 27)->first() == null ? null : $check->where('skpd_id', 27)->first()->data;
+        $utara = $check->where('skpd_id', 28)->first() == null ? null : $check->where('skpd_id', 28)->first()->data;
+        $tengah = $check->where('skpd_id', 29)->first() == null ? null : $check->where('skpd_id', 29)->first()->data;
+        $barat = $check->where('skpd_id', 30)->first() == null ? null : $check->where('skpd_id', 30)->first()->data;
+        $selatan = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
 
-        // $dp3a = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 8)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dkp3 = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 9)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dlh = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 10)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
+        $bagpem   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagkum   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagorg   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagkesra = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bageko   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagumum  = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagpbj   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagpbg   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
+        $bagprokopim   = $check->where('skpd_id', 31)->first() == null ? null : $check->where('skpd_id', 31)->first()->data;
 
-        // $capil = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 11)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $dppkbpm = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 12)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dishub = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 13)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $diskominfotik = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 14)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $diskopumker = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 15)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dpmptsp = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 16)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $disbudporapar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 37)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $dpa = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 19)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $perdagin = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 20)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $setwan = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 22)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $bpkpad = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 23)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $inspektorat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 24)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-
-        // $bkddiklat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 25)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $bpbd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 26)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $damkar = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 36)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-
-        // $timur = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 27)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $utara = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 28)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $tengah = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 29)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $barat = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 30)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $selatan = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 31)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $selatan = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 31)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $bagpem = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 7)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $bagkum = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 8)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $bagorg = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 8)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $bagkesra = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 2)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-        // $bageko = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 6)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $bagumum = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 5)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $bagpbj = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 4)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        // $bagpbg = Subkegiatan::where('tahun', $tahun)->where('skpd_id', 21)->where('bagian_id', 3)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-        //     $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
-        //     $item->rencana = rencanaSKPD($bulan, $item, $jenis);
-        //     $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
-        //     $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
-        //     $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
-        //     return $item;
-        // });
-
-        //dd($bagpbg, $bagpbj);
-        //dd($disdik);
 
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -431,196 +146,227 @@ class SuperadminController extends Controller
 
         // $mulai = $mulai + $permasalahan_dpupr->count() + 1;
 
-        $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A2', 'DINAS PENDIDIKAN');
-        $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
-        $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        $spreadsheet->getSheetByName('1 Disdik')->insertNewRowBefore(12, $disdik->count() - 1);
-        $disdikRow = 11;
+        if ($disdik != null) {
 
-        if ($disdik->count() != 0) {
-            foreach ($disdik as $key => $item_disdik) {
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A' . $disdikRow, $key + 1);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('C' . $disdikRow, $item_disdik->dpa);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $disdik->count() + 11 . '*100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('E' . $disdikRow, $item_disdik->rencana);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('H' . $disdikRow, $item_disdik->realisasi);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik);
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100');
-                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)');
-                $disdikRow++;
+            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A2', 'DINAS PENDIDIKAN');
+            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+            $spreadsheet->getSheetByName('1 Disdik')->insertNewRowBefore(12, $disdik->count() - 1);
+            $disdikRow = 11;
+
+            if ($disdik->count() != 0) {
+                foreach ($disdik as $key => $item_disdik) {
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('A' . $disdikRow, $key + 1);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('C' . $disdikRow, $item_disdik->dpa);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $disdik->count() + 11 . '*100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('E' . $disdikRow, $item_disdik->rencana);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('H' . $disdikRow, $item_disdik->realisasi);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik);
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100');
+                    $spreadsheet->getSheetByName('1 Disdik')->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)');
+                    $disdikRow++;
+                }
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdik->count() + 11, 'TOTALNYA');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('C' . $disdik->count() + 11, '=SUM(C11:C' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('D' . $disdik->count() + 11, '=SUM(D11:D' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('E' . $disdik->count() + 11, '=SUM(E11:E' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('F' . $disdik->count() + 11, '=SUM(G11:G' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('G' . $disdik->count() + 11, '=SUM(G11:G' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('H' . $disdik->count() + 11, '=SUM(H11:H' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('I' . $disdik->count() + 11, '=SUM(J11:J' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('J' . $disdik->count() + 11, '=SUM(J11:J' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('K' . $disdik->count() + 11, '=IF(E' . $disdik->count() + 11 . '=0,0,H' . $disdik->count() + 11 . '/E' . $disdik->count() + 11 . '*100)');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('L' . $disdik->count() + 11, '=J' . $disdik->count() + 11 . '-G' .  $disdik->count() + 11);
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('M' . $disdik->count() + 11, '=C' . $disdik->count() + 11 . '-H' .  $disdik->count() + 11);
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('N' . $disdik->count() + 11, '=SUM(O11:O' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('O' . $disdik->count() + 11, '=SUM(O11:O' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('P' . $disdik->count() + 11, '=SUM(Q11:Q' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('Q' . $disdik->count() + 11, '=SUM(Q11:Q' . $disdik->count() + 10 . ')');
+                $spreadsheet->getSheetByName('1 Disdik')->setCellValue('R' . $disdik->count() + 11, '=IF(N' . $disdik->count() + 11 . '=0,0,P' . $disdik->count() + 11 . '/N' . $disdik->count() + 11 . '*100)');
             }
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('B' . $disdik->count() + 11, 'TOTALNYA');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('C' . $disdik->count() + 11, '=SUM(C11:C' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('D' . $disdik->count() + 11, '=SUM(D11:D' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('E' . $disdik->count() + 11, '=SUM(E11:E' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('F' . $disdik->count() + 11, '=SUM(G11:G' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('G' . $disdik->count() + 11, '=SUM(G11:G' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('H' . $disdik->count() + 11, '=SUM(H11:H' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('I' . $disdik->count() + 11, '=SUM(J11:J' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('J' . $disdik->count() + 11, '=SUM(J11:J' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('K' . $disdik->count() + 11, '=IF(E' . $disdik->count() + 11 . '=0,0,H' . $disdik->count() + 11 . '/E' . $disdik->count() + 11 . '*100)');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('L' . $disdik->count() + 11, '=J' . $disdik->count() + 11 . '-G' .  $disdik->count() + 11);
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('M' . $disdik->count() + 11, '=C' . $disdik->count() + 11 . '-H' .  $disdik->count() + 11);
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('N' . $disdik->count() + 11, '=SUM(O11:O' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('O' . $disdik->count() + 11, '=SUM(O11:O' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('P' . $disdik->count() + 11, '=SUM(Q11:Q' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('Q' . $disdik->count() + 11, '=SUM(Q11:Q' . $disdik->count() + 10 . ')');
-            $spreadsheet->getSheetByName('1 Disdik')->setCellValue('R' . $disdik->count() + 11, '=IF(N' . $disdik->count() + 11 . '=0,0,P' . $disdik->count() + 11 . '/N' . $disdik->count() + 11 . '*100)');
+
+            $value = "='1 Disdik'!C" . $disdikRow;
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C10', $value);
+        } else {
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C10', 0);
         }
 
-        // DINKES
-        // $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        // $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A2', 'DINAS KESEHATAN');
-        // $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
-        // $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        // $spreadsheet->getSheetByName('2 Dinkes')->insertNewRowBefore(12, $dinkes->count() - 1);
-        // $dinkesRow = 11;
-        // if ($dinkes->count() != 0) {
-        //     foreach ($dinkes as $key => $item) {
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A' . $dinkesRow, $key + 1);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkesRow, $item->nama)->getColumnDimension('B')->setWidth('100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('C' . $dinkesRow, $item->dpa);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('D' . $dinkesRow, '=C' . $dinkesRow . '/$C$' . $dinkes->count() + 11 . '*100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('E' . $dinkesRow, $item->rencana);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('F' . $dinkesRow, '=E' . $dinkesRow . '/C' . $dinkesRow . '*100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('G' . $dinkesRow, '=F' . $dinkesRow . '*D' . $dinkesRow . '/100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('H' . $dinkesRow, $item->realisasi);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('I' . $dinkesRow, '=H' . $dinkesRow . '/C' . $dinkesRow . '*100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('J' . $dinkesRow, '=I' . $dinkesRow . '*D' . $dinkesRow . '/100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('K' . $dinkesRow, '=IF(E' . $dinkesRow . '=0,0,H' . $dinkesRow . '/E' . $dinkesRow . '*100)');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('L' . $dinkesRow, '=J' . $dinkesRow . '-G' . $dinkesRow);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('M' . $dinkesRow, '=C' . $dinkesRow . '-H' . $dinkesRow);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('N' . $dinkesRow, $item->rencana_fisik);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('O' . $dinkesRow, '=N' . $dinkesRow . '*D' . $dinkesRow . '/100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('P' . $dinkesRow, $item->realisasi_fisik);
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('Q' . $dinkesRow, '=P' . $dinkesRow . '*D' . $dinkesRow . '/100');
-        //         $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('R' . $dinkesRow, '=IF(N' . $dinkesRow . '=0,0,P' . $dinkesRow . '/N' . $dinkesRow . '*100)');
-        //         $dinkesRow++;
-        //     }
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkes->count() + 11, 'TOTALNYA');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('C' . $dinkes->count() + 11, '=SUM(C11:C' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('D' . $dinkes->count() + 11, '=SUM(D11:D' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('E' . $dinkes->count() + 11, '=SUM(E11:E' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('F' . $dinkes->count() + 11, '=SUM(G11:G' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('G' . $dinkes->count() + 11, '=SUM(G11:G' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('H' . $dinkes->count() + 11, '=SUM(H11:H' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('I' . $dinkes->count() + 11, '=SUM(J11:J' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('J' . $dinkes->count() + 11, '=SUM(J11:J' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('K' . $dinkes->count() + 11, '=IF(E' . $dinkes->count() + 11 . '=0,0,H' . $dinkes->count() + 11 . '/E' . $dinkes->count() + 11 . '*100)');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('L' . $dinkes->count() + 11, '=J' . $dinkes->count() + 11 . '-G' .  $dinkes->count() + 11);
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('M' . $dinkes->count() + 11, '=C' . $dinkes->count() + 11 . '-H' .  $dinkes->count() + 11);
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('N' . $dinkes->count() + 11, '=SUM(O11:O' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('O' . $dinkes->count() + 11, '=SUM(O11:O' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('P' . $dinkes->count() + 11, '=SUM(Q11:Q' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('Q' . $dinkes->count() + 11, '=SUM(Q11:Q' . $dinkes->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('R' . $dinkes->count() + 11, '=IF(N' . $dinkes->count() + 11 . '=0,0,P' . $dinkes->count() + 11 . '/N' . $dinkes->count() + 11 . '*100)');
-        // }
-        // // DPUPR
-        // $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        // $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A2', 'Dinas Pekerjaan Umum dan Penataan Ruang');
-        // $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
-        // $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        // $spreadsheet->getSheetByName('3 DPUPR')->insertNewRowBefore(12, $dpupr->count() - 1);
-        // $dpuprRow = 11;
-        // if ($dpupr->count() != 0) {
-        //     foreach ($dpupr as $key => $item) {
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A' . $dpuprRow, $key + 1);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpuprRow, $item->nama)->getColumnDimension('B')->setWidth('100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('C' . $dpuprRow, $item->dpa);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('D' . $dpuprRow, '=C' . $dpuprRow . '/$C$' . $dpupr->count() + 11 . '*100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('E' . $dpuprRow, $item->rencana);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('F' . $dpuprRow, '=E' . $dpuprRow . '/C' . $dpuprRow . '*100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('G' . $dpuprRow, '=F' . $dpuprRow . '*D' . $dpuprRow . '/100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('H' . $dpuprRow, $item->realisasi);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('I' . $dpuprRow, '=H' . $dpuprRow . '/C' . $dpuprRow . '*100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('J' . $dpuprRow, '=I' . $dpuprRow . '*D' . $dpuprRow . '/100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('K' . $dpuprRow, '=IF(E' . $dpuprRow . '=0,0,H' . $dpuprRow . '/E' . $dpuprRow . '*100)');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('L' . $dpuprRow, '=J' . $dpuprRow . '-G' . $dpuprRow);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('M' . $dpuprRow, '=C' . $dpuprRow . '-H' . $dpuprRow);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('N' . $dpuprRow, $item->rencana_fisik);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('O' . $dpuprRow, '=N' . $dpuprRow . '*D' . $dpuprRow . '/100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('P' . $dpuprRow, $item->realisasi_fisik);
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('Q' . $dpuprRow, '=P' . $dpuprRow . '*D' . $dpuprRow . '/100');
-        //         $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('R' . $dpuprRow, '=IF(N' . $dpuprRow . '=0,0,P' . $dpuprRow . '/N' . $dpuprRow . '*100)');
-        //         $dpuprRow++;
-        //     }
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpupr->count() + 11, 'TOTALNYA');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('C' . $dpupr->count() + 11, '=SUM(C11:C' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('D' . $dpupr->count() + 11, '=SUM(D11:D' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('E' . $dpupr->count() + 11, '=SUM(E11:E' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('F' . $dpupr->count() + 11, '=SUM(G11:G' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('G' . $dpupr->count() + 11, '=SUM(G11:G' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('H' . $dpupr->count() + 11, '=SUM(H11:H' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('I' . $dpupr->count() + 11, '=SUM(J11:J' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('J' . $dpupr->count() + 11, '=SUM(J11:J' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('K' . $dpupr->count() + 11, '=IF(E' . $dpupr->count() + 11 . '=0,0,H' . $dpupr->count() + 11 . '/E' . $dpupr->count() + 11 . '*100)');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('L' . $dpupr->count() + 11, '=J' . $dpupr->count() + 11 . '-G' .  $dpupr->count() + 11);
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('M' . $dpupr->count() + 11, '=C' . $dpupr->count() + 11 . '-H' .  $dpupr->count() + 11);
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('N' . $dpupr->count() + 11, '=SUM(O11:O' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('O' . $dpupr->count() + 11, '=SUM(O11:O' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('P' . $dpupr->count() + 11, '=SUM(Q11:Q' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('Q' . $dpupr->count() + 11, '=SUM(Q11:Q' . $dpupr->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('R' . $dpupr->count() + 11, '=IF(N' . $dpupr->count() + 11 . '=0,0,P' . $dpupr->count() + 11 . '/N' . $dpupr->count() + 11 . '*100)');
-        // }
-        // // dprkp
-        // $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-        // $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A2', 'Dinas Perumahan Rakyat dan Kawasan Permukiman');
-        // $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
-        // $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-        // $spreadsheet->getSheetByName('4 DPRKP')->insertNewRowBefore(12, $dprkp->count() - 1);
-        // $dprkpRow = 11;
-        // if ($dprkp->count() != 0) {
-        //     foreach ($dprkp as $key => $item) {
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A' . $dprkpRow, $key + 1);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkpRow, $item->nama)->getColumnDimension('B')->setWidth('100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkpRow, $item->dpa);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkpRow, '=C' . $dprkpRow . '/$C$' . $dprkp->count() + 11 . '*100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkpRow, $item->rencana);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkpRow, '=E' . $dprkpRow . '/C' . $dprkpRow . '*100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkpRow, '=F' . $dprkpRow . '*D' . $dprkpRow . '/100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkpRow, $item->realisasi);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkpRow, '=H' . $dprkpRow . '/C' . $dprkpRow . '*100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkpRow, '=I' . $dprkpRow . '*D' . $dprkpRow . '/100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkpRow, '=IF(E' . $dprkpRow . '=0,0,H' . $dprkpRow . '/E' . $dprkpRow . '*100)');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkpRow, '=J' . $dprkpRow . '-G' . $dprkpRow);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkpRow, '=C' . $dprkpRow . '-H' . $dprkpRow);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkpRow, $item->rencana_fisik);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkpRow, '=N' . $dprkpRow . '*D' . $dprkpRow . '/100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkpRow, $item->realisasi_fisik);
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkpRow, '=P' . $dprkpRow . '*D' . $dprkpRow . '/100');
-        //         $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkpRow, '=IF(N' . $dprkpRow . '=0,0,P' . $dprkpRow . '/N' . $dprkpRow . '*100)');
-        //         $dprkpRow++;
-        //     }
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkp->count() + 11, 'TOTALNYA');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkp->count() + 11, '=SUM(C11:C' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkp->count() + 11, '=SUM(D11:D' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkp->count() + 11, '=SUM(E11:E' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkp->count() + 11, '=SUM(H11:H' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkp->count() + 11, '=IF(E' . $dprkp->count() + 11 . '=0,0,H' . $dprkp->count() + 11 . '/E' . $dprkp->count() + 11 . '*100)');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkp->count() + 11, '=J' . $dprkp->count() + 11 . '-G' .  $dprkp->count() + 11);
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkp->count() + 11, '=C' . $dprkp->count() + 11 . '-H' .  $dprkp->count() + 11);
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
-        //     $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkp->count() + 11, '=IF(N' . $dprkp->count() + 11 . '=0,0,P' . $dprkp->count() + 11 . '/N' . $dprkp->count() + 11 . '*100)');
-        // }
+        //DINKES
+        if ($dinkes != null) {
 
+            $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+            $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A2', 'DINAS KESEHATAN');
+            $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+            $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+            $spreadsheet->getSheetByName('2 Dinkes')->insertNewRowBefore(12, $dinkes->count() - 1);
+            $dinkesRow = 11;
+            if ($dinkes->count() != 0) {
+                foreach ($dinkes as $key => $item) {
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('A' . $dinkesRow, $key + 1);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkesRow, $item->nama)->getColumnDimension('B')->setWidth('100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('C' . $dinkesRow, $item->dpa);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('D' . $dinkesRow, '=C' . $dinkesRow . '/$C$' . $dinkes->count() + 11 . '*100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('E' . $dinkesRow, $item->rencana);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('F' . $dinkesRow, '=E' . $dinkesRow . '/C' . $dinkesRow . '*100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('G' . $dinkesRow, '=F' . $dinkesRow . '*D' . $dinkesRow . '/100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('H' . $dinkesRow, $item->realisasi);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('I' . $dinkesRow, '=H' . $dinkesRow . '/C' . $dinkesRow . '*100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('J' . $dinkesRow, '=I' . $dinkesRow . '*D' . $dinkesRow . '/100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('K' . $dinkesRow, '=IF(E' . $dinkesRow . '=0,0,H' . $dinkesRow . '/E' . $dinkesRow . '*100)');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('L' . $dinkesRow, '=J' . $dinkesRow . '-G' . $dinkesRow);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('M' . $dinkesRow, '=C' . $dinkesRow . '-H' . $dinkesRow);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('N' . $dinkesRow, $item->rencana_fisik);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('O' . $dinkesRow, '=N' . $dinkesRow . '*D' . $dinkesRow . '/100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('P' . $dinkesRow, $item->realisasi_fisik);
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('Q' . $dinkesRow, '=P' . $dinkesRow . '*D' . $dinkesRow . '/100');
+                    $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('R' . $dinkesRow, '=IF(N' . $dinkesRow . '=0,0,P' . $dinkesRow . '/N' . $dinkesRow . '*100)');
+                    $dinkesRow++;
+                }
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('B' . $dinkes->count() + 11, 'TOTALNYA');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('C' . $dinkes->count() + 11, '=SUM(C11:C' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('D' . $dinkes->count() + 11, '=SUM(D11:D' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('E' . $dinkes->count() + 11, '=SUM(E11:E' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('F' . $dinkes->count() + 11, '=SUM(G11:G' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('G' . $dinkes->count() + 11, '=SUM(G11:G' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('H' . $dinkes->count() + 11, '=SUM(H11:H' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('I' . $dinkes->count() + 11, '=SUM(J11:J' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('J' . $dinkes->count() + 11, '=SUM(J11:J' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('K' . $dinkes->count() + 11, '=IF(E' . $dinkes->count() + 11 . '=0,0,H' . $dinkes->count() + 11 . '/E' . $dinkes->count() + 11 . '*100)');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('L' . $dinkes->count() + 11, '=J' . $dinkes->count() + 11 . '-G' .  $dinkes->count() + 11);
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('M' . $dinkes->count() + 11, '=C' . $dinkes->count() + 11 . '-H' .  $dinkes->count() + 11);
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('N' . $dinkes->count() + 11, '=SUM(O11:O' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('O' . $dinkes->count() + 11, '=SUM(O11:O' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('P' . $dinkes->count() + 11, '=SUM(Q11:Q' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('Q' . $dinkes->count() + 11, '=SUM(Q11:Q' . $dinkes->count() + 10 . ')');
+                $spreadsheet->getSheetByName('2 Dinkes')->setCellValue('R' . $dinkes->count() + 11, '=IF(N' . $dinkes->count() + 11 . '=0,0,P' . $dinkes->count() + 11 . '/N' . $dinkes->count() + 11 . '*100)');
+            }
+
+            $value = "='2 Dinkes'!C" . $dinkesRow;
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C11', $value);
+        } else {
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C11', 0);
+        }
+
+        if ($dpupr != null) {
+
+            // // DPUPR
+            $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+            $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A2', 'Dinas Pekerjaan Umum dan Penataan Ruang');
+            $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+            $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+            $spreadsheet->getSheetByName('3 DPUPR')->insertNewRowBefore(12, $dpupr->count() - 1);
+            $dpuprRow = 11;
+            if ($dpupr->count() != 0) {
+                foreach ($dpupr as $key => $item) {
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('A' . $dpuprRow, $key + 1);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpuprRow, $item->nama)->getColumnDimension('B')->setWidth('100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('C' . $dpuprRow, $item->dpa);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('D' . $dpuprRow, '=C' . $dpuprRow . '/$C$' . $dpupr->count() + 11 . '*100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('E' . $dpuprRow, $item->rencana);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('F' . $dpuprRow, '=E' . $dpuprRow . '/C' . $dpuprRow . '*100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('G' . $dpuprRow, '=F' . $dpuprRow . '*D' . $dpuprRow . '/100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('H' . $dpuprRow, $item->realisasi);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('I' . $dpuprRow, '=H' . $dpuprRow . '/C' . $dpuprRow . '*100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('J' . $dpuprRow, '=I' . $dpuprRow . '*D' . $dpuprRow . '/100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('K' . $dpuprRow, '=IF(E' . $dpuprRow . '=0,0,H' . $dpuprRow . '/E' . $dpuprRow . '*100)');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('L' . $dpuprRow, '=J' . $dpuprRow . '-G' . $dpuprRow);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('M' . $dpuprRow, '=C' . $dpuprRow . '-H' . $dpuprRow);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('N' . $dpuprRow, $item->rencana_fisik);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('O' . $dpuprRow, '=N' . $dpuprRow . '*D' . $dpuprRow . '/100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('P' . $dpuprRow, $item->realisasi_fisik);
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('Q' . $dpuprRow, '=P' . $dpuprRow . '*D' . $dpuprRow . '/100');
+                    $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('R' . $dpuprRow, '=IF(N' . $dpuprRow . '=0,0,P' . $dpuprRow . '/N' . $dpuprRow . '*100)');
+                    $dpuprRow++;
+                }
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('B' . $dpupr->count() + 11, 'TOTALNYA');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('C' . $dpupr->count() + 11, '=SUM(C11:C' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('D' . $dpupr->count() + 11, '=SUM(D11:D' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('E' . $dpupr->count() + 11, '=SUM(E11:E' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('F' . $dpupr->count() + 11, '=SUM(G11:G' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('G' . $dpupr->count() + 11, '=SUM(G11:G' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('H' . $dpupr->count() + 11, '=SUM(H11:H' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('I' . $dpupr->count() + 11, '=SUM(J11:J' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('J' . $dpupr->count() + 11, '=SUM(J11:J' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('K' . $dpupr->count() + 11, '=IF(E' . $dpupr->count() + 11 . '=0,0,H' . $dpupr->count() + 11 . '/E' . $dpupr->count() + 11 . '*100)');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('L' . $dpupr->count() + 11, '=J' . $dpupr->count() + 11 . '-G' .  $dpupr->count() + 11);
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('M' . $dpupr->count() + 11, '=C' . $dpupr->count() + 11 . '-H' .  $dpupr->count() + 11);
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('N' . $dpupr->count() + 11, '=SUM(O11:O' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('O' . $dpupr->count() + 11, '=SUM(O11:O' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('P' . $dpupr->count() + 11, '=SUM(Q11:Q' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('Q' . $dpupr->count() + 11, '=SUM(Q11:Q' . $dpupr->count() + 10 . ')');
+                $spreadsheet->getSheetByName('3 DPUPR')->setCellValue('R' . $dpupr->count() + 11, '=IF(N' . $dpupr->count() + 11 . '=0,0,P' . $dpupr->count() + 11 . '/N' . $dpupr->count() + 11 . '*100)');
+            }
+            $value = "='3 DPUPR'!C" . $dpuprRow;
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C12', $value);
+        } else {
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C12', 0);
+        }
+
+        if ($dprkp != null) {
+
+            // dprkp
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A2', 'Dinas Perumahan Rakyat dan Kawasan Permukiman');
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+            $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+            $spreadsheet->getSheetByName('4 DPRKP')->insertNewRowBefore(12, $dprkp->count() - 1);
+            $dprkpRow = 11;
+            if ($dprkp->count() != 0) {
+                foreach ($dprkp as $key => $item) {
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('A' . $dprkpRow, $key + 1);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkpRow, $item->nama)->getColumnDimension('B')->setWidth('100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkpRow, $item->dpa);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkpRow, '=C' . $dprkpRow . '/$C$' . $dprkp->count() + 11 . '*100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkpRow, $item->rencana);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkpRow, '=E' . $dprkpRow . '/C' . $dprkpRow . '*100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkpRow, '=F' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkpRow, $item->realisasi);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkpRow, '=H' . $dprkpRow . '/C' . $dprkpRow . '*100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkpRow, '=I' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkpRow, '=IF(E' . $dprkpRow . '=0,0,H' . $dprkpRow . '/E' . $dprkpRow . '*100)');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkpRow, '=J' . $dprkpRow . '-G' . $dprkpRow);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkpRow, '=C' . $dprkpRow . '-H' . $dprkpRow);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkpRow, $item->rencana_fisik);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkpRow, '=N' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkpRow, $item->realisasi_fisik);
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkpRow, '=P' . $dprkpRow . '*D' . $dprkpRow . '/100');
+                    $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkpRow, '=IF(N' . $dprkpRow . '=0,0,P' . $dprkpRow . '/N' . $dprkpRow . '*100)');
+                    $dprkpRow++;
+                }
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('B' . $dprkp->count() + 11, 'TOTALNYA');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('C' . $dprkp->count() + 11, '=SUM(C11:C' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('D' . $dprkp->count() + 11, '=SUM(D11:D' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('E' . $dprkp->count() + 11, '=SUM(E11:E' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('F' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('G' . $dprkp->count() + 11, '=SUM(G11:G' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('H' . $dprkp->count() + 11, '=SUM(H11:H' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('I' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('J' . $dprkp->count() + 11, '=SUM(J11:J' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('K' . $dprkp->count() + 11, '=IF(E' . $dprkp->count() + 11 . '=0,0,H' . $dprkp->count() + 11 . '/E' . $dprkp->count() + 11 . '*100)');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('L' . $dprkp->count() + 11, '=J' . $dprkp->count() + 11 . '-G' .  $dprkp->count() + 11);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('M' . $dprkp->count() + 11, '=C' . $dprkp->count() + 11 . '-H' .  $dprkp->count() + 11);
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('N' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('O' . $dprkp->count() + 11, '=SUM(O11:O' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('P' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('Q' . $dprkp->count() + 11, '=SUM(Q11:Q' . $dprkp->count() + 10 . ')');
+                $spreadsheet->getSheetByName('4 DPRKP')->setCellValue('R' . $dprkp->count() + 11, '=IF(N' . $dprkp->count() + 11 . '=0,0,P' . $dprkp->count() + 11 . '/N' . $dprkp->count() + 11 . '*100)');
+            }
+            $value = "='4 DPRKP'!C" . $dprkpRow;
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C12', $value);
+        } else {
+            $spreadsheet->getSheetByName('Rekap')->setCellValue('C13', 0);
+        }
         // // satpolpp
         // $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
         // $spreadsheet->getSheetByName('5 SATPOLPP')->setCellValue('A2', 'Satuan Polisi Pamong Praja');

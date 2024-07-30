@@ -78,6 +78,28 @@
         <div class="box-header">
           <h3 class="box-title"><i class="fa fa-list"></i> Riwayat Pengiriman Laporan RFK</h3>
         </div>
+        <div class="box-body">
+          <table class="table table-bordered table-condensed">
+            <thead>
+              <tr class="bg-purple">
+                <td>No</td>
+                <td>Bulan</td>
+                <td>Tahun</td>
+                <td>status</td>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($laporan as $key=> $item)
+                  <tr>
+                    <td>{{$key+1}}</td>
+                    <td>{{$item->bulan}}</td>
+                    <td>{{$item->tahun}}</td>
+                    <td>{{$item->status}}</td>
+                  </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
