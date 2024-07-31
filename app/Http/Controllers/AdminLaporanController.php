@@ -454,8 +454,14 @@ class AdminLaporanController extends Controller
         $jenis = jenisRfk($bulan, $tahun);
         $check = LaporanRFK::where('tahun', $tahun)->where('bulan', nomorBulan(ucfirst($bulan)))->where('skpd_id', Auth::user()->skpd->id)->first();
         if ($check == null) {
-            $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
-                $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+            $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->get()->map(function ($item) use ($bulan, $jenis) {
+                if ($jenis == 'pergeseran') {
+                    $ke = Auth::user()->skpd->ke;
+                    $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->where('ke', $ke)->sum('dpa');
+                } else {
+                    $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
+                }
+
                 $item->rencana = rencanaSKPD($bulan, $item, $jenis);
                 $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
                 $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
@@ -467,6 +473,11 @@ class AdminLaporanController extends Controller
             $param['bulan'] = nomorBulan(ucfirst($bulan));
             $param['tahun'] = $tahun;
             $param['jenis'] = $jenis;
+            if ($jenis == 'pergeseran') {
+                $param['ke'] = Auth::user()->skpd->ke;
+            } else {
+                $param['ke'] = null;
+            }
             $param['skpd_id'] = Auth::user()->skpd->id;
             $param['data'] = $data;
             $param['status'] = null;
