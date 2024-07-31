@@ -238,13 +238,17 @@ class BerandaController extends Controller
         //$status = BatasInput::where('is_aktif', 1)->first()->nama;
         if (Auth::user()->pptk->skpd->murni == 1) {
             $status = 'murni';
+            $pergeseran_ke = null;
         }
         if (Auth::user()->pptk->skpd->pergeseran == 1) {
             $status = 'pergeseran';
+            $pergeseran_ke = Auth::user()->pptk->skpd->ke;
         }
         if (Auth::user()->pptk->skpd->perubahan == 1) {
             $status = 'perubahan';
+            $pergeseran_ke = null;
         }
+
         //dd($status);
         // $result = $status;
         // $data = null;
@@ -274,7 +278,7 @@ class BerandaController extends Controller
                 return $item;
             });
         }
-        return view('pptk.home', compact('tahun', 'subkegiatan', 'status', 'uraian'));
+        return view('pptk.home', compact('tahun', 'subkegiatan', 'status', 'uraian', 'pergeseran_ke'));
     }
     public function uraian()
     {

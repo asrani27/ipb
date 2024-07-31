@@ -31,7 +31,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">Status RFK</span>
-          <span class="info-box-number">{{$status}}</span>
+          <span class="info-box-number">{{$status}} {{$pergeseran_ke}}</span>
 
           <div class="progress">
             <div class="progress-bar" style="width: 70%"></div>
