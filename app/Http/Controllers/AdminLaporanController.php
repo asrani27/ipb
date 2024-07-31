@@ -362,7 +362,7 @@ class AdminLaporanController extends Controller
         $jenis = jenisRfk($bulan, $tahun);
 
 
-        $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
+        $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
             $item->rencana = rencanaSKPD($bulan, $item, $jenis);
             $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
