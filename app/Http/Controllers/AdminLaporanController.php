@@ -126,6 +126,7 @@ class AdminLaporanController extends Controller
     {
         $result = JenisRFK(nomorBulan(ucfirst($bulan)), $tahun);
 
+
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
@@ -133,7 +134,7 @@ class AdminLaporanController extends Controller
 
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
-        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
+        $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
 
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
@@ -359,6 +360,7 @@ class AdminLaporanController extends Controller
         // })->sum('kolom3');
 
         $jenis = jenisRfk($bulan, $tahun);
+
 
         $dataskpd = Subkegiatan::where('tahun', $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('jenis_rfk', $jenis)->get()->map(function ($item) use ($bulan, $jenis) {
             $item->dpa = $item->uraian->where('jenis_rfk', $jenis)->sum('dpa');
