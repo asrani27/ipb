@@ -6,6 +6,133 @@ use App\Models\M_indikator;
 use App\Models\T_capaian;
 use Illuminate\Support\Facades\Auth;
 
+function sheetName($skpd_id)
+{
+    if ($skpd_id == 1) {
+        $sheet = '1 Disdik';
+    }
+    if ($skpd_id == 34) {
+        $sheet = '2 Dinkes';
+    }
+    if ($skpd_id == 3) {
+        $sheet = '3 DPUPR';
+    }
+    if ($skpd_id == 4) {
+        $sheet = '4 DPRKP';
+    }
+    if ($skpd_id == 5) {
+        $sheet = '5 SATPOLPP';
+    }
+    if ($skpd_id == 6) {
+        $sheet = '6 KESBANGPOL';
+    }
+    if ($skpd_id == 7) {
+        $sheet = '7 DINSOS';
+    }
+    if ($skpd_id == 8) {
+        $sheet = '8 DP3A';
+    }
+    if ($skpd_id == 9) {
+        $sheet = '9 DKP3';
+    }
+    if ($skpd_id == 10) {
+        $sheet = '10 DLH';
+    }
+    if ($skpd_id == 11) {
+        $sheet = '11 CAPIL';
+    }
+    if ($skpd_id == 12) {
+        $sheet = '12 DPPKBPM';
+    }
+    if ($skpd_id == 13) {
+        $sheet = '13 DISHUB';
+    }
+    if ($skpd_id == 14) {
+        $sheet = '14 DISKOMINFOTIK';
+    }
+    if ($skpd_id == 15) {
+        $sheet = '15 DISKOPUMKER';
+    }
+    if ($skpd_id == 16) {
+        $sheet = '16 DPMPTSP';
+    }
+    if ($skpd_id == 37) {
+        $sheet = '17 Disbudporapar';
+    }
+    if ($skpd_id == 19) {
+        $sheet = '18 DPA';
+    }
+    if ($skpd_id == 20) {
+        $sheet = '19 Perdagin';
+    }
+    if ($skpd_id == 44) {
+        $sheet = '20 BAG PEM';
+    }
+    if ($skpd_id == 45) {
+        $sheet = '21 BAG KUM';
+    }
+    if ($skpd_id == 46) {
+        $sheet = '22 BAG ORG';
+    }
+    if ($skpd_id == 43) {
+        $sheet = '23 BAG EKO';
+    }
+    if ($skpd_id == 39) {
+        $sheet = '24 BAG KESRA';
+    }
+    if ($skpd_id == 47) {
+        $sheet = '25 BAGPROKOPIM';
+    }
+    if ($skpd_id == 42) {
+        $sheet = '26 BAGUMUM';
+    }
+    if ($skpd_id == 41) {
+        $sheet = '27 BAGPBJ';
+    }
+    if ($skpd_id == 40) {
+        $sheet = '28 BAGPBG';
+    }
+    if ($skpd_id == 22) {
+        $sheet = '29 SETWAN';
+    }
+    if ($skpd_id == 23) {
+        $sheet = '30 BPKPAD';
+    }
+    if ($skpd_id == 24) {
+        $sheet = '31 INSPEKTORAT';
+    }
+    if ($skpd_id == 25) {
+        $sheet = '32 BKDDIKLAT';
+    }
+    if ($skpd_id == 26) {
+        $sheet = '33 BPBD';
+    }
+    if ($skpd_id == 36) {
+        $sheet = '34 DAMKAR';
+    }
+    if ($skpd_id == 27) {
+        $sheet = '35 TIMUR';
+    }
+    if ($skpd_id == 28) {
+        $sheet = '36 UTARA';
+    }
+    if ($skpd_id == 29) {
+        $sheet = '37 TENGAH';
+    }
+    if ($skpd_id == 30) {
+        $sheet = '38 BARAT';
+    }
+    if ($skpd_id == 31) {
+        $sheet = '39 SELATAN';
+    }
+    if ($skpd_id == 32) {
+        $sheet = '40 BAPPEDA';
+    }
+    if ($skpd_id == 38) {
+        $sheet = '41 RS';
+    }
+    return $sheet;
+}
 function checkCapaian($skpd_id, $tahun, $kode, $jenis)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
