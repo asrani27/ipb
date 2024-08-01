@@ -77,31 +77,108 @@
       
       <div class="box box-primary">
         <div class="box-header">
-          <i class="fa fa-file-o"></i><h3 class="box-title">Data Pelaporan</h3>
+          <i class="fa fa-file-o"></i><h3 class="box-title">Data Pelaporan Tahun 2024</h3>
         </div>
         <!-- /.box-header -->
 
         <form class="form-horizontal" action="/superadmin/laporan/rfk" method="get">
           @csrf
           <div class="box-body">
-            <table class="table table-border">
+            <table class="table table-bordered">
               <tr>
-                <td>2024</td>
-                <td>
-                  <a href="/superadmin/laporan/2024/01" class="btn btn-primary btn-sm">JANUARI</a>
-                  <a href="/superadmin/laporan/2024/02" class="btn btn-primary btn-sm">FEBRUARI</a>
-                  <a href="/superadmin/laporan/2024/03" class="btn btn-primary btn-sm">MARET</a>
-                  <a href="/superadmin/laporan/2024/04" class="btn btn-primary btn-sm">APRIL</a>
-                  <a href="/superadmin/laporan/2024/05" class="btn btn-primary btn-sm">MEI</a>
-                  <a href="/superadmin/laporan/2024/06" class="btn btn-primary btn-sm">JUNI</a>
-                  <a href="/superadmin/laporan/2024/07" class="btn btn-primary btn-sm">JULI</a>
-                  <a href="/superadmin/laporan/2024/08" class="btn btn-primary btn-sm">AGUSTUS</a>
-                  <a href="/superadmin/laporan/2024/09" class="btn btn-primary btn-sm">SEPTEMBER</a>
-                  <a href="/superadmin/laporan/2024/10" class="btn btn-primary btn-sm">OKTOBER</a>
-                  <a href="/superadmin/laporan/2024/11" class="btn btn-primary btn-sm">NOVEMBER</a>
-                  <a href="/superadmin/laporan/2024/12" class="btn btn-primary btn-sm">DESEMBER</a>
-                </td>
+                <td>NO</td>
+                <td>SKPD</td>
+                <td>JANUARI</td>
+                <td>FEBRUARI</td>
+                <td>MARET</td>
+                <td>APRIL</td>
+                <td>MEI</td>
+                <td>JUNI</td>
+                <td>JULI</td>
+                <td>AGUSTUS</td>
+                <td>SEPTEMBER</td>
+                <td>OKTOBER</td>
+                <td>NOVEMBER</td>
+                <td>DESEMBER</td>
               </tr>
+              @foreach ($skpd as $key => $item)
+                  <tr>
+                    <td>{{$key + 1}}</td>
+                    <td>{{$item->nama}}</td>
+                    <td class="text-center">
+                      @if ($item->januari == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->februari == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->maret == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->april == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->mei == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->juni == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->juli == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->agustus == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->september == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->oktober == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->november == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                    <td class="text-center">
+                      @if ($item->desember == null)
+                      @else
+                      <i class="fa fa-check text-green"></i>
+                      @endif
+                    </td>
+                  </tr>
+              @endforeach
             </table>
           </div>
         </form>

@@ -14,7 +14,24 @@ class SuperadminController extends Controller
 {
     public function laporan()
     {
-        return view('superadmin.laporan.index');
+        $tahun = '2024';
+        $skpd = Skpd::where('is_aktif', 1)->get()->map(function ($item) use ($tahun) {
+            $item->januari = LaporanRFK::where('tahun', $tahun)->where('bulan', '01')->where('skpd_id', $item->id)->first();
+            $item->februari = LaporanRFK::where('tahun', $tahun)->where('bulan', '02')->where('skpd_id', $item->id)->first();
+            $item->maret = LaporanRFK::where('tahun', $tahun)->where('bulan', '03')->where('skpd_id', $item->id)->first();
+            $item->april = LaporanRFK::where('tahun', $tahun)->where('bulan', '04')->where('skpd_id', $item->id)->first();
+            $item->mei = LaporanRFK::where('tahun', $tahun)->where('bulan', '05')->where('skpd_id', $item->id)->first();
+            $item->juni = LaporanRFK::where('tahun', $tahun)->where('bulan', '06')->where('skpd_id', $item->id)->first();
+            $item->juli = LaporanRFK::where('tahun', $tahun)->where('bulan', '07')->where('skpd_id', $item->id)->first();
+            $item->agustus = LaporanRFK::where('tahun', $tahun)->where('bulan', '08')->where('skpd_id', $item->id)->first();
+            $item->september = LaporanRFK::where('tahun', $tahun)->where('bulan', '09')->where('skpd_id', $item->id)->first();
+            $item->oktober = LaporanRFK::where('tahun', $tahun)->where('bulan', '10')->where('skpd_id', $item->id)->first();
+            $item->november = LaporanRFK::where('tahun', $tahun)->where('bulan', '11')->where('skpd_id', $item->id)->first();
+            $item->desember = LaporanRFK::where('tahun', $tahun)->where('bulan', '12')->where('skpd_id', $item->id)->first();
+            return $item;
+        });
+
+        return view('superadmin.laporan.index', compact('skpd'));
     }
     public function laporanskpd($tahun, $bulan)
     {
