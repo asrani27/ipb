@@ -280,8 +280,8 @@ class SuperadminController extends Controller
 
                 $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
             } else {
-                // $spreadsheet->getSheetByName('Rekap')->setCellValue('B10', 0);
-                // $spreadsheet->getSheetByName('Rekap')->setCellValue('C10', 0);
+                $cell = cellName($skpd->id);
+                $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
             }
         }
 
