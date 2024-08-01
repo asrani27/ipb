@@ -153,9 +153,9 @@ class SuperadminController extends Controller
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment;filename=$filename");
-        header('Cache-Control: max-age=0');
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header("Content-Disposition: attachment;filename=$filename");
+        // header('Cache-Control: max-age=0');
 
         $path = public_path('/excel/laporan_rf.xlsx');
 
@@ -223,8 +223,10 @@ class SuperadminController extends Controller
 
         foreach ($skpd as $key => $dataexcel) {
 
-            if ($dataexcel != null) {
-
+            if ($dataexcel == null || $dataexcel->count() != 0) {
+                $cell = cellName($skpd->id);
+                $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
+            } else {
                 $sheetName = sheetName($dataexcel->first()->skpd_id);
                 $skpd = Skpd::find($dataexcel->first()->skpd_id);
                 $spreadsheet->getSheetByName($sheetName)->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
@@ -279,9 +281,6 @@ class SuperadminController extends Controller
                 $cell = cellName($skpd->id);
 
                 $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
-            } else {
-                $cell = cellName($skpd->id);
-                $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
             }
         }
 
