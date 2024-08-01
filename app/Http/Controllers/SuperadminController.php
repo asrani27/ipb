@@ -276,17 +276,13 @@ class SuperadminController extends Controller
                 }
 
                 $value = "='$sheetName'!C" . $disdikRow;
-                $cell = 'C' . (10 + $key);
+                $cell = cellName($skpd->id);
 
                 $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
             } else {
                 // $spreadsheet->getSheetByName('Rekap')->setCellValue('B10', 0);
                 // $spreadsheet->getSheetByName('Rekap')->setCellValue('C10', 0);
             }
-            // } else {
-            //     $spreadsheet->getSheetByName('Rekap')->setCellValue('C10', 0);
-            // }
-            // dd($dataexcel);
         }
 
 

@@ -133,6 +133,133 @@ function sheetName($skpd_id)
     }
     return $sheet;
 }
+function cellName($skpd_id)
+{
+    if ($skpd_id == 1) {
+        $cell = 'C10';
+    }
+    if ($skpd_id == 34) {
+        $cell = 'C11';
+    }
+    if ($skpd_id == 3) {
+        $cell = 'C12';
+    }
+    if ($skpd_id == 4) {
+        $cell = 'C13';
+    }
+    if ($skpd_id == 5) {
+        $cell = 'C14';
+    }
+    if ($skpd_id == 6) {
+        $cell = 'C15';
+    }
+    if ($skpd_id == 7) {
+        $cell = 'C16';
+    }
+    if ($skpd_id == 8) {
+        $cell = 'C17';
+    }
+    if ($skpd_id == 9) {
+        $cell = 'C18';
+    }
+    if ($skpd_id == 10) {
+        $cell = 'C19';
+    }
+    if ($skpd_id == 11) {
+        $cell = 'C20';
+    }
+    if ($skpd_id == 12) {
+        $cell = 'C21';
+    }
+    if ($skpd_id == 13) {
+        $cell = 'C22';
+    }
+    if ($skpd_id == 14) {
+        $cell = 'C23';
+    }
+    if ($skpd_id == 15) {
+        $cell = 'C24';
+    }
+    if ($skpd_id == 16) {
+        $cell = 'C25';
+    }
+    if ($skpd_id == 37) {
+        $cell = 'C26';
+    }
+    if ($skpd_id == 19) {
+        $cell = 'C27';
+    }
+    if ($skpd_id == 20) {
+        $cell = 'C28';
+    }
+    if ($skpd_id == 44) {
+        $cell = 'C29';
+    }
+    if ($skpd_id == 45) {
+        $cell = 'C30';
+    }
+    if ($skpd_id == 46) {
+        $cell = 'C31';
+    }
+    if ($skpd_id == 43) {
+        $cell = 'C32';
+    }
+    if ($skpd_id == 39) {
+        $cell = 'C33';
+    }
+    if ($skpd_id == 47) {
+        $cell = 'C34';
+    }
+    if ($skpd_id == 42) {
+        $cell = 'C35';
+    }
+    if ($skpd_id == 41) {
+        $cell = 'C36';
+    }
+    if ($skpd_id == 40) {
+        $cell = 'C37';
+    }
+    if ($skpd_id == 22) {
+        $cell = 'C38';
+    }
+    if ($skpd_id == 23) {
+        $cell = 'C39';
+    }
+    if ($skpd_id == 24) {
+        $cell = 'C40';
+    }
+    if ($skpd_id == 25) {
+        $cell = 'C41';
+    }
+    if ($skpd_id == 26) {
+        $cell = 'C42';
+    }
+    if ($skpd_id == 36) {
+        $cell = 'C43';
+    }
+    if ($skpd_id == 27) {
+        $cell = 'C44';
+    }
+    if ($skpd_id == 28) {
+        $cell = 'C45';
+    }
+    if ($skpd_id == 29) {
+        $cell = 'C46';
+    }
+    if ($skpd_id == 30) {
+        $cell = 'C47';
+    }
+    if ($skpd_id == 31) {
+        $cell = 'C48';
+    }
+    if ($skpd_id == 32) {
+        $cell = 'C49';
+    }
+    if ($skpd_id == 38) {
+        $cell = 'C50';
+    }
+    return $cell;
+}
 function checkCapaian($skpd_id, $tahun, $kode, $jenis)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
