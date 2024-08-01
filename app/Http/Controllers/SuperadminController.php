@@ -102,6 +102,9 @@ class SuperadminController extends Controller
             $bagkum   = $check->where('skpd_id', 45)->first() == null ? null : $check->where('skpd_id', 45)->first()->data;
             $bagorg   = $check->where('skpd_id', 46)->first() == null ? null : $check->where('skpd_id', 46)->first()->data;
             $bagprokopim   = $check->where('skpd_id', 47)->first() == null ? null : $check->where('skpd_id', 47)->first()->data;
+
+            $bappeda   = $check->where('skpd_id', 32)->first() == null ? null : $check->where('skpd_id', 32)->first()->data;
+            $rs   = $check->where('skpd_id', 38)->first() == null ? null : $check->where('skpd_id', 38)->first()->data;
         } else {
             $disdik = null;
             $dinkes = null;
@@ -143,12 +146,14 @@ class SuperadminController extends Controller
             $bagpbj   = null;
             $bagpbg   = null;
             $bagprokopim   = null;
+            $bappeda   = null;
+            $rs   = null;
         }
 
         $skpd = [
             $disdik, $dinkes, $dpupr, $dprkp, $satpolpp, $kesbangpol, $dinsos, $dp3a, $dkp3, $dlh, $capil, $dppkbpm, $dishub, $diskominfotik,
             $diskopumker, $dpmptsp, $disbudporapar, $dpa, $perdagin, $setwan, $bpkpad, $inspektorat, $bkddiklat, $bpbd, $damkar, $timur, $utara,
-            $barat, $tengah, $selatan, $bagpem, $bagkum, $bagorg, $bagkesra, $bageko, $bagumum, $bagpbj, $bagpbg, $bagprokopim
+            $barat, $tengah, $selatan, $bagpem, $bagkum, $bagorg, $bagkesra, $bageko, $bagumum, $bagpbj, $bagpbg, $bagprokopim, $bappeda, $rs
         ];
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -223,64 +228,70 @@ class SuperadminController extends Controller
 
         foreach ($skpd as $key => $dataexcel) {
 
-            if ($dataexcel == null || $dataexcel->count() != 0) {
+            if ($dataexcel != null) {
+                if ($dataexcel->count() != 0) {
+                    $sheetName = sheetName($dataexcel->first()->skpd_id);
+                    $skpd = Skpd::find($dataexcel->first()->skpd_id);
+                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
+                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A2', $skpd->nama);
+                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
+                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
+                    $spreadsheet->getSheetByName($sheetName)->insertNewRowBefore(12, $dataexcel->count() - 1);
+                    $disdikRow = 11;
+
+                    if ($dataexcel->count() != 0) {
+                        foreach ($dataexcel as $key2 => $item_disdik) {
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $key2 + 1);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_disdik->dpa);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $dataexcel->count() + 11 . '*100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_disdik->rencana);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $disdikRow, $item_disdik->realisasi);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)');
+                            $disdikRow++;
+                        }
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $dataexcel->count() + 11, 'TOTALNYA');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $dataexcel->count() + 11, '=SUM(C11:C' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $dataexcel->count() + 11, '=SUM(D11:D' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $dataexcel->count() + 11, '=SUM(E11:E' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $dataexcel->count() + 11, '=SUM(G11:G' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $dataexcel->count() + 11, '=SUM(G11:G' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $dataexcel->count() + 11, '=SUM(H11:H' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $dataexcel->count() + 11, '=SUM(J11:J' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $dataexcel->count() + 11, '=SUM(J11:J' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $dataexcel->count() + 11, '=IF(E' . $dataexcel->count() + 11 . '=0,0,H' . $dataexcel->count() + 11 . '/E' . $dataexcel->count() + 11 . '*100)');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $dataexcel->count() + 11, '=J' . $dataexcel->count() + 11 . '-G' .  $dataexcel->count() + 11);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $dataexcel->count() + 11, '=C' . $dataexcel->count() + 11 . '-H' .  $dataexcel->count() + 11);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $dataexcel->count() + 11, '=SUM(O11:O' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $dataexcel->count() + 11, '=SUM(O11:O' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $dataexcel->count() + 11, '=SUM(Q11:Q' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $dataexcel->count() + 11, '=SUM(Q11:Q' . $dataexcel->count() + 10 . ')');
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $dataexcel->count() + 11, '=IF(N' . $dataexcel->count() + 11 . '=0,0,P' . $dataexcel->count() + 11 . '/N' . $dataexcel->count() + 11 . '*100)');
+                    }
+
+                    $value = "='$sheetName'!C" . $disdikRow;
+                    $cell = cellName($skpd->id);
+
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
+                } else {
+
+                    $cell = cellName($skpd->id);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
+                }
+            } else {
                 $cell = cellName($skpd->id);
                 $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
-            } else {
-                $sheetName = sheetName($dataexcel->first()->skpd_id);
-                $skpd = Skpd::find($dataexcel->first()->skpd_id);
-                $spreadsheet->getSheetByName($sheetName)->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-                $spreadsheet->getSheetByName($sheetName)->setCellValue('A2', $skpd->nama);
-                $spreadsheet->getSheetByName($sheetName)->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
-                $spreadsheet->getSheetByName($sheetName)->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
-                $spreadsheet->getSheetByName($sheetName)->insertNewRowBefore(12, $dataexcel->count() - 1);
-                $disdikRow = 11;
-
-                if ($dataexcel->count() != 0) {
-                    foreach ($dataexcel as $key2 => $item_disdik) {
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $key2 + 1);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_disdik->dpa);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $dataexcel->count() + 11 . '*100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_disdik->rencana);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $disdikRow, $item_disdik->realisasi);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100');
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)');
-                        $disdikRow++;
-                    }
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $dataexcel->count() + 11, 'TOTALNYA');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $dataexcel->count() + 11, '=SUM(C11:C' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $dataexcel->count() + 11, '=SUM(D11:D' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $dataexcel->count() + 11, '=SUM(E11:E' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $dataexcel->count() + 11, '=SUM(G11:G' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $dataexcel->count() + 11, '=SUM(G11:G' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $dataexcel->count() + 11, '=SUM(H11:H' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $dataexcel->count() + 11, '=SUM(J11:J' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $dataexcel->count() + 11, '=SUM(J11:J' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $dataexcel->count() + 11, '=IF(E' . $dataexcel->count() + 11 . '=0,0,H' . $dataexcel->count() + 11 . '/E' . $dataexcel->count() + 11 . '*100)');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $dataexcel->count() + 11, '=J' . $dataexcel->count() + 11 . '-G' .  $dataexcel->count() + 11);
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $dataexcel->count() + 11, '=C' . $dataexcel->count() + 11 . '-H' .  $dataexcel->count() + 11);
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $dataexcel->count() + 11, '=SUM(O11:O' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $dataexcel->count() + 11, '=SUM(O11:O' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $dataexcel->count() + 11, '=SUM(Q11:Q' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $dataexcel->count() + 11, '=SUM(Q11:Q' . $dataexcel->count() + 10 . ')');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $dataexcel->count() + 11, '=IF(N' . $dataexcel->count() + 11 . '=0,0,P' . $dataexcel->count() + 11 . '/N' . $dataexcel->count() + 11 . '*100)');
-                }
-
-                $value = "='$sheetName'!C" . $disdikRow;
-                $cell = cellName($skpd->id);
-
-                $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
             }
         }
 
