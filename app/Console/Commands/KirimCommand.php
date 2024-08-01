@@ -40,7 +40,7 @@ class KirimCommand extends Command
      */
     public function handle()
     {
-        $bulan = 'januari';
+        $bulan = 'februari';
         $tahun = '2024';
         $skpd = Skpd::where('is_aktif', 1)->get();
         foreach ($skpd as $org) {
