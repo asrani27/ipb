@@ -27,7 +27,7 @@
                   @if ($item->pergeseran == null)
                       murni
                   @else
-                      Sedang di Pergeseran ke : {{$item->pergeseran->ke}}
+                      Sedang di Pergeseran ke : {{$item->ke}}
                   @endif
                 </td>
                 <td>
