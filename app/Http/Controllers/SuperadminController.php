@@ -31,7 +31,7 @@ class SuperadminController extends Controller
             return $item;
         });
 
-        return view('superadmin.laporan.index', compact('skpd'));
+        return view('superadmin.laporan.index', compact('skpd', 'tahun'));
     }
     public function laporanskpd($tahun, $bulan)
     {

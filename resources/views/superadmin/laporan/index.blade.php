@@ -108,73 +108,73 @@
                     <td class="text-center">
                       @if ($item->januari == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('01', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->februari == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('02', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->maret == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('03', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->april == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('04', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->mei == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('05', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->juni == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('06', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->juli == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('07', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->agustus == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('08', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->september == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('09', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->oktober == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('10', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->november == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('11', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->desember == null)
                       @else
-                      <i class="fa fa-check text-green"></i>
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('12', $tahun, $item->id)}}"><i class="fa fa-check text-green"></i></a>
                       @endif
                     </td>
                   </tr>

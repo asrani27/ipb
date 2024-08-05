@@ -187,7 +187,11 @@ class AdminLaporanController extends Controller
                     $item->kolom17 = 0;
                 } else {
 
-                    $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+                    if ($result == 'pergeseran') {
+                        $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->where('ke', Auth::user()->skpd->ke)->sum('dpa');
+                    } else {
+                        $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+                    }
                     $item->kolom4 = ($item->kolom3 / $totalsubkegiatan) * 100;
 
                     $item->kolom5 = rencanaSKPD($bulan, $item, $result);

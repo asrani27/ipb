@@ -2,9 +2,22 @@
 
 use App\Models\Uraian;
 use App\Models\JenisRfk;
-use App\Models\M_indikator;
 use App\Models\T_capaian;
+use App\Models\LaporanRFK;
+use App\Models\M_indikator;
 use Illuminate\Support\Facades\Auth;
+
+function idLaporan($bulan, $tahun, $skpd_id)
+{
+    $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->where('skpd_id', $skpd_id)->first();
+    if ($check == null) {
+        $result = null;
+    } else {
+        $result = $check->id;
+    }
+
+    return $result;
+}
 
 function sheetName($skpd_id)
 {
