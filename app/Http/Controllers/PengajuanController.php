@@ -20,7 +20,7 @@ class PengajuanController extends Controller
             } else {
                 $item->pengajuan = $data;
             }
-            $status = Pengajuan::where('skpd_id', $item->id)->where('tahun', '2024')->where('status', 1)->first();
+            $status = Pengajuan::where('skpd_id', $item->id)->where('tahun', '2024')->where('status', '!=', null)->first();
             if ($status == null) {
                 $item->pergeseran = null;
             } else {
