@@ -649,7 +649,12 @@ function superadminRealisasi($bulan, $uraian)
 }
 function rencanaSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    if ($jenisrfk == 'pergeseran') {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke);
+    } else {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    }
+
     if ($bulan == 'januari' || $bulan == '1') {
         $total = $uraian->sum('p_januari_keuangan');
     }
@@ -699,7 +704,11 @@ function realisasiSKPDTriwulan($bulan, $item, $jenisrfk)
 }
 function realisasiSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    if ($jenisrfk == 'pergeseran') {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke);
+    } else {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    }
 
     if ($bulan == 'januari' || $bulan == 'Januari' || $bulan == '1') {
         $total = $uraian->sum('r_januari_keuangan');
@@ -743,7 +752,13 @@ function realisasiSKPD($bulan, $item, $jenisrfk)
 
 function rencanaKumSkpd($subkegiatan_id, $jenisrfk, $bulan)
 {
-    $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+
+    if ($jenisrfk == 'pergeseran') {
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke)->get();
+    } else {
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+    }
+
 
     $totalDPA = $data->sum('dpa');
 
@@ -806,8 +821,11 @@ function rencanaKumSkpd($subkegiatan_id, $jenisrfk, $bulan)
 }
 function realisasiKumSkpd($subkegiatan_id, $jenisrfk, $bulan)
 {
-    $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
-
+    if ($jenisrfk == 'pergeseran') {
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke)->get();
+    } else {
+        $data = Uraian::where('subkegiatan_id', $subkegiatan_id)->where('jenis_rfk', $jenisrfk)->get();
+    }
     $totalDPA = $data->sum('dpa');
 
     $data->map(function ($item) use ($totalDPA, $bulan) {
@@ -869,7 +887,11 @@ function realisasiKumSkpd($subkegiatan_id, $jenisrfk, $bulan)
 }
 function fisikRencanaSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    if ($jenisrfk == 'pergeseran') {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke);
+    } else {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    }
     if ($bulan == 'januari') {
         $total = $uraian->sum('p_januari_fisik');
     }
@@ -911,7 +933,12 @@ function fisikRencanaSKPD($bulan, $item, $jenisrfk)
 }
 function fisikRealisasiSKPD($bulan, $item, $jenisrfk)
 {
-    $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    if ($jenisrfk == 'pergeseran') {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk)->where('ke', Auth::user()->skpd->ke);
+    } else {
+        $uraian = $item->uraian->where('jenis_rfk', $jenisrfk);
+    }
+
     if ($bulan == 'januari') {
         $total = $uraian->sum('r_januari_fisik');
     }
