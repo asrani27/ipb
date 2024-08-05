@@ -52,11 +52,12 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="index2.html" class="logo" style="line-height: 20px;height:95px; font-size:28px">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>K</b>NA</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Kenangan</b></span>
+      <span class="logo-lg"><b><br/>KENANGAN </b></span>
+      <b style="font-size: 14px; line-height:0px">Kendali Administrasi Pembangunan</b>
     </a>
 
     <!-- Header Navbar -->
@@ -65,6 +66,7 @@ desired effect
       <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
+      
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -88,7 +90,7 @@ desired effect
   <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <section class="sidebar" style="padding-top:50px;">
 
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
