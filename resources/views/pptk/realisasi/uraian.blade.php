@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @push('css')
-    
+{{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> --}}
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 @endpush
 @section('content')
 <section class="content">
@@ -29,6 +30,7 @@
           <!-- /.box -->
         </div>
     </div>
+
     <div class="row">
       <div class="col-md-12">
         <!-- Block buttons -->
@@ -74,6 +76,9 @@
                 </td>
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
+
+                  {{-- <a href="#" class="realisasi" data-type="text" data-pk="{{$item->id}}" data-url="/update_realisasi_keuangan" data-title="Edit Realisasi" onkeypress="return hanyaAngka(event)">{{number_format($item->r_januari_keuangan)}}</a> --}}
+
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
                   {{round($item->p_januari_fisik,2)}}% <br/>
                   <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_fisik}}">{{round($item->r_januari_fisik,2)}}% </a>
@@ -278,7 +283,30 @@
 
 @endsection
 @push('js')
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script> 
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 <script>
+  $(document).ready(function() {
+    $.fn.editable.defaults.mode = 'popup';
+
+    $.ajaxSetup({
+      headers:{
+        'X-CSRF-TOKEN':'{{ csrf_token() }}'
+      }
+    });
+
+    $('.realisasi').editable({
+      url:"/update_realisasi_keuangan",
+      type:"text",
+      pk:1,
+      name:"name",
+      title:"title"
+    });
+  });
   function hanyaAngka(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode
      if (charCode > 31 && (charCode < 48 || charCode > 57))

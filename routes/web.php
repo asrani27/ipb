@@ -56,6 +56,8 @@ Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::get('lupa-password', [LupaPasswordController::class, 'index']);
 
+Route::post('/update_realisasi_keuangan', [PPTK2Controller::class, 'update_realisasi']);
+
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::prefix('superadmin')->group(function () {
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);

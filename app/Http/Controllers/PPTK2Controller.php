@@ -18,6 +18,10 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PPTK2Controller extends Controller
 {
+    public function update_realisasi(Request $req)
+    {
+        return response()->json([$req->pk, $req->value]);
+    }
     public function subkegiatan()
     {
         //dd(auth::user()->pptk);
