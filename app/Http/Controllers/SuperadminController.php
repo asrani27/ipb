@@ -151,9 +151,47 @@ class SuperadminController extends Controller
         }
 
         $skpd = [
-            $disdik, $dinkes, $dpupr, $dprkp, $satpolpp, $kesbangpol, $dinsos, $dp3a, $dkp3, $dlh, $capil, $dppkbpm, $dishub, $diskominfotik,
-            $diskopumker, $dpmptsp, $disbudporapar, $dpa, $perdagin, $setwan, $bpkpad, $inspektorat, $bkddiklat, $bpbd, $damkar, $timur, $utara,
-            $barat, $tengah, $selatan, $bagpem, $bagkum, $bagorg, $bagkesra, $bageko, $bagumum, $bagpbj, $bagpbg, $bagprokopim, $bappeda, $rs
+            $disdik,
+            $dinkes,
+            $dpupr,
+            $dprkp,
+            $satpolpp,
+            $kesbangpol,
+            $dinsos,
+            $dp3a,
+            $dkp3,
+            $dlh,
+            $capil,
+            $dppkbpm,
+            $dishub,
+            $diskominfotik,
+            $diskopumker,
+            $dpmptsp,
+            $disbudporapar,
+            $dpa,
+            $perdagin,
+            $setwan,
+            $bpkpad,
+            $inspektorat,
+            $bkddiklat,
+            $bpbd,
+            $damkar,
+            $timur,
+            $utara,
+            $barat,
+            $tengah,
+            $selatan,
+            $bagpem,
+            $bagkum,
+            $bagorg,
+            $bagkesra,
+            $bageko,
+            $bagumum,
+            $bagpbj,
+            $bagpbg,
+            $bagprokopim,
+            $bappeda,
+            $rs
         ];
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
@@ -233,7 +271,7 @@ class SuperadminController extends Controller
                     $sheetName = sheetName($dataexcel->first()->skpd_id);
                     $skpd = Skpd::find($dataexcel->first()->skpd_id);
                     $spreadsheet->getSheetByName($sheetName)->setCellValue('A1', 'LAPORAN REALISASI FISIK DAN KEUANGAN');
-                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A2', $skpd->nama);
+                    $spreadsheet->getSheetByName($sheetName)->setCellValue('A2', strtoupper($skpd->nama));
                     $spreadsheet->getSheetByName($sheetName)->setCellValue('A3', 'TAHUN ANGGARAN ' . $tahun);
                     $spreadsheet->getSheetByName($sheetName)->setCellValue('A4', 'KONDISI ' . strtoupper(namaBulan($bulan)) . ' ' . $tahun);
                     $spreadsheet->getSheetByName($sheetName)->insertNewRowBefore(12, $dataexcel->count() - 1);
