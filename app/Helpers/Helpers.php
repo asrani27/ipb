@@ -149,127 +149,127 @@ function sheetName($skpd_id)
 function cellName($skpd_id)
 {
     if ($skpd_id == 1) {
-        $cell = 'C10';
+        $cell = '10';
     }
     if ($skpd_id == 34) {
-        $cell = 'C11';
+        $cell = '11';
     }
     if ($skpd_id == 3) {
-        $cell = 'C12';
+        $cell = '12';
     }
     if ($skpd_id == 4) {
-        $cell = 'C13';
+        $cell = '13';
     }
     if ($skpd_id == 5) {
-        $cell = 'C14';
+        $cell = '14';
     }
     if ($skpd_id == 6) {
-        $cell = 'C15';
+        $cell = '15';
     }
     if ($skpd_id == 7) {
-        $cell = 'C16';
+        $cell = '16';
     }
     if ($skpd_id == 8) {
-        $cell = 'C17';
+        $cell = '17';
     }
     if ($skpd_id == 9) {
-        $cell = 'C18';
+        $cell = '18';
     }
     if ($skpd_id == 10) {
-        $cell = 'C19';
+        $cell = '19';
     }
     if ($skpd_id == 11) {
-        $cell = 'C20';
+        $cell = '20';
     }
     if ($skpd_id == 12) {
-        $cell = 'C21';
+        $cell = '21';
     }
     if ($skpd_id == 13) {
-        $cell = 'C22';
+        $cell = '22';
     }
     if ($skpd_id == 14) {
-        $cell = 'C23';
+        $cell = '23';
     }
     if ($skpd_id == 15) {
-        $cell = 'C24';
+        $cell = '24';
     }
     if ($skpd_id == 16) {
-        $cell = 'C25';
+        $cell = '25';
     }
     if ($skpd_id == 37) {
-        $cell = 'C26';
+        $cell = '26';
     }
     if ($skpd_id == 19) {
-        $cell = 'C27';
+        $cell = '27';
     }
     if ($skpd_id == 20) {
-        $cell = 'C28';
+        $cell = '28';
     }
     if ($skpd_id == 44) {
-        $cell = 'C29';
+        $cell = '29';
     }
     if ($skpd_id == 45) {
-        $cell = 'C30';
+        $cell = '30';
     }
     if ($skpd_id == 46) {
-        $cell = 'C31';
+        $cell = '31';
     }
     if ($skpd_id == 43) {
-        $cell = 'C32';
+        $cell = '32';
     }
     if ($skpd_id == 39) {
-        $cell = 'C33';
+        $cell = '33';
     }
     if ($skpd_id == 47) {
-        $cell = 'C34';
+        $cell = '34';
     }
     if ($skpd_id == 42) {
-        $cell = 'C35';
+        $cell = '35';
     }
     if ($skpd_id == 41) {
-        $cell = 'C36';
+        $cell = '36';
     }
     if ($skpd_id == 40) {
-        $cell = 'C37';
+        $cell = '37';
     }
     if ($skpd_id == 22) {
-        $cell = 'C38';
+        $cell = '38';
     }
     if ($skpd_id == 23) {
-        $cell = 'C39';
+        $cell = '39';
     }
     if ($skpd_id == 24) {
-        $cell = 'C40';
+        $cell = '40';
     }
     if ($skpd_id == 25) {
-        $cell = 'C41';
+        $cell = '41';
     }
     if ($skpd_id == 26) {
-        $cell = 'C42';
+        $cell = '42';
     }
     if ($skpd_id == 36) {
-        $cell = 'C43';
+        $cell = '43';
     }
     if ($skpd_id == 27) {
-        $cell = 'C44';
+        $cell = '44';
     }
     if ($skpd_id == 28) {
-        $cell = 'C45';
+        $cell = '45';
     }
     if ($skpd_id == 29) {
-        $cell = 'C46';
+        $cell = '46';
     }
     if ($skpd_id == 30) {
-        $cell = 'C47';
+        $cell = '47';
     }
     if ($skpd_id == 31) {
-        $cell = 'C48';
+        $cell = '48';
     }
     if ($skpd_id == 32) {
-        $cell = 'C49';
+        $cell = '49';
     }
     if ($skpd_id == 38) {
-        $cell = 'C50';
+        $cell = '50';
     }
     return $cell;
 }

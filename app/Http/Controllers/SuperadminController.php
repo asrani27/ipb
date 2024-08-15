@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\T_m;
 use App\Models\Skpd;
 use App\Models\Uraian;
@@ -207,9 +208,9 @@ class SuperadminController extends Controller
 
         // DISDIK
 
+        $tanggal = Carbon::now()->format('d-m-Y H:i:s');
         //rekap
-        $spreadsheet->getSheetByName('Rekap')->setCellValue('A10', '1');
-        $spreadsheet->getSheetByName('Rekap')->setCellValue('B10', 'Dinas Pendidikan');
+        $spreadsheet->getSheetByName('Rekap')->setCellValue('B5', 'Sumber Data : Kenangan, Tanggal : ' . $tanggal);
 
         // $permasalahan_disdik    = T_m::whereIn('subkegiatan_id', $disdik->pluck('id')->toArray())->get();
         // $permasalahan_dinkes    = T_m::whereIn('subkegiatan_id', $dinkes->pluck('id')->toArray())->get();
@@ -280,23 +281,24 @@ class SuperadminController extends Controller
                     if ($dataexcel->count() != 0) {
                         foreach ($dataexcel as $key2 => $item_disdik) {
                             $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $key2 + 1);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_disdik->dpa);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $dataexcel->count() + 11 . '*100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_disdik->rencana);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $disdikRow, $item_disdik->realisasi);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik);
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100');
-                            $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)');
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_disdik->nama)->getColumnDimension('B')->setWidth('50');
+                            $spreadsheet->getSheetByName($sheetName)->getStyle('B' . $disdikRow)->getAlignment()->setWrapText(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_disdik->dpa)->getColumnDimension('C')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $dataexcel->count() + 11 . '*100')->getColumnDimension('D')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_disdik->rencana)->getColumnDimension('E')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100')->getColumnDimension('F')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('G')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $disdikRow, $item_disdik->realisasi)->getColumnDimension('H')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100')->getColumnDimension('I')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('J')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)')->getColumnDimension('K')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow)->getColumnDimension('L')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('M' . $disdikRow, '=C' . $disdikRow . '-H' . $disdikRow)->getColumnDimension('M')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('N' . $disdikRow, $item_disdik->rencana_fisik)->getColumnDimension('N')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('O' . $disdikRow, '=N' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('O')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('P' . $disdikRow, $item_disdik->realisasi_fisik)->getColumnDimension('P')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('Q' . $disdikRow, '=P' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('Q')->setAutoSize(true);
+                            $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $disdikRow, '=IF(N' . $disdikRow . '=0,0,P' . $disdikRow . '/N' . $disdikRow . '*100)')->getColumnDimension('R')->setAutoSize(true);
                             $disdikRow++;
                         }
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $dataexcel->count() + 11, 'TOTALNYA');
@@ -318,21 +320,48 @@ class SuperadminController extends Controller
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('R' . $dataexcel->count() + 11, '=IF(N' . $dataexcel->count() + 11 . '=0,0,P' . $dataexcel->count() + 11 . '/N' . $dataexcel->count() + 11 . '*100)');
                     }
 
-                    $value = "='$sheetName'!C" . $disdikRow;
-                    $cell = cellName($skpd->id);
+                    $value_c = "='$sheetName'!C" . $disdikRow;
+                    $value_e = "='$sheetName'!E" . $disdikRow;
+                    $value_f = "='$sheetName'!F" . $disdikRow;
+                    $value_h = "='$sheetName'!H" . $disdikRow;
+                    $value_i = "='$sheetName'!I" . $disdikRow;
+                    $value_k = "='$sheetName'!K" . $disdikRow;
+                    $value_n = "='$sheetName'!N" . $disdikRow;
+                    $value_p = "='$sheetName'!P" . $disdikRow;
+                    $value_r = "='$sheetName'!R" . $disdikRow;
+                    $cell_c = "C" . cellName($skpd->id);
+                    $cell_e = "E" . cellName($skpd->id);
+                    $cell_f = "F" . cellName($skpd->id);
+                    $cell_h = "H" . cellName($skpd->id);
+                    $cell_i = "I" . cellName($skpd->id);
+                    $cell_k = "K" . cellName($skpd->id);
+                    $cell_n = "N" . cellName($skpd->id);
+                    $cell_p = "P" . cellName($skpd->id);
+                    $cell_r = "R" . cellName($skpd->id);
 
-                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, $value);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_c, $value_c);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_e, $value_e);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_f, $value_f);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_f, $value_f);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_h, $value_h);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_i, $value_i);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_k, $value_k);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_n, $value_n);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_p, $value_p);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_r, $value_r);
                 } else {
 
-                    $cell = cellName($skpd->id);
-                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
+                    $cell_c = "C" . cellName($skpd->id);
+                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_c, 0);
                 }
             } else {
-                $cell = cellName($skpd->id);
-                $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
+                //dd($skpd);
+                // $cell = cellName($skpd->id);
+                // $spreadsheet->getSheetByName('Rekap')->setCellValue($cell, 0);
             }
         }
 
+        // dd('d');
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');

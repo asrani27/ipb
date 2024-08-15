@@ -51,6 +51,7 @@ use App\Http\Controllers\SuperadminBerandaController;
 use App\Http\Controllers\SuperadminJenisrfkController;
 
 Route::get('/', [DashboardController::class, 'index']);
+Route::get('/testing', [DashboardController::class, 'testing']);
 
 Route::get('login', [LoginController::class, 'index'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
