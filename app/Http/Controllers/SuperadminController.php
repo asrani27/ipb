@@ -362,6 +362,7 @@ class SuperadminController extends Controller
 
         // dd('d');
         $spreadsheet->getSheetByName('Rekap')->setCellValue('B5', 'Sumber Data : Kenangan, Tanggal : ' . $tanggal);
+        $spreadsheet->setActiveSheetIndexByName('Rekap');
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
