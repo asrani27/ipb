@@ -210,7 +210,6 @@ class SuperadminController extends Controller
 
         $tanggal = Carbon::now()->format('d-m-Y H:i:s');
         //rekap
-        $spreadsheet->getSheetByName('Rekap')->setCellValue('B5', 'Sumber Data : Kenangan, Tanggal : ' . $tanggal);
 
         // $permasalahan_disdik    = T_m::whereIn('subkegiatan_id', $disdik->pluck('id')->toArray())->get();
         // $permasalahan_dinkes    = T_m::whereIn('subkegiatan_id', $dinkes->pluck('id')->toArray())->get();
@@ -362,6 +361,7 @@ class SuperadminController extends Controller
         }
 
         // dd('d');
+        $spreadsheet->getSheetByName('Rekap')->setCellValue('B5', 'Sumber Data : Kenangan, Tanggal : ' . $tanggal);
 
         $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
