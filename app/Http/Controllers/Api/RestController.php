@@ -11,6 +11,7 @@ use App\Models\T_capaian;
 use App\Models\M_indikator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Subkegiatan;
 
 class RestController extends Controller
 {
@@ -22,7 +23,10 @@ class RestController extends Controller
             $resp['message'] = 'pptk tidak di temukan';
             $resp['data'] = [];
         } else {
-            $uraian = Uraian::where('pptk_id', $pptk->id)->where('tahun', $tahun)->where('skpd_id', $skpd)->get();
+            $uraian = Uraian::where('pptk_id', $pptk->id)->where('tahun', $tahun)->where('skpd_id', $skpd)->get()->map(function ($item) {
+                $item->kode_subkegiatan = Subkegiatan::find($item->subkegiatan_id)->kode;
+                return $item;
+            });
 
             $resp['message'] = 'success';
             $resp['data'] = $uraian;
