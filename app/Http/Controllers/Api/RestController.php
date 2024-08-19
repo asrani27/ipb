@@ -24,7 +24,9 @@ class RestController extends Controller
             $resp['data'] = [];
         } else {
             $uraian = Uraian::where('pptk_id', $pptk->id)->where('tahun', $tahun)->where('skpd_id', $skpd)->get()->map(function ($item) {
-                $item->kode_subkegiatan = Subkegiatan::find($item->subkegiatan_id)->kode;
+                $subk = Subkegiatan::find($item->subkegiatan_id);
+                $item->kode_subkegiatan = $subk->kode;
+                $item->nama_subkegiatan = $subk->nama;
                 return $item;
             });
 
