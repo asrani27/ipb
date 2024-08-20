@@ -62,7 +62,7 @@ Route::post('/update_realisasi_keuangan', [PPTK2Controller::class, 'update_reali
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::prefix('superadmin')->group(function () {
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);
-        Route::get('laporan-batalkan/{id}', [SuperadminBerandaController::class, 'hapusLaporan']);
+        Route::get('laporan-batalkan/{id}', [SuperadminController::class, 'hapusLaporan']);
         Route::get('pengaturan/batasinput', [SuperadminBerandaController::class, 'batasinput']);
         Route::get('jenisrfk', [SuperadminJenisrfkController::class, 'index']);
         Route::get('jenisrfk/add', [SuperadminJenisrfkController::class, 'create']);
