@@ -13,6 +13,12 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SuperadminController extends Controller
 {
+
+    public function hapusLaporan($id)
+    {
+        LaporanRFK::find($id)->delete();
+        return back();
+    }
     public function laporan()
     {
         $tahun = '2024';
