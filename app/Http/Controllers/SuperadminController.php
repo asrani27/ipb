@@ -9,6 +9,7 @@ use App\Models\Uraian;
 use App\Models\LaporanRFK;
 use App\Models\Subkegiatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class SuperadminController extends Controller
@@ -17,6 +18,7 @@ class SuperadminController extends Controller
     public function hapusLaporan($id)
     {
         LaporanRFK::find($id)->delete();
+        Session::flash('success', 'Di Hapus');
         return back();
     }
     public function laporan()
