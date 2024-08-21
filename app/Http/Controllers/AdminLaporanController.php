@@ -138,7 +138,11 @@ class AdminLaporanController extends Controller
 
 
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
-            $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+            if ($result == 'pergeseran') {
+                $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->where('ke', Auth::user()->skpd->ke)->sum('dpa');
+            } else {
+                $item->kolom3 = $item->uraian->where('jenis_rfk', $result)->sum('dpa');
+            }
             return $item;
         })->sum('kolom3');
 
@@ -235,7 +239,7 @@ class AdminLaporanController extends Controller
         });
 
         $laporan = LaporanRFK::where('tahun', $tahun)->where('bulan', nomorBulan(ucfirst($bulan)))->where('skpd_id', Auth::user()->skpd->id)->get();
-
+        //dd($datasubkegiatan->pluck('kolom4')->toArray());
         return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun', 'laporan'));
     }
 
