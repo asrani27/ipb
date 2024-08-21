@@ -39,10 +39,15 @@ class PengajuanController extends Controller
         $tahun = $pengajuan->tahun;
 
         if ($pengajuan->ke != 1) {
-            $data = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', (int) $pengajuan->ke - 1)->get()->toArray();
+            if (Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', (int) $pengajuan->ke - 1)->count() == 0) {
+                $data = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', (int) $pengajuan->ke - 2)->get()->toArray();
+            } else {
+                $data = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', (int) $pengajuan->ke - 1)->get()->toArray();
+            }
         } else {
             $data = Uraian::where('skpd_id', $id_skpd)->where('jenis_rfk', 'murni')->where('tahun', $tahun)->get()->toArray();
         }
+
 
         //duplikat untuk menjadi pergeseran
         DB::beginTransaction();
