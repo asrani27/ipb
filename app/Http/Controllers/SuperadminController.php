@@ -272,6 +272,7 @@ class SuperadminController extends Controller
 
         // $mulai = $mulai + $permasalahan_dpupr->count() + 1;
 
+
         foreach ($skpd as $key => $dataexcel) {
 
             if ($dataexcel != null) {
@@ -336,6 +337,8 @@ class SuperadminController extends Controller
                     $value_n = "='$sheetName'!N" . $disdikRow;
                     $value_p = "='$sheetName'!P" . $disdikRow;
                     $value_r = "='$sheetName'!R" . $disdikRow;
+
+                    //dd($value_c);
                     $cell_c = "C" . cellName($skpd->id);
                     $cell_e = "E" . cellName($skpd->id);
                     $cell_f = "F" . cellName($skpd->id);
