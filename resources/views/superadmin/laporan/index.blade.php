@@ -102,79 +102,140 @@
                 <td>DESEMBER</td>
               </tr>
               @foreach ($skpd as $key => $item)
+              
                   <tr>
                     <td>{{$key + 1}}</td>
                     <td>{{$item->nama}}</td>
                     <td class="text-center">
                       @if ($item->januari == null)
                       @else
-                      <a href="/superadmin/laporan-batalkan/{{idLaporan('01', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                        @if ($item->januari->data == '[]')
+                        <a href="/superadmin/laporan-batalkan/{{idLaporan('01', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                        no data
+                        @else   
+                        <a href="/superadmin/laporan-batalkan/{{idLaporan('01', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                        @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->februari == null)
                       @else
+                      @if ($item->februari->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('02', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('02', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->maret == null)
                       @else
+                      @if ($item->maret->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('03', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('03', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->april == null)
                       @else
+                      @if ($item->april->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('04', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('04', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->mei == null)
                       @else
+                      @if ($item->mei->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('05', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('05', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->juni == null)
                       @else
+                      @if ($item->juni->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('06', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('06', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->juli == null)
                       @else
+                      @if ($item->juli->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('07', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('07', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->agustus == null)
                       @else
+                      @if ($item->agustus->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('08', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('08', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->september == null)
                       @else
+                      @if ($item->september->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('09', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('09', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->oktober == null)
                       @else
+                      @if ($item->oktober->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('10', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('10', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->november == null)
                       @else
+                      @if ($item->november->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('11', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('11', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                     <td class="text-center">
                       @if ($item->desember == null)
                       @else
+                      @if ($item->desember->data == '[]')
+                      <a href="/superadmin/laporan-batalkan/{{idLaporan('12', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a><br/>
+                      no data
+                      @else   
                       <a href="/superadmin/laporan-batalkan/{{idLaporan('12', $tahun, $item->id)}}" onclick="return confirm('Yakin ingin dibatalkan?')"><i class="fa fa-check text-green"></i></a>
+                      @endif
                       @endif
                     </td>
                   </tr>
