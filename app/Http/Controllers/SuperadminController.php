@@ -205,9 +205,9 @@ class SuperadminController extends Controller
 
         $filename = 'Laporan_rfk_' . namaBulan($bulan) . '.xlsx';
 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment;filename=$filename");
-        header('Cache-Control: max-age=0');
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header("Content-Disposition: attachment;filename=$filename");
+        // header('Cache-Control: max-age=0');
 
         $path = public_path('/excel/laporan_rf.xlsx');
 
@@ -361,8 +361,8 @@ class SuperadminController extends Controller
                     $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_r, $value_r);
                 } else {
 
-                    $cell_c = "C" . cellName($skpd->id);
-                    $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_c, 0);
+                    // $cell_c = "C" . cellName($skpd->id);
+                    // $spreadsheet->getSheetByName('Rekap')->setCellValue($cell_c, 0);
                 }
             } else {
                 //dd($skpd);
