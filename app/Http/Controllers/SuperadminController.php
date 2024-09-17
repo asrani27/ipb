@@ -8,6 +8,7 @@ use App\Models\Skpd;
 use App\Models\Uraian;
 use App\Models\LaporanRFK;
 use App\Models\Subkegiatan;
+use App\Models\Permasalahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -63,6 +64,8 @@ class SuperadminController extends Controller
         $jenis = request()->get('jenis');
 
         $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->get();
+
+        $permasalahan = Permasalahan::where('bulan', $bulan)->where('tahun', $tahun)->where('deskripsi', '!=', '-')->orWhere('deskripsi', '!=', 'null')->take(20)->get();
 
 
         if ($check->count() > 0) {
@@ -238,7 +241,7 @@ class SuperadminController extends Controller
         // $permasalahan_disbudporapar = T_m::whereIn('subkegiatan_id', $disbudporapar->pluck('id')->toArray())->get();
 
 
-        // $mulai = 9;
+        $mulai = 9;
 
         // foreach ($permasalahan_disdik as $key => $p) {
         //     // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
@@ -273,6 +276,14 @@ class SuperadminController extends Controller
         // $mulai = $mulai + $permasalahan_dpupr->count() + 1;
 
 
+        foreach ($permasalahan as $key => $p) {
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, ($key + 1));
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Unit Kerja');
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi)->getStyle('C' . $key + $mulai)->getAlignment()->setWrapText(true);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan)->getStyle('D' . $key + $mulai)->getAlignment()->setWrapText(true);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya)->getStyle('E' . $key + $mulai)->getAlignment()->setWrapText(true);
+            $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu)->getStyle('F' . $key + $mulai)->getAlignment()->setWrapText(true);
+        }
         foreach ($skpd as $key => $dataexcel) {
 
             if ($dataexcel != null) {
