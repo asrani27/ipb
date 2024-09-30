@@ -67,8 +67,8 @@ class SuperadminController extends Controller
         $jenis = request()->get('jenis');
         $button = request()->get('button');
         if ($button == 'masalah') {
-            $permasalahan = Permasalahan::where('bulan', $bulan)->where('tahun', $tahun)->where('deskripsi', '!=', '-')->get();
-
+            $masalah = Permasalahan::where('bulan', $bulan)->where('tahun', $tahun)->where('deskripsi', '!=', null)->get();
+            $permasalahan = $masalah->where('permasalahan', '!=', '-');
             $disdik = $permasalahan->where('skpd_id', 1);
             $dinkes = $permasalahan->where('skpd_id', 34);
             $dpupr  = $permasalahan->where('skpd_id', 3);
