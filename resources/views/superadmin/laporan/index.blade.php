@@ -60,7 +60,8 @@
               <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label"></label>
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary btn-block">Export Excel</button>
+                  <button type="submit" class="btn btn-primary btn-block" value="excel" name="button">Export Excel</button>
+                  <button type="submit" class="btn btn-primary btn-block" value="masalah" name="button">Export Permasalahan</button>
                 </div>
               </div>
             </div>
