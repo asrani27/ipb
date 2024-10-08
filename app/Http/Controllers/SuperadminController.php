@@ -205,6 +205,7 @@ class SuperadminController extends Controller
             $writer->save('php://output');
             //dd($skpd);
         } else {
+
             $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->get();
 
             if ($check->count() > 0) {
@@ -414,15 +415,15 @@ class SuperadminController extends Controller
             // $mulai = $mulai + $permasalahan_dpupr->count() + 1;
 
 
-            $spreadsheet->getSheetByName('Permasalahan')->insertNewRowBefore(10, $permasalahan->count());
-            foreach ($permasalahan as $key => $p) {
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, ($key + 1));
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Unit Kerja')->getStyle('B' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi)->getStyle('C' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan)->getStyle('D' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya)->getStyle('E' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu)->getStyle('F' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            }
+            // $spreadsheet->getSheetByName('Permasalahan')->insertNewRowBefore(10, $permasalahan->count());
+            // foreach ($permasalahan as $key => $p) {
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, ($key + 1));
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Unit Kerja')->getStyle('B' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi)->getStyle('C' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan)->getStyle('D' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya)->getStyle('E' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu)->getStyle('F' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+            // }
             foreach ($skpd as $key => $dataexcel) {
 
                 if ($dataexcel != null) {
