@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TkrkController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PPTK2Controller;
+use App\Http\Controllers\BpkpadController;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProfilController;
@@ -80,7 +81,12 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('pengajuan/verifikasi/{id_skpd}/{id_pengajuan}', [PengajuanController::class, 'verifikasi']);
     });
 });
-
+Route::group(['middleware' => ['auth', 'role:bpkpad']], function () {
+    Route::prefix('bpkpad')->group(function () {
+        Route::get('beranda', [BpkpadController::class, 'index']);
+        Route::get('tampilkan', [BpkpadController::class, 'laporan']);
+    });
+});
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::prefix('admin')->group(function () {
 

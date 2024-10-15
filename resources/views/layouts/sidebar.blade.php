@@ -10,6 +10,8 @@
         @include('layouts.menu_bidang');
     @elseif(Auth::user()->hasRole('pptk'))
         @include('layouts.menu_pptk');
+    @elseif(Auth::user()->hasRole('bpkpad'))
+        @include('layouts.menu_bpkpad');
     @endif
     </ul>
 </section>

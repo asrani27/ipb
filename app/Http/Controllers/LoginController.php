@@ -28,6 +28,8 @@ class LoginController extends Controller
                 return redirect('/bidang/beranda');
             } elseif (Auth::user()->hasRole('pptk')) {
                 return redirect('/pptk/beranda');
+            } elseif (Auth::user()->hasRole('bpkpad')) {
+                return redirect('/bpkpad/beranda');
             } else {
                 return 'role lain';
             }
@@ -65,6 +67,9 @@ class LoginController extends Controller
             } elseif (Auth::user()->hasRole('pptk')) {
                 Session::flash('success', 'Selamat Datang');
                 return redirect('/pptk/beranda');
+            } elseif (Auth::user()->hasRole('bpkpad')) {
+                Session::flash('success', 'Selamat Datang');
+                return redirect('/bpkpad/beranda');
             } else {
                 Session::flash('success', 'Selamat Datang');
                 return 'role lain';

@@ -1,0 +1,2 @@
+<li class="{{ (request()->is('bpkpad/beranda')) ? 'active' : '' }}"><a href="/bpkpad/beranda"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+<li class=""><a href="/logout"><i class="fa fa-sign-out"></i> <span>Keluar</span></a></li>
