@@ -427,7 +427,7 @@ Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
     Route::post('/pptk/laporanrfk/rfk_input', [PPTK2Controller::class, 'storeInput']);
 });
 
-Route::group(['middleware' => ['auth', 'role:superadmin|admin|bidang|pptk']], function () {
+Route::group(['middleware' => ['auth', 'role:superadmin|admin|bidang|pptk|bpkpad']], function () {
     Route::get('/logout', [LogoutController::class, 'logout']);
 
     Route::get('gantipass', [GantiPassController::class, 'index']);
