@@ -135,10 +135,115 @@ class BpkpadController extends Controller
             'r_desember'    =>  $data->where('kode_akun', '5.4')->sum('r_desember_keuangan')
         ];
 
+        $fisik['Belanja Operasi'] = [
+            'p_januari'     =>  $data->where('kode_akun', '5.1')->sum('p_januari_fisik'),
+            'p_februari'    =>  $data->where('kode_akun', '5.1')->sum('p_februari_fisik'),
+            'p_maret'       =>  $data->where('kode_akun', '5.1')->sum('p_maret_fisik'),
+            'p_april'       =>  $data->where('kode_akun', '5.1')->sum('p_april_fisik'),
+            'p_mei'         =>  $data->where('kode_akun', '5.1')->sum('p_mei_fisik'),
+            'p_juni'        =>  $data->where('kode_akun', '5.1')->sum('p_juni_fisik'),
+            'p_juli'        =>  $data->where('kode_akun', '5.1')->sum('p_juli_fisik'),
+            'p_agustus'     =>  $data->where('kode_akun', '5.1')->sum('p_agustus_fisik'),
+            'p_september'   =>  $data->where('kode_akun', '5.1')->sum('p_september_fisik'),
+            'p_oktober'     =>  $data->where('kode_akun', '5.1')->sum('p_oktober_fisik'),
+            'p_november'    =>  $data->where('kode_akun', '5.1')->sum('p_november_fisik'),
+            'p_desember'    =>  $data->where('kode_akun', '5.1')->sum('p_desember_fisik'),
+            'r_januari'     =>  $data->where('kode_akun', '5.1')->sum('r_januari_fisik'),
+            'r_februari'    =>  $data->where('kode_akun', '5.1')->sum('r_februari_fisik'),
+            'r_maret'       =>  $data->where('kode_akun', '5.1')->sum('r_maret_fisik'),
+            'r_april'       =>  $data->where('kode_akun', '5.1')->sum('r_april_fisik'),
+            'r_mei'         =>  $data->where('kode_akun', '5.1')->sum('r_mei_fisik'),
+            'r_juni'        =>  $data->where('kode_akun', '5.1')->sum('r_juni_fisik'),
+            'r_juli'        =>  $data->where('kode_akun', '5.1')->sum('r_juli_fisik'),
+            'r_agustus'     =>  $data->where('kode_akun', '5.1')->sum('r_agustus_fisik'),
+            'r_september'   =>  $data->where('kode_akun', '5.1')->sum('r_september_fisik'),
+            'r_oktober'     =>  $data->where('kode_akun', '5.1')->sum('r_oktober_fisik'),
+            'r_november'    =>  $data->where('kode_akun', '5.1')->sum('r_november_fisik'),
+            'r_desember'    =>  $data->where('kode_akun', '5.1')->sum('r_desember_fisik')
+        ];
+        $fisik['Belanja Modal'] = [
+            'p_januari'     =>  $data->where('kode_akun', '5.2')->sum('p_januari_fisik'),
+            'p_februari'    =>  $data->where('kode_akun', '5.2')->sum('p_februari_fisik'),
+            'p_maret'       =>  $data->where('kode_akun', '5.2')->sum('p_maret_fisik'),
+            'p_april'       =>  $data->where('kode_akun', '5.2')->sum('p_april_fisik'),
+            'p_mei'         =>  $data->where('kode_akun', '5.2')->sum('p_mei_fisik'),
+            'p_juni'        =>  $data->where('kode_akun', '5.2')->sum('p_juni_fisik'),
+            'p_juli'        =>  $data->where('kode_akun', '5.2')->sum('p_juli_fisik'),
+            'p_agustus'     =>  $data->where('kode_akun', '5.2')->sum('p_agustus_fisik'),
+            'p_september'   =>  $data->where('kode_akun', '5.2')->sum('p_september_fisik'),
+            'p_oktober'     =>  $data->where('kode_akun', '5.2')->sum('p_oktober_fisik'),
+            'p_november'    =>  $data->where('kode_akun', '5.2')->sum('p_november_fisik'),
+            'p_desember'    =>  $data->where('kode_akun', '5.2')->sum('p_desember_fisik'),
+            'r_januari'     =>  $data->where('kode_akun', '5.2')->sum('r_januari_fisik'),
+            'r_februari'    =>  $data->where('kode_akun', '5.2')->sum('r_februari_fisik'),
+            'r_maret'       =>  $data->where('kode_akun', '5.2')->sum('r_maret_fisik'),
+            'r_april'       =>  $data->where('kode_akun', '5.2')->sum('r_april_fisik'),
+            'r_mei'         =>  $data->where('kode_akun', '5.2')->sum('r_mei_fisik'),
+            'r_juni'        =>  $data->where('kode_akun', '5.2')->sum('r_juni_fisik'),
+            'r_juli'        =>  $data->where('kode_akun', '5.2')->sum('r_juli_fisik'),
+            'r_agustus'     =>  $data->where('kode_akun', '5.2')->sum('r_agustus_fisik'),
+            'r_september'   =>  $data->where('kode_akun', '5.2')->sum('r_september_fisik'),
+            'r_oktober'     =>  $data->where('kode_akun', '5.2')->sum('r_oktober_fisik'),
+            'r_november'    =>  $data->where('kode_akun', '5.2')->sum('r_november_fisik'),
+            'r_desember'    =>  $data->where('kode_akun', '5.2')->sum('r_desember_fisik')
+        ];
+        $fisik['Belanja Tidak Terduga'] = [
+            'p_januari'     =>  $data->where('kode_akun', '5.3')->sum('p_januari_fisik'),
+            'p_februari'    =>  $data->where('kode_akun', '5.3')->sum('p_februari_fisik'),
+            'p_maret'       =>  $data->where('kode_akun', '5.3')->sum('p_maret_fisik'),
+            'p_april'       =>  $data->where('kode_akun', '5.3')->sum('p_april_fisik'),
+            'p_mei'         =>  $data->where('kode_akun', '5.3')->sum('p_mei_fisik'),
+            'p_juni'        =>  $data->where('kode_akun', '5.3')->sum('p_juni_fisik'),
+            'p_juli'        =>  $data->where('kode_akun', '5.3')->sum('p_juli_fisik'),
+            'p_agustus'     =>  $data->where('kode_akun', '5.3')->sum('p_agustus_fisik'),
+            'p_september'   =>  $data->where('kode_akun', '5.3')->sum('p_september_fisik'),
+            'p_oktober'     =>  $data->where('kode_akun', '5.3')->sum('p_oktober_fisik'),
+            'p_november'    =>  $data->where('kode_akun', '5.3')->sum('p_november_fisik'),
+            'p_desember'    =>  $data->where('kode_akun', '5.3')->sum('p_desember_fisik'),
+            'r_januari'     =>  $data->where('kode_akun', '5.3')->sum('r_januari_fisik'),
+            'r_februari'    =>  $data->where('kode_akun', '5.3')->sum('r_februari_fisik'),
+            'r_maret'       =>  $data->where('kode_akun', '5.3')->sum('r_maret_fisik'),
+            'r_april'       =>  $data->where('kode_akun', '5.3')->sum('r_april_fisik'),
+            'r_mei'         =>  $data->where('kode_akun', '5.3')->sum('r_mei_fisik'),
+            'r_juni'        =>  $data->where('kode_akun', '5.3')->sum('r_juni_fisik'),
+            'r_juli'        =>  $data->where('kode_akun', '5.3')->sum('r_juli_fisik'),
+            'r_agustus'     =>  $data->where('kode_akun', '5.3')->sum('r_agustus_fisik'),
+            'r_september'   =>  $data->where('kode_akun', '5.3')->sum('r_september_fisik'),
+            'r_oktober'     =>  $data->where('kode_akun', '5.3')->sum('r_oktober_fisik'),
+            'r_november'    =>  $data->where('kode_akun', '5.3')->sum('r_november_fisik'),
+            'r_desember'    =>  $data->where('kode_akun', '5.3')->sum('r_desember_fisik')
+        ];
+        $fisik['Belanja Transfer'] = [
+            'p_januari'     =>  $data->where('kode_akun', '5.4')->sum('p_januari_fisik'),
+            'p_februari'    =>  $data->where('kode_akun', '5.4')->sum('p_februari_fisik'),
+            'p_maret'       =>  $data->where('kode_akun', '5.4')->sum('p_maret_fisik'),
+            'p_april'       =>  $data->where('kode_akun', '5.4')->sum('p_april_fisik'),
+            'p_mei'         =>  $data->where('kode_akun', '5.4')->sum('p_mei_fisik'),
+            'p_juni'        =>  $data->where('kode_akun', '5.4')->sum('p_juni_fisik'),
+            'p_juli'        =>  $data->where('kode_akun', '5.4')->sum('p_juli_fisik'),
+            'p_agustus'     =>  $data->where('kode_akun', '5.4')->sum('p_agustus_fisik'),
+            'p_september'   =>  $data->where('kode_akun', '5.4')->sum('p_september_fisik'),
+            'p_oktober'     =>  $data->where('kode_akun', '5.4')->sum('p_oktober_fisik'),
+            'p_november'    =>  $data->where('kode_akun', '5.4')->sum('p_november_fisik'),
+            'p_desember'    =>  $data->where('kode_akun', '5.4')->sum('p_desember_fisik'),
+            'r_januari'     =>  $data->where('kode_akun', '5.4')->sum('r_januari_fisik'),
+            'r_februari'    =>  $data->where('kode_akun', '5.4')->sum('r_februari_fisik'),
+            'r_maret'       =>  $data->where('kode_akun', '5.4')->sum('r_maret_fisik'),
+            'r_april'       =>  $data->where('kode_akun', '5.4')->sum('r_april_fisik'),
+            'r_mei'         =>  $data->where('kode_akun', '5.4')->sum('r_mei_fisik'),
+            'r_juni'        =>  $data->where('kode_akun', '5.4')->sum('r_juni_fisik'),
+            'r_juli'        =>  $data->where('kode_akun', '5.4')->sum('r_juli_fisik'),
+            'r_agustus'     =>  $data->where('kode_akun', '5.4')->sum('r_agustus_fisik'),
+            'r_september'   =>  $data->where('kode_akun', '5.4')->sum('r_september_fisik'),
+            'r_oktober'     =>  $data->where('kode_akun', '5.4')->sum('r_oktober_fisik'),
+            'r_november'    =>  $data->where('kode_akun', '5.4')->sum('r_november_fisik'),
+            'r_desember'    =>  $data->where('kode_akun', '5.4')->sum('r_desember_fisik')
+        ];
+
         //dd($param['Belanja Operasi']['p_januari']);
         $skpd = Skpd::get();
         $tampil = true;
         request()->flash();
-        return view('bpkpad.home', compact('data', 'tampil', 'skpd', 'pergeseran_ke', 'param'));
+        return view('bpkpad.home', compact('data', 'tampil', 'skpd', 'pergeseran_ke', 'param', 'fisik'));
     }
 }
