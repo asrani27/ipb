@@ -4,32 +4,12 @@
 @endpush
 @section('content')
 <section class="content">
-  <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-      <div class="info-box bg-purple">
-        <span class="info-box-icon"><i class="fa fa-user-o"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">Selamat Datang Di Aplikasi RFK</span>
-          <span class="info-box-number">Hi, {{Auth::user()->name}}</span>
-
-          <div class="progress">
-            <div class="progress-bar" style="width: 70%"></div>
-          </div>
-              <span class="progress-description">
-                Di bawah ini adalah laporan per SKPD
-              </span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-    </div>
-  </div>
+    
   <div class="row">
     <form method="get" action="/bpkpad/fisik/tampilkan">
     @csrf
       <div class="col-xs-4">
-        <select class="form-control" name="skpd_id" required>
+        <select class="form-control" name="skpd_id">
           <option value="">Konsolidasi</option>
           @foreach ($skpd as $item)
           <option value="{{$item->id}}" {{old('skpd_id') == $item->id ?'selected':''}}>{{$item->nama}}</option>
@@ -109,57 +89,105 @@
               <td>%</td>
             </tr>
 
-            @if ($param != null)
+            @if ($fisik != null)
             <tr>
-              <td>5.1 Belanja Operasi</td>
-              <td>{{number_format($fisik['Belanja Operasi']['p_januari'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_januari'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_januari'] / $fisik['Belanja Operasi']['p_januari']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_februari'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_februari'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_februari'] / $fisik['Belanja Operasi']['p_februari']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_maret'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_maret'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_maret'] / $fisik['Belanja Operasi']['p_maret']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_april'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_april'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_april'] / $fisik['Belanja Operasi']['p_april']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_mei'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_mei'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_mei'] / $fisik['Belanja Operasi']['p_mei']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_juni'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_juni'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_juni'] / $fisik['Belanja Operasi']['p_juni']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_juli'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_juli'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_juli'] / $fisik['Belanja Operasi']['p_juli']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_agustus'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_agustus'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_agustus'] / $fisik['Belanja Operasi']['p_agustus']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_september'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_september'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_september'] / $fisik['Belanja Operasi']['p_september']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_oktober'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_oktober'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_oktober'] / $fisik['Belanja Operasi']['p_oktober']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_november'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_november'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_november'] / $fisik['Belanja Operasi']['p_november']) * 100,2)}}</td>
-
-              <td>{{number_format($fisik['Belanja Operasi']['p_desember'])}}</td>
-              <td>{{number_format($fisik['Belanja Operasi']['r_desember'])}}</td>
-              <td>{{number_format(($fisik['Belanja Operasi']['r_desember'] / $fisik['Belanja Operasi']['p_desember']) * 100,2)}}</td>
-            </tr>
+                <td style="width: 10%">5.1 Belanja Operasi</td>
+                <td>{{number_format($fisik['Belanja Operasi']['p_januari'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_januari'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_januari'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_januari'] / $fisik['Belanja Operasi']['p_januari']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_februari'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_februari'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_februari'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_februari'] / $fisik['Belanja Operasi']['p_februari']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_maret'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_maret'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_maret'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_maret'] / $fisik['Belanja Operasi']['p_maret']) * 100,2)}}</td>
+                @endif
+                
+                <td>{{number_format($fisik['Belanja Operasi']['p_april'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_april'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_april'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_april'] / $fisik['Belanja Operasi']['p_april']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_mei'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_mei'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_mei'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_mei'] / $fisik['Belanja Operasi']['p_mei']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_juni'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_juni'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_juni'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_juni'] / $fisik['Belanja Operasi']['p_juni']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_juli'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_juli'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_juli'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_juli'] / $fisik['Belanja Operasi']['p_juli']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_agustus'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_agustus'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_agustus'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_agustus'] / $fisik['Belanja Operasi']['p_agustus']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_september'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_september'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_september'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_september'] / $fisik['Belanja Operasi']['p_september']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_oktober'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_oktober'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_oktober'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_oktober'] / $fisik['Belanja Operasi']['p_oktober']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_november'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_november'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_november'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_november'] / $fisik['Belanja Operasi']['p_november']) * 100,2)}}</td>
+                @endif
+  
+                <td>{{number_format($fisik['Belanja Operasi']['p_desember'])}}</td>
+                <td>{{number_format($fisik['Belanja Operasi']['r_desember'])}}</td>
+                @if ($fisik['Belanja Operasi']['p_desember'] == 0)
+                    <td>0</td>
+                @else
+                <td>{{number_format(($fisik['Belanja Operasi']['r_desember'] / $fisik['Belanja Operasi']['p_desember']) * 100,2)}}</td>
+                @endif
+             </tr>
 
             <tr>
               <td style="width: 10%">5.2 Belanja Modal</td>

@@ -84,6 +84,11 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:bpkpad']], function () {
     Route::prefix('bpkpad')->group(function () {
         Route::get('beranda', [BpkpadController::class, 'index']);
+        Route::get('fisik', [BpkpadController::class, 'fisik']);
+        Route::get('keuangan', [BpkpadController::class, 'keuangan']);
+        Route::get('fisik/tampilkan', [BpkpadController::class, 'tampilkanFisik']);
+        Route::get('keuangan/tampilkan', [BpkpadController::class, 'tampilkanKeuangan']);
+        Route::get('laporan', [BpkpadController::class, 'laporanpdf']);
         Route::get('tampilkan', [BpkpadController::class, 'laporan']);
     });
 });
