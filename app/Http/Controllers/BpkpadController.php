@@ -21,8 +21,8 @@ class BpkpadController extends Controller
     {
         $tampil = false;
         $skpd = Skpd::get();
-        $param = null;
-        return view('bpkpad.fisik', compact('tampil', 'skpd', 'param'));
+        $fisik = null;
+        return view('bpkpad.fisik', compact('tampil', 'skpd', 'fisik'));
     }
     public function keuangan()
     {
@@ -84,6 +84,7 @@ class BpkpadController extends Controller
             return Str::startsWith($item->kode_rekening, '5.4'); // Cek apakah kode_rekening dimulai dengan '5.2'
         })->values(); // Atur ulang kunci array setelah filter
         // Jika kamu ingin melihat hasilnya
+
 
         $fisik['Belanja Operasi'] = [
             'p_januari'     =>  $bo->sum('p_januari_fisik'),
