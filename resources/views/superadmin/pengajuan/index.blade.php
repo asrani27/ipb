@@ -24,25 +24,38 @@
                 <td>{{$key + 1}}</td>
                 <td>{{$item->nama}}</td>
                 <td>
-                  @if ($item->pergeseran == null)
-                      murni
-                  @else
-                      Sedang di Pergeseran ke : {{$item->ke}}
+                  @if ($item->perubahan == 1)
+                      Perubahan
+                  @else  
+                    @if ($item->pergeseran == null)
+                    murni
+                    @else
+                        Sedang di Pergeseran ke : {{$item->ke}}
+                    @endif
                   @endif
                 </td>
                 <td>
-                  @if ($item->pengajuan == null)
+
+                  @if ($item->perubahan == 1)
                       
-                  @else
-                      Mengajukan Pergeseran ke : {{$item->pengajuan->ke}}
+                  @else  
+                    @if ($item->pengajuan == null)
+                        
+                    @else
+                        Mengajukan Pergeseran ke : {{$item->pengajuan->ke}}
+                    @endif
                   @endif
                 </td>
                 <td>
-                  @if ($item->pengajuan == null)
+                  @if ($item->perubahan == 1)
                       
-                  @else
-                    <a href="/superadmin/pengajuan/verifikasi/{{$item->id}}/{{$item->pengajuan->id}}" class="btn btn-xs btn-success" onclick="return confirm('Yakin ingin di setujui');"><i
-                            class="fa fa-check"></i> Verifikasi / Setujui</a>
+                  @else  
+                    @if ($item->pengajuan == null)
+                        
+                    @else
+                      <a href="/superadmin/pengajuan/verifikasi/{{$item->id}}/{{$item->pengajuan->id}}" class="btn btn-xs btn-success" onclick="return confirm('Yakin ingin di setujui');"><i
+                              class="fa fa-check"></i> Verifikasi / Setujui</a>
+                    @endif
                   @endif
                 </td>
               </tr>
