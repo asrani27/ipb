@@ -212,6 +212,7 @@ class PPTK2Controller extends Controller
 
     public function updateAngkas(Request $req, $id)
     {
+
         $subkegiatan = Uraian::find($id)->subkegiatan;
         $uraian = Uraian::find($id);
 
@@ -245,6 +246,12 @@ class PPTK2Controller extends Controller
 
         if ($keuangan != $uraian->dpa) {
             Session::flash('info', 'SISA DPA HARUS 0');
+
+            $req->flash();
+            return back();
+        }
+        if ((int)$req->total_persen != 100) {
+            Session::flash('info', 'PERSEN FISIK harus 100');
 
             $req->flash();
             return back();

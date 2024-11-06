@@ -10,7 +10,7 @@
             <div class="box-header with-border">
                 <i class="fa fa-clipboard"></i>
             
-                <h3 class="box-title">Deskripsi</h3>
+                <h3 class="box-title">Deskripsi.</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body text-sm">
@@ -61,7 +61,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_januari_keuangan, 0, ',', '.')}}" name="januari_keuangan" oninput="formatInput(this)" id="nilaijanuari">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_januari_fisik}}" name="januari_fisik" id="fisikjanuari">
+                        <input type="text" class="form-control" value="{{$uraian->p_januari_fisik}}" name="januari_fisik" id="fisikjanuari" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -70,7 +70,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_februari_keuangan, 0, ',', '.')}}" name="februari_keuangan" oninput="formatInput(this)" id="nilaifebruari">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_februari_fisik}}" name="februari_fisik"  id="fisikfebruari">
+                        <input type="text" class="form-control" value="{{$uraian->p_februari_fisik}}" name="februari_fisik"  id="fisikfebruari" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -79,7 +79,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_maret_keuangan, 0, ',', '.')}}" name="maret_keuangan" oninput="formatInput(this)" id="nilaimaret">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_maret_fisik}}" name="maret_fisik"  id="fisikmaret">
+                        <input type="text" class="form-control" value="{{$uraian->p_maret_fisik}}" name="maret_fisik"  id="fisikmaret" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -88,7 +88,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_april_keuangan, 0, ',', '.')}}" name="april_keuangan" oninput="formatInput(this)" id="nilaiapril">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_april_fisik}}" name="april_fisik"  id="fisikapril">
+                        <input type="text" class="form-control" value="{{$uraian->p_april_fisik}}" name="april_fisik"  id="fisikapril" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -97,7 +97,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_mei_keuangan, 0, ',', '.')}}" name="mei_keuangan" oninput="formatInput(this)" id="nilaimei">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_mei_fisik}}" name="mei_fisik"  id="fisikmei">
+                        <input type="text" class="form-control" value="{{$uraian->p_mei_fisik}}" name="mei_fisik"  id="fisikmei" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -106,7 +106,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_juni_keuangan, 0, ',', '.')}}" name="juni_keuangan" oninput="formatInput(this)" id="nilaijuni">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_juni_fisik}}" name="juni_fisik"  id="fisikjuni">
+                        <input type="text" class="form-control" value="{{$uraian->p_juni_fisik}}" name="juni_fisik"  id="fisikjuni" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -115,7 +115,7 @@
                         <input type="text" class="form-control" value="{{number_format($uraian->p_juli_keuangan, 0, ',', '.')}}" name="juli_keuangan" oninput="formatInput(this)" id="nilaijuli">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_juli_fisik}}" name="juli_fisik"  id="fisikjuli">
+                        <input type="text" class="form-control" value="{{$uraian->p_juli_fisik}}" name="juli_fisik"  id="fisikjuli" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -124,7 +124,7 @@
                         <input type="text" class="form-control" name="agustus_keuangan" value="{{number_format($uraian->p_agustus_keuangan, 0, ',', '.')}}" oninput="formatInput(this)" id="nilaiagustus">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_agustus_fisik}}" name="agustus_fisik"  id="fisikagustus">
+                        <input type="text" class="form-control" value="{{$uraian->p_agustus_fisik}}" name="agustus_fisik"  id="fisikagustus" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -133,7 +133,7 @@
                         <input type="text" class="form-control" name="september_keuangan" value="{{number_format($uraian->p_september_keuangan, 0, ',', '.')}}"  oninput="formatInput(this)" id="nilaiseptember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_september_fisik}}" name="september_fisik"  id="fisikseptember">
+                        <input type="text" class="form-control" value="{{$uraian->p_september_fisik}}" name="september_fisik"  id="fisikseptember" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -142,7 +142,7 @@
                         <input type="text" class="form-control" name="oktober_keuangan" value="{{number_format($uraian->p_oktober_keuangan, 0, ',', '.')}}"   oninput="formatInput(this)" id="nilaioktober">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_oktober_fisik}}" name="oktober_fisik"  id="fisikoktober">
+                        <input type="text" class="form-control" value="{{$uraian->p_oktober_fisik}}" name="oktober_fisik"  id="fisikoktober" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -151,7 +151,7 @@
                         <input type="text" class="form-control" name="november_keuangan" value="{{number_format($uraian->p_november_keuangan, 0, ',', '.')}}"  oninput="formatInput(this)" id="nilainovember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_november_fisik}}" name="november_fisik"  id="fisiknovember">
+                        <input type="text" class="form-control" value="{{$uraian->p_november_fisik}}" name="november_fisik"  id="fisiknovember" oninput="calculateTotal()">
                       </div>
                     </div>
                     <div class="form-group">
@@ -160,7 +160,7 @@
                         <input type="text" class="form-control" name="desember_keuangan" value="{{number_format($uraian->p_desember_keuangan, 0, ',', '.')}}" oninput="formatInput(this)" id="nilaidesember">
                       </div>
                       <div class="col-sm-5">
-                        <input type="text" class="form-control" value="{{$uraian->p_desember_fisik}}" name="desember_fisik"  id="fisikdesember">
+                        <input type="text" class="form-control" value="{{$uraian->p_desember_fisik}}" name="desember_fisik"  id="fisikdesember" oninput="calculateTotal()">
                       </div>
                     </div>
                     
@@ -196,6 +196,17 @@
 @endsection
 @push('js')
 <script>
+   function calculateTotal() {
+            let total = 0;
+            const months = ["fisikjanuari", "fisikfebruari", "fisikmaret", "fisikapril", "fisikmei", "fisikjuni", "fisikjuli", "fisikagustus", "fisikseptember", "fisikoktober", "fisiknovember", "fisikdesember"];
+            
+            months.forEach(month => {
+                const value = parseFloat(document.getElementById(month).value) || 0;
+                total += value;
+            });
+
+            document.getElementById("total_persen").value = total.toFixed(2);
+        }
   $(document).ready(function() {
   const sisaDpaAwal = String(document.getElementById("sisa_dpa").value)
     const sisadpa = Number(sisaDpaAwal.replace(/,/g, '').replace(/\./g, ''));
