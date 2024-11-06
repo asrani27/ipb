@@ -18,6 +18,19 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class PPTK2Controller extends Controller
 {
+    public function updateRK(Request $request)
+    {
+        // Temukan data berdasarkan primary key (pk)
+        $data = Uraian::find($request->pk);
+        $bulan = 'r_' . $request->name . '_keuangan';
+
+        $data->update([
+            $bulan => (int)$request->value,
+        ]);
+        $data->save();
+        // Kirim respons sukses
+        return response()->json(['success' => true, 'message' => 'Data berhasil disimpan!']);
+    }
     public function update_realisasi(Request $req)
     {
         return response()->json([$req->pk, $req->value]);

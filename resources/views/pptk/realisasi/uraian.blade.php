@@ -2,6 +2,12 @@
 @push('css')
 {{-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> --}}
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 @endpush
 @section('content')
 <section class="content">
@@ -9,7 +15,7 @@
         <div class="col-xs-12">
           <div class="box box-primary">
             <div class="box-header">
-              <h3 class="box-title"><i class="fa fa-clipboard"></i> Realisasi</h3>
+              <h3 class="box-title"><i class="fa fa-clipboard"></i> Realisasi.</h3>
     
               {{-- <div class="box-tools">
                 <a href="/bidang/program/add" class="btn btn-sm btn-primary btn-flat "><i class="fa fa-plus-circle"></i> Tambah Program</a>
@@ -77,7 +83,7 @@
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
 
-                  {{-- <a href="#" class="realisasi" data-type="text" data-pk="{{$item->id}}" data-url="/update_realisasi_keuangan" data-title="Edit Realisasi" onkeypress="return hanyaAngka(event)">{{number_format($item->r_januari_keuangan)}}</a> --}}
+                  <a href="#" class="realisasi editable-price" data-type="text" data-name="januari" data-pk="{{$item->id}}" data-title="Edit Realisasi" onkeypress="return hanyaAngka(event)">{{number_format($item->r_januari_keuangan)}}</a>
 
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
                   {{round($item->p_januari_fisik,2)}}% <br/>
@@ -288,25 +294,63 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-
 <script>
+  
   $(document).ready(function() {
-    $.fn.editable.defaults.mode = 'popup';
-
-    $.ajaxSetup({
-      headers:{
-        'X-CSRF-TOKEN':'{{ csrf_token() }}'
+      // Fungsi untuk memformat angka ke format harga (Rp)
+      function formatCurrency(value) {
+          return parseFloat(value).toLocaleString('id-ID', { minimumFractionDigits: 0 });
       }
-    });
+      $.ajaxSetup({
+            headers:{
+              'X-CSRF-TOKEN':'{{ csrf_token() }}'
+            }
+          });
 
-    $('.realisasi').editable({
-      url:"/update_realisasi_keuangan",
-      type:"text",
-      pk:1,
-      name:"name",
-      title:"title"
-    });
+      // Inisialisasi X-editable
+      $('.editable-price').editable({
+          type: 'text',
+          url: '/pptk/update_realisasi_keuangan',  // URL server untuk menyimpan data jika diperlukan
+          display: function(value) {
+            console.log(value);
+              // Tampilkan nilai dalam format harga
+              $(this).text(formatCurrency(value));
+          },
+          success: function(response, newValue) {
+              // Optional: jika ingin melakukan sesuatu setelah berhasil diperbarui
+              console.log("Harga diperbarui:", newValue);
+          },
+          validate: function(value) {
+              // Validasi nilai untuk memastikan itu angka
+              if ($.isNumeric(value) === false) {
+                  return 'Masukkan angka yang valid';
+              }
+          }
+      });
+
+      // Set format harga saat halaman pertama kali dimuat
+      $('.editable-price').each(function() {
+          const initialValue = $(this).text().replace(/[^\d]/g, '') || 0;
+          $(this).text(formatCurrency(initialValue));
+      });
   });
+</script>
+<script>
+    // $.fn.editable.defaults.mode = 'popup';
+
+    // $.ajaxSetup({
+    //   headers:{
+    //     'X-CSRF-TOKEN':'{{ csrf_token() }}'
+    //   }
+    // });
+
+    // $('.realisasi').editable({
+    //   url:"/update_realisasi_keuangan",
+    //   type:"text",
+    //   pk:1,
+    //   name:"name",
+    //   title:"title"
+    // });
   function hanyaAngka(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode
      if (charCode > 31 && (charCode < 48 || charCode > 57))

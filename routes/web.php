@@ -412,6 +412,8 @@ Route::group(['middleware' => ['auth', 'role:bidang|pptk']], function () {
     Route::post('pptk/angkas/{id}', [PPTK2Controller::class, 'updateAngkas']);
 
     Route::get('pptk/realisasi', [PPTK2Controller::class, 'realisasi']);
+    Route::post('pptk/update_realisasi_keuangan', [PPTK2Controller::class, 'updateRK']);
+    Route::post('pptk/update_realisasi_fisik', [PPTK2Controller::class, 'updateRF']);
     Route::post('pptk/realisasikeuangan', [PPTK2Controller::class, 'updateRealisasiKeuangan']);
     Route::post('pptk/realisasifisik', [PPTK2Controller::class, 'updateRealisasiFisik']);
     Route::get('pptk/realisasi/{id}', [PPTK2Controller::class, 'detailRealisasi']);
