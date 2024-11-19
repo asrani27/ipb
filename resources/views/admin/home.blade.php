@@ -10,7 +10,7 @@
         <span class="info-box-icon"><i class="fa fa-user-o"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Selamat Datang Di Aplikasi RFK</span>
+          <span class="info-box-text">Selamat Datang Di Aplikasi KENANGAN</span>
           <span class="info-box-number">Hi, {{Auth::user()->name}}</span>
 
           <div class="progress">
