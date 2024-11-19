@@ -54,7 +54,7 @@
             <li class="dropdown notifications-menu">
               <!-- Menu toggle button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <b>RFK</b>
+                <b>KENANGAN</b>
               </a>
             </li>
           </ul>
@@ -91,7 +91,7 @@
             
             <div class="box box-warning" style="box-shadow: 0 8px 8px 0 rgba(0,0,0,.2);border-top-color: #605ca8">
               <div class="box-header with-border text-center">
-                <h3 class="box-title">Aplikasi Realisasi Fisik Dan Keuangan</h3>
+                <h3 class="box-title">SELAMAT DATANG DI APLIKASI KENANGAN</h3>
       
               </div>
               <form class="form-horizontal" method="post" action="/login">
