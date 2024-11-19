@@ -83,7 +83,7 @@
                 <td style="text-align: right;">
                   {{number_format($item->p_januari_keuangan)}} <br/>
 
-                  <a href="#" class="realisasi editable-price" data-type="text" data-name="januari" data-pk="{{$item->id}}" data-title="Edit Realisasi" onkeypress="return hanyaAngka(event)">{{number_format($item->r_januari_keuangan)}}</a>
+                  {{-- <a href="#" class="realisasi editable-price" data-type="text" data-name="januari" data-pk="{{$item->id}}" data-title="Edit Realisasi" onkeypress="return hanyaAngka(event)">{{number_format($item->r_januari_keuangan)}}</a> --}}
 
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"  data-uraian="{{$item->nama}}" data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}} </a><br/>
                   {{round($item->p_januari_fisik,2)}}% <br/>
