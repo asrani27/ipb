@@ -5,7 +5,7 @@
 @section('content')
 <div class="row text-center">
     <img src="/logo/pemko.png" width="80px">
-<h3>Selamat Datang di <br/>Aplikasi KENANGAN </h3>
+<h3>Selamat Datang di <br/>Aplikasi Kendali Administrasi Pembangunan (KENANGAN) </h3>
 </div>
 {{-- <div class="row">
     <div class="col-lg-3 col-xs-6">
