@@ -27,7 +27,13 @@
                 <td>{{$item->nama}}</td>
                 <td>{{$item->mulai}}</td>
                 <td>{{$item->sampai}}</td>
-                <td>{{$item->is_aktif == 1 ? 'Y':'T'}}</td>
+                <td>{{$item->is_aktif == 1 ? 'Y':'T'}}
+                 
+                  @if ($item->is_aktif != 1)
+                      
+                  <a href="/superadmin/pengaturan/batasinput/setaktif/{{$item->id}}" class="btn btn-xs btn-success">aktifkan</a>
+                  @endif
+                </td>
                 <td>
                     <a href="/superadmin/pengaturan/batasinput/edit/{{$item->id}}" class="btn btn-xs btn-success"><i
                             class="fa fa-edit"></i></a>

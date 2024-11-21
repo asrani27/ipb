@@ -65,6 +65,9 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);
         Route::get('laporan-batalkan/{id}', [SuperadminController::class, 'hapusLaporan']);
         Route::get('pengaturan/batasinput', [SuperadminBerandaController::class, 'batasinput']);
+        Route::get('pengaturan/batasinput/setaktif/{id}', [SuperadminBerandaController::class, 'setaktifbatasinput']);
+        Route::get('pengaturan/batasinput/edit/{id}', [SuperadminBerandaController::class, 'editbatasinput']);
+        Route::post('pengaturan/batasinput/edit/{id}', [SuperadminBerandaController::class, 'updatebatasinput']);
         Route::get('jenisrfk', [SuperadminJenisrfkController::class, 'index']);
         Route::get('jenisrfk/add', [SuperadminJenisrfkController::class, 'create']);
         Route::post('jenisrfk/add', [SuperadminJenisrfkController::class, 'store']);

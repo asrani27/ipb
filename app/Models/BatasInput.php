@@ -10,4 +10,5 @@ class BatasInput extends Model
     use HasFactory;
     protected $table = 'batasinput';
     protected $guarded = ['id'];
+    public $timestamps = false;
 }

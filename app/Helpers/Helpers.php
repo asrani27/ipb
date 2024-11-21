@@ -3,6 +3,7 @@
 use App\Models\Uraian;
 use App\Models\JenisRfk;
 use App\Models\T_capaian;
+use App\Models\BatasInput;
 use App\Models\LaporanRFK;
 use App\Models\M_indikator;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,11 @@ function idLaporan($bulan, $tahun, $skpd_id)
     return $result;
 }
 
+function targetDate()
+{
+    $data = BatasInput::where('is_aktif', 1)->first();
+    return $data->sampai;
+}
 function sheetName($skpd_id)
 {
     if ($skpd_id == 1) {
@@ -146,6 +152,7 @@ function sheetName($skpd_id)
     }
     return $sheet;
 }
+
 function cellName($skpd_id)
 {
     if ($skpd_id == 1) {
@@ -273,6 +280,7 @@ function cellName($skpd_id)
     }
     return $cell;
 }
+
 function checkCapaian($skpd_id, $tahun, $kode, $jenis)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
@@ -284,6 +292,7 @@ function checkIndikator($kode, $jenis, $tahun)
     $check = M_indikator::where('kode', $kode)->where('jenis', $jenis)->where('tahun', $tahun)->get();
     return $check;
 }
+
 function tampilCapaian($skpd_id, $tahun, $kode, $jenis)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', $jenis)->first();
@@ -294,6 +303,7 @@ function tampilCapaian($skpd_id, $tahun, $kode, $jenis)
     $data['tw4'] = $check->tw4;
     return $data;
 }
+
 function checkCapaianProgram($skpd_id, $tahun, $kode)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'program')->first();
@@ -303,6 +313,7 @@ function checkCapaianProgram($skpd_id, $tahun, $kode)
         return $check->capaian;
     }
 }
+
 function checkCapaianKegiatanTW1($skpd_id, $tahun, $kode)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'kegiatan')->where('tw1', '!=', null)->first();
@@ -313,6 +324,7 @@ function checkCapaianKegiatanTW1($skpd_id, $tahun, $kode)
         return $check->capaian;
     }
 }
+
 function checkCapaianSubkegiatan($skpd_id, $tahun, $kode)
 {
     $check = T_capaian::where('skpd_id', $skpd_id)->where('tahun', $tahun)->where('kode', $kode)->where('jenis', 'subkegiatan')->first();
