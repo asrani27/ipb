@@ -31,7 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       padding: 0;
       
   }
-  #countdown {
+  /* #countdown {
       position: fixed;
       top: 2px;
       left: 50%;
@@ -43,6 +43,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
       font-size: 18px;
       z-index: 1050;
+  } */
+  #countdown-container {
+      position: fixed;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      z-index: 1050;
+      text-align: center;
+  }
+  #countdown-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+  }
+  #countdown {
+      font-size: 16px;
   }
 </style>
 </head>
@@ -81,8 +103,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <section class="content container-fluid">
-
-      <div id="countdown">00 Hari 00 Jam 00 Menit 00 Detik</div>
+      <div id="countdown-container">
+        <div id="countdown-title">SISA WAKTU INPUT PELAPORAN</div>
+        <div id="countdown">Loading...</div>
+    </div>
+      {{-- <div id="countdown">00 Hari 00 Jam 00 Menit 00 Detik</div> --}}
         @yield('content')
 
     </section>
