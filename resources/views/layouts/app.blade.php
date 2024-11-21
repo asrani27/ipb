@@ -58,14 +58,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
       z-index: 1050;
       text-align: center;
   }
+  
   #countdown-title {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 5px;
-  }
-  #countdown {
-      font-size: 16px;
-  }
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .countdown-section {
+            display: inline-block;
+            margin: 0 10px;
+            text-align: center;
+        }
+        .countdown-time {
+            font-size: 26px;
+            font-weight: bold;
+            line-height: 1;
+            color: #FFD700;
+        }
+        .countdown-label {
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+            color: #FFD700;
+        }
 </style>
 </head>
 
@@ -103,10 +118,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main content -->
     <section class="content container-fluid">
+      
       <div id="countdown-container">
         <div id="countdown-title">SISA WAKTU INPUT PELAPORAN</div>
-        <div id="countdown">Loading...</div>
-    </div>
+        <div id="countdown">
+            <div class="countdown-section">
+                <span id="days" class="countdown-time">00</span>
+                <span class="countdown-label">Hari</span>
+            </div>
+            <div class="countdown-section">
+                <span id="hours" class="countdown-time">00</span>
+                <span class="countdown-label">Jam</span>
+            </div>
+            <div class="countdown-section">
+                <span id="minutes" class="countdown-time">00</span>
+                <span class="countdown-label">Menit</span>
+            </div>
+            <div class="countdown-section">
+                <span id="seconds" class="countdown-time">00</span>
+                <span class="countdown-label">Detik</span>
+            </div>
+        </div>
+      </div>
       {{-- <div id="countdown">00 Hari 00 Jam 00 Menit 00 Detik</div> --}}
         @yield('content')
 
@@ -230,11 +263,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       // Display the result
-      document.getElementById("countdown").textContent = 
-          `${days.toString().padStart(2, '0')} Hari ` +
-          `${hours.toString().padStart(2, '0')} Jam ` +
-          `${minutes.toString().padStart(2, '0')} Menit ` +
-          `${seconds.toString().padStart(2, '0')} Detik`;
+            document.getElementById("days").textContent = days.toString().padStart(2, '0');
+            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
 
       // If the countdown is over
       if (distance < 0) {
