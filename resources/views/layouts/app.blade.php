@@ -24,6 +24,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- IziToast -->
 <link rel="stylesheet" href="/notif/dist/css/iziToast.min.css">
 <script src="/notif/dist/js/iziToast.min.js" type="text/javascript"></script>
+
+<style>
+  body {
+      margin: 0;
+      padding: 0;
+      
+  }
+  #countdown {
+      position: fixed;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      font-size: 18px;
+      z-index: 1050;
+  }
+</style>
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini">
@@ -61,6 +82,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main content -->
     <section class="content container-fluid">
 
+      <div id="countdown">00 Hari 00 Jam 00 Menit 00 Detik</div>
         @yield('content')
 
     </section>
@@ -165,5 +187,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 @include('layouts.notif')
 </script>
 @stack('js')
+
+
+<script>
+  // Set target date and time
+  console.log("{{ targetDate() }}")
+        const targetDate = new Date("{{ targetDate() }}").getTime();
+
+  function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      // Calculate time components
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result
+      document.getElementById("countdown").textContent = 
+          `${days.toString().padStart(2, '0')} Hari ` +
+          `${hours.toString().padStart(2, '0')} Jam ` +
+          `${minutes.toString().padStart(2, '0')} Menit ` +
+          `${seconds.toString().padStart(2, '0')} Detik`;
+
+      // If the countdown is over
+      if (distance < 0) {
+          clearInterval(interval);
+          document.getElementById("countdown").textContent = "Waktu Habis!";
+      }
+  }
+
+  // Update the countdown every second
+  const interval = setInterval(updateCountdown, 1000);
+</script>
 </body>
 </html>
