@@ -256,7 +256,7 @@ desired effect
       Pembangunan
     </div>
     <!-- Default to the left -->
-    <strong>Development By Diskominfotik 2023</strong>
+    <strong>Development By Diskominfotik 2024</strong>
   </footer>
 
   <!-- Control Sidebar -->
@@ -353,7 +353,7 @@ desired effect
     
     var chart = new CanvasJS.Chart("chartContainer", {
         title: {
-            text: "Realisasi Fisik Dan Keuangan 2023"
+            text: "Realisasi Fisik Dan Keuangan 2024"
         },
         axisX: {
             interval: 1,
@@ -419,7 +419,7 @@ desired effect
         animationEnabled: true,
         theme: "light2", // "light1", "light2", "dark1", "dark2"
         title:{
-            text: "Periode Januari 2023"
+            text: "Periode Januari 4"
         },
         
         data: [{        
