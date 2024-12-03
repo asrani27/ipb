@@ -187,7 +187,9 @@ class SuperadminController extends Controller
                         //dd($item_masalah);
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $nomor_masalah + 1)->getColumnDimension('A')->setAutoSize(true);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('A' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->kegiatan->nama);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_masalah->subkegiatan->nama);
+                        $spreadsheet->getSheetByName($sheetName)->getStyle('B' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->deskripsi);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('C' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->permasalahan);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('D' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);

@@ -1083,6 +1083,7 @@ class PPTK2Controller extends Controller
         $param['program_id'] = $subkegiatan->program_id;
         $param['kegiatan_id'] = $subkegiatan->kegiatan_id;
         $param['subkegiatan_id'] = $subkegiatan->id;
+        $param['skpd_id'] = $subkegiatan->skpd_id;
 
         T_m::create($param);
         Session::flash('success', 'Berhasil Di Simpan');

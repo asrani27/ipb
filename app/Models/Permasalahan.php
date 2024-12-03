@@ -15,4 +15,8 @@ class Permasalahan extends Model
     {
         return $this->belongsTo(Kegiatan::class, 'kegiatan_id');
     }
+    public function subkegiatan()
+    {
+        return $this->belongsTo(Subkegiatan::class, 'subkegiatan_id');
+    }
 }
