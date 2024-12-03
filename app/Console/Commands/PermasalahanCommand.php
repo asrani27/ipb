@@ -14,7 +14,7 @@ class PermasalahanCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'fixpermasalahan';
+    protected $signature = 'fixpermasalahan {--tahun=} {--bulan=}';
 
     /**
      * The console command description.
@@ -40,12 +40,16 @@ class PermasalahanCommand extends Command
      */
     public function handle()
     {
-        $subkegiatan = Subkegiatan::where('tahun', '2024')->where('jenis_rfk', 'murni')->get();
+        // Ambil nilai tahun dan bulan dari parameter
+        $tahun = $this->option('tahun') ?? date('Y'); // Default tahun saat ini jika tidak diberikan
+        $bulan = $this->option('bulan') ?? date('m'); // Default bulan saat ini jika tidak diberikan
+
+        $subkegiatan = Subkegiatan::where('tahun', $tahun)->where('jenis_rfk', 'murni')->get();
         foreach ($subkegiatan as $key => $item) {
-            $check = $item->masalah->where('tahun', '2024')->where('bulan', '11')->count();
+            $check = $item->masalah->where('tahun', $tahun)->where('bulan', $bulan)->count();
             if ($check === 0) {
-                $param['tahun'] = '2024';
-                $param['bulan'] = '11';
+                $param['tahun'] = $tahun;
+                $param['bulan'] = $bulan;
                 $param['program_id'] = $item->program_id;
                 $param['kegiatan_id'] = $item->kegiatan_id;
                 $param['subkegiatan_id'] = $item->id;
@@ -61,10 +65,7 @@ class PermasalahanCommand extends Command
                 $this->info("Data berhasil disimpan untuk Subkegiatan ID: {$item->id}");
             }
         }
-        // $data = Permasalahan::get()->map(function ($item) {
-        //     $item->skpd_id = Kegiatan::find($item->kegiatan_id) == null ? 0 : Kegiatan::find($item->kegiatan_id)->skpd_id;
-        //     $item->save();
-        //     return $item;
-        // });
+
+        return 0;
     }
 }
