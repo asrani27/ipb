@@ -358,41 +358,41 @@ class PPTK2Controller extends Controller
 
     public function updateRealisasiKeuangan(Request $req)
     {
-        $bulanIni = Carbon::now()->format('m');
-        if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
-            Session::flash('info', 'Tidak bisa input bulan ' . Carbon::now()->format('M') . ' atau setelahnya');
-            return back();
-        } else {
+        // $bulanIni = Carbon::now()->format('m');
+        // if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
+        //     Session::flash('info', 'Tidak bisa input bulan ' . Carbon::now()->format('M') . ' atau setelahnya');
+        //     return back();
+        // } else {
 
-            $data = Uraian::find($req->uraian_id);
+        $data = Uraian::find($req->uraian_id);
 
-            $persen = ($req->real_realisasi / $data->dpa) * 100;
+        $persen = ($req->real_realisasi / $data->dpa) * 100;
 
-            Uraian::find($req->uraian_id)->update([
-                'r_' . $req->bulan . '_keuangan' => $req->real_realisasi,
-                'r_' . $req->bulan . '_fisik' => $persen,
-            ]);
+        Uraian::find($req->uraian_id)->update([
+            'r_' . $req->bulan . '_keuangan' => $req->real_realisasi,
+            'r_' . $req->bulan . '_fisik' => $persen,
+        ]);
 
-            Session::flash('success', 'Berhasil Di Simpan');
-            return back();
-        }
+        Session::flash('success', 'Berhasil Di Simpan');
+        return back();
+        // }
     }
 
     public function updateRealisasiFisik(Request $req)
     {
-        $bulanIni = Carbon::now()->format('m');
-        if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
-            Session::flash('info', 'Tidak bisa input bulan' . Carbon::now()->format('M') . '/ setelahnya');
-            return back();
-        } else {
+        // $bulanIni = Carbon::now()->format('m');
+        // if (nomorBulan(ucfirst($req->bulan)) > $bulanIni) {
+        //     Session::flash('info', 'Tidak bisa input bulan' . Carbon::now()->format('M') . '/ setelahnya');
+        //     return back();
+        // } else {
 
-            Uraian::find($req->uraian_id)->update([
-                'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
-            ]);
+        Uraian::find($req->uraian_id)->update([
+            'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
+        ]);
 
-            Session::flash('success', 'Berhasil Di Simpan');
-            return back();
-        }
+        Session::flash('success', 'Berhasil Di Simpan');
+        return back();
+        // }
     }
 
     public function laporanrfk()
