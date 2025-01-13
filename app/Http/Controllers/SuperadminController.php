@@ -359,73 +359,8 @@ class SuperadminController extends Controller
             $reader = IOFactory::createReader('Xlsx');
             $spreadsheet = $reader->load($path);
 
-            // DISDIK
             $tanggal = Carbon::now()->format('d-m-Y H:i:s');
-            //rekap
-
-            // $permasalahan_disdik    = T_m::whereIn('subkegiatan_id', $disdik->pluck('id')->toArray())->get();
-            // $permasalahan_dinkes    = T_m::whereIn('subkegiatan_id', $dinkes->pluck('id')->toArray())->get();
-            // $permasalahan_dpupr     = T_m::whereIn('subkegiatan_id', $dpupr->pluck('id')->toArray())->get();
-            // $permasalahan_dprkp     = T_m::whereIn('subkegiatan_id', $dprkp->pluck('id')->toArray())->get();
-            // $permasalahan_satpolpp  = T_m::whereIn('subkegiatan_id', $satpolpp->pluck('id')->toArray())->get();
-            // $permasalahan_kesbangpol = T_m::whereIn('subkegiatan_id', $kesbangpol->pluck('id')->toArray())->get();
-            // $permasalahan_dinsos    = T_m::whereIn('subkegiatan_id', $dinsos->pluck('id')->toArray())->get();
-            // $permasalahan_dp3a      = T_m::whereIn('subkegiatan_id', $dp3a->pluck('id')->toArray())->get();
-            // $permasalahan_dkp3      = T_m::whereIn('subkegiatan_id', $dkp3->pluck('id')->toArray())->get();
-            // $permasalahan_dlh       = T_m::whereIn('subkegiatan_id', $dlh->pluck('id')->toArray())->get();
-            // $permasalahan_capil     = T_m::whereIn('subkegiatan_id', $capil->pluck('id')->toArray())->get();
-            // $permasalahan_dppkbpm   = T_m::whereIn('subkegiatan_id', $dppkbpm->pluck('id')->toArray())->get();
-            // $permasalahan_dishub    = T_m::whereIn('subkegiatan_id', $dishub->pluck('id')->toArray())->get();
-            // $permasalahan_diskominfotik = T_m::whereIn('subkegiatan_id', $diskominfotik->pluck('id')->toArray())->get();
-            // $permasalahan_diskopumker   = T_m::whereIn('subkegiatan_id', $diskopumker->pluck('id')->toArray())->get();
-            // $permasalahan_dpmptsp       = T_m::whereIn('subkegiatan_id', $dpmptsp->pluck('id')->toArray())->get();
-            // $permasalahan_disbudporapar = T_m::whereIn('subkegiatan_id', $disbudporapar->pluck('id')->toArray())->get();
-
-
             $mulai = 9;
-
-            // foreach ($permasalahan_disdik as $key => $p) {
-            //     // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Pendidikan');
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
-            // }
-            // $mulai = $mulai + $permasalahan_disdik->count() + 1;
-
-            // foreach ($permasalahan_dinkes as $key => $p) {
-            //     // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Kesehatan');
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
-            // }
-
-            // $mulai = $mulai + $permasalahan_dinkes->count() + 1;
-
-            // foreach ($permasalahan_dpupr as $key => $p) {
-            //     // $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, $key + 1);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Dinas Pekerjaan Umum dan Penataan Ruang');
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu);
-            // }
-
-            // $mulai = $mulai + $permasalahan_dpupr->count() + 1;
-
-
-            // $spreadsheet->getSheetByName('Permasalahan')->insertNewRowBefore(10, $permasalahan->count());
-            // foreach ($permasalahan as $key => $p) {
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('A' . $key + $mulai, ($key + 1));
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('B' . $key + $mulai, 'Unit Kerja')->getStyle('B' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('C' . $key + $mulai, $p->deskripsi)->getStyle('C' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('D' . $key + $mulai, $p->permasalahan)->getStyle('D' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('E' . $key + $mulai, $p->upaya)->getStyle('E' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            //     $spreadsheet->getSheetByName('Permasalahan')->setCellValue('F' . $key + $mulai, $p->pihak_pembantu)->getStyle('F' . $key + $mulai)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-            // }
             foreach ($skpd as $key => $dataexcel) {
 
                 if ($dataexcel != null) {
@@ -447,10 +382,10 @@ class SuperadminController extends Controller
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_disdik->dpa)->getColumnDimension('C')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, '=C' . $disdikRow . '/$C$' . $dataexcel->count() + 11 . '*100')->getColumnDimension('D')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_disdik->rencana)->getColumnDimension('E')->setAutoSize(true);
-                                $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=E' . $disdikRow . '/C' . $disdikRow . '*100')->getColumnDimension('F')->setAutoSize(true);
+                                $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,E' . $disdikRow . '/C' . $disdikRow . '*100)')->getColumnDimension('F')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, '=F' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('G')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('H' . $disdikRow, $item_disdik->realisasi)->getColumnDimension('H')->setAutoSize(true);
-                                $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=H' . $disdikRow . '/C' . $disdikRow . '*100')->getColumnDimension('I')->setAutoSize(true);
+                                $spreadsheet->getSheetByName($sheetName)->setCellValue('I' . $disdikRow, '=IF(H' . $disdikRow . '=0,0,H' . $disdikRow . '/C' . $disdikRow . '*100)')->getColumnDimension('I')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('J' . $disdikRow, '=I' . $disdikRow . '*D' . $disdikRow . '/100')->getColumnDimension('J')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('K' . $disdikRow, '=IF(E' . $disdikRow . '=0,0,H' . $disdikRow . '/E' . $disdikRow . '*100)')->getColumnDimension('K')->setAutoSize(true);
                                 $spreadsheet->getSheetByName($sheetName)->setCellValue('L' . $disdikRow, '=J' . $disdikRow . '-G' . $disdikRow)->getColumnDimension('L')->setAutoSize(true);
