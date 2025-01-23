@@ -11,7 +11,10 @@ class Subkegiatan extends Model
     protected $table = 'subkegiatan';
     protected $guarded = ['id'];
 
-
+    public function pptk()
+    {
+        return $this->belongsTo(PPTK::class, 'pptk_id');
+    }
 
     public function skpd()
     {

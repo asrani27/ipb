@@ -1043,6 +1043,7 @@ function totalRealisasi($bulan, $item)
     }
     if ($bulan == '03' || $bulan == 'maret') {
         $total = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan;
+    //dd($total);
     }
     if ($bulan == '04' || $bulan == 'april') {
         $total = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan + $item->r_april_keuangan;
@@ -1117,40 +1118,40 @@ function fisikRencana($bulan, $item)
 function fisikRealisasi($bulan, $item)
 {
     if ($bulan == '01' || $bulan == 'januari') {
-        $total = $item->r_januari_fisik;
+        $total = round($item->r_januari_fisik, 2);
     }
     if ($bulan == '02' || $bulan == 'februari') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2);
     }
     if ($bulan == '03' || $bulan == 'maret') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2);
     }
     if ($bulan == '04' || $bulan == 'april') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2);
     }
     if ($bulan == '05' || $bulan == 'mei') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2);
     }
     if ($bulan == '06' || $bulan == 'juni') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2);
     }
     if ($bulan == '07' || $bulan == 'juli') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2);
     }
     if ($bulan == '08' || $bulan == 'agustus') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2) + round($item->r_agustus_fisik, 2);
     }
     if ($bulan == '09' || $bulan == 'september') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik + $item->r_september_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2) + round($item->r_agustus_fisik, 2) + round($item->r_september_fisik, 2);
     }
     if ($bulan == '10' || $bulan == 'oktober') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik + $item->r_september_fisik + $item->r_oktober_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2) + round($item->r_agustus_fisik, 2) + round($item->r_september_fisik, 2) + round($item->r_oktober_fisik, 2);
     }
     if ($bulan == '11' || $bulan == 'november') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik + $item->r_september_fisik + $item->r_oktober_fisik + $item->r_november_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2) + round($item->r_agustus_fisik, 2) + round($item->r_september_fisik, 2) + round($item->r_oktober_fisik, 2) + round($item->r_november_fisik, 2);
     }
     if ($bulan == '12' || $bulan == 'desember') {
-        $total = $item->r_januari_fisik + $item->r_februari_fisik + $item->r_maret_fisik + $item->r_april_fisik + $item->r_mei_fisik + $item->r_juni_fisik + $item->r_juli_fisik + $item->r_agustus_fisik + $item->r_september_fisik + $item->r_oktober_fisik + $item->r_november_fisik + $item->r_desember_fisik;
+        $total = round($item->r_januari_fisik, 2) + round($item->r_februari_fisik, 2) + round($item->r_maret_fisik, 2) + round($item->r_april_fisik, 2) + round($item->r_mei_fisik, 2) + round($item->r_juni_fisik, 2) + round($item->r_juli_fisik, 2) + round($item->r_agustus_fisik, 2) + round($item->r_september_fisik, 2) + round($item->r_oktober_fisik, 2) + round($item->r_november_fisik, 2) + round($item->r_desember_fisik, 2);
     }
     return $total;
 }

@@ -365,7 +365,6 @@ class PPTK2Controller extends Controller
         // } else {
 
         $data = Uraian::find($req->uraian_id);
-
         $persen = ($req->real_realisasi / $data->dpa) * 100;
 
         Uraian::find($req->uraian_id)->update([
@@ -386,13 +385,21 @@ class PPTK2Controller extends Controller
         //     return back();
         // } else {
 
-        Uraian::find($req->uraian_id)->update([
-            'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
-        ]);
+        $data = Uraian::find($req->uraian_id);
+        $total = $data->r_januari_fisik +  $data->r_februari_fisik +  $data->r_maret_fisik +  $data->r_april_fisik +  $data->r_mei_fisik +  $data->r_juni_fisik +  $data->r_juli_fisik +  $data->r_agustus_fisik +  $data->r_september_fisik +  $data->r_oktober_fisik +  $data->r_november_fisik +  $data->r_desember_fisik;
+        $hasil = $total + (int) $req->real_realisasi;
+        $sisa = number_format(100 - $total, 2);
+        if ($hasil > 100) {
+            Session::flash('error', 'Total tidak bisa lebih dari 100%, anda hanya input maks ' . $sisa);
+            return back();
+        } else {
+            Uraian::find($req->uraian_id)->update([
+                'r_' . $req->bulan . '_fisik' => $req->real_realisasi,
+            ]);
 
-        Session::flash('success', 'Berhasil Di Simpan');
-        return back();
-        // }
+            Session::flash('success', 'Berhasil Di Simpan');
+            return back();
+        }
     }
 
     public function laporanrfk()
@@ -615,6 +622,7 @@ class PPTK2Controller extends Controller
                     $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
                     $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
                     $item->realisasiRP = totalRealisasi($bulan, $item);
+                    //dd($item->realisasiRP, $item->dpa, $bulan, $item);
                     $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
                     $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
                     $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
@@ -642,6 +650,8 @@ class PPTK2Controller extends Controller
                 }
                 return $item;
             });
+
+            //dd($data);
         } catch (\Exception $e) {
 
             Session::flash('error', 'Division By Zero');

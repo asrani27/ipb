@@ -187,16 +187,34 @@ class SuperadminController extends Controller
                         //dd($item_masalah);
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $nomor_masalah + 1)->getColumnDimension('A')->setAutoSize(true);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('A' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_masalah->subkegiatan->nama);
+                        $spreadsheet->getSheetByName($sheetName)
+                            ->getRowDimension($disdikRow)
+                            ->setRowHeight(-1);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_masalah->subkegiatan->pptk == null ? '' : $item_masalah->subkegiatan->pptk->nama_pptk);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('B' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->deskripsi);
+
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->subkegiatan->nama);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('C' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->permasalahan);
+
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->deskripsi);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('D' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_masalah->upaya);
+
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_masalah->permasalahan);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('E' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, $item_masalah->pihak_pembantu);
+
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, $item_masalah->upaya);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('F' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, $item_masalah->pihak_pembantu);
+                        $spreadsheet->getSheetByName($sheetName)->getStyle('G' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->deskripsi);
+                        // $spreadsheet->getSheetByName($sheetName)->getStyle('C' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->permasalahan);
+                        // $spreadsheet->getSheetByName($sheetName)->getStyle('D' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_masalah->upaya);
+                        // $spreadsheet->getSheetByName($sheetName)->getStyle('E' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, $item_masalah->pihak_pembantu);
+                        // $spreadsheet->getSheetByName($sheetName)->getStyle('F' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
                         $disdikRow++;
                         $nomor_masalah++;
                     }
