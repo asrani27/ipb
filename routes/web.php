@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::get('datatarik/kegiatan/{tahun}', [TarikDataController::class, 'kegiatan']);
         Route::get('datatarik/subkegiatan/{tahun}', [TarikDataController::class, 'subkegiatan']);
         Route::get('datatarik/subkegiatan/{tahun}/add', [TarikDataController::class, 'add_subkegiatan']);
+        Route::post('datatarik/subkegiatan/{tahun}/add', [TarikDataController::class, 'store_subkegiatan']);
         Route::post('datatarik/pptk', [TarikDataController::class, 'updatePPTK']);
         Route::post('datatarik', [TarikDataController::class, 'tarikData']);
         Route::get('capaian', [AdminCapaianController::class, 'index']);

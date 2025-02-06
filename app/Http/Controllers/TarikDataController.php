@@ -109,7 +109,7 @@ class TarikDataController extends Controller
     public function add_subkegiatan($tahun)
     {
         $subkegiatan = MasterSubKegiatan::get();
-        return view('admin.subkegiatan.create', compact('subkegiatan', 'tahun'));
+        return view('admin.datatarik.add_subkegiatan', compact('subkegiatan', 'tahun'));
     }
     public function store_subkegiatan(Request $req, $tahun)
     {
