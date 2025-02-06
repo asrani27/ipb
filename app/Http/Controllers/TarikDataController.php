@@ -12,6 +12,9 @@ use App\Models\Kelurahan;
 use App\Models\Subkegiatan;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\MasterProgram;
+use App\Models\MasterKegiatan;
+use App\Models\MasterSubKegiatan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
@@ -100,7 +103,69 @@ class TarikDataController extends Controller
         $pptk = PPTK::where('skpd_id', $skpd_id)->get();
         $bagian = Bagian::get();
         $kelurahan = Kelurahan::where('skpd_id', Auth::user()->skpd->id)->get();
-        return view('admin.datatarik.subkegiatan', compact('data', 'pptk', 'bagian', 'kelurahan'));
+        return view('admin.datatarik.subkegiatan', compact('data', 'pptk', 'bagian', 'kelurahan', 'tahun'));
+    }
+
+    public function add_subkegiatan($tahun)
+    {
+        $subkegiatan = MasterSubKegiatan::get();
+        return view('admin.subkegiatan.create', compact('subkegiatan', 'tahun'));
+    }
+    public function store_subkegiatan(Request $req, $tahun)
+    {
+        $subkegiatan = MasterSubKegiatan::find($req->subkegiatan_id);
+
+        $n = new Subkegiatan();
+        $n->kode = $subkegiatan->kode;
+        $n->nama = $subkegiatan->nama;
+        $n->tahun =  $tahun;
+        $n->skpd_id = Auth::user()->skpd->id;
+        $n->jenis_rfk = 'murni';
+        $n->save();
+
+        $checkProgram = Program::where('tahun',  $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 7))->first();
+        if ($checkProgram == null) {
+            $p = new Program();
+            $p->skpd_id = Auth::user()->skpd->id;
+            $p->tahun = $tahun;
+            $p->nama = MasterProgram::where('kode', $subkegiatan->kode_program)->first()->nama;
+            $p->kode = $subkegiatan->kode_program;
+            $p->jenis_rfk = 'murni';
+            $p->save();
+            $n->update([
+                'program_id' => $p->id,
+                'kode' => $subkegiatan->kode,
+            ]);
+        } else {
+            $n->update([
+                'program_id' => $checkProgram->id,
+                'kode' => $subkegiatan->kode,
+            ]);
+        }
+
+        $checkKegiatan = Kegiatan::where('tahun',  $tahun)->where('skpd_id', Auth::user()->skpd->id)->where('kode', substr($subkegiatan->kode, 0, 12))->first();
+        if ($checkKegiatan == null) {
+            $k = new Kegiatan();
+            $k->skpd_id = Auth::user()->skpd->id;
+            $k->tahun =  $tahun;
+            $k->program_id = Program::where('kode', $subkegiatan->kode_program)->where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->first()->id;
+            $k->nama = MasterKegiatan::where('kode', $subkegiatan->kode_kegiatan)->first()->nama;
+            $k->kode = $subkegiatan->kode_kegiatan;
+            $k->jenis_rfk = 'murni';
+            $k->save();
+            $n->update([
+                'kegiatan_id' => $k->id,
+                'kode' => $subkegiatan->kode,
+            ]);
+        } else {
+            $n->update([
+                'kegiatan_id' => $checkKegiatan->id,
+                'kode' => $subkegiatan->kode,
+            ]);
+        }
+
+        Session::flash('success', 'Berhasil Di Update');
+        return redirect('admin/datatarik/subkegiatan/' . $tahun);
     }
     public function tarikData(Request $req)
     {

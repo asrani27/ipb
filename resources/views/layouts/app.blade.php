@@ -31,19 +31,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       padding: 0;
       
   }
-  /* #countdown {
-      position: fixed;
-      top: 2px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 18px;
-      z-index: 1050;
-  } */
   #countdown-container {
       position: fixed;
       top: 2px;
