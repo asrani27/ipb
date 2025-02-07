@@ -237,6 +237,7 @@ class BerandaController extends Controller
         $tahun = Carbon::now()->format('Y');
         //$status = BatasInput::where('is_aktif', 1)->first()->nama;
         $status = 'murni';
+        $pergeseran_ke = null;
         // if (Auth::user()->pptk->skpd->murni == 1) {
         //     $status = 'murni';
         //     $pergeseran_ke = null;
