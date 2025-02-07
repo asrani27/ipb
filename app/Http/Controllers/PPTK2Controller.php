@@ -49,7 +49,7 @@ class PPTK2Controller extends Controller
         //     $status = 'perubahan';
         // }
         //dd($status);
-        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
+        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2025')->get();
         return view('pptk.subkegiatan.index', compact('data', 'status'));
     }
 
