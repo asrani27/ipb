@@ -305,17 +305,19 @@ class PPTK2Controller extends Controller
 
     public function realisasi()
     {
+
+        $status = 'murni';
         //dd(auth::user()->pptk);
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
-        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
+        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2025')->get();
         return view('pptk.realisasi.index', compact('data', 'status'));
     }
 
@@ -405,7 +407,7 @@ class PPTK2Controller extends Controller
 
     public function laporanrfk()
     {
-        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->get();
+        $data = Subkegiatan::where('pptk_id', Auth::user()->pptk->id)->where('tahun', '2025')->get();
         return view('pptk.laporan.index', compact('data'));
     }
     public function detailLaporanRfk($id, $tahun, $bulan)
