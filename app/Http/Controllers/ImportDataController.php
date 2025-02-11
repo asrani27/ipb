@@ -22,7 +22,7 @@ class ImportDataController extends Controller
 
     public function subkegiatan(Request $req)
     {
-        Excel::import(new SubKegiatanImport, $req->file);
+        Excel::queueImport(new SubKegiatanImport, $req->file('file'));
         return back();
     }
 }
