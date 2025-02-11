@@ -5,8 +5,9 @@ namespace App\Imports;
 use App\Models\MasterSubKegiatan;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class SubKegiatanImport implements ToModel, WithStartRow
+class SubKegiatanImport implements ToModel, WithStartRow, WithChunkReading
 {
     /**
      * @param array $row
@@ -36,5 +37,9 @@ class SubKegiatanImport implements ToModel, WithStartRow
     public function startRow(): int
     {
         return 2;
+    }
+    public function chunkSize(): int
+    {
+        return 500; // Import 500 data per batch
     }
 }
