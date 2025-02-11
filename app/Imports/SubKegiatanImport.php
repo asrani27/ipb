@@ -4,10 +4,11 @@ namespace App\Imports;
 
 use App\Models\MasterSubKegiatan;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class SubKegiatanImport implements ToModel, WithStartRow, WithChunkReading
+class SubKegiatanImport implements ToModel, WithStartRow, WithChunkReading, ShouldQueue
 {
     /**
      * @param array $row
