@@ -9,4 +9,5 @@ class MasterSubKegiatan extends Model
 {
     use HasFactory;
     protected $table = 'master_subkegiatan';
+    protected $guarded = ['id']; // Tambahkan ini
 }
