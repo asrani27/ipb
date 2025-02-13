@@ -280,6 +280,7 @@ class BerandaController extends Controller
                 return $item;
             });
         }
+        //dd($subkegiatan);
         return view('pptk.home', compact('tahun', 'subkegiatan', 'status', 'uraian', 'pergeseran_ke'));
     }
     public function uraian()
