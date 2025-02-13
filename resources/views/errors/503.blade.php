@@ -37,7 +37,7 @@
 		<span></span>
 		<div class="flex-col-c p-t-50 p-b-50">
 			<h3 class="l1-txt1 txt-center p-b-10">
-				MAINTENANCE SERVER
+				MAINTENANCE PERBAIKAN BUG
 			</h3>
 
 			<p class="txt-center l1-txt2 p-b-60">
@@ -88,7 +88,7 @@
 
 	<script>
 		// Set the date we're counting down to
-		var countDownDate = new Date("Feb 11, 2025 10:00:25").getTime();
+		var countDownDate = new Date("Feb 13, 2025 14:00:25").getTime();
 		
 		// Update the count down every 1 second
 		var x = setInterval(function() {
