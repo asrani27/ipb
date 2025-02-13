@@ -323,15 +323,16 @@ class PPTK2Controller extends Controller
 
     public function detailRealisasi($id)
     {
-        if (Auth::user()->pptk->skpd->murni == 1) {
-            $status = 'murni';
-        }
-        if (Auth::user()->pptk->skpd->pergeseran == 1) {
-            $status = 'pergeseran';
-        }
-        if (Auth::user()->pptk->skpd->perubahan == 1) {
-            $status = 'perubahan';
-        }
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
+        $status = 'murni';
         if ($status == 'pergeseran') {
             $uraian = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
         } else {
