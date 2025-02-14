@@ -20,7 +20,7 @@
             <dt>Program</dt>
             <dd>{{$subkegiatan->kegiatan == null ? '': $subkegiatan->kegiatan->program->nama}}</dd><br />
             <dt>Kegiatan</dt>
-            <dd>{{$subkegiatan == null ? '': $subkegiatan->kegiatan->nama}}</dd><br />
+            <dd>{{$subkegiatan->kegiatan == null ? '': $subkegiatan->kegiatan->nama}}</dd><br />
             <dt>Sub Kegiatan</dt>
             <dd>{{$subkegiatan->nama}}</dd>
           </dl>
