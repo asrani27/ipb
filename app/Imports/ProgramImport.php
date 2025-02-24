@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\MasterProgram;
 use App\Models\Program;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -16,9 +17,9 @@ class ProgramImport implements ToModel, WithStartRow, WithChunkReading, ShouldQu
      */
     public function model(array $row)
     {
-        $check = Program::where('kode', $row[10])->first();
+        $check = MasterProgram::where('kode', $row[10])->first();
         if ($check == null) {
-            $new = new Program();
+            $new = new MasterProgram();
             $new->kode = $row[10];
             $new->nama = $row[11];
             $new->save();
