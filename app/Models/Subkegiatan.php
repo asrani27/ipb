@@ -2,8 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\T_m;
+use App\Models\PPTK;
+use App\Models\Skpd;
+use App\Models\Uraian;
+use App\Models\Program;
+use App\Models\Kegiatan;
+use App\Models\Kelurahan;
+use App\Models\MasterProgram;
+use App\Models\MasterKegiatan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subkegiatan extends Model
 {
@@ -25,6 +34,15 @@ class Subkegiatan extends Model
         // Menggabungkan 3 bagian pertama
         return implode('.', array_slice($parts, 0, 3));
     }
+    public function nama_program()
+    {
+        $program = MasterProgram::where('kode', $this->kode_program())->first();
+        if ($program) {
+            return $program->nama;
+        } else {
+            return '-';
+        }
+    }
     public function kode_kegiatan()
     {
         $string = $this->kode;
@@ -36,6 +54,15 @@ class Subkegiatan extends Model
         return implode('.', array_slice($parts, 0, 5));
     }
 
+    public function nama_kegiatan()
+    {
+        $kegiatan = MasterKegiatan::where('kode', $this->kode_kegiatan())->first();
+        if ($kegiatan) {
+            return $kegiatan->nama;
+        } else {
+            return '-';
+        }
+    }
     public function skpd()
     {
         return $this->belongsTo(Skpd::class, 'skpd_id');
