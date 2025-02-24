@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
         Route::get('importdata', [ImportDataController::class, 'index']);
         Route::post('importdata/koderekening', [ImportDataController::class, 'koderekening']);
         Route::post('importdata/subkegiatan', [ImportDataController::class, 'subkegiatan']);
+        Route::post('importdata/kegiatan', [ImportDataController::class, 'kegiatan']);
+        Route::post('importdata/program', [ImportDataController::class, 'program']);
         Route::get('beranda', [SuperadminBerandaController::class, 'index']);
         Route::get('laporan-batalkan/{id}', [SuperadminController::class, 'hapusLaporan']);
         Route::get('pengaturan/batasinput', [SuperadminBerandaController::class, 'batasinput']);
