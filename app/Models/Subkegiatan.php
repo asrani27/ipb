@@ -15,6 +15,26 @@ class Subkegiatan extends Model
     {
         return $this->belongsTo(PPTK::class, 'pptk_id');
     }
+    public function kode_program()
+    {
+        $string = $this->kode;
+
+        // Memecah string menjadi array berdasarkan titik
+        $parts = explode('.', $string);
+
+        // Menggabungkan 3 bagian pertama
+        return implode('.', array_slice($parts, 0, 3));
+    }
+    public function kode_kegiatan()
+    {
+        $string = $this->kode;
+
+        // Memecah string menjadi array berdasarkan titik
+        $parts = explode('.', $string);
+
+        // Menggabungkan 3 bagian pertama
+        return implode('.', array_slice($parts, 0, 5));
+    }
 
     public function skpd()
     {

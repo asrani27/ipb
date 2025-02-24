@@ -18,9 +18,9 @@
             <dt>Tahun</dt>
             <dd>{{$subkegiatan->tahun}} - {{$subkegiatan->jenis_rfk}}</dd><br />
             <dt>Program</dt>
-            <dd>{{$subkegiatan->kegiatan->program->nama}}</dd><br />
+            <dd>{{$subkegiatan->kode_program()}}</dd><br />
             <dt>Kegiatan</dt>
-            <dd>{{$subkegiatan->kegiatan->nama}}</dd><br />
+            <dd>{{$subkegiatan->kode_kegiatan()}}</dd><br />
             <dt>Sub Kegiatan</dt>
             <dd>{{$subkegiatan->kode}} <br />{{$subkegiatan->nama}}</dd>
           </dl>
