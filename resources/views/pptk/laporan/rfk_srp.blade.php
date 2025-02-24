@@ -17,15 +17,15 @@
           <dl>
             <dd><strong>TAHUN :</strong> {{$tahun}}</dd>
             <dd><strong>BULAN :</strong> {{$nama_bulan}}</dd>
-            <dd><strong>PROGRAM :</strong> {{$subkegiatan->kegiatan->program->nama}}</dd>
-            <dd><strong>KEGIATAN :</strong> {{$subkegiatan->kegiatan->nama}}</dd>
-            <dd><strong>SUB KEGIATAN :</strong> {{$subkegiatan->nama}}</dd>
+            <dd><strong>PROGRAM :</strong> {{$subkegiatan->kode_program()}} - {{$subkegiatan->nama_program()}}</dd>
+            <dd><strong>KEGIATAN :</strong> {{$subkegiatan->kode_kegiatan()}} - {{$subkegiatan->nama_kegiatan()}}</dd>
+            <dd><strong>SUBKEGIATAN :</strong> {{$subkegiatan->kode}} - {{$subkegiatan->nama}}</dd>
             <dd><strong>JENIS RFK :</strong> {{$jenisrfk}}</dd>
-            <dd><strong>STATUS :</strong> 
+            <dd><strong>STATUS :</strong>
               @if ($status_kirim != null)
-                  
+
               <i class="fa fa-check-circle"></i> Terkirim
-              @endif  
+              @endif
             </dd>
           </dl>
         </div>
@@ -54,8 +54,8 @@
               <tr style="font-size:12px;" class="bg-purple">
                 <th style="width: 10px">NO</th>
                 <th style="text-align: center">URAIAN</th>
-                <th style="text-align: center">KEUANGAN <br/>%</th>
-                <th style="text-align: center">FISIK <br/>%</th>
+                <th style="text-align: center">KEUANGAN <br />%</th>
+                <th style="text-align: center">FISIK <br />%</th>
               </tr>
               <tr>
                 <th>1</th>
@@ -73,16 +73,16 @@
                 <th></th>
                 <th>Capaian</th>
                 <th style="text-align: center">
-                  
+
                   @if ($data->sum('realisasiTTB') == 0)
-                      0
+                  0
                   @else
                   {{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}
                   @endif
                 </th>
                 <th style="text-align: center">
                   @if ($data->sum('fisikRealisasiTTB') == 0)
-                      0
+                  0
                   @else
                   {{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}
                   @endif

@@ -17,9 +17,9 @@
           <dl>
             <dd><strong>TAHUN :</strong> {{$tahun}}</dd>
             <dd><strong>BULAN :</strong> {{$nama_bulan}}</dd>
-            <dd><strong>PROGRAM :</strong> {{$subkegiatan->kegiatan->program->nama}}</dd>
-            <dd><strong>KEGIATAN :</strong> {{$subkegiatan->kegiatan->nama}}</dd>
-            <dd><strong>SUB KEGIATAN :</strong> {{$subkegiatan->nama}}</dd>
+            <dd><strong>PROGRAM :</strong> {{$subkegiatan->kode_program()}} - {{$subkegiatan->nama_program()}}</dd>
+            <dd><strong>KEGIATAN :</strong> {{$subkegiatan->kode_kegiatan()}} - {{$subkegiatan->nama_kegiatan()}}</dd>
+            <dd><strong>SUBKEGIATAN :</strong> {{$subkegiatan->kode}} - {{$subkegiatan->nama}}</dd>
             <dd><strong>JENIS RFK :</strong> {{$jenisrfk}}</dd>
             <dd><strong>STATUS :</strong>
               @if ($status_kirim != null)
