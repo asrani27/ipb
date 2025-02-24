@@ -122,13 +122,27 @@ class PPTK2Controller extends Controller
         }
 
         $subkegiatan = Subkegiatan::find($subkegiatan_id);
+        $string = $subkegiatan->kode;
+
+        $kode_kegiatan = explode('.', $string);
+        $kode_kegiatan = implode('.', array_slice($kode_kegiatan, 0, 5));
+
+        $kode_program = explode('.', $string);
+        $kode_program = implode('.', array_slice($kode_program, 0, 3));
+
+        $kode_subkegiatan = $subkegiatan->kode;
+
+
         $rekening_belanja   = M_akun::find($req->kode_akun);
         $n                  = new Uraian;
         $n->pptk_id         = Auth::user()->pptk->id;
         $n->skpd_id         = $subkegiatan->skpd_id;
-        $n->program_id      = $subkegiatan->kegiatan->program->id;
+        $n->kode_program    = $kode_program;
+        $n->kode_kegiatan   = $kode_kegiatan;
+        $n->kode_subkegiatan = $kode_subkegiatan;
+        //$n->program_id      = $subkegiatan->kegiatan->program->id;
         $n->tahun           = $subkegiatan->tahun;
-        $n->kegiatan_id     = $subkegiatan->kegiatan->id;
+        //$n->kegiatan_id     = $subkegiatan->kegiatan->id;
         $n->subkegiatan_id  = $subkegiatan_id;
         $n->m_akun_id       = $rekening_belanja->id;
         $n->kode_rekening   = $rekening_belanja->kode_akun;

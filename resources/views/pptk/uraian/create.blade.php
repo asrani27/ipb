@@ -22,7 +22,7 @@
             <dt>Kegiatan</dt>
             <dd>{{$subkegiatan->kegiatan == null ? '': $subkegiatan->kegiatan->nama}}</dd><br />
             <dt>Sub Kegiatan</dt>
-            <dd>{{$subkegiatan->nama}}</dd>
+            <dd>{{$subkegiatan->kode}} <br />{{$subkegiatan->nama}}</dd>
           </dl>
         </div>
         <!-- /.box-body -->
