@@ -9,7 +9,7 @@
       <!-- small box -->
       <div class="small-box bg-purple">
         <div class="inner">
-          <h3>{{$program}}</h3>
+          <h3>{{count($kode_program)}}</h3>
 
           <p>TOTAL PROGRAM</p>
         </div>
@@ -24,7 +24,7 @@
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>{{$kegiatan}}</h3>
+          <h3>{{count($kode_kegiatan)}}</h3>
 
           <p>TOTAL KEGIATAN</p>
         </div>
