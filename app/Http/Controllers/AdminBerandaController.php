@@ -169,13 +169,27 @@ class AdminBerandaController extends Controller
 
     public function indexTahun($tahun)
     {
-        $t_program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
-        $t_kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
-        $t_subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
-        $t_uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)
+            ->where('tahun', $tahun)
+            ->get()
+            ->map(function ($item) {
+                $item->kode_program = $item->kode_program();
+                $item->kode_kegiatan = $item->kode_kegiatan();
+                return $item;
+            });
+        $t_program = count($subkegiatan->pluck('kode_program')->unique()->values());
+
+        $t_kegiatan = count($subkegiatan->pluck('kode_kegiatan')->unique()->values());
+
+        $t_subkegiatan = $subkegiatan->count();
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
+        // $t_program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        // $t_kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        // $t_subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
+        // $t_uraian = Uraian::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
 
         $dataTahun = Tahun::get();
-        return view('admin.home', compact('t_program', 't_kegiatan', 't_subkegiatan', 't_uraian', 'dataTahun', 'tahun'));
+        return view('admin.home', compact('t_program', 't_kegiatan', 't_subkegiatan', 'dataTahun', 'tahun'));
     }
     public function index()
     {
