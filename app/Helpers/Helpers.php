@@ -6,8 +6,40 @@ use App\Models\T_capaian;
 use App\Models\BatasInput;
 use App\Models\LaporanRFK;
 use App\Models\M_indikator;
+use App\Models\MasterKegiatan;
+use App\Models\MasterProgram;
 use Illuminate\Support\Facades\Auth;
 
+function namaProgram($kode)
+{
+    return MasterProgram::where('kode', $kode)->first() == null ? '-' : MasterProgram::where('kode', $kode)->first()->nama;
+}
+function namaKegiatan($kode)
+{
+    return MasterKegiatan::where('kode', $kode)->first() == null ? '-' : MasterKegiatan::where('kode', $kode)->first()->nama;
+}
+function sortData($array)
+{
+    $sortedCollection = $array->sort(function ($a, $b) {
+        $aParts = explode('.', $a);
+        $bParts = explode('.', $b);
+
+        foreach ($aParts as $index => $part) {
+            if (!isset($bParts[$index])) {
+                return 1;
+            }
+
+            if ($part !== $bParts[$index]) {
+                return is_numeric($part) && is_numeric($bParts[$index])
+                    ? $part - $bParts[$index]
+                    : strcmp($part, $bParts[$index]);
+            }
+        }
+        return count($aParts) - count($bParts);
+    })->values();
+
+    return $sortedCollection;
+}
 function idLaporan($bulan, $tahun, $skpd_id)
 {
     $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->where('skpd_id', $skpd_id)->first();
@@ -1043,7 +1075,7 @@ function totalRealisasi($bulan, $item)
     }
     if ($bulan == '03' || $bulan == 'maret') {
         $total = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan;
-    //dd($total);
+        //dd($total);
     }
     if ($bulan == '04' || $bulan == 'april') {
         $total = $item->r_januari_keuangan + $item->r_februari_keuangan + $item->r_maret_keuangan + $item->r_april_keuangan;

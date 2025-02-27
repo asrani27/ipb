@@ -126,7 +126,20 @@ class AdminLaporanController extends Controller
     {
         $result = JenisRFK(nomorBulan(ucfirst($bulan)), $tahun);
 
+        $subkegiatan = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)
+            ->where('tahun', $tahun)
+            ->get()
+            ->map(function ($item) {
+                $item->kode_program = $item->kode_program();
+                $item->kode_kegiatan = $item->kode_kegiatan();
+                return $item;
+            });
 
+        $kode_program = sortData($subkegiatan->pluck('kode_program')->unique()->values());
+
+        $kode_kegiatan = sortData($subkegiatan->pluck('kode_kegiatan')->unique()->values());
+
+        //dd($result, $subkegiatan, $kode_program, $kode_kegiatan);
         $bidang = Bidang::count();
         $program = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
         $kegiatan = Kegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->count();
@@ -135,7 +148,6 @@ class AdminLaporanController extends Controller
         $data = Program::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
 
         $subkeg = Subkegiatan::where('skpd_id', Auth::user()->skpd->id)->where('tahun', $tahun)->get();
-
 
         $totalsubkegiatan = $subkeg->map(function ($item) use ($result) {
             if ($result == 'pergeseran') {
@@ -240,7 +252,7 @@ class AdminLaporanController extends Controller
 
         $laporan = LaporanRFK::where('tahun', $tahun)->where('bulan', nomorBulan(ucfirst($bulan)))->where('skpd_id', Auth::user()->skpd->id)->get();
         //dd($datasubkegiatan->pluck('kolom4')->toArray());
-        return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun', 'laporan'));
+        return view('admin.laporan.laporanrfk', compact('bidang', 'program', 'subkegiatan', 'data', 'datasubkegiatan', 'totalsubkegiatan', 'kegiatan', 'bulan', 'tahun', 'laporan', 'kode_program', 'kode_kegiatan'));
     }
 
     public function uraian()

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('css')
-    
+
 @endpush
 @section('content')
 <section class="content">
@@ -24,7 +24,7 @@
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
-            <h3>{{$kegiatan}}</h3>
+          <h3>{{$kegiatan}}</h3>
 
           <p>TOTAL KEGIATAN</p>
         </div>
@@ -67,10 +67,12 @@
     <!-- ./col -->
   </div>
 
-  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/excel" class="btn bg-purple btn-flat"><i class="fa fa-file-excel-o"></i> Export Excel</a>
-  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/kirim" class="btn btn-success btn-flat" onclick="return confirm('Yakin ingin di kirim?');"><i class="fa fa-send"></i> Kirim Ke Admin Pembangunan</a>
-  <br/></br>
-  
+  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/excel" class="btn bg-purple btn-flat"><i class="fa fa-file-excel-o"></i>
+    Export Excel</a>
+  <a href="/admin/laporan/{{$tahun}}/{{$bulan}}/kirim" class="btn btn-success btn-flat"
+    onclick="return confirm('Yakin ingin di kirim?');"><i class="fa fa-send"></i> Kirim Ke Admin Pembangunan</a>
+  <br /></br>
+
   <div class="row">
     <div class="col-md-12">
       <!-- Block buttons -->
@@ -90,12 +92,12 @@
             </thead>
             <tbody>
               @foreach ($laporan as $key=> $item)
-                  <tr>
-                    <td>{{$key+1}}</td>
-                    <td>{{$item->bulan}}</td>
-                    <td>{{$item->tahun}}</td>
-                    <td>{{$item->status}}</td>
-                  </tr>
+              <tr>
+                <td>{{$key+1}}</td>
+                <td>{{$item->bulan}}</td>
+                <td>{{$item->tahun}}</td>
+                <td>{{$item->status}}</td>
+              </tr>
               @endforeach
             </tbody>
           </table>
@@ -127,36 +129,35 @@
                 <th colspan="3" style="text-align: center">Rencana</th>
                 <th colspan="3" style="text-align: center">Realisasi</th>
                 <th style="text-align: center">Capaian</th>
-                <th rowspan="2" style="text-align: center">Sisa Anggaran <br/> Rp</th>
+                <th rowspan="2" style="text-align: center">Sisa Anggaran <br /> Rp</th>
                 <th colspan="2" style="text-align: center">Rencana</th>
                 <th colspan="2" style="text-align: center">Realisasi</th>
                 <th style="text-align: center">Capaian</th>
               </tr>
               <tr style="font-size:10px;" class="bg-purple">
-              <th>Rp</th>
-              <th>%KUM</th>
-              <th>%TTB</th>
-              <th>Rp</th>
-              <th>%KUM</th>
-              <th>%TTB</th>
-              <th>%</th>
-              <th>KUM</th>
-              <th>TTB</th>
-              <th>KUM</th>
-              <th>TTB</th>
-              <th></th>
+                <th>Rp</th>
+                <th>%KUM</th>
+                <th>%TTB</th>
+                <th>Rp</th>
+                <th>%KUM</th>
+                <th>%TTB</th>
+                <th>%</th>
+                <th>KUM</th>
+                <th>TTB</th>
+                <th>KUM</th>
+                <th>TTB</th>
+                <th></th>
               </tr>
 
               @php
               $keg = 1;
               $subkeg = 1;
               @endphp
-              @foreach ($data as $key => $item)
-
+              @foreach ($kode_program as $key => $item)
               <tr style="font-size:10px;font-weight:bold;" class="bg-danger">
                 <td></td>
                 <td style="width: 10px;"></td>
-                <td width="400px">{{$item->nama}}</td>
+                <td width="400px">{{$item}} {{namaProgram($item)}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -174,63 +175,65 @@
                 <td></td>
               </tr>
 
-                @foreach ($item->kegiatan as $item2)
+              @foreach ($kode_kegiatan->filter(fn ($item2) => str_contains($item2, $item))->values() as $kegiatan)
+              <tr style="font-size:10px;" class="bg-warning">
+                <td></td>
+                <td></td>
+                <td width="200px">{{$kegiatan}} {{namaKegiatan($kegiatan)}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
 
-                <tr style="font-size:10px;" class="bg-warning">
-                  <td></td>
-                  <td></td>
-                  <td width="200px">{{$item2->nama}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-
-                  @foreach ($datasubkegiatan->where('kegiatan_id', $item2->id) as $item3)
-                  @if ($item3->status_kirim == null)
-                  <tr style="font-size:10px; background-color:#d3f1f9">
-                  @else
-                  <tr style="font-size:10px;">
+              @foreach ($datasubkegiatan->filter(fn($subkegiatan) => str_starts_with($subkegiatan['kode'],
+              $kegiatan))->values() as $item3)
+              @if ($item3->status_kirim == null)
+              <tr style="font-size:10px; background-color:#d3f1f9">
+                @else
+              <tr style="font-size:10px;">
+                @endif
+                <td>
+                  @if ($item3->status_kirim == 1)
+                  <a href="/admin/laporan/batal/{{$item3->id}}/{{$bulan}}"
+                    onclick="return confirm('Yakin Ingin Di Batalkan?');"><i
+                      class="fa fa-times-circle text-danger"></i></a>
                   @endif
-                    <td>
-                      @if ($item3->status_kirim == 1)
-                      <a href="/admin/laporan/batal/{{$item3->id}}/{{$bulan}}" onclick="return confirm('Yakin Ingin Di Batalkan?');"><i class="fa fa-times-circle text-danger"></i></a>
-                      @endif
-                    </td>
-                    <td>{{$subkeg++}}</td>
-                    <td width="200px">{{$item3->nama}}
-                      @if ($item3->kelurahan != null)
-                      ({{$item3->kelurahan}})
-                      @endif</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom4, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom5)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom6, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom7, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom8)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom9, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom10, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom11, 2)}}</td>
-                    <td style="text-align: right;">{{number_format($item3->kolom12)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom13, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom14, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom15, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom16, 2)}}</td>
-                    <td style="text-align: right;">{{round($item3->kolom17, 2)}}</td>
-                  </tr>
-                  @endforeach
-                @endforeach
+                </td>
+                <td>{{$subkeg++}}</td>
+                <td width="200px">{{$item3->kode}} {{$item3->nama}}
+                  @if ($item3->kelurahan != null)
+                  ({{$item3->kelurahan}})
+                  @endif</td>
+                <td style="text-align: right;">{{number_format($item3->kolom3)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom4, 2)}}</td>
+                <td style="text-align: right;">{{number_format($item3->kolom5)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom6, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom7, 2)}}</td>
+                <td style="text-align: right;">{{number_format($item3->kolom8)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom9, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom10, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom11, 2)}}</td>
+                <td style="text-align: right;">{{number_format($item3->kolom12)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom13, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom14, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom15, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom16, 2)}}</td>
+                <td style="text-align: right;">{{round($item3->kolom17, 2)}}</td>
+              </tr>
+              @endforeach
+              @endforeach
               @endforeach
               <tr style="font-size:10px; background-color:#e7e4e6">
                 <td></td>
@@ -246,9 +249,9 @@
                 <td style="text-align: right">{{round($datasubkegiatan->sum('kolom10'),2)}}</td>
                 <td style="text-align: right">
                   @if ($datasubkegiatan->sum('kolom10') == 0 && $datasubkegiatan->sum('kolom7') == 0)
-                      0
+                  0
                   @else
-                    {{round(($datasubkegiatan->sum('kolom10') / $datasubkegiatan->sum('kolom7')) * 100,2)}}
+                  {{round(($datasubkegiatan->sum('kolom10') / $datasubkegiatan->sum('kolom7')) * 100,2)}}
                   @endif
                 </td>
                 <td style="text-align: right">{{number_format($datasubkegiatan->sum('kolom12'))}}</td>
@@ -258,12 +261,12 @@
                 <td style="text-align: right">{{round($datasubkegiatan->sum('kolom16'),2)}}</td>
                 <td style="text-align: right">
                   @if ($datasubkegiatan->sum('kolom16') == 0 && $datasubkegiatan->sum('kolom14') == 0)
-                      0
+                  0
                   @else
                   {{round(($datasubkegiatan->sum('kolom16') / $datasubkegiatan->sum('kolom14')) * 100,2)}}
                   @endif
-               </td>
-                
+                </td>
+
                 {{-- <td style="text-align: right">{{number_format($data->sum('rencanaRP'))}}</td>
                 <td></td>
                 <td style="text-align: right">{{round($data->sum('rencanaTTB'), 2)}}</td>
@@ -272,7 +275,7 @@
                 <td style="text-align: right">{{round($data->sum('realisasiTTB'), 2)}}</td>
                 <td style="text-align: right">
                   @if ($data->sum('realisasiTTB') == 0)
-                      0
+                  0
                   @else
                   {{round(($data->sum('realisasiTTB') / $data->sum('rencanaTTB')) * 100, 2)}}
                   @endif
@@ -284,7 +287,7 @@
                 <td style="text-align: right">{{round($data->sum('fisikRealisasiTTB'), 2)}}</td>
                 <td style="text-align: right">
                   @if ($data->sum('fisikRealisasiTTB') == 0)
-                      0
+                  0
                   @else
                   {{round(($data->sum('fisikRealisasiTTB') / $data->sum('fisikRencanaTTB')) * 100, 2)}}
                   @endif
