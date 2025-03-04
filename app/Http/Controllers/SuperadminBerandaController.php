@@ -37,8 +37,9 @@ class SuperadminBerandaController extends Controller
     {
         $mulaiFormat = $req->mulai;
         $sampaiFormat = $req->sampai;
-        $mulai = Carbon::createFromFormat('Y-m-d\TH:i', $mulaiFormat)->format('Y-m-d H:i:s');
-        $sampai = Carbon::createFromFormat('Y-m-d\TH:i', $sampaiFormat)->format('Y-m-d H:i:s');
+        $mulai = Carbon::parse($mulaiFormat)->toDateTimeString();
+        $sampai = Carbon::parse($sampaiFormat)->toDateTimeString();
+
         BatasInput::find($id)->update([
             'mulai' => $mulai,
             'sampai' => $sampai
