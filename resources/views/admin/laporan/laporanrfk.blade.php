@@ -260,7 +260,7 @@
                 <td></td>
                 <td style="text-align: right">{{round($datasubkegiatan->sum('kolom16'),2)}}</td>
                 <td style="text-align: right">
-                  @if ($datasubkegiatan->sum('kolom16') == 0 && $datasubkegiatan->sum('kolom14') == 0)
+                  @if ($datasubkegiatan->sum('kolom16') == 0 || $datasubkegiatan->sum('kolom14') == 0)
                   0
                   @else
                   {{round(($datasubkegiatan->sum('kolom16') / $datasubkegiatan->sum('kolom14')) * 100,2)}}
