@@ -27,7 +27,7 @@ class SuperadminController extends Controller
     }
     public function laporan()
     {
-        $tahun = '2024';
+        $tahun = '2025';
         $skpd = Skpd::where('is_aktif', 1)->get()->map(function ($item) use ($tahun) {
             $item->januari = LaporanRFK::where('tahun', $tahun)->where('bulan', '01')->where('skpd_id', $item->id)->first();
             $item->februari = LaporanRFK::where('tahun', $tahun)->where('bulan', '02')->where('skpd_id', $item->id)->first();
