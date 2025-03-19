@@ -66,6 +66,7 @@ class SuperadminController extends Controller
         $tahun = request()->get('tahun');
         $jenis = request()->get('jenis');
         $button = request()->get('button');
+
         if ($button == 'masalah') {
             $masalah = Permasalahan::where('bulan', $bulan)->where('tahun', $tahun)->where('deskripsi', '!=', null)->get();
             $permasalahan = $masalah->where('permasalahan', '!=', '-');
@@ -183,17 +184,18 @@ class SuperadminController extends Controller
                     $disdikRow = 9;
 
                     $nomor_masalah = 0;
+
                     foreach ($datamasalah as $key2 => $item_masalah) {
-                        //dd($item_masalah);
+
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('A' . $disdikRow, $nomor_masalah + 1)->getColumnDimension('A')->setAutoSize(true);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('A' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
                         $spreadsheet->getSheetByName($sheetName)
                             ->getRowDimension($disdikRow)
                             ->setRowHeight(-1);
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_masalah->subkegiatan->pptk == null ? '' : $item_masalah->subkegiatan->pptk->nama_pptk);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('B' . $disdikRow, $item_masalah->subkegiatan == null ? '' : $item_masalah->subkegiatan->pptk->nama_pptk);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('B' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
 
-                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->subkegiatan->nama);
+                        $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->subkegiatan == null ? '' : $item_masalah->subkegiatan->nama);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('C' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
 
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->deskripsi);
@@ -207,14 +209,6 @@ class SuperadminController extends Controller
 
                         $spreadsheet->getSheetByName($sheetName)->setCellValue('G' . $disdikRow, $item_masalah->pihak_pembantu);
                         $spreadsheet->getSheetByName($sheetName)->getStyle('G' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('C' . $disdikRow, $item_masalah->deskripsi);
-                        // $spreadsheet->getSheetByName($sheetName)->getStyle('C' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('D' . $disdikRow, $item_masalah->permasalahan);
-                        // $spreadsheet->getSheetByName($sheetName)->getStyle('D' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('E' . $disdikRow, $item_masalah->upaya);
-                        // $spreadsheet->getSheetByName($sheetName)->getStyle('E' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
-                        // $spreadsheet->getSheetByName($sheetName)->setCellValue('F' . $disdikRow, $item_masalah->pihak_pembantu);
-                        // $spreadsheet->getSheetByName($sheetName)->getStyle('F' . $disdikRow)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
                         $disdikRow++;
                         $nomor_masalah++;
                     }
