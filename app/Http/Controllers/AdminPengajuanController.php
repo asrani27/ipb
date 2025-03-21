@@ -23,9 +23,9 @@ class AdminPengajuanController extends Controller
     public function store(Request $req)
     {
 
-        $check = Pengajuan::where('skpd_id',  Auth::user()->skpd->id)->where('status', 0)->first();
+        $check = Pengajuan::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $req->tahun)->where('status', 0)->first();
         if ($check == null) {
-            if (Pengajuan::where('skpd_id',  Auth::user()->skpd->id)->where('ke', $req->ke)->first() == null) {
+            if (Pengajuan::where('skpd_id',  Auth::user()->skpd->id)->where('tahun', $req->tahun)->where('ke', $req->ke)->first() == null) {
                 $n = new Pengajuan;
                 $n->skpd_id = Auth::user()->skpd->id;
                 $n->tahun = $req->tahun;
