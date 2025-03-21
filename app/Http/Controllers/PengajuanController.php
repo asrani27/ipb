@@ -29,7 +29,7 @@ class PengajuanController extends Controller
             }
             return $item;
         });
-
+        dd($data);
         return view('superadmin.pengajuan.index', compact('data'));
     }
 
