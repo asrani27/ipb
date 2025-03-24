@@ -31,13 +31,13 @@
         <div class="info-box-content">
           <span class="info-box-text">Status RFK</span>
           <span class="info-box-number">
-            @if ({{Auth::user()->skpd->murni == 1}})
+            @if (Auth::user()->skpd->murni == 1)
             Murni
             @endif
-            @if ({{Auth::user()->skpd->perubahan == 1}})
+            @if (Auth::user()->skpd->perubahan == 1)
             Perubahan
             @endif
-            @if ({{Auth::user()->skpd->pergeseran == 1}})
+            @if (Auth::user()->skpd->pergeseran == 1)
             Pergeseran
             @endif
 
