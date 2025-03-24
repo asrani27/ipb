@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @push('css')
-    
+
 @endpush
 @section('content')
 <section class="content">
   <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="col-md-9 col-sm-12 col-xs-12">
       <div class="info-box bg-purple">
         <span class="info-box-icon"><i class="fa fa-user-o"></i></span>
 
@@ -16,9 +16,39 @@
           <div class="progress">
             <div class="progress-bar" style="width: 70%"></div>
           </div>
-              <span class="progress-description">
-               Anda sebagai Admin SKPD dapat mengatur pembukaan dan penutupan penginputan RFK
-              </span>
+          <span class="progress-description">
+            Anda sebagai Admin SKPD dapat mengatur pembukaan dan penutupan penginputan RFK
+          </span>
+        </div>
+        <!-- /.info-box-content -->
+      </div>
+      <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <div class="info-box bg-purple">
+        <span class="info-box-icon"><i class="fa fa-user-o"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Status RFK</span>
+          <span class="info-box-number">
+            @if ({{Auth::user()->skpd->murni == 1}})
+            Murni
+            @endif
+            @if ({{Auth::user()->skpd->perubahan == 1}})
+            Perubahan
+            @endif
+            @if ({{Auth::user()->skpd->pergeseran == 1}})
+            Pergeseran
+            @endif
+
+          </span>
+
+          <div class="progress">
+            <div class="progress-bar" style="width: 70%"></div>
+          </div>
+          <span class="progress-description">
+
+          </span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -27,12 +57,13 @@
   </div>
   <div class="row">
     <div class="col-lg-12">
-    @foreach ($dataTahun as $item)
-        <a href="/admin/beranda/{{$item->nama}}" class="btn btn-lg {{$item->nama == $tahun ? 'btn-success': 'btn-default'}}">{{$item->nama}}</a>
-    @endforeach
+      @foreach ($dataTahun as $item)
+      <a href="/admin/beranda/{{$item->nama}}"
+        class="btn btn-lg {{$item->nama == $tahun ? 'btn-success': 'btn-default'}}">{{$item->nama}}</a>
+      @endforeach
     </div>
   </div>
-  <br/>
+  <br />
   <div class="row">
     <div class="col-lg-3 col-xs-6">
       <!-- small box -->
@@ -60,7 +91,8 @@
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="/admin/datatarik/program/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/program/{{$tahun}}" class="small-box-footer">More info <i
+            class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -75,7 +107,8 @@
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="/admin/datatarik/kegiatan/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/kegiatan/{{$tahun}}" class="small-box-footer">More info <i
+            class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -90,21 +123,23 @@
         <div class="icon">
           <i class="fa fa-files-o"></i>
         </div>
-        <a href="/admin/datatarik/subkegiatan/{{$tahun}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="/admin/datatarik/subkegiatan/{{$tahun}}" class="small-box-footer">More info <i
+            class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
   </div>
   {{-- <div class="row">
     <div class="col-md-6">
-        <div class="box box-primary">
-          <div class="box-header">
-            <i class="ion ion-clipboard"></i><h3 class="box-title">Pengaturan Penginputan RFK</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-              <tbody>
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">Pengaturan Penginputan RFK</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tbody>
               <tr>
                 <th>No</th>
                 <th>Keterangan</th>
@@ -123,11 +158,13 @@
                 </td>
                 <td>
                   @if ($murni==0)
-                  <a href="/admin/beranda/murni/buka" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
-                      BUKA</a>
+                  <a href="/admin/beranda/murni/buka" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
+                    BUKA</a>
                   @else
-                  <a href="/admin/beranda/murni/tutup" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
-                      TUTUP</a>
+                  <a href="/admin/beranda/murni/tutup" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
+                    TUTUP</a>
                   @endif
                 </td>
               </tr>
@@ -143,11 +180,13 @@
                 </td>
                 <td>
                   @if ($pergeseran==0)
-                  <a href="/admin/beranda/pergeseran/buka" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
-                      BUKA</a>
+                  <a href="/admin/beranda/pergeseran/buka" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
+                    BUKA</a>
                   @else
-                  <a href="/admin/beranda/pergeseran/tutup" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
-                      TUTUP</a>
+                  <a href="/admin/beranda/pergeseran/tutup" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
+                    TUTUP</a>
                   @endif
                 </td>
               </tr>
@@ -163,11 +202,13 @@
                 </td>
                 <td>
                   @if ($perubahan==0)
-                  <a href="/admin/beranda/perubahan/buka" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
-                      BUKA</a>
+                  <a href="/admin/beranda/perubahan/buka" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
+                    BUKA</a>
                   @else
-                  <a href="/admin/beranda/perubahan/tutup" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
-                      TUTUP</a>
+                  <a href="/admin/beranda/perubahan/tutup" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
+                    TUTUP</a>
                   @endif
                 </td>
               </tr>
@@ -183,55 +224,58 @@
                 </td>
                 <td>
                   @if ($realisasi==0)
-                  <a href="/admin/beranda/realisasi/buka" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
-                      BUKA</a>
+                  <a href="/admin/beranda/realisasi/buka" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin dibuka?');"><i class="fa fa-folder-open"></i>
+                    BUKA</a>
                   @else
-                  <a href="/admin/beranda/realisasi/tutup" class="btn btn-xs btn-primary" onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
-                      TUTUP</a>
+                  <a href="/admin/beranda/realisasi/tutup" class="btn btn-xs btn-primary"
+                    onclick="return confirm('Yakin ingin ditutup?');"><i class="fa fa-folder"></i>
+                    TUTUP</a>
                   @endif
                 </td>
               </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- /.box-body -->
+            </tbody>
+          </table>
         </div>
-        
-        <!-- /.box -->
+        <!-- /.box-body -->
+      </div>
+
+      <!-- /.box -->
     </div>
     <div class="col-md-6">
 
       <div class="box box-primary">
         <div class="box-header">
-          <i class="ion ion-clipboard"></i><h3 class="box-title">History RFK</h3>
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">History RFK</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
             <tbody>
-            <tr>
-              <th>No</th>
-              <th>Tahun</th>
-              <th>Nama</th>
-              <th>Jenis</th>
-              <th>Tanggal</th>
-            </tr>
-            @foreach ($log as $key => $item)
-                <tr>
-                  <td>{{$log->firstItem() + $key}}</td>
-                  <td>{{$item->tahun}}</td>
-                  <td>{{$item->nama}}
-                  
-                    @if ($item->nama == 'pergeseran')
-                    Ke : {{$item->ke}}
-                    @else
-                    {{$item->ke}}
-                    @endif
-                  </td>
-                  <td>{{$item->jenis}}</td>
-                  <td>{{$item->created_at}}</td>
-                </tr>
-            @endforeach
+              <tr>
+                <th>No</th>
+                <th>Tahun</th>
+                <th>Nama</th>
+                <th>Jenis</th>
+                <th>Tanggal</th>
+              </tr>
+              @foreach ($log as $key => $item)
+              <tr>
+                <td>{{$log->firstItem() + $key}}</td>
+                <td>{{$item->tahun}}</td>
+                <td>{{$item->nama}}
+
+                  @if ($item->nama == 'pergeseran')
+                  Ke : {{$item->ke}}
+                  @else
+                  {{$item->ke}}
+                  @endif
+                </td>
+                <td>{{$item->jenis}}</td>
+                <td>{{$item->created_at}}</td>
+              </tr>
+              @endforeach
             </tbody>
           </table>
           {{$log->links()}}
