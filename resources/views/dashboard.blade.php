@@ -421,7 +421,7 @@ desired effect
         animationEnabled: true,
         theme: "light2", // "light1", "light2", "dark1", "dark2"
         title:{
-            text: "Periode November 2025"
+            text: "Periode Maret 2025"
         },
         
         data: [{        
