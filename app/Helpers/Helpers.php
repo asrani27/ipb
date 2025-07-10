@@ -417,6 +417,7 @@ function jenisRFK($bulan, $tahun)
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->maret;
     }
     if ($bulan == '04' || $bulan == 'april') {
+
         $jenisrfk = JenisRfk::where('tahun', $tahun)->first()->april;
     }
     if ($bulan == '05' || $bulan == 'mei') {

@@ -1148,6 +1148,95 @@ class PPTK2Controller extends Controller
     }
     public function kirimData($bulan, $subkegiatan_id)
     {
+        $tahun = Carbon::now()->year;
+        $nama_bulan = namaBulan($bulan);
+        $subkegiatan = Subkegiatan::find($subkegiatan_id);
+
+        $status = jenisRFK($bulan, $tahun);
+
+        // $data = Uraian::where('subkegiatan_id', $id)->where('jenis_rfk', $jenisrfk)->get();
+        // if (Auth::user()->pptk->skpd->murni == 1) {
+        //     $status = 'murni';
+        // }
+        // if (Auth::user()->pptk->skpd->pergeseran == 1) {
+        //     $status = 'pergeseran';
+        // }
+        // if (Auth::user()->pptk->skpd->perubahan == 1) {
+        //     $status = 'perubahan';
+        // }
+        if ($status == 'pergeseran') {
+            $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status)->where('ke', Auth::user()->pptk->skpd->ke)->values();
+        } else {
+            $data = Subkegiatan::find($subkegiatan_id)->uraian->where('jenis_rfk', $status);
+        }
+        $jenisrfk = $status;
+        $totalDPA = $data->sum('dpa');
+
+        $data->map(function ($item) use ($totalDPA, $bulan) {
+
+            if ($item->dpa == 0) {
+                $item->persenDPA = 0;
+                $item->rencanaRP = 0;
+                $item->rencanaKUM = 0;
+                $item->rencanaTTB = 0;
+                $item->realisasiRP = 0;
+                $item->realisasiKUM = 0;
+                $item->realisasiTTB = 0;
+                $item->deviasiKUM = 0;
+                $item->deviasiTTB = 0;
+                $item->sisaAnggaran = 0;
+                $item->capaianKeuangan = 0;
+
+                $item->fisikRencanaKUM = 0;
+                $item->fisikRencanaTTB = 0;
+                $item->fisikRealisasiKUM = 0;
+                $item->fisikRealisasiTTB = 0;
+                $item->fisikDeviasiKUM = 0;
+                $item->fisikDeviasiTTB = 0;
+                $item->capaianFisik = 0;
+            } else {
+                $item->persenDPA = ($item->dpa / $totalDPA) * 100;
+                $item->rencanaRP = totalRencana($bulan, $item);
+                $item->rencanaKUM = ($item->rencanaRP / $item->dpa) * 100;
+                $item->rencanaTTB = ($item->persenDPA * $item->rencanaKUM) / 100;
+                $item->realisasiRP = totalRealisasi($bulan, $item);
+                //dd($item->realisasiRP, $item->dpa, $bulan, $item);
+                $item->realisasiKUM = ($item->realisasiRP / $item->dpa) * 100;
+                $item->realisasiTTB = ($item->persenDPA * $item->realisasiKUM) / 100;
+                $item->deviasiKUM =  $item->realisasiKUM - $item->rencanaKUM;
+                $item->deviasiTTB = $item->realisasiTTB - $item->rencanaTTB;
+                $item->sisaAnggaran = $item->dpa - $item->realisasiRP;
+                if ($item->rencanaRP == 0) {
+                    $item->capaianKeuangan = 0;
+                } else {
+                    $item->capaianKeuangan =  ($item->realisasiRP / $item->rencanaRP) * 100;
+                }
+
+                $item->fisikRencanaKUM = fisikRencana($bulan, $item);
+                $item->fisikRencanaTTB = $item->fisikRencanaKUM * $item->persenDPA / 100;
+                //dd($item->fisikRencanaTTB);
+                $item->fisikRealisasiKUM = fisikRealisasi($bulan, $item);
+                $item->fisikRealisasiTTB = $item->fisikRealisasiKUM * $item->persenDPA / 100;
+                $item->fisikDeviasiKUM =  $item->fisikRealisasiKUM - $item->fisikRencanaKUM;
+                $item->fisikDeviasiTTB =  $item->fisikRealisasiTTB - $item->fisikRencanaTTB;
+
+                if ($item->fisikRencanaKUM == 0) {
+                    $item->capaianFisik = 0;
+                } else {
+                    $item->capaianFisik =  ($item->fisikRealisasiKUM / $item->fisikRencanaKUM) * 100;
+                }
+                if (round($item->fisikRealisasiKUM, 2) < round($item->realisasiKUM, 2)) {
+                    $item->bisa_kirim = 'T';
+                } else {
+                    $item->bisa_kirim = 'Y';
+                }
+            }
+            return $item;
+        });
+        if ($data->where('bisa_kirim', 'T')->count() > 0) {
+            Session::flash('error', 'Realisasi Fisik Lebih Kecil Dari Realisasi Keuangan, harap perbaiki');
+            return back();
+        }
         if (Subkegiatan::find($subkegiatan_id)->masalah->count() == 0) {
             Session::flash('info', 'Harap Isi Kolom Masalah (M)');
             return back();
