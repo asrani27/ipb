@@ -401,10 +401,11 @@ class PPTK2Controller extends Controller
         //     Session::flash('info', 'Tidak bisa input bulan' . Carbon::now()->format('M') . '/ setelahnya');
         //     return back();
         // } else {
-
         $data = Uraian::find($req->uraian_id);
-        $total = $data->r_januari_fisik +  $data->r_februari_fisik +  $data->r_maret_fisik +  $data->r_april_fisik +  $data->r_mei_fisik +  $data->r_juni_fisik +  $data->r_juli_fisik +  $data->r_agustus_fisik +  $data->r_september_fisik +  $data->r_oktober_fisik +  $data->r_november_fisik +  $data->r_desember_fisik;
+        $fieldbulan = 'r_' . $req->bulan . '_fisik';
+        $total = ($data->r_januari_fisik +  $data->r_februari_fisik +  $data->r_maret_fisik +  $data->r_april_fisik +  $data->r_mei_fisik +  $data->r_juni_fisik +  $data->r_juli_fisik +  $data->r_agustus_fisik +  $data->r_september_fisik +  $data->r_oktober_fisik +  $data->r_november_fisik +  $data->r_desember_fisik) - $data[$fieldbulan];
         $hasil = $total + (int) $req->real_realisasi;
+
         $sisa = number_format(100 - $total, 2);
         if ($hasil > 100) {
             Session::flash('error', 'Total tidak bisa lebih dari 100%, anda hanya input maks ' . $sisa);
