@@ -1234,10 +1234,10 @@ class PPTK2Controller extends Controller
             }
             return $item;
         });
-        if ($data->where('bisa_kirim', 'T')->count() > 0) {
-            Session::flash('error', 'Realisasi Fisik Lebih Kecil Dari Realisasi Keuangan, harap perbaiki');
-            return back();
-        }
+        // if ($data->where('bisa_kirim', 'T')->count() > 0) {
+        //     Session::flash('error', 'Realisasi Fisik Lebih Kecil Dari Realisasi Keuangan, harap perbaiki');
+        //     return back();
+        // }
         if (Subkegiatan::find($subkegiatan_id)->masalah->count() == 0) {
             Session::flash('info', 'Harap Isi Kolom Masalah (M)');
             return back();
