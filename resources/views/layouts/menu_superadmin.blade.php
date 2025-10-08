@@ -11,6 +11,9 @@
 <li class="{{ (request()->is('superadmin/laporan*')) ? 'active' : '' }}"><a href="/superadmin/laporan"><i
                         class="fa fa-file-o"></i> <span>Laporan RFK</span></a></li>
 
+<li class="{{ (request()->is('superadmin/belanjaskpd*')) ? 'active' : '' }}"><a href="/superadmin/belanjaskpd"><i
+                        class="fa fa-file-o"></i> <span>Laporan Belanja</span></a></li>
+
 <li class="{{ (request()->is('superadmin/jenisrfk*')) ? 'active' : '' }}"><a href="/superadmin/jenisrfk"><i
                         class="fa fa-list"></i> <span>Jenis RFK</span></a></li>
 <li class="{{ (request()->is('superadmin/importdata*')) ? 'active' : '' }}"><a href="/superadmin/importdata"><i

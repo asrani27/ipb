@@ -11,6 +11,7 @@ use App\Models\Subkegiatan;
 use App\Models\Permasalahan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Border;
@@ -218,7 +219,8 @@ class SuperadminController extends Controller
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save('php://output');
             //dd($skpd);
-        } else {
+        }
+        if ($button == 'excel') {
 
             $check = LaporanRFK::where('bulan', $bulan)->where('tahun', $tahun)->get();
 
@@ -478,5 +480,574 @@ class SuperadminController extends Controller
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save('php://output');
         }
+    }
+
+    public function belanjaSkpd()
+    {
+        return view('superadmin.belanja.index');
+    }
+    public function exportBelanjaSkpd()
+    {
+        // Increase memory limit temporarily
+        ini_set('memory_limit', '512M');
+        set_time_limit(300); // 5 minutes
+
+        try {
+            // Get all active SKPDs with chunking for memory efficiency
+            $skpdList = Skpd::where('is_aktif', 1)->get();
+
+            // Create new spreadsheet
+            $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+
+            // Remove default sheet
+            $spreadsheet->removeSheetByIndex(0);
+
+            // Define kode rekening patterns
+            $kodePatterns = [
+                'pegawai' => '5.1.01.',
+                'barang_jasa' => '5.1.02.',
+                'modal' => '5.2.'
+            ];
+
+            foreach ($skpdList as $index => $skpd) {
+                // Clear memory between iterations
+                if ($index % 10 == 0) {
+                    gc_collect_cycles();
+                }
+                // Get data for current SKPD only (chunked approach)
+                $skpdData = Uraian::where('jenis_rfk', 'pergeseran')
+                    ->where('tahun', '2025')
+                    ->where('skpd_id', $skpd->id)
+                    ->where('ke', $skpd->ke)
+                    ->where(function ($query) use ($kodePatterns) {
+                        foreach ($kodePatterns as $pattern) {
+                            $query->orWhere('kode_rekening', 'like', $pattern . '%');
+                        }
+                    })
+                    ->get();
+
+                // Group by belanja type
+                $groupedData = $skpdData->groupBy(function ($item) {
+                    if (str_starts_with($item->kode_rekening, '5.1.01.')) {
+                        return 'pegawai';
+                    } elseif (str_starts_with($item->kode_rekening, '5.1.02.')) {
+                        return 'barang_jasa';
+                    } elseif (str_starts_with($item->kode_rekening, '5.2.')) {
+                        return 'modal';
+                    }
+                    return 'other';
+                });
+
+                $belanjaPegawai = $groupedData->get('pegawai', collect());
+                $belanjaBarangJasa = $groupedData->get('barang_jasa', collect());
+                $belanjaModal = $groupedData->get('modal', collect());
+
+                // Create sheet for each SKPD
+                $sheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $this->sanitizeSheetName($skpd->nama));
+                $spreadsheet->addSheet($sheet, $index);
+
+                // Set headers
+                $sheet->setCellValue('A1', $skpd->nama);
+                $sheet->mergeCells('A1:AB1');
+                $sheet->setCellValue('A2', 'no');
+                $sheet->setCellValue('B2', 'Keterangan Uraian');
+                $sheet->setCellValue('C2', 'DPA');
+                $sheet->setCellValue('D2', 'Rencana');
+                $sheet->setCellValue('P2', 'Realisasi');
+                $sheet->setCellValue('AB2', 'Total Realisasi');
+
+                // Merge Rencana header across 12 columns (D to O)
+                $sheet->mergeCells('D2:O2');
+
+                // Merge Realisasi header across 12 columns (P to AA)
+                $sheet->mergeCells('P2:AA2');
+
+                // Add month headers for Rencana
+                $months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                $col = 'D';
+                foreach ($months as $month) {
+                    $sheet->setCellValue($col . '3', $month);
+                    $col++;
+                }
+
+                // Add month headers for Realisasi
+                $col = 'P';
+                foreach ($months as $month) {
+                    $sheet->setCellValue($col . '3', $month);
+                    $col++;
+                }
+
+                // Style headers with larger font and gray background
+                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+                $sheet->getStyle('A2:AB2')->getFont()->setBold(true)->setSize(14);
+                $sheet->getStyle('A2:AB3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyle('D2:O2')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyle('P2:AA2')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+                // Apply gray background to headers
+                $headerGray = 'D3D3D3';
+                $sheet->getStyle('A2:AB3')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+                $sheet->getStyle('A2:AB3')->getFill()->getStartColor()->setARGB($headerGray);
+
+                // Add thin borders to headers
+                $sheet->getStyle('A2:AB3')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+                $sheet->getStyle('A1')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+                // Function to add belanja section
+                $addBelanjaSection = function ($data, $title, &$currentRow, $sheet, &$allSectionRanges = []) {
+                    if ($data->count() > 0) {
+                        // Add title in column B
+                        $sheet->setCellValue('B' . $currentRow, $title);
+                        $sheet->getStyle('B' . $currentRow)->getFont()->setBold(true);
+                        $currentRow++;
+
+                        // Define month fields for rencana
+                        $rencanaFields = [
+                            'p_januari_keuangan',
+                            'p_februari_keuangan',
+                            'p_maret_keuangan',
+                            'p_april_keuangan',
+                            'p_mei_keuangan',
+                            'p_juni_keuangan',
+                            'p_juli_keuangan',
+                            'p_agustus_keuangan',
+                            'p_september_keuangan',
+                            'p_oktober_keuangan',
+                            'p_november_keuangan',
+                            'p_desember_keuangan'
+                        ];
+
+                        // Define month fields for realisasi
+                        $realisasiFields = [
+                            'r_januari_keuangan',
+                            'r_februari_keuangan',
+                            'r_maret_keuangan',
+                            'r_april_keuangan',
+                            'r_mei_keuangan',
+                            'r_juni_keuangan',
+                            'r_juli_keuangan',
+                            'r_agustus_keuangan',
+                            'r_september_keuangan',
+                            'r_oktober_keuangan',
+                            'r_november_keuangan',
+                            'r_desember_keuangan'
+                        ];
+
+                        // Add data directly (no headers)
+                        $startRow = $currentRow;
+                        $endRow = $currentRow + $data->count() - 1;
+
+                        foreach ($data as $item) {
+                            $sheet->setCellValue('A' . $currentRow, $currentRow - $startRow + 1); // Nomor urut
+                            $sheet->setCellValue('B' . $currentRow, $item->kode_rekening . ' - ' . ($item->nama ?? '')); // Keterangan Uraian
+                            $sheet->setCellValue('C' . $currentRow, $item->dpa ?? 0); // DPA
+
+                            // Add rencana monthly data
+                            $col = 'D';
+                            foreach ($rencanaFields as $field) {
+                                $sheet->setCellValue($col . $currentRow, $item->$field ?? 0);
+                                $col++;
+                            }
+
+                            // Add realisasi monthly data
+                            $col = 'P';
+                            foreach ($realisasiFields as $field) {
+                                $sheet->setCellValue($col . $currentRow, $item->$field ?? 0);
+                                $col++;
+                            }
+
+                            // Add Total Realisasi formula (sum of P to AA)
+                            $sheet->setCellValue('AB' . $currentRow, '=SUM(P' . $currentRow . ':AA' . $currentRow . ')');
+                            $currentRow++;
+                        }
+
+                        // Add thin borders to data rows
+                        if ($data->count() > 0) {
+                            $sheet->getStyle('A' . $startRow . ':AB' . $endRow)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+                        }
+
+                        // Add total row
+                        $totalRow = $currentRow;
+                        $sheet->setCellValue('B' . $totalRow, 'Total ' . $title);
+                        $sheet->getStyle('B' . $totalRow)->getFont()->setBold(true);
+
+                        // Add SUM formulas for each column from C to AB
+                        $columns = ['C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB'];
+                        foreach ($columns as $col) {
+                            $sheet->setCellValue($col . $totalRow, '=SUM(' . $col . $startRow . ':' . $col . $endRow . ')');
+                        }
+
+                        // Add orange background to total row (no borders)
+                        $orangeColor = 'FFA500';
+                        $sheet->getStyle('A' . $totalRow . ':AB' . $totalRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+                        $sheet->getStyle('A' . $totalRow . ':AB' . $totalRow)->getFill()->getStartColor()->setARGB($orangeColor);
+
+                        // Store section range for grand total calculation
+                        $allSectionRanges[] = [
+                            'start' => $startRow,
+                            'end' => $endRow
+                        ];
+
+                        $currentRow++;
+                    }
+                };
+
+                $currentRow = 4;
+
+                // Track all section start and end rows for grand total
+                $allSectionRanges = [];
+
+                // Add Belanja Pegawai section
+                $addBelanjaSection($belanjaPegawai, 'Belanja Pegawai - 5.1.01.', $currentRow, $sheet, $allSectionRanges);
+
+                // Add Belanja Barang dan Jasa section
+                $addBelanjaSection($belanjaBarangJasa, 'Belanja Barang dan Jasa - 5.1.02.', $currentRow, $sheet, $allSectionRanges);
+
+                // Add Belanja Modal section
+                $addBelanjaSection($belanjaModal, 'Belanja Modal - 5.2.', $currentRow, $sheet, $allSectionRanges);
+
+                // Add Grand Total row
+                $this->addGrandTotal($sheet, $currentRow, $allSectionRanges);
+
+                // Auto-size columns
+                $sheet->getColumnDimension('A')->setAutoSize(true);
+                $sheet->getColumnDimension('B')->setAutoSize(true);
+                $sheet->getColumnDimension('C')->setAutoSize(true);
+
+                // Auto-size month columns (D to O)
+                $monthColumns = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+                foreach ($monthColumns as $col) {
+                    $sheet->getColumnDimension($col)->setAutoSize(true);
+                }
+
+                // Auto-size realisasi columns (P to AA) using manual array
+                $realisasiColumns = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA'];
+                foreach ($realisasiColumns as $col) {
+                    $sheet->getColumnDimension($col)->setAutoSize(true);
+                }
+
+                // Auto-size Total Realisasi column (AB)
+                $sheet->getColumnDimension('AB')->setAutoSize(true);
+
+                // Wrap text for better readability
+                $sheet->getStyle('B')->getAlignment()->setWrapText(true);
+
+                // Format DPA column as numbers
+                $sheet->getStyle('C')->getNumberFormat()->setFormatCode('#,##0');
+
+                // Format rencana month columns (D-O) as numbers
+                $sheet->getStyle('D:O')->getNumberFormat()->setFormatCode('#,##0');
+
+                // Format realisasi month columns (P-AA) as numbers
+                $sheet->getStyle('P:AA')->getNumberFormat()->setFormatCode('#,##0');
+
+                // Format Total Realisasi column (AB) as numbers
+                $sheet->getStyle('AB')->getNumberFormat()->setFormatCode('#,##0');
+
+                // Freeze panes to lock headers when scrolling
+                // Freeze row 3 (headers are in rows 1-3, so freeze from row 4 onwards)
+                $sheet->freezePane('A4');
+
+                // Free memory
+                unset($skpdData, $groupedData, $belanjaPegawai);
+            }
+
+            // Add REKAP SKPD summary sheet at the beginning (leftmost position)
+            $this->addRekapSkpdSheet($spreadsheet, $skpdList, 0);
+
+            // Set filename and headers
+            $filename = 'Laporan_Belanja_SKPD_' . date('Y-m-d_H-i-s') . '.xlsx';
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="' . $filename . '"');
+            header('Cache-Control: max-age=0');
+            header('Expires: 0');
+            header('Pragma: public');
+
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+            $writer->save('php://output');
+            exit;
+        } catch (\Exception $e) {
+            // Log error and show user-friendly message
+            Log::error('Export failed: ' . $e->getMessage());
+
+            // Reset memory limit
+            ini_set('memory_limit', '128M');
+
+            return back()->with('error', 'Export gagal. Data terlalu besar. Silakan coba dengan filter yang lebih spesifik.');
+        }
+    }
+
+    /**
+     * Sanitize sheet name to be valid for Excel
+     */
+    private function sanitizeSheetName($name)
+    {
+        // Remove invalid characters and limit length
+        $invalid = ['\\', '/', '*', ':', '?', '[', ']'];
+        $name = str_replace($invalid, '', $name);
+        return substr($name, 0, 31); // Excel sheet name max length is 31 characters
+    }
+
+    /**
+     * Add grand total row at the bottom of the sheet
+     */
+    private function addGrandTotal($sheet, &$currentRow, $allSectionRanges)
+    {
+        if (empty($allSectionRanges)) {
+            return;
+        }
+
+        // Add empty row before grand total
+        $currentRow++;
+
+        // Add grand total row
+        $grandTotalRow = $currentRow;
+        $sheet->setCellValue('B' . $grandTotalRow, 'TOTAL KESELURUHAN');
+        $sheet->getStyle('B' . $grandTotalRow)->getFont()->setBold(true);
+
+        // Calculate grand total by summing all section totals
+        $columns = ['C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB'];
+
+        foreach ($columns as $col) {
+            $formulaParts = [];
+            foreach ($allSectionRanges as $range) {
+                $totalRow = $range['end'] + 1; // Total row is right after the data range
+                $formulaParts[] = $col . $totalRow;
+            }
+
+            if (!empty($formulaParts)) {
+                $formula = '=' . implode('+', $formulaParts);
+                $sheet->setCellValue($col . $grandTotalRow, $formula);
+            }
+        }
+
+        // Add green background to grand total row
+        $greenColor = '00FF00';
+        $sheet->getStyle('A' . $grandTotalRow . ':AB' . $grandTotalRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle('A' . $grandTotalRow . ':AB' . $grandTotalRow)->getFill()->getStartColor()->setARGB($greenColor);
+
+        $currentRow++;
+    }
+
+    /**
+     * Add REKAP SKPD summary sheet
+     */
+    private function addRekapSkpdSheet($spreadsheet, $skpdList, $position = null)
+    {
+        // Create new sheet for REKAP SKPD
+        $rekapSheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'REKAP SKPD');
+        
+        if ($position !== null) {
+            $spreadsheet->addSheet($rekapSheet, $position);
+        } else {
+            $spreadsheet->addSheet($rekapSheet);
+        }
+
+        // Set title and date with merged cells
+        $rekapSheet->setCellValue('A1', 'Rekapitulasi');
+        $rekapSheet->mergeCells('A1:AB1');
+        $rekapSheet->setCellValue('A2', 'Tanggal: ' . date('d-m-Y H:i:s'));
+        $rekapSheet->mergeCells('A2:AB2');
+
+        // Set headers
+        $rekapSheet->setCellValue('A4', 'No');
+        $rekapSheet->setCellValue('B4', 'Keterangan');
+        $rekapSheet->setCellValue('C4', 'DPA');
+        $rekapSheet->setCellValue('D4', 'Rencana');
+        $rekapSheet->setCellValue('P4', 'Realisasi');
+        $rekapSheet->setCellValue('AB4', 'Total Realisasi');
+
+        // Merge Rencana header across 12 columns (D to O)
+        $rekapSheet->mergeCells('D4:O4');
+
+        // Merge Realisasi header across 12 columns (P to AA)
+        $rekapSheet->mergeCells('P4:AA4');
+
+        // Add month headers for Rencana
+        $months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $col = 'D';
+        foreach ($months as $month) {
+            $rekapSheet->setCellValue($col . '5', $month);
+            $col++;
+        }
+
+        // Add month headers for Realisasi
+        $col = 'P';
+        foreach ($months as $month) {
+            $rekapSheet->setCellValue($col . '5', $month);
+            $col++;
+        }
+
+        // Style headers
+        $rekapSheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $rekapSheet->getStyle('A4:AB5')->getFont()->setBold(true)->setSize(12);
+        $rekapSheet->getStyle('A4:AB5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $rekapSheet->getStyle('D4:O4')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $rekapSheet->getStyle('P4:AA4')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+        // Apply gray background to headers
+        $headerGray = 'D3D3D3';
+        $rekapSheet->getStyle('A4:AB5')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $rekapSheet->getStyle('A4:AB5')->getFill()->getStartColor()->setARGB($headerGray);
+
+        // Add thin borders to headers
+        $rekapSheet->getStyle('A4:AB5')->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+        // Define kode rekening patterns
+        $kodePatterns = [
+            'pegawai' => '5.1.01.',
+            'barang_jasa' => '5.1.02.',
+            'modal' => '5.2.'
+        ];
+
+        $currentRow = 6;
+        $totalRowData = [
+            'DPA' => 0,
+            'Rencana' => array_fill(0, 12, 0),
+            'Realisasi' => array_fill(0, 12, 0),
+            'TotalRealisasi' => 0
+        ];
+
+        foreach ($skpdList as $index => $skpd) {
+            // Get SKPD data
+            $skpdData = Uraian::where('jenis_rfk', 'pergeseran')
+                ->where('tahun', '2025')
+                ->where('skpd_id', $skpd->id)
+                ->where('ke', $skpd->ke)
+                ->where(function ($query) use ($kodePatterns) {
+                    foreach ($kodePatterns as $pattern) {
+                        $query->orWhere('kode_rekening', 'like', $pattern . '%');
+                    }
+                })
+                ->get();
+
+            // Calculate totals for this SKPD
+            $skpdTotals = [
+                'DPA' => 0,
+                'Rencana' => array_fill(0, 12, 0),
+                'Realisasi' => array_fill(0, 12, 0),
+                'TotalRealisasi' => 0
+            ];
+
+            $rencanaFields = [
+                'p_januari_keuangan', 'p_februari_keuangan', 'p_maret_keuangan',
+                'p_april_keuangan', 'p_mei_keuangan', 'p_juni_keuangan',
+                'p_juli_keuangan', 'p_agustus_keuangan', 'p_september_keuangan',
+                'p_oktober_keuangan', 'p_november_keuangan', 'p_desember_keuangan'
+            ];
+
+            $realisasiFields = [
+                'r_januari_keuangan', 'r_februari_keuangan', 'r_maret_keuangan',
+                'r_april_keuangan', 'r_mei_keuangan', 'r_juni_keuangan',
+                'r_juli_keuangan', 'r_agustus_keuangan', 'r_september_keuangan',
+                'r_oktober_keuangan', 'r_november_keuangan', 'r_desember_keuangan'
+            ];
+
+            foreach ($skpdData as $item) {
+                $skpdTotals['DPA'] += $item->dpa ?? 0;
+                
+                foreach ($rencanaFields as $i => $field) {
+                    $skpdTotals['Rencana'][$i] += $item->$field ?? 0;
+                }
+                
+                foreach ($realisasiFields as $i => $field) {
+                    $skpdTotals['Realisasi'][$i] += $item->$field ?? 0;
+                }
+            }
+
+            // Calculate total realisasi for this SKPD
+            $skpdTotals['TotalRealisasi'] = array_sum($skpdTotals['Realisasi']);
+
+            // Add SKPD data to rekap sheet
+            $rekapSheet->setCellValue('A' . $currentRow, $index + 1);
+            $rekapSheet->setCellValue('B' . $currentRow, $skpd->nama);
+            $rekapSheet->setCellValue('C' . $currentRow, $skpdTotals['DPA']);
+
+            // Add rencana monthly data
+            $col = 'D';
+            foreach ($skpdTotals['Rencana'] as $value) {
+                $rekapSheet->setCellValue($col . $currentRow, $value);
+                $col++;
+            }
+
+            // Add realisasi monthly data
+            $col = 'P';
+            foreach ($skpdTotals['Realisasi'] as $value) {
+                $rekapSheet->setCellValue($col . $currentRow, $value);
+                $col++;
+            }
+
+            $rekapSheet->setCellValue('AB' . $currentRow, $skpdTotals['TotalRealisasi']);
+
+            // Add to grand totals
+            $totalRowData['DPA'] += $skpdTotals['DPA'];
+            foreach ($skpdTotals['Rencana'] as $i => $value) {
+                $totalRowData['Rencana'][$i] += $value;
+            }
+            foreach ($skpdTotals['Realisasi'] as $i => $value) {
+                $totalRowData['Realisasi'][$i] += $value;
+            }
+            $totalRowData['TotalRealisasi'] += $skpdTotals['TotalRealisasi'];
+
+            // Add borders to data row
+            $rekapSheet->getStyle('A' . $currentRow . ':AB' . $currentRow)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
+
+            $currentRow++;
+        }
+
+        // Add total row
+        $totalRow = $currentRow;
+        $rekapSheet->setCellValue('B' . $totalRow, 'TOTAL KESELURUHAN');
+        $rekapSheet->getStyle('B' . $totalRow)->getFont()->setBold(true);
+        $rekapSheet->setCellValue('C' . $totalRow, $totalRowData['DPA']);
+
+        // Add total rencana monthly data
+        $col = 'D';
+        foreach ($totalRowData['Rencana'] as $value) {
+            $rekapSheet->setCellValue($col . $totalRow, $value);
+            $col++;
+        }
+
+        // Add total realisasi monthly data
+        $col = 'P';
+        foreach ($totalRowData['Realisasi'] as $value) {
+            $rekapSheet->setCellValue($col . $totalRow, $value);
+            $col++;
+        }
+
+        $rekapSheet->setCellValue('AB' . $totalRow, $totalRowData['TotalRealisasi']);
+
+        // Add green background to total row
+        $greenColor = '00FF00';
+        $rekapSheet->getStyle('A' . $totalRow . ':AB' . $totalRow)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $rekapSheet->getStyle('A' . $totalRow . ':AB' . $totalRow)->getFill()->getStartColor()->setARGB($greenColor);
+        $rekapSheet->getStyle('A' . $totalRow . ':AB' . $totalRow)->getFont()->setBold(true);
+
+        // Auto-size columns
+        $rekapSheet->getColumnDimension('A')->setAutoSize(true);
+        $rekapSheet->getColumnDimension('B')->setAutoSize(true);
+        $rekapSheet->getColumnDimension('C')->setAutoSize(true);
+
+        // Auto-size month columns (D to O)
+        $monthColumns = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+        foreach ($monthColumns as $col) {
+            $rekapSheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Auto-size realisasi columns (P to AA)
+        $realisasiColumns = ['P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA'];
+        foreach ($realisasiColumns as $col) {
+            $rekapSheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Auto-size Total Realisasi column (AB)
+        $rekapSheet->getColumnDimension('AB')->setAutoSize(true);
+
+        // Format numbers
+        $rekapSheet->getStyle('C:AB')->getNumberFormat()->setFormatCode('#,##0');
+
+        // Freeze panes
+        $rekapSheet->freezePane('A6');
     }
 }

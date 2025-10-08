@@ -486,6 +486,7 @@ class AdminLaporanController extends Controller
                 $item->realisasi = realisasiSKPD($bulan, $item, $jenis);
                 $item->rencana_fisik = rencanaKumSkpd($item->id, $jenis, $bulan);
                 $item->realisasi_fisik = realisasiKumSkpd($item->id, $jenis, $bulan);
+                $item->jenis_rfk = $jenis;
                 return $item->only('id', 'tahun', 'skpd_id', 'bidang_id', 'program_id', 'kegiatan_id', 'nama', 'jenis_rfk', 'pptk_id', 'kode', 'dpa', 'rencana', 'realisasi', 'rencana_fisik', 'realisasi_fisik');
             });
 

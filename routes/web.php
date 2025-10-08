@@ -64,6 +64,8 @@ Route::post('/update_realisasi_keuangan', [PPTK2Controller::class, 'update_reali
 
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::prefix('superadmin')->group(function () {
+        Route::get('belanjaskpd', [SuperadminController::class, 'belanjaSkpd']);
+        Route::get('belanjaskpd/export', [SuperadminController::class, 'exportBelanjaSkpd']);
         Route::get('importdata', [ImportDataController::class, 'index']);
         Route::post('importdata/koderekening', [ImportDataController::class, 'koderekening']);
         Route::post('importdata/subkegiatan', [ImportDataController::class, 'subkegiatan']);
