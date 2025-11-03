@@ -764,6 +764,11 @@ class SuperadminController extends Controller
             header('Expires: 0');
             header('Pragma: public');
 
+            // Hapus cookie download start untuk signal completion
+            if (isset($_GET['t'])) {
+                setcookie('download_start_' . $_GET['t'], '', time() - 3600, '/');
+            }
+            
             $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
             $writer->save('php://output');
             exit;

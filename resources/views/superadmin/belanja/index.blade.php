@@ -40,45 +40,57 @@ function handleExportClick(event) {
     link.style.opacity = '0.6';
     link.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Sedang Memproses...';
     
+    // Tambahkan timestamp ke URL untuk tracking
+    const timestamp = Date.now();
+    const downloadUrl = originalHref + '?t=' + timestamp;
+    
+    // Set cookie untuk tracking download
+    document.cookie = 'download_start_' + timestamp + '=' + timestamp + '; path=/';
+    
     // Mulai download
-    window.location.href = originalHref;
+    window.location.href = downloadUrl;
     
-    // Deteksi ketika download selesai menggunakan focus event
-    // Browser akan kehilangan focus saat download dialog muncul
-    // dan mendapatkan focus kembali setelah dialog ditutup
-    let downloadStarted = false;
-    let focusTimer;
+    // Monitor cookie untuk deteksi completion
+    let checkCount = 0;
+    const maxChecks = 60; // Maximum 60 checks (30 detik)
     
-    // Monitor focus changes
     function checkDownloadComplete() {
-        if (document.hasFocus() && downloadStarted) {
+        checkCount++;
+        
+        // Cek apakah download cookie sudah dihapus oleh server
+        const cookies = document.cookie.split(';');
+        let downloadComplete = true;
+        
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'download_start_' + timestamp && value == timestamp) {
+                downloadComplete = false;
+                break;
+            }
+        }
+        
+        if (downloadComplete) {
             // Download selesai, enable kembali link
             link.href = originalHref;
             link.style.pointerEvents = 'auto';
             link.style.opacity = '1';
             link.innerHTML = originalContent;
-            clearInterval(focusTimer);
-        } else if (!downloadStarted && document.hasFocus()) {
-            // Download belum dimulai, tunggu focus loss
-            setTimeout(() => {
-                if (!document.hasFocus()) {
-                    downloadStarted = true;
-                }
-            }, 100);
+        } else if (checkCount < maxChecks) {
+            // Lanjut monitoring
+            setTimeout(checkDownloadComplete, 500);
+        } else {
+            // Fallback: enable setelah timeout
+            link.href = originalHref;
+            link.style.pointerEvents = 'auto';
+            link.style.opacity = '1';
+            link.innerHTML = originalContent;
+            // Hapus cookie yang mungkin tersisa
+            document.cookie = 'download_start=' + timestamp + '; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
         }
     }
     
-    // Mulai monitoring focus
-    focusTimer = setInterval(checkDownloadComplete, 500);
-    
-    // Fallback: enable setelah 30 detik jika tidak terdeteksi
-    setTimeout(() => {
-        clearInterval(focusTimer);
-        link.href = originalHref;
-        link.style.pointerEvents = 'auto';
-        link.style.opacity = '1';
-        link.innerHTML = originalContent;
-    }, 30000);
+    // Mulai monitoring setelah delay kecil untuk memastikan download dimulai
+    setTimeout(checkDownloadComplete, 1000);
 }
 </script>
 @endpush
