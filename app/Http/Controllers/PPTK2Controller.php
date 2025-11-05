@@ -609,6 +609,8 @@ class PPTK2Controller extends Controller
             } else {
                 $data = Subkegiatan::find($id)->uraian->where('jenis_rfk', $status);
             }
+
+
             $jenisrfk = $status;
             $totalDPA = $data->sum('dpa');
 

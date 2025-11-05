@@ -43,8 +43,9 @@ class Perubahan extends Command
     {
         DB::beginTransaction();
         try {
-            $tahun = '2024';
+            $tahun = '2025';
             $skpd = Skpd::where('ke', '!=', null)->get();
+
             foreach ($skpd as $key => $item) {
 
                 $data = Uraian::where('skpd_id', $item->id)->where('jenis_rfk', 'pergeseran')->where('tahun', $tahun)->where('ke', (int) $item->ke)->get()->toArray();
