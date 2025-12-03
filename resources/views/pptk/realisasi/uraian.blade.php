@@ -85,26 +85,19 @@
                   Renc.Fisik <br />
                   Real Fisik
                 </td>
-                <td style="text-align: right;">
+                <td style="text-align: right">
                   {{number_format($item->p_januari_keuangan)}} <br />
-                  @if ($item->subkegiatan->kirim_rfk_januari == 1)
-                  {{number_format($item->r_januari_keuangan)}}
-                  @else
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="januari"
                     data-uraian="{{$item->nama}}"
                     data-rencrealisasi="{{$item->p_januari_keuangan}}">{{number_format($item->r_januari_keuangan)}}
-                    @endif
-
                   </a><br />
                   {{round($item->p_januari_fisik,2)}}% <br />
-                  @if ($item->subkegiatan->kirim_rfk_januari == 1)
-                  {{round($item->r_januari_fisik,2)}}%
-                  @else
+
                   <a href="#{{$key+1}}" class="edit-realisasifisik" data-id="{{$item->id}}" data-bulan="januari"
                     data-uraian="{{$item->nama}}"
                     data-rencrealisasi="{{$item->p_januari_fisik}}">{{round($item->r_januari_fisik,2)}}% </a>
-                  @endif
                 </td>
+
                 <td style="text-align: right">
                   {{number_format($item->p_februari_keuangan)}} <br />
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="februari"
