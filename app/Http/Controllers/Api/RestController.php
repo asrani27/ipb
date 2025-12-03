@@ -15,6 +15,64 @@ use App\Models\Subkegiatan;
 
 class RestController extends Controller
 {
+    public function rfk($kode_skpd, $tahun)
+    {
+        $skpd = Skpd::where('kode_skpd', $kode_skpd)->first();
+        if ($skpd == null) {
+            return response()->json('kode skpd tidak ada');
+        } else {
+            $data = Uraian::where('skpd_id', $skpd->id)->where('tahun', $tahun)->where('jenis_rfk', 'perubahan')->latest()->get();
+            $bulanList = [
+                'januari',
+                'februari',
+                'maret',
+                'april',
+                'mei',
+                'juni',
+                'juli',
+                'agustus',
+                'september',
+                'oktober',
+                'november',
+                'desember'
+            ];
+
+            $result = [];
+
+            // Inisialisasi struktur
+            foreach ($bulanList as $bulan) {
+                $result[$bulan] = [
+                    'rencana' => [],
+                    'realisasi' => []
+                ];
+            }
+
+            foreach ($data as $item) {
+
+                // Ambil prefix kode rekening (5.1)
+                $prefix = substr($item->kode_rekening, 0, 3);
+
+                foreach ($bulanList as $bulan) {
+                    $fieldRencana = "p_{$bulan}_keuangan";
+                    $fieldRealisasi = "r_{$bulan}_keuangan";
+
+                    $result[$bulan]['rencana'][$prefix] =
+                        ($result[$bulan]['rencana'][$prefix] ?? 0) + $item->$fieldRencana;
+
+                    $result[$bulan]['realisasi'][$prefix] =
+                        ($result[$bulan]['realisasi'][$prefix] ?? 0) + $item->$fieldRealisasi;
+                }
+            }
+
+            // Urutkan hasil agar 5.1 → 5.2 → 5.3 → 5.4
+            foreach ($result as $bulan => $dataBulan) {
+                ksort($result[$bulan]['rencana'], SORT_NATURAL);
+                ksort($result[$bulan]['realisasi'], SORT_NATURAL);
+            }
+
+            return response()->json($result);
+        }
+    }
     public function realisasi($skpd_id, $nip, $tahun)
     {
         $skpd = Skpd::where('kode_skpd', $skpd_id)->first()->id;

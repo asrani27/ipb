@@ -21,3 +21,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/programskpd/{skpd_id}/{tahun}', [RestController::class, 'programSkpd']);
 Route::get('/realisasi/{skpd_id}/{nip}/{tahun}', [RestController::class, 'realisasi']);
+Route::get('/rfk/{kode_skpd}/{tahun}', [RestController::class, 'rfk']);
