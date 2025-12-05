@@ -110,6 +110,7 @@
                     data-uraian="{{$item->nama}}"
                     data-rencrealisasi="{{$item->p_februari_fisik}}">{{round($item->r_februari_fisik,2)}}% </a>
                 </td>
+
                 <td style="text-align: right">
                   {{number_format($item->p_maret_keuangan)}} <br />
                   <a href="#{{$key+1}}" class="edit-realisasi" data-id="{{$item->id}}" data-bulan="maret"
